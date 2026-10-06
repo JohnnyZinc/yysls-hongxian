@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "packageId": "qiansi_yu_3.2",
+  "precision": 1.0196,
+  "critRate": 0.7995,
+  "resolveRate": 0.0913,
+  "tuningBonus": 0.32,
+  "attack": {
+    "physical": {
+      "min": 4237.5,
+      "max": 3408.8,
+      "penetration": 63.8,
+      "damageBonus": null
+    },
+    "elements": {
+      "mingjin": {
+        "min": 0.0,
+        "max": 0.0,
+        "penetration": 0.0,
+        "damageBonus": 0.0
+      },
+      "lieshi": {
+        "min": 0.0,
+        "max": 0.0,
+        "penetration": 0.0,
+        "damageBonus": 0.0
+      },
+      "qiansi": {
+        "min": 539.0,
+        "max": 1475.0,
+        "penetration": 30.0,
+        "damageBonus": 0.15
+      },
+      "pozhu": {
+        "min": 0.0,
+        "max": 0.0,
+        "penetration": 0.0,
+        "damageBonus": 0.0
+      }
+    }
+  },
+  "bonuses": {
+    "allWeaponBonus": 0.0847,
+    "bossBonus": 0.0892,
+    "weaponBonus1": 0.0854,
+    "weaponBonus2": 0.0854,
+    "skillTypeBonus1": 0.0
+  }
+}

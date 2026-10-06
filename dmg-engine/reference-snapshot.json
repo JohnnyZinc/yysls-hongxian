@@ -1,0 +1,38 @@
+{
+  "pozhu_feng_3.1": {
+    "packageId": "pozhu_feng_3.1",
+    "totalDamage": 16149223.7099231,
+    "adps": 182477.104066928,
+    "graduationRate": 1.00000002228733,
+    "benchmarkAdps": 182477.10000000068,
+    "actionCount": 189,
+    "settlementCount": 5
+  },
+  "pozhu_chen_3.1": {
+    "packageId": "pozhu_chen_3.1",
+    "totalDamage": 16685750.1786913,
+    "adps": 173629.034117495,
+    "graduationRate": 1.00000002371432,
+    "benchmarkAdps": 173629.0300000006,
+    "actionCount": 184,
+    "settlementCount": 5
+  },
+  "qiansi_yu_3.2": {
+    "packageId": "qiansi_yu_3.2",
+    "totalDamage": 17881355.8748707,
+    "adps": 199346.21934081,
+    "graduationRate": 0.999999996693243,
+    "benchmarkAdps": 199346.2199999995,
+    "actionCount": 135,
+    "settlementCount": 0
+  },
+  "pozhu_zun_3.5": {
+    "packageId": "pozhu_zun_3.5",
+    "totalDamage": 16951729.7295347,
+    "adps": 179573.408151851,
+    "graduationRate": 0.999999989708115,
+    "benchmarkAdps": 179573.4099999999,
+    "actionCount": 135,
+    "settlementCount": 5
+  }
+}

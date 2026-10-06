@@ -1,0 +1,6 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Excel / WPS 打开文件时产生的临时锁文件
+~$*

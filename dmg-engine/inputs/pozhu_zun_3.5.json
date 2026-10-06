@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packageId": "pozhu_zun_3.5",
+  "precision": 0.9943,
+  "critRate": 0.7655,
+  "resolveRate": 0.0913,
+  "tuningBonus": 0.32,
+  "attack": {
+    "physical": {
+      "min": 4473.0,
+      "max": 3417.6,
+      "penetration": 58.7,
+      "damageBonus": null
+    },
+    "elements": {
+      "mingjin": {
+        "min": 0.0,
+        "max": 0.0,
+        "penetration": 0.0,
+        "damageBonus": 0.0
+      },
+      "lieshi": {
+        "min": 0.0,
+        "max": 0.0,
+        "penetration": 0.0,
+        "damageBonus": 0.0
+      },
+      "qiansi": {
+        "min": 0.0,
+        "max": 0.0,
+        "penetration": 0.0,
+        "damageBonus": 0.0
+      },
+      "pozhu": {
+        "min": 539.0,
+        "max": 1475.0,
+        "penetration": 30.0,
+        "damageBonus": 0.15
+      }
+    }
+  },
+  "bonuses": {
+    "allWeaponBonus": 0.0847,
+    "bossBonus": 0.0892,
+    "weaponBonus1": 0.0854,
+    "weaponBonus2": 0.0854,
+    "skillTypeBonus1": 0.0,
+    "skillTypeBonus2": 0.0
+  }
+}
