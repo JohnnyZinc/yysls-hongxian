@@ -200,6 +200,43 @@
     "易水歌": null
   },
   "set_attack_multiplier": 1.05,
+  "config": {
+    "generic_extra": 0.095,
+    "categories": [
+      {
+        "label": "拳甲",
+        "value": 0.1701,
+        "panel_keys": [
+          "quanjia_dmg"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "双刀",
+        "value": 0.1701,
+        "panel_keys": [
+          "shuangdao_dmg"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "单体奇术",
+        "value": 0,
+        "panel_keys": [
+          "single_qishu_dmg"
+        ],
+        "includes_all_weapon": false
+      },
+      {
+        "label": "群体奇术",
+        "value": 0,
+        "panel_keys": [
+          "group_qishu_dmg"
+        ],
+        "includes_all_weapon": false
+      }
+    ]
+  },
   "graduate_dps": 179630.01,
   "timeline": [
     {

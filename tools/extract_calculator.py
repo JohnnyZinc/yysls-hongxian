@@ -374,6 +374,51 @@ def extract_build(wbf, wbv, xlsx_name, build_id, name_cn, game_version):
         if mset and mset.group(1) == selectors["set"]:
             set_attack_multiplier = float(mset.group(2))
 
+    # ---- 拆分"面板部分"与"配置常数部分" ----
+    # G3 = 首领增(面板) + 配置常数(1.5%基础 + 团队/心法假设)
+    # G4..G7 类别增伤 = 类别面板增伤 (+ 全武增，按类别而异，数据驱动检测)
+    panel_defaults = {}
+    for k, v in panel_input.items():
+        d = v.get("default")
+        panel_defaults[k] = d if isinstance(d, (int, float)) else 0
+    all_weapon = panel_defaults.get("all_weapon_dmg", 0)
+
+    # 面板标签(去尾"增") -> panel_input键
+    label_to_keys = {}
+    for k, v in panel_input.items():
+        lab = v.get("label")
+        if not lab or lab in ("全武增", "首领增") or not str(lab).endswith("增"):
+            continue
+        label_to_keys.setdefault(str(lab)[:-1], []).append(k)
+
+    categories_cfg = []
+    for cat in weapon_categories[1:]:
+        lab = cat["label"]
+        keys = label_to_keys.get(lab)
+        if keys is None and "奇术" in lab and "奇术" in label_to_keys:
+            keys = label_to_keys["奇术"]  # 部分流派用单一"奇术增"同时喂两类
+        cat_bonus = sum(panel_defaults.get(k, 0) for k in (keys or []))
+        diff = (cat["value"] or 0) - cat_bonus
+        if abs(diff - all_weapon) < 1e-9:
+            includes = True
+        elif abs(diff) < 1e-9:
+            includes = False
+        else:
+            includes = None  # 无法判定，引擎回退缓存值
+            print(f"警告: 类别[{lab}] 缓存值与面板推算差 {diff}，引擎将回退缓存")
+        categories_cfg.append({
+            "label": lab,
+            "value": cat["value"],
+            "panel_keys": keys or [],
+            "includes_all_weapon": includes,
+        })
+
+    config = {
+        "generic_extra": (weapon_categories[0]["value"] or 0)
+                         - panel_defaults.get("boss_dmg", 0),
+        "categories": categories_cfg,
+    }
+
     # Excel 自身的计算结果缓存，作为引擎验证基准
     validation = {
         "excel_total_damage": jsonable(wsv["I10"].value),
@@ -396,6 +441,7 @@ def extract_build(wbf, wbv, xlsx_name, build_id, name_cn, game_version):
         "monster": monster,
         "team_buffs": team_buffs,
         "set_attack_multiplier": set_attack_multiplier,
+        "config": config,
         "graduate_dps": grad_dps,
         "timeline": timeline,
         "formula_templates": formula_templates,

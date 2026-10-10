@@ -192,6 +192,43 @@
     "征人归": null
   },
   "set_attack_multiplier": 1.0,
+  "config": {
+    "generic_extra": 0.175,
+    "categories": [
+      {
+        "label": "伞",
+        "value": 0,
+        "panel_keys": [
+          "san_dmg"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "扇",
+        "value": 0,
+        "panel_keys": [
+          "shan_dmg"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "单体奇术",
+        "value": 0.2677,
+        "panel_keys": [
+          "qishu_dmg"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "群体奇术",
+        "value": 0.2677,
+        "panel_keys": [
+          "qishu_dmg"
+        ],
+        "includes_all_weapon": true
+      }
+    ]
+  },
   "graduate_dps": 113756.77,
   "timeline": [
     {

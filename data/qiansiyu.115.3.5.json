@@ -199,6 +199,43 @@
     "奇术": null
   },
   "set_attack_multiplier": 1.0,
+  "config": {
+    "generic_extra": 0.095,
+    "categories": [
+      {
+        "label": "伞",
+        "value": 0.1701,
+        "panel_keys": [
+          "san_dmg"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "扇",
+        "value": 0.1701,
+        "panel_keys": [
+          "shan_dmg"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "单体奇术",
+        "value": 0.2677,
+        "panel_keys": [
+          "qishu_dmg"
+        ],
+        "includes_all_weapon": false
+      },
+      {
+        "label": "群体奇术",
+        "value": 0.2677,
+        "panel_keys": [
+          "qishu_dmg"
+        ],
+        "includes_all_weapon": false
+      }
+    ]
+  },
   "graduate_dps": 195807.84,
   "timeline": [
     {

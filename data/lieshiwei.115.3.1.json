@@ -193,6 +193,43 @@
     "樽": "√"
   },
   "set_attack_multiplier": 1.0,
+  "config": {
+    "generic_extra": 0.11499999999999999,
+    "categories": [
+      {
+        "label": "陌刀",
+        "value": 0.1701,
+        "panel_keys": [
+          "陌刀增"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "枪",
+        "value": 0.0847,
+        "panel_keys": [
+          "枪增"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "单体奇术",
+        "value": 0,
+        "panel_keys": [
+          "qishu_dmg"
+        ],
+        "includes_all_weapon": false
+      },
+      {
+        "label": "群体奇术",
+        "value": 0,
+        "panel_keys": [
+          "qishu_dmg"
+        ],
+        "includes_all_weapon": false
+      }
+    ]
+  },
   "graduate_dps": 166308.81,
   "timeline": [
     {

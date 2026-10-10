@@ -200,6 +200,43 @@
     "易水歌": null
   },
   "set_attack_multiplier": 1.0,
+  "config": {
+    "generic_extra": 0.095,
+    "categories": [
+      {
+        "label": "伞",
+        "value": 0.1701,
+        "panel_keys": [
+          "san_dmg"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "绳镖",
+        "value": 0.0847,
+        "panel_keys": [
+          "shengbiao_dmg"
+        ],
+        "includes_all_weapon": true
+      },
+      {
+        "label": "单体奇术",
+        "value": 0,
+        "panel_keys": [
+          "single_qishu_dmg"
+        ],
+        "includes_all_weapon": false
+      },
+      {
+        "label": "群体奇术",
+        "value": 0,
+        "panel_keys": [
+          "group_qishu_dmg"
+        ],
+        "includes_all_weapon": false
+      }
+    ]
+  },
   "graduate_dps": 173479.93,
   "timeline": [
     {

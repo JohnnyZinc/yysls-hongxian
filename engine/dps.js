@@ -19,10 +19,9 @@
  *   const r3 = calcDPS(ctx, { debug: true });     // 返回逐事件明细
  *
  * 已知取舍（原型阶段）：
- *   - 只使用作者默认配置（心法选择、团队增益勾选），效果数值取 Excel 缓存值
- *   - 套装攻击加成仅实现"撼天×1.06"（当前六个流派均未命中，留待 sets.json）
- *   - 通用增伤基数/各武器类别增伤取 build.weapon_categories 缓存值
- *     （装备变化影响这些输入时的重算规则，留待 advisor 阶段）
+ *   - 只使用作者默认配置（心法选择、团队增益勾选），效果数值取 Excel 缓存值；
+ *     面板输入（含全武增/首领增/类别增伤）已全部面板驱动，换装备即改 panel
+ *   - 套装攻击乘数为提取时解析的生效值（如 倾觞×1.05），存于 build.set_attack_multiplier
  */
 
 const fs = require('fs');
@@ -80,6 +79,13 @@ function makePanel(build) {
       dinyin[entry.label.replace(/定音$/, '')] = num(entry.default);
     }
   }
+  // 武器/奇术类别增伤：按提取器建立的映射从面板键汇总
+  const cats = {};
+  for (const c of (build.config && build.config.categories) || []) {
+    let v = 0;
+    for (const k of c.panel_keys || []) v += get(k);
+    cats[c.label] = v;
+  }
   return {
     base: build.base_stats,
     pen: build.pen_dmg,
@@ -91,6 +97,11 @@ function makePanel(build) {
       directInsight: get('direct_insight_rate'),
       critDmg: get('crit_dmg_bonus'),
       insightDmg: get('insight_dmg_bonus'),
+    },
+    bonuses: {
+      allWeapon: get('all_weapon_dmg'), // 全武增
+      boss: get('boss_dmg'),            // 首领增
+      cats,                             // 武器/奇术类别增伤（面板键汇总）
     },
     flatBonus: get('flat_dmg_bonus'),
     food: { ext: get('food_ext'), elem: get('food_elem') },
@@ -142,13 +153,20 @@ function calcDPS(ctx, options = {}) {
     };
   });
 
-  // 武器类别缓存值：通用增伤基数 + 各类型增伤（G3:G7）
-  const cats = build.weapon_categories || [];
-  const genericBase = cats.length && cats[0].label === '通用增伤' ? num(cats[0].value) : 0;
+  // 通用增伤基数与各类型增伤：全部面板驱动
+  //   genericBase = 首领增 + 配置常数(提取时拆出的 1.5%基础/团队假设部分)
+  //   typeValue   = 类别面板增伤 (+ 全武增，按提取时数据驱动的检测标志)
+  const cfg = build.config || {};
+  const genericBase = panel.bonuses.boss + num(cfg.generic_extra);
   const typeValues = {};
-  for (let i = 1; i < cats.length; i++) typeValues[cats[i].label] = num(cats[i].value);
+  for (const c of cfg.categories || []) {
+    let v = num(panel.bonuses.cats[c.label]);
+    if (c.includes_all_weapon === true) v += panel.bonuses.allWeapon;
+    else if (c.includes_all_weapon !== false) v = num(c.value); // 无法判定时回退缓存
+    typeValues[c.label] = v;
+  }
   // 前两个武器类别（Excel F4/F5）：这两类的固伤享受固伤加成
-  const flatCats = cats.slice(1, 3).map((c) => c.label);
+  const flatCats = (cfg.categories || []).slice(0, 2).map((c) => c.label);
 
   const monster = {
     defense: num(build.monster.defense && build.monster.defense.value),
@@ -318,9 +336,11 @@ function calcDPS(ctx, options = {}) {
   const duration = num(build.monster.duration && build.monster.duration.value);
   const dps = duration > 0 ? totalDamage / duration : 0;
   const result = {
+    buildId: build.id || null,
     totalDamage,
     duration,
     dps,
+    graduateDps: build.graduate_dps || null,
     graduationRate: build.graduate_dps ? dps / build.graduate_dps : null,
   };
   if (debug) result.perEvent = perEvent;
