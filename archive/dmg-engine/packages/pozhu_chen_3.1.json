@@ -1,81 +1,81 @@
 {
-  "schemaVersion": 1,
-  "id": "pozhu_chen_3.1",
-  "name": "破竹尘",
-  "version": "3.1",
-  "source": "参考/破竹尘115阶竞速轴属性毕业率进阶计算器3.1.xlsx",
-  "notes": [
-    "增益表最后一列“结算增伤”映射为 settlementBonus"
+  "moshiBanben": 1,
+  "bianhao": "pozhu_chen_3.1",
+  "mingcheng": "破竹尘",
+  "banben": "3.1",
+  "laiyuan": "参考/破竹尘115阶竞速轴属性毕业率进阶计算器3.1.xlsx",
+  "beizhu": [
+    "增益表最后一列“结算增伤”映射为 jiesuanZengshang"
   ],
-  "build": {
-    "element": "破竹",
-    "setMultiplier": 1.0,
-    "foodBonus": {
-      "min": 240.0,
-      "max": 480.0
+  "peizhuang": {
+    "wuxueShuxing": "破竹",
+    "taozhuangChengqu": 1.0,
+    "shiwuJiacheng": {
+      "zuixiao": 240.0,
+      "zuida": 480.0
     },
-    "basePhysicalDamageBonus": 0.028,
-    "flatDamageBonus": 0.6,
-    "flatDamageTypes": [
+    "waigongShanghaiJiachengJizhun": 0.028,
+    "gushangJiacheng": 0.6,
+    "gushangJiachengLeixing": [
       "伞",
       "绳镖"
     ],
-    "directCritRate": 0.046,
-    "directResolveRate": 0.0,
-    "critDamageBonus": 0.54,
-    "resolveDamageBonus": 0.35,
-    "tuningCategory": "回旋伞",
-    "generalDamageFlatBonus": 0.095,
-    "typeBonuses": [
+    "zhijieHuixinlv": 0.046,
+    "zhijieHuiyilv": 0.0,
+    "huixinshangJiacheng": 0.54,
+    "huiyishangJiacheng": 0.35,
+    "dingyinFenlei": "回旋伞",
+    "tongyongZengshangGudingzhi": 0.095,
+    "leixingZengshang": [
       {
-        "name": "伞",
-        "add": [
-          "allWeaponBonus",
-          "weaponBonus1"
+        "mingcheng": "伞",
+        "yinyongXiang": [
+          "quanwuZeng",
+          "wuqiZeng1"
         ]
       },
       {
-        "name": "绳镖",
-        "add": [
-          "allWeaponBonus",
-          "weaponBonus2"
+        "mingcheng": "绳镖",
+        "yinyongXiang": [
+          "quanwuZeng",
+          "wuqiZeng2"
         ]
       },
       {
-        "name": "单体奇术",
-        "add": [
-          "skillTypeBonus1"
+        "mingcheng": "单体奇术",
+        "yinyongXiang": [
+          "qishuZeng1"
         ]
       },
       {
-        "name": "群体奇术",
-        "add": [
-          "skillTypeBonus2"
+        "mingcheng": "群体奇术",
+        "yinyongXiang": [
+          "qishuZeng2"
         ]
       }
     ],
-    "elementAttackAugment": {
-      "min": 79.2,
-      "max": 250.8,
-      "appliesTo": "activeElement"
+    "wuXiangGongji": {
+      "zuixiao": 79.2,
+      "zuida": 250.8,
+      "zuoyongYu": "wuxueShuxing"
     }
   },
-  "target": {
-    "defense": 618.3,
-    "physicalResist": 15.0,
-    "elementResist": 30.0,
-    "dungeonTalent": 0.06
+  "mubiao": {
+    "fangyu": 618.3,
+    "waikang": 15.0,
+    "shukang": 30.0,
+    "fubenTianfu": 0.06
   },
-  "rotation": {
-    "clearTime": 96.1,
-    "benchmarkAdps": 173629.0300000006,
-    "actions": [
+  "zhou": {
+    "zhandouShijian": 96.1,
+    "biyelvJizhunAdps": 173629.0300000006,
+    "shifang": [
       {
-        "index": 0,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 0,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "近战笛",
           "沧海帖1层",
@@ -86,11 +86,11 @@
         ]
       },
       {
-        "index": 1,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 1,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣2层",
           "失魂落魄",
           "远程笛",
@@ -104,11 +104,11 @@
         ]
       },
       {
-        "index": 2,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 2,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣4层",
           "失魂落魄",
           "远程笛",
@@ -122,11 +122,11 @@
         ]
       },
       {
-        "index": 3,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 3,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -140,11 +140,11 @@
         ]
       },
       {
-        "index": 4,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 4,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -158,11 +158,11 @@
         ]
       },
       {
-        "index": 5,
-        "type": "skill",
-        "skill": "R蓄123",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 5,
+        "leixing": "jineng",
+        "jineng": "R蓄123",
+        "cishu": 1.0,
+        "zengyi": [
           "沧海帖1层",
           "易水歌1层",
           "离猎(拐)",
@@ -171,11 +171,11 @@
         ]
       },
       {
-        "index": 6,
-        "type": "skill",
-        "skill": "R蓄45",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 6,
+        "leixing": "jineng",
+        "jineng": "R蓄45",
+        "cishu": 1.0,
+        "zengyi": [
           "沧海帖1层",
           "易水歌1层",
           "扶风(拐)",
@@ -185,11 +185,11 @@
         ]
       },
       {
-        "index": 7,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 7,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "失魂落魄",
           "远程笛",
@@ -202,11 +202,11 @@
         ]
       },
       {
-        "index": 8,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 8,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "失魂落魄",
           "远程笛",
@@ -219,11 +219,11 @@
         ]
       },
       {
-        "index": 9,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 9,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣2层",
           "失魂落魄",
@@ -239,11 +239,11 @@
         ]
       },
       {
-        "index": 10,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 10,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣2层",
           "失魂落魄",
@@ -259,11 +259,11 @@
         ]
       },
       {
-        "index": 11,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 11,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣4层",
           "失魂落魄",
@@ -279,11 +279,11 @@
         ]
       },
       {
-        "index": 12,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 12,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣4层",
           "失魂落魄",
@@ -299,11 +299,11 @@
         ]
       },
       {
-        "index": 13,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 13,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -319,11 +319,11 @@
         ]
       },
       {
-        "index": 14,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 14,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -339,11 +339,11 @@
         ]
       },
       {
-        "index": 15,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 15,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -359,11 +359,11 @@
         ]
       },
       {
-        "index": 16,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 16,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 4.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -379,11 +379,11 @@
         ]
       },
       {
-        "index": 17,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 17,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -399,11 +399,11 @@
         ]
       },
       {
-        "index": 18,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 18,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -419,11 +419,11 @@
         ]
       },
       {
-        "index": 19,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 19,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -439,11 +439,11 @@
         ]
       },
       {
-        "index": 20,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 20,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -459,11 +459,11 @@
         ]
       },
       {
-        "index": 21,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 21,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -479,11 +479,11 @@
         ]
       },
       {
-        "index": 22,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 22,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -499,11 +499,11 @@
         ]
       },
       {
-        "index": 23,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 23,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -519,11 +519,11 @@
         ]
       },
       {
-        "index": 24,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 24,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -539,11 +539,11 @@
         ]
       },
       {
-        "index": 25,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 25,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -559,11 +559,11 @@
         ]
       },
       {
-        "index": 26,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 26,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 4.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -579,11 +579,11 @@
         ]
       },
       {
-        "index": 27,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 27,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -599,11 +599,11 @@
         ]
       },
       {
-        "index": 28,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 28,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -619,11 +619,11 @@
         ]
       },
       {
-        "index": 29,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 29,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -639,11 +639,11 @@
         ]
       },
       {
-        "index": 30,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 30,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -659,11 +659,11 @@
         ]
       },
       {
-        "index": 31,
-        "type": "skill",
-        "skill": "伞特",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 31,
+        "leixing": "jineng",
+        "jineng": "伞特",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖6层",
           "易水歌5层",
@@ -675,11 +675,11 @@
         ]
       },
       {
-        "index": 32,
-        "type": "skill",
-        "skill": "伞特强化",
-        "repeat": 5.0,
-        "buffs": [
+        "xuhao": 32,
+        "leixing": "jineng",
+        "jineng": "伞特强化",
+        "cishu": 5.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖6层",
           "易水歌5层",
@@ -691,11 +691,11 @@
         ]
       },
       {
-        "index": 33,
-        "type": "skill",
-        "skill": "伞R蓄",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 33,
+        "leixing": "jineng",
+        "jineng": "伞R蓄",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖7层",
           "易水歌5层",
@@ -706,11 +706,11 @@
         ]
       },
       {
-        "index": 34,
-        "type": "skill",
-        "skill": "共鸣(R蓄)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 34,
+        "leixing": "jineng",
+        "jineng": "共鸣(R蓄)",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖7层",
           "易水歌5层",
@@ -721,11 +721,11 @@
         ]
       },
       {
-        "index": 35,
-        "type": "skill",
-        "skill": "指响",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 35,
+        "leixing": "jineng",
+        "jineng": "指响",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣1层",
           "失魂落魄",
           "沧海帖7层",
@@ -737,17 +737,17 @@
         ]
       },
       {
-        "index": 36,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 36,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)",
           "离猎(拐)",
           "裁云(拐)",
           "无惧"
         ],
-        "ratio": 0.12,
-        "window": [
+        "bili": 0.12,
+        "fanwei": [
           1,
           2,
           3,
@@ -786,11 +786,11 @@
         ]
       },
       {
-        "index": 37,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 37,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣1层",
           "失魂落魄",
@@ -803,11 +803,11 @@
         ]
       },
       {
-        "index": 38,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 38,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣1层",
           "失魂落魄",
@@ -820,11 +820,11 @@
         ]
       },
       {
-        "index": 39,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 39,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣3层",
           "失魂落魄",
@@ -839,11 +839,11 @@
         ]
       },
       {
-        "index": 40,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 40,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣3层",
           "失魂落魄",
@@ -858,11 +858,11 @@
         ]
       },
       {
-        "index": 41,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 41,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -877,11 +877,11 @@
         ]
       },
       {
-        "index": 42,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 42,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -896,11 +896,11 @@
         ]
       },
       {
-        "index": 43,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 43,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -915,11 +915,11 @@
         ]
       },
       {
-        "index": 44,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 44,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -934,11 +934,11 @@
         ]
       },
       {
-        "index": 45,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 45,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -953,11 +953,11 @@
         ]
       },
       {
-        "index": 46,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 46,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -972,11 +972,11 @@
         ]
       },
       {
-        "index": 47,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 47,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -991,11 +991,11 @@
         ]
       },
       {
-        "index": 48,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 48,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1010,11 +1010,11 @@
         ]
       },
       {
-        "index": 49,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 49,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1029,11 +1029,11 @@
         ]
       },
       {
-        "index": 50,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 50,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1048,11 +1048,11 @@
         ]
       },
       {
-        "index": 51,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 51,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1067,11 +1067,11 @@
         ]
       },
       {
-        "index": 52,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 52,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1086,11 +1086,11 @@
         ]
       },
       {
-        "index": 53,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 53,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1108,11 +1108,11 @@
         ]
       },
       {
-        "index": 54,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 54,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1130,11 +1130,11 @@
         ]
       },
       {
-        "index": 55,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 55,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1152,11 +1152,11 @@
         ]
       },
       {
-        "index": 56,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 56,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1174,11 +1174,11 @@
         ]
       },
       {
-        "index": 57,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 57,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1196,11 +1196,11 @@
         ]
       },
       {
-        "index": 58,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 58,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 4.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1218,11 +1218,11 @@
         ]
       },
       {
-        "index": 59,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 59,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1240,11 +1240,11 @@
         ]
       },
       {
-        "index": 60,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 60,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1262,11 +1262,11 @@
         ]
       },
       {
-        "index": 61,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 61,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1284,11 +1284,11 @@
         ]
       },
       {
-        "index": 62,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 62,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1306,11 +1306,11 @@
         ]
       },
       {
-        "index": 63,
-        "type": "skill",
-        "skill": "伞特",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 63,
+        "leixing": "jineng",
+        "jineng": "伞特",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -1325,11 +1325,11 @@
         ]
       },
       {
-        "index": 64,
-        "type": "skill",
-        "skill": "伞特强化",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 64,
+        "leixing": "jineng",
+        "jineng": "伞特强化",
+        "cishu": 3.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -1344,11 +1344,11 @@
         ]
       },
       {
-        "index": 65,
-        "type": "skill",
-        "skill": "伞特强化",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 65,
+        "leixing": "jineng",
+        "jineng": "伞特强化",
+        "cishu": 2.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -1363,11 +1363,11 @@
         ]
       },
       {
-        "index": 66,
-        "type": "skill",
-        "skill": "指响",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 66,
+        "leixing": "jineng",
+        "jineng": "指响",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -1379,17 +1379,17 @@
         ]
       },
       {
-        "index": 67,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 67,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)",
           "离猎(拐)",
           "裁云(拐)",
           "无惧"
         ],
-        "ratio": 0.12,
-        "window": [
+        "bili": 0.12,
+        "fanwei": [
           37,
           38,
           39,
@@ -1425,11 +1425,11 @@
         ]
       },
       {
-        "index": 68,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 68,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣2层",
           "失魂落魄",
           "远程笛",
@@ -1444,11 +1444,11 @@
         ]
       },
       {
-        "index": 69,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 69,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -1462,30 +1462,11 @@
         ]
       },
       {
-        "index": 70,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
-          "幻鸣5层",
-          "失魂落魄",
-          "远程笛",
-          "沧海帖10层",
-          "易水歌5层",
-          "惧刃(拐)",
-          "唐歌2层",
-          "扶风(拐)",
-          "离猎(拐)",
-          "裁云(拐)",
-          "无惧"
-        ]
-      },
-      {
-        "index": 71,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 70,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -1500,11 +1481,30 @@
         ]
       },
       {
-        "index": 72,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 71,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
+          "幻鸣5层",
+          "失魂落魄",
+          "远程笛",
+          "沧海帖10层",
+          "易水歌5层",
+          "惧刃(拐)",
+          "唐歌2层",
+          "扶风(拐)",
+          "离猎(拐)",
+          "裁云(拐)",
+          "无惧"
+        ]
+      },
+      {
+        "xuhao": 72,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -1519,11 +1519,11 @@
         ]
       },
       {
-        "index": 73,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 73,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "失魂落魄",
           "沧海帖10层",
@@ -1536,11 +1536,11 @@
         ]
       },
       {
-        "index": 74,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 74,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "失魂落魄",
           "沧海帖10层",
@@ -1553,32 +1553,11 @@
         ]
       },
       {
-        "index": 75,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
-          "连星(8+)",
-          "幻鸣2层",
-          "失魂落魄",
-          "远程笛",
-          "沧海帖10层",
-          "易水歌5层",
-          "惧刃(拐)",
-          "唐歌2层",
-          "扶风(拐)",
-          "断石5层",
-          "离猎(拐)",
-          "裁云(拐)",
-          "无惧"
-        ]
-      },
-      {
-        "index": 76,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 75,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣2层",
           "失魂落魄",
@@ -1595,11 +1574,32 @@
         ]
       },
       {
-        "index": 77,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 76,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
+          "连星(8+)",
+          "幻鸣2层",
+          "失魂落魄",
+          "远程笛",
+          "沧海帖10层",
+          "易水歌5层",
+          "惧刃(拐)",
+          "唐歌2层",
+          "扶风(拐)",
+          "断石5层",
+          "离猎(拐)",
+          "裁云(拐)",
+          "无惧"
+        ]
+      },
+      {
+        "xuhao": 77,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣4层",
           "失魂落魄",
@@ -1615,11 +1615,11 @@
         ]
       },
       {
-        "index": 78,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 78,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣4层",
           "失魂落魄",
@@ -1635,11 +1635,11 @@
         ]
       },
       {
-        "index": 79,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 79,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1655,11 +1655,11 @@
         ]
       },
       {
-        "index": 80,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 80,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1675,11 +1675,11 @@
         ]
       },
       {
-        "index": 81,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 81,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1695,11 +1695,11 @@
         ]
       },
       {
-        "index": 82,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 82,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1715,11 +1715,11 @@
         ]
       },
       {
-        "index": 83,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 83,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1735,11 +1735,11 @@
         ]
       },
       {
-        "index": 84,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 84,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1755,11 +1755,11 @@
         ]
       },
       {
-        "index": 85,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 85,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1775,11 +1775,11 @@
         ]
       },
       {
-        "index": 86,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 86,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1795,11 +1795,11 @@
         ]
       },
       {
-        "index": 87,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 87,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1815,11 +1815,11 @@
         ]
       },
       {
-        "index": 88,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 88,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1835,11 +1835,11 @@
         ]
       },
       {
-        "index": 89,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 89,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1855,11 +1855,11 @@
         ]
       },
       {
-        "index": 90,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 90,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1875,11 +1875,11 @@
         ]
       },
       {
-        "index": 91,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 91,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1895,11 +1895,11 @@
         ]
       },
       {
-        "index": 92,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 92,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1915,11 +1915,11 @@
         ]
       },
       {
-        "index": 93,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 93,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1935,11 +1935,11 @@
         ]
       },
       {
-        "index": 94,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 94,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 4.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1955,11 +1955,11 @@
         ]
       },
       {
-        "index": 95,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 95,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1975,11 +1975,11 @@
         ]
       },
       {
-        "index": 96,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 96,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -1995,11 +1995,11 @@
         ]
       },
       {
-        "index": 97,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 97,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2015,11 +2015,11 @@
         ]
       },
       {
-        "index": 98,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 98,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2035,11 +2035,11 @@
         ]
       },
       {
-        "index": 99,
-        "type": "skill",
-        "skill": "伞特",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 99,
+        "leixing": "jineng",
+        "jineng": "伞特",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -2051,11 +2051,11 @@
         ]
       },
       {
-        "index": 100,
-        "type": "skill",
-        "skill": "伞特强化",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 100,
+        "leixing": "jineng",
+        "jineng": "伞特强化",
+        "cishu": 3.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -2067,11 +2067,11 @@
         ]
       },
       {
-        "index": 101,
-        "type": "skill",
-        "skill": "伞特强化",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 101,
+        "leixing": "jineng",
+        "jineng": "伞特强化",
+        "cishu": 2.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -2083,11 +2083,11 @@
         ]
       },
       {
-        "index": 102,
-        "type": "skill",
-        "skill": "伞R蓄",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 102,
+        "leixing": "jineng",
+        "jineng": "伞R蓄",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -2098,11 +2098,11 @@
         ]
       },
       {
-        "index": 103,
-        "type": "skill",
-        "skill": "共鸣(R蓄)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 103,
+        "leixing": "jineng",
+        "jineng": "共鸣(R蓄)",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -2113,11 +2113,11 @@
         ]
       },
       {
-        "index": 104,
-        "type": "skill",
-        "skill": "指响",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 104,
+        "leixing": "jineng",
+        "jineng": "指响",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣1层",
           "失魂落魄",
           "沧海帖10层",
@@ -2129,17 +2129,17 @@
         ]
       },
       {
-        "index": 105,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 105,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)",
           "离猎(拐)",
           "裁云(拐)",
           "无惧"
         ],
-        "ratio": 0.12,
-        "window": [
+        "bili": 0.12,
+        "fanwei": [
           68,
           69,
           70,
@@ -2182,11 +2182,11 @@
         ]
       },
       {
-        "index": 106,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 106,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣1层",
           "失魂落魄",
@@ -2199,11 +2199,11 @@
         ]
       },
       {
-        "index": 107,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 107,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣1层",
           "失魂落魄",
@@ -2216,11 +2216,11 @@
         ]
       },
       {
-        "index": 108,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 108,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣3层",
           "失魂落魄",
@@ -2235,11 +2235,11 @@
         ]
       },
       {
-        "index": 109,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 109,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣3层",
           "失魂落魄",
@@ -2254,11 +2254,11 @@
         ]
       },
       {
-        "index": 110,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 110,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2273,11 +2273,11 @@
         ]
       },
       {
-        "index": 111,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 111,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2292,11 +2292,11 @@
         ]
       },
       {
-        "index": 112,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 112,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2311,11 +2311,11 @@
         ]
       },
       {
-        "index": 113,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 113,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2330,11 +2330,11 @@
         ]
       },
       {
-        "index": 114,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 114,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2349,11 +2349,11 @@
         ]
       },
       {
-        "index": 115,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 115,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2368,11 +2368,11 @@
         ]
       },
       {
-        "index": 116,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 116,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2387,11 +2387,11 @@
         ]
       },
       {
-        "index": 117,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 117,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2406,11 +2406,11 @@
         ]
       },
       {
-        "index": 118,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 118,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2425,11 +2425,11 @@
         ]
       },
       {
-        "index": 119,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 119,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2444,11 +2444,11 @@
         ]
       },
       {
-        "index": 120,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 120,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2463,11 +2463,11 @@
         ]
       },
       {
-        "index": 121,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 121,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2482,11 +2482,11 @@
         ]
       },
       {
-        "index": 122,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 122,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2504,11 +2504,11 @@
         ]
       },
       {
-        "index": 123,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 123,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2526,11 +2526,11 @@
         ]
       },
       {
-        "index": 124,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 124,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2548,11 +2548,11 @@
         ]
       },
       {
-        "index": 125,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 125,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2570,11 +2570,11 @@
         ]
       },
       {
-        "index": 126,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 126,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2592,11 +2592,11 @@
         ]
       },
       {
-        "index": 127,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 127,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 4.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2614,11 +2614,11 @@
         ]
       },
       {
-        "index": 128,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 128,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2636,11 +2636,11 @@
         ]
       },
       {
-        "index": 129,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 129,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2658,11 +2658,11 @@
         ]
       },
       {
-        "index": 130,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 130,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2680,11 +2680,11 @@
         ]
       },
       {
-        "index": 131,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 131,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -2702,11 +2702,11 @@
         ]
       },
       {
-        "index": 132,
-        "type": "skill",
-        "skill": "伞特",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 132,
+        "leixing": "jineng",
+        "jineng": "伞特",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -2721,11 +2721,11 @@
         ]
       },
       {
-        "index": 133,
-        "type": "skill",
-        "skill": "伞特强化",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 133,
+        "leixing": "jineng",
+        "jineng": "伞特强化",
+        "cishu": 3.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -2740,11 +2740,11 @@
         ]
       },
       {
-        "index": 134,
-        "type": "skill",
-        "skill": "伞特强化",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 134,
+        "leixing": "jineng",
+        "jineng": "伞特强化",
+        "cishu": 2.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -2759,11 +2759,11 @@
         ]
       },
       {
-        "index": 135,
-        "type": "skill",
-        "skill": "指响",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 135,
+        "leixing": "jineng",
+        "jineng": "指响",
+        "cishu": 1.0,
+        "zengyi": [
           "失魂落魄",
           "沧海帖10层",
           "易水歌5层",
@@ -2775,17 +2775,17 @@
         ]
       },
       {
-        "index": 136,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 136,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)",
           "离猎(拐)",
           "裁云(拐)",
           "无惧"
         ],
-        "ratio": 0.12,
-        "window": [
+        "bili": 0.12,
+        "fanwei": [
           106,
           107,
           108,
@@ -2821,11 +2821,11 @@
         ]
       },
       {
-        "index": 137,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 137,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣2层",
           "失魂落魄",
           "远程笛",
@@ -2840,11 +2840,11 @@
         ]
       },
       {
-        "index": 138,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 138,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -2858,30 +2858,11 @@
         ]
       },
       {
-        "index": 139,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
-          "幻鸣5层",
-          "失魂落魄",
-          "远程笛",
-          "沧海帖10层",
-          "易水歌5层",
-          "惧刃(拐)",
-          "唐歌2层",
-          "扶风(拐)",
-          "离猎(拐)",
-          "裁云(拐)",
-          "无惧"
-        ]
-      },
-      {
-        "index": 140,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 139,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -2896,11 +2877,30 @@
         ]
       },
       {
-        "index": 141,
-        "type": "skill",
-        "skill": "萧呤千浪流星",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 140,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
+          "幻鸣5层",
+          "失魂落魄",
+          "远程笛",
+          "沧海帖10层",
+          "易水歌5层",
+          "惧刃(拐)",
+          "唐歌2层",
+          "扶风(拐)",
+          "离猎(拐)",
+          "裁云(拐)",
+          "无惧"
+        ]
+      },
+      {
+        "xuhao": 141,
+        "leixing": "jineng",
+        "jineng": "萧呤千浪流星",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -2915,11 +2915,11 @@
         ]
       },
       {
-        "index": 142,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 142,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "失魂落魄",
           "沧海帖10层",
@@ -2932,11 +2932,11 @@
         ]
       },
       {
-        "index": 143,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 143,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "失魂落魄",
           "沧海帖10层",
@@ -2949,32 +2949,11 @@
         ]
       },
       {
-        "index": 144,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
-          "连星(8+)",
-          "幻鸣2层",
-          "失魂落魄",
-          "远程笛",
-          "沧海帖10层",
-          "易水歌5层",
-          "惧刃(拐)",
-          "唐歌2层",
-          "扶风(拐)",
-          "断石5层",
-          "离猎(拐)",
-          "裁云(拐)",
-          "无惧"
-        ]
-      },
-      {
-        "index": 145,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 144,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣2层",
           "失魂落魄",
@@ -2991,11 +2970,32 @@
         ]
       },
       {
-        "index": 146,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 145,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
+          "连星(8+)",
+          "幻鸣2层",
+          "失魂落魄",
+          "远程笛",
+          "沧海帖10层",
+          "易水歌5层",
+          "惧刃(拐)",
+          "唐歌2层",
+          "扶风(拐)",
+          "断石5层",
+          "离猎(拐)",
+          "裁云(拐)",
+          "无惧"
+        ]
+      },
+      {
+        "xuhao": 146,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣4层",
           "失魂落魄",
@@ -3011,11 +3011,11 @@
         ]
       },
       {
-        "index": 147,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 147,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣4层",
           "失魂落魄",
@@ -3031,11 +3031,11 @@
         ]
       },
       {
-        "index": 148,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 148,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3051,11 +3051,11 @@
         ]
       },
       {
-        "index": 149,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 149,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3071,11 +3071,11 @@
         ]
       },
       {
-        "index": 150,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 150,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3091,11 +3091,11 @@
         ]
       },
       {
-        "index": 151,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 151,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3111,11 +3111,11 @@
         ]
       },
       {
-        "index": 152,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 152,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3131,11 +3131,11 @@
         ]
       },
       {
-        "index": 153,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 153,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3151,11 +3151,11 @@
         ]
       },
       {
-        "index": 154,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 154,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3171,11 +3171,11 @@
         ]
       },
       {
-        "index": 155,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 155,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3191,11 +3191,11 @@
         ]
       },
       {
-        "index": 156,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 156,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3211,11 +3211,11 @@
         ]
       },
       {
-        "index": 157,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 157,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3231,11 +3231,11 @@
         ]
       },
       {
-        "index": 158,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 158,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3251,11 +3251,11 @@
         ]
       },
       {
-        "index": 159,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 159,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3271,11 +3271,11 @@
         ]
       },
       {
-        "index": 160,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 160,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3291,11 +3291,11 @@
         ]
       },
       {
-        "index": 161,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 161,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3311,11 +3311,11 @@
         ]
       },
       {
-        "index": 162,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 162,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3331,11 +3331,11 @@
         ]
       },
       {
-        "index": 163,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 163,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 4.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3351,11 +3351,11 @@
         ]
       },
       {
-        "index": 164,
-        "type": "skill",
-        "skill": "完美伞(芳歌)",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 164,
+        "leixing": "jineng",
+        "jineng": "完美伞(芳歌)",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3371,11 +3371,11 @@
         ]
       },
       {
-        "index": 165,
-        "type": "skill",
-        "skill": "共鸣(芳歌)",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 165,
+        "leixing": "jineng",
+        "jineng": "共鸣(芳歌)",
+        "cishu": 2.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3391,11 +3391,11 @@
         ]
       },
       {
-        "index": 166,
-        "type": "skill",
-        "skill": "完美伞",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 166,
+        "leixing": "jineng",
+        "jineng": "完美伞",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3411,11 +3411,11 @@
         ]
       },
       {
-        "index": 167,
-        "type": "skill",
-        "skill": "共鸣",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 167,
+        "leixing": "jineng",
+        "jineng": "共鸣",
+        "cishu": 1.0,
+        "zengyi": [
           "连星(8+)",
           "幻鸣5层",
           "失魂落魄",
@@ -3431,11 +3431,11 @@
         ]
       },
       {
-        "index": 168,
-        "type": "skill",
-        "skill": "指响",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 168,
+        "leixing": "jineng",
+        "jineng": "指响",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "沧海帖10层",
@@ -3447,14 +3447,14 @@
         ]
       },
       {
-        "index": 169,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 169,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)"
         ],
-        "ratio": 0.12,
-        "window": [
+        "bili": 0.12,
+        "fanwei": [
           137,
           138,
           139,
@@ -3491,46 +3491,46 @@
         ]
       },
       {
-        "index": 170,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": []
+        "xuhao": 170,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": []
       },
       {
-        "index": 171,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": []
+        "xuhao": 171,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": []
       },
       {
-        "index": 172,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": []
+        "xuhao": 172,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": []
       },
       {
-        "index": 173,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": []
+        "xuhao": 173,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": []
       },
       {
-        "index": 174,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": []
+        "xuhao": 174,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": []
       },
       {
-        "index": 175,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 175,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -3544,11 +3544,11 @@
         ]
       },
       {
-        "index": 176,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 176,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "沧海帖7层",
@@ -3560,11 +3560,11 @@
         ]
       },
       {
-        "index": 177,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 177,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "沧海帖10层",
@@ -3577,11 +3577,11 @@
         ]
       },
       {
-        "index": 178,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 178,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "沧海帖10层",
@@ -3596,11 +3596,11 @@
         ]
       },
       {
-        "index": 179,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 179,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -3614,11 +3614,11 @@
         ]
       },
       {
-        "index": 180,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 180,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "沧海帖10层",
@@ -3630,11 +3630,11 @@
         ]
       },
       {
-        "index": 181,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 181,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "沧海帖10层",
@@ -3647,11 +3647,11 @@
         ]
       },
       {
-        "index": 182,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 182,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "沧海帖10层",
@@ -3666,11 +3666,11 @@
         ]
       },
       {
-        "index": 183,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 183,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "幻鸣5层",
           "失魂落魄",
           "远程笛",
@@ -3685,1701 +3685,1701 @@
       }
     ]
   },
-  "skills": {
+  "wuxueQishu": {
     "共鸣": {
-      "generalDamage": 0.2,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.12,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.2,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.12,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.12
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "伞",
-      "physicalRatio": 0.54,
-      "physicalFlat": 0.0,
-      "elementRatio": 0.81,
-      "elementFlat": 0.0,
-      "tuningCategory": "回旋伞",
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "伞",
+      "waigongBeilv": 0.54,
+      "waigongGushang": 0.0,
+      "shuxingBeilv": 0.81,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": "回旋伞",
+      "tedingZengshang": 0.0
     },
     "完美伞": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.12,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.12,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.12
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "伞",
-      "physicalRatio": 1.8084,
-      "physicalFlat": 500.0,
-      "elementRatio": 2.7126,
-      "elementFlat": 272.0,
-      "tuningCategory": "回旋伞",
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "伞",
+      "waigongBeilv": 1.8084,
+      "waigongGushang": 500.0,
+      "shuxingBeilv": 2.7126,
+      "shuxingGushang": 272.0,
+      "dingyinFenlei": "回旋伞",
+      "tedingZengshang": 0.0
     },
     "共鸣(芳歌)": {
-      "generalDamage": 0.2,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.12,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.2,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.12,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.12
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": true,
-      "forcedResolve": false,
-      "type": "伞",
-      "physicalRatio": 0.54,
-      "physicalFlat": 0.0,
-      "elementRatio": 0.81,
-      "elementFlat": 0.0,
-      "tuningCategory": "回旋伞",
-      "specificBonus": 0.2
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": true,
+      "qiangzhiHuiyi": false,
+      "leixing": "伞",
+      "waigongBeilv": 0.54,
+      "waigongGushang": 0.0,
+      "shuxingBeilv": 0.81,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": "回旋伞",
+      "tedingZengshang": 0.2
     },
     "完美伞(芳歌)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.12,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.12,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.12
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": true,
-      "forcedResolve": false,
-      "type": "伞",
-      "physicalRatio": 1.8084,
-      "physicalFlat": 500.0,
-      "elementRatio": 2.7126,
-      "elementFlat": 272.0,
-      "tuningCategory": "回旋伞",
-      "specificBonus": 0.2
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": true,
+      "qiangzhiHuiyi": false,
+      "leixing": "伞",
+      "waigongBeilv": 1.8084,
+      "waigongGushang": 500.0,
+      "shuxingBeilv": 2.7126,
+      "shuxingGushang": 272.0,
+      "dingyinFenlei": "回旋伞",
+      "tedingZengshang": 0.2
     },
     "共鸣(R蓄)": {
-      "generalDamage": 0.2,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.2,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "伞",
-      "physicalRatio": 0.54,
-      "physicalFlat": 0.0,
-      "elementRatio": 0.81,
-      "elementFlat": 0.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "伞",
+      "waigongBeilv": 0.54,
+      "waigongGushang": 0.0,
+      "shuxingBeilv": 0.81,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "伞R蓄": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "伞",
-      "physicalRatio": 1.6788,
-      "physicalFlat": 465.0,
-      "elementRatio": 2.5182,
-      "elementFlat": 252.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "伞",
+      "waigongBeilv": 1.6788,
+      "waigongGushang": 465.0,
+      "shuxingBeilv": 2.5182,
+      "shuxingGushang": 252.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "伞特": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "伞",
-      "physicalRatio": 2.81,
-      "physicalFlat": 779.0,
-      "elementRatio": 4.2194,
-      "elementFlat": 424.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "伞",
+      "waigongBeilv": 2.81,
+      "waigongGushang": 779.0,
+      "shuxingBeilv": 4.2194,
+      "shuxingGushang": 424.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "伞特强化": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "伞",
-      "physicalRatio": 3.7,
-      "physicalFlat": 1636.0,
-      "elementRatio": 5.55,
-      "elementFlat": 892.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "伞",
+      "waigongBeilv": 3.7,
+      "waigongGushang": 1636.0,
+      "shuxingBeilv": 5.55,
+      "shuxingGushang": 892.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "R蓄123": {
-      "generalDamage": 0.05,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.05,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "绳镖",
-      "physicalRatio": 1.1137,
-      "physicalFlat": 309.0,
-      "elementRatio": 1.6706,
-      "elementFlat": 168.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "绳镖",
+      "waigongBeilv": 1.1137,
+      "waigongGushang": 309.0,
+      "shuxingBeilv": 1.6706,
+      "shuxingGushang": 168.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "R蓄45": {
-      "generalDamage": 0.1,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.1,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "绳镖",
-      "physicalRatio": 0.7839,
-      "physicalFlat": 218.0,
-      "elementRatio": 1.1759,
-      "elementFlat": 119.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "绳镖",
+      "waigongBeilv": 0.7839,
+      "waigongGushang": 218.0,
+      "shuxingBeilv": 1.1759,
+      "shuxingGushang": 119.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "指响": {
-      "generalDamage": 0.15,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.15,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": true,
-      "forcedResolve": false,
-      "type": "绳镖",
-      "physicalRatio": 2.2987,
-      "physicalFlat": 637.0,
-      "elementRatio": 3.448,
-      "elementFlat": 347.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": true,
+      "qiangzhiHuiyi": false,
+      "leixing": "绳镖",
+      "waigongBeilv": 2.2987,
+      "waigongGushang": 637.0,
+      "shuxingBeilv": 3.448,
+      "shuxingGushang": 347.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "萧呤千浪流星": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "群体奇术",
-      "physicalRatio": 1.4906,
-      "physicalFlat": 386.0,
-      "elementRatio": 2.2359,
-      "elementFlat": 0.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "群体奇术",
+      "waigongBeilv": 1.4906,
+      "waigongGushang": 386.0,
+      "shuxingBeilv": 2.2359,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "易水歌6重": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "心法",
-      "physicalRatio": 1.0,
-      "physicalFlat": 0.0,
-      "elementRatio": 1.0,
-      "elementFlat": 0.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "心法",
+      "waigongBeilv": 1.0,
+      "waigongGushang": 0.0,
+      "shuxingBeilv": 1.0,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "N/a": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "心法",
-      "physicalRatio": 0.0,
-      "physicalFlat": 0.0,
-      "elementRatio": 0.0,
-      "elementFlat": 0.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "心法",
+      "waigongBeilv": 0.0,
+      "waigongGushang": 0.0,
+      "shuxingBeilv": 0.0,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     }
   },
-  "buffs": {
+  "zengyi": {
     "惧刃(拐)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 16.0,
         "lieshi": 16.0,
         "qiansi": 16.0,
         "pozhu": 16.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "烁鼓(拐)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "扶风(拐)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "裁云(拐)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "离猎(拐)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.02,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.02,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.02,
         "lieshi": 0.02,
         "qiansi": 0.02,
         "pozhu": 0.02
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "步乱(拐)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.2
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.2
     },
     "近战笛": {
-      "generalDamage": 0.02,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.02,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "远程笛": {
-      "generalDamage": 0.2,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.2,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "无惧": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.05,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.05,
+      "jiesuanZengshang": 0.0
     },
     "气竭": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.1,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.1,
+      "jiesuanZengshang": 0.0
     },
     "真气失衡": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.1,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.1,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.1,
+      "jiesuanZengshang": 0.0
     },
     "幻鸣1层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 2.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 2.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "幻鸣2层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 4.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 4.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "幻鸣3层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 6.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 6.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "幻鸣4层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 8.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 8.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "幻鸣5层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 10.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 10.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "唐歌2层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.06,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.06,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "唐歌4层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.12,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.12,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "唐歌5层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.15,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.15,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "失魂落魄": {
-      "generalDamage": 0.05,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.05,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.27,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.27,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "连星(8+)": {
-      "generalDamage": 0.2,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.2,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "断石1层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "断石2层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "断石3层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "断石4层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "断石5层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖1层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.01,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.01,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖2层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.02,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.02,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖3层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.03,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.03,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖4层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.04,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.04,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖5层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.05,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.05,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖6层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.06,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.06,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖7层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.07,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.07,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖8层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.08,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.08,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖9层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.09,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.09,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖10层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.1,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.1,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌1层": {
-      "generalDamage": 0.01,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 2.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.01,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 2.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌2层": {
-      "generalDamage": 0.02,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 4.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.02,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 4.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌3层": {
-      "generalDamage": 0.03,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 6.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.03,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 6.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌4层": {
-      "generalDamage": 0.04,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 8.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.04,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 8.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌5层": {
-      "generalDamage": 0.05,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 10.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.05,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 10.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     }
   }
 }

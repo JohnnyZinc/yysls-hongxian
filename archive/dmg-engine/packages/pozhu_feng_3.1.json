@@ -1,82 +1,82 @@
 {
-  "schemaVersion": 1,
-  "id": "pozhu_feng_3.1",
-  "name": "破竹风",
-  "version": "3.1",
-  "source": "参考/破竹风115阶竞速轴属性毕业率进阶计算器3.1.xlsx",
-  "notes": [
+  "moshiBanben": 1,
+  "bianhao": "pozhu_feng_3.1",
+  "mingcheng": "破竹风",
+  "banben": "3.1",
+  "laiyuan": "参考/破竹风115阶竞速轴属性毕业率进阶计算器3.1.xlsx",
+  "beizhu": [
     "空置/未使用的定音槽已丢弃: 轻击定音=0.0",
-    "增益表最后一列“结算增伤”映射为 settlementBonus"
+    "增益表最后一列“结算增伤”映射为 jiesuanZengshang"
   ],
-  "build": {
-    "element": "破竹",
-    "setMultiplier": 1.0,
-    "foodBonus": {
-      "min": 240.0,
-      "max": 480.0
+  "peizhuang": {
+    "wuxueShuxing": "破竹",
+    "taozhuangChengqu": 1.0,
+    "shiwuJiacheng": {
+      "zuixiao": 240.0,
+      "zuida": 480.0
     },
-    "basePhysicalDamageBonus": 0.0,
-    "flatDamageBonus": 0.6,
-    "flatDamageTypes": [
+    "waigongShanghaiJiachengJizhun": 0.0,
+    "gushangJiacheng": 0.6,
+    "gushangJiachengLeixing": [
       "双刀",
       "绳镖"
     ],
-    "directCritRate": 0.087,
-    "directResolveRate": 0.0,
-    "critDamageBonus": 0.544,
-    "resolveDamageBonus": 0.35,
-    "tuningCategory": "老鼠",
-    "generalDamageFlatBonus": 0.095,
-    "typeBonuses": [
+    "zhijieHuixinlv": 0.087,
+    "zhijieHuiyilv": 0.0,
+    "huixinshangJiacheng": 0.544,
+    "huiyishangJiacheng": 0.35,
+    "dingyinFenlei": "老鼠",
+    "tongyongZengshangGudingzhi": 0.095,
+    "leixingZengshang": [
       {
-        "name": "双刀",
-        "add": [
-          "allWeaponBonus",
-          "weaponBonus1"
+        "mingcheng": "双刀",
+        "yinyongXiang": [
+          "quanwuZeng",
+          "wuqiZeng1"
         ]
       },
       {
-        "name": "绳镖",
-        "add": [
-          "allWeaponBonus",
-          "weaponBonus2"
+        "mingcheng": "绳镖",
+        "yinyongXiang": [
+          "quanwuZeng",
+          "wuqiZeng2"
         ]
       },
       {
-        "name": "单体奇术",
-        "add": [
-          "skillTypeBonus1"
+        "mingcheng": "单体奇术",
+        "yinyongXiang": [
+          "qishuZeng1"
         ]
       },
       {
-        "name": "群体奇术",
-        "add": [
-          "skillTypeBonus2"
+        "mingcheng": "群体奇术",
+        "yinyongXiang": [
+          "qishuZeng2"
         ]
       }
     ],
-    "elementAttackAugment": {
-      "min": 79.2,
-      "max": 250.8,
-      "appliesTo": "activeElement"
+    "wuXiangGongji": {
+      "zuixiao": 79.2,
+      "zuida": 250.8,
+      "zuoyongYu": "wuxueShuxing"
     }
   },
-  "target": {
-    "defense": 618.3,
-    "physicalResist": 8.0,
-    "elementResist": 30.0,
-    "dungeonTalent": 0.06
+  "mubiao": {
+    "fangyu": 618.3,
+    "waikang": 8.0,
+    "shukang": 30.0,
+    "fubenTianfu": 0.06
   },
-  "rotation": {
-    "clearTime": 88.5,
-    "benchmarkAdps": 182477.10000000068,
-    "actions": [
+  "zhou": {
+    "zhandouShijian": 88.5,
+    "biyelvJizhunAdps": 182477.10000000068,
+    "shifang": [
       {
-        "index": 0,
-        "type": "skill",
-        "skill": "千灯一月单次",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 0,
+        "leixing": "jineng",
+        "jineng": "千灯一月单次",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌4层",
           "沧海帖3层",
           "轮回",
@@ -89,11 +89,11 @@
         ]
       },
       {
-        "index": 1,
-        "type": "skill",
-        "skill": "千灯一月单次",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 1,
+        "leixing": "jineng",
+        "jineng": "千灯一月单次",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖3层",
           "轮回",
@@ -106,11 +106,11 @@
         ]
       },
       {
-        "index": 2,
-        "type": "skill",
-        "skill": "千灯一月单次",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 2,
+        "leixing": "jineng",
+        "jineng": "千灯一月单次",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "轮回",
@@ -123,11 +123,11 @@
         ]
       },
       {
-        "index": 3,
-        "type": "skill",
-        "skill": "千灯一月单次",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 3,
+        "leixing": "jineng",
+        "jineng": "千灯一月单次",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "轮回",
@@ -140,11 +140,11 @@
         ]
       },
       {
-        "index": 4,
-        "type": "skill",
-        "skill": "千灯一月单次",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 4,
+        "leixing": "jineng",
+        "jineng": "千灯一月单次",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "轮回",
@@ -157,22 +157,22 @@
         ]
       },
       {
-        "index": 5,
-        "type": "skill",
-        "skill": "绳Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 5,
+        "leixing": "jineng",
+        "jineng": "绳Q",
+        "cishu": 1.0,
+        "zengyi": [
           "轮回",
           "无惧",
           "离猎(拐)"
         ]
       },
       {
-        "index": 6,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 6,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌1层",
           "沧海帖1层",
           "轮回",
@@ -182,27 +182,11 @@
         ]
       },
       {
-        "index": 7,
-        "type": "skill",
-        "skill": "白1",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌1层",
-          "沧海帖1层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 8,
-        "type": "skill",
-        "skill": "白2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 7,
+        "leixing": "jineng",
+        "jineng": "白1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌1层",
           "沧海帖1层",
           "恶身",
@@ -214,11 +198,11 @@
         ]
       },
       {
-        "index": 9,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 8,
+        "leixing": "jineng",
+        "jineng": "白2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌1层",
           "沧海帖1层",
           "恶身",
@@ -230,11 +214,27 @@
         ]
       },
       {
-        "index": 10,
-        "type": "skill",
-        "skill": "白3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 9,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
+          "易水歌1层",
+          "沧海帖1层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 10,
+        "leixing": "jineng",
+        "jineng": "白3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌2层",
           "沧海帖1层",
           "恶身",
@@ -246,11 +246,11 @@
         ]
       },
       {
-        "index": 11,
-        "type": "skill",
-        "skill": "双刀～",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 11,
+        "leixing": "jineng",
+        "jineng": "双刀～",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌2层",
           "沧海帖1层",
           "轮回",
@@ -259,11 +259,11 @@
         ]
       },
       {
-        "index": 12,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 12,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌2层",
           "沧海帖1层",
           "恶身",
@@ -275,11 +275,11 @@
         ]
       },
       {
-        "index": 13,
-        "type": "skill",
-        "skill": "双刀～十字斩",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 13,
+        "leixing": "jineng",
+        "jineng": "双刀～十字斩",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌3层",
           "沧海帖2层",
           "轮回",
@@ -291,37 +291,17 @@
         ]
       },
       {
-        "index": 14,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
-          "易水歌3层",
-          "沧海帖2层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "惧刃(拐)",
-          "迷踪",
-          "断石",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 15,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 14,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌3层",
           "沧海帖2层",
           "恶身",
           "苦果",
           "轮回",
           "燕归额外",
-          "嗔焰",
           "惧刃(拐)",
           "迷踪",
           "断石",
@@ -330,11 +310,11 @@
         ]
       },
       {
-        "index": 16,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 15,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌3层",
           "沧海帖2层",
           "恶身",
@@ -350,11 +330,11 @@
         ]
       },
       {
-        "index": 17,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 16,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌3层",
           "沧海帖2层",
           "恶身",
@@ -370,11 +350,31 @@
         ]
       },
       {
-        "index": 18,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 17,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
+          "易水歌3层",
+          "沧海帖2层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "迷踪",
+          "断石",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 18,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌4层",
           "沧海帖3层",
           "恶身",
@@ -390,11 +390,11 @@
         ]
       },
       {
-        "index": 19,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 19,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌4层",
           "沧海帖3层",
           "恶身",
@@ -410,11 +410,11 @@
         ]
       },
       {
-        "index": 20,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 20,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌4层",
           "沧海帖3层",
           "恶身",
@@ -430,11 +430,11 @@
         ]
       },
       {
-        "index": 21,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 21,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖3层",
           "恶身",
@@ -450,11 +450,11 @@
         ]
       },
       {
-        "index": 22,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 22,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖3层",
           "轮回",
@@ -467,11 +467,11 @@
         ]
       },
       {
-        "index": 23,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 23,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖3层",
           "恶身",
@@ -487,11 +487,11 @@
         ]
       },
       {
-        "index": 24,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 24,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "恶身",
@@ -507,11 +507,11 @@
         ]
       },
       {
-        "index": 25,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 25,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "恶身",
@@ -527,11 +527,11 @@
         ]
       },
       {
-        "index": 26,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 26,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "恶身",
@@ -547,11 +547,11 @@
         ]
       },
       {
-        "index": 27,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 27,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "恶身",
@@ -567,11 +567,11 @@
         ]
       },
       {
-        "index": 28,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 28,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 2.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "恶身",
@@ -587,11 +587,11 @@
         ]
       },
       {
-        "index": 29,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 29,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "恶身",
@@ -606,11 +606,11 @@
         ]
       },
       {
-        "index": 30,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 30,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 2.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖4层",
           "恶身",
@@ -625,11 +625,11 @@
         ]
       },
       {
-        "index": 31,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 31,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖5层",
           "恶身",
@@ -644,11 +644,11 @@
         ]
       },
       {
-        "index": 32,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 32,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖5层",
           "轮回",
@@ -660,30 +660,11 @@
         ]
       },
       {
-        "index": 33,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖5层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "惧刃(拐)",
-          "迷踪",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 34,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 33,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖5层",
           "恶身",
@@ -698,11 +679,11 @@
         ]
       },
       {
-        "index": 35,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 34,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖5层",
           "恶身",
@@ -717,11 +698,11 @@
         ]
       },
       {
-        "index": 36,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 35,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖5层",
           "恶身",
@@ -736,11 +717,11 @@
         ]
       },
       {
-        "index": 37,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 5.0,
-        "buffs": [
+        "xuhao": 36,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖5层",
           "恶身",
@@ -755,11 +736,30 @@
         ]
       },
       {
-        "index": 38,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 37,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 5.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖5层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "迷踪",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 38,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖6层",
           "恶身",
@@ -774,11 +774,11 @@
         ]
       },
       {
-        "index": 39,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 39,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 2.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖6层",
           "恶身",
@@ -793,11 +793,11 @@
         ]
       },
       {
-        "index": 40,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 40,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖6层",
           "恶身",
@@ -811,11 +811,11 @@
         ]
       },
       {
-        "index": 41,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 41,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖6层",
           "恶身",
@@ -829,11 +829,11 @@
         ]
       },
       {
-        "index": 42,
-        "type": "skill",
-        "skill": "绳Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 42,
+        "leixing": "jineng",
+        "jineng": "绳Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖6层",
           "轮回",
@@ -844,11 +844,11 @@
         ]
       },
       {
-        "index": 43,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 43,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 2.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖6层",
           "恶身",
@@ -862,16 +862,16 @@
         ]
       },
       {
-        "index": 44,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 44,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)",
           "无惧",
           "离猎(拐)"
         ],
-        "ratio": 0.3,
-        "window": [
+        "bili": 0.3,
+        "fanwei": [
           6,
           9,
           12,
@@ -890,21 +890,21 @@
         ]
       },
       {
-        "index": 45,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 45,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": [
           "无惧",
           "离猎(拐)"
         ]
       },
       {
-        "index": 46,
-        "type": "skill",
-        "skill": "白1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 46,
+        "leixing": "jineng",
+        "jineng": "白1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖7层",
           "恶身",
@@ -918,11 +918,11 @@
         ]
       },
       {
-        "index": 47,
-        "type": "skill",
-        "skill": "白2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 47,
+        "leixing": "jineng",
+        "jineng": "白2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖7层",
           "恶身",
@@ -936,11 +936,11 @@
         ]
       },
       {
-        "index": 48,
-        "type": "skill",
-        "skill": "双刀～",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 48,
+        "leixing": "jineng",
+        "jineng": "双刀～",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖7层",
           "轮回",
@@ -949,11 +949,11 @@
         ]
       },
       {
-        "index": 49,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 49,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖7层",
           "恶身",
@@ -965,11 +965,11 @@
         ]
       },
       {
-        "index": 50,
-        "type": "skill",
-        "skill": "双刀～十字斩",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 50,
+        "leixing": "jineng",
+        "jineng": "双刀～十字斩",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖8层",
           "轮回",
@@ -980,11 +980,11 @@
         ]
       },
       {
-        "index": 51,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 51,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖7层",
           "恶身",
@@ -998,11 +998,11 @@
         ]
       },
       {
-        "index": 52,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 52,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖7层",
           "恶身",
@@ -1018,11 +1018,11 @@
         ]
       },
       {
-        "index": 53,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 53,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖8层",
           "恶身",
@@ -1037,32 +1037,11 @@
         ]
       },
       {
-        "index": 54,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖8层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "惧刃(拐)",
-          "迷踪",
-          "断石",
-          "蚀骨增伤",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 55,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 54,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖8层",
           "恶身",
@@ -1079,11 +1058,32 @@
         ]
       },
       {
-        "index": 56,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 55,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖8层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "迷踪",
+          "断石",
+          "蚀骨增伤",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 56,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖8层",
           "恶身",
@@ -1099,11 +1099,11 @@
         ]
       },
       {
-        "index": 57,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 57,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖9层",
           "恶身",
@@ -1120,11 +1120,11 @@
         ]
       },
       {
-        "index": 58,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 58,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖9层",
           "恶身",
@@ -1141,11 +1141,11 @@
         ]
       },
       {
-        "index": 59,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 59,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖9层",
           "轮回",
@@ -1159,32 +1159,11 @@
         ]
       },
       {
-        "index": 60,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖9层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "惧刃(拐)",
-          "迷踪",
-          "断石",
-          "蚀骨增伤",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 61,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 60,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖9层",
           "恶身",
@@ -1201,11 +1180,32 @@
         ]
       },
       {
-        "index": 62,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 9.0,
-        "buffs": [
+        "xuhao": 61,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖9层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "迷踪",
+          "断石",
+          "蚀骨增伤",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 62,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 9.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖9层",
           "恶身",
@@ -1221,11 +1221,11 @@
         ]
       },
       {
-        "index": 63,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 63,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1242,11 +1242,11 @@
         ]
       },
       {
-        "index": 64,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 64,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 2.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1262,11 +1262,11 @@
         ]
       },
       {
-        "index": 65,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 65,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1282,11 +1282,11 @@
         ]
       },
       {
-        "index": 66,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 66,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1302,11 +1302,11 @@
         ]
       },
       {
-        "index": 67,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 67,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -1319,11 +1319,11 @@
         ]
       },
       {
-        "index": 68,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 6.0,
-        "buffs": [
+        "xuhao": 68,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 6.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1338,34 +1338,11 @@
         ]
       },
       {
-        "index": 69,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖10层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "惧刃(拐)",
-          "气竭",
-          "真气失衡",
-          "迷踪",
-          "断石",
-          "蚀骨增伤",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 70,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 69,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1384,11 +1361,11 @@
         ]
       },
       {
-        "index": 71,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 70,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1407,11 +1384,34 @@
         ]
       },
       {
-        "index": 72,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 5.0,
-        "buffs": [
+        "xuhao": 71,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖10层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "气竭",
+          "真气失衡",
+          "迷踪",
+          "断石",
+          "蚀骨增伤",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 72,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 5.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1429,11 +1429,11 @@
         ]
       },
       {
-        "index": 73,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 73,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1451,11 +1451,11 @@
         ]
       },
       {
-        "index": 74,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 74,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 2.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1472,11 +1472,11 @@
         ]
       },
       {
-        "index": 75,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 75,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1493,11 +1493,11 @@
         ]
       },
       {
-        "index": 76,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 76,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1513,11 +1513,11 @@
         ]
       },
       {
-        "index": 77,
-        "type": "skill",
-        "skill": "绳Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 77,
+        "leixing": "jineng",
+        "jineng": "绳Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -1530,11 +1530,11 @@
         ]
       },
       {
-        "index": 78,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 78,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 2.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1550,16 +1550,16 @@
         ]
       },
       {
-        "index": 79,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 79,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)",
           "无惧",
           "离猎(拐)"
         ],
-        "ratio": 0.3,
-        "window": [
+        "bili": 0.3,
+        "fanwei": [
           49,
           51,
           53,
@@ -1574,21 +1574,21 @@
         ]
       },
       {
-        "index": 80,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 80,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": [
           "无惧",
           "离猎(拐)"
         ]
       },
       {
-        "index": 81,
-        "type": "skill",
-        "skill": "白1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 81,
+        "leixing": "jineng",
+        "jineng": "白1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1604,11 +1604,11 @@
         ]
       },
       {
-        "index": 82,
-        "type": "skill",
-        "skill": "白2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 82,
+        "leixing": "jineng",
+        "jineng": "白2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1624,11 +1624,11 @@
         ]
       },
       {
-        "index": 83,
-        "type": "skill",
-        "skill": "双刀～",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 83,
+        "leixing": "jineng",
+        "jineng": "双刀～",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -1641,11 +1641,11 @@
         ]
       },
       {
-        "index": 84,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 84,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1660,11 +1660,11 @@
         ]
       },
       {
-        "index": 85,
-        "type": "skill",
-        "skill": "双刀～十字斩",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 85,
+        "leixing": "jineng",
+        "jineng": "双刀～十字斩",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -1676,11 +1676,11 @@
         ]
       },
       {
-        "index": 86,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 86,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1692,31 +1692,11 @@
         ]
       },
       {
-        "index": 87,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖10层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "气竭",
-          "真气失衡",
-          "断石",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 88,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 87,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1732,11 +1712,11 @@
         ]
       },
       {
-        "index": 89,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 88,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1752,11 +1732,31 @@
         ]
       },
       {
-        "index": 90,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 89,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖10层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "气竭",
+          "真气失衡",
+          "断石",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 90,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1770,11 +1770,11 @@
         ]
       },
       {
-        "index": 91,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 91,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1788,11 +1788,11 @@
         ]
       },
       {
-        "index": 92,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 92,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1806,11 +1806,11 @@
         ]
       },
       {
-        "index": 93,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 93,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -1821,29 +1821,11 @@
         ]
       },
       {
-        "index": 94,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 8.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖10层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "断石",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 95,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 94,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 8.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1851,37 +1833,17 @@
           "轮回",
           "燕归额外",
           "嗔焰",
-          "惧刃(拐)",
           "断石",
           "无惧",
           "离猎(拐)"
         ]
       },
       {
-        "index": 96,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖10层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "惧刃(拐)",
-          "断石",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 97,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 95,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1896,11 +1858,11 @@
         ]
       },
       {
-        "index": 98,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 5.0,
-        "buffs": [
+        "xuhao": 96,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1915,11 +1877,11 @@
         ]
       },
       {
-        "index": 99,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 97,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1934,11 +1896,11 @@
         ]
       },
       {
-        "index": 100,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 98,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 5.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1953,11 +1915,49 @@
         ]
       },
       {
-        "index": 101,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 99,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖10层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "断石",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 100,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖10层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "断石",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 101,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -1969,11 +1969,11 @@
         ]
       },
       {
-        "index": 102,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 6.0,
-        "buffs": [
+        "xuhao": 102,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 6.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -1987,11 +1987,11 @@
         ]
       },
       {
-        "index": 103,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 103,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2005,11 +2005,11 @@
         ]
       },
       {
-        "index": 104,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 104,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2023,11 +2023,11 @@
         ]
       },
       {
-        "index": 105,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 105,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2041,11 +2041,11 @@
         ]
       },
       {
-        "index": 106,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 106,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2059,11 +2059,11 @@
         ]
       },
       {
-        "index": 107,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 13.0,
-        "buffs": [
+        "xuhao": 107,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 13.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2077,11 +2077,11 @@
         ]
       },
       {
-        "index": 108,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 108,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2094,11 +2094,11 @@
         ]
       },
       {
-        "index": 109,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 109,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2111,11 +2111,11 @@
         ]
       },
       {
-        "index": 110,
-        "type": "skill",
-        "skill": "绳Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 110,
+        "leixing": "jineng",
+        "jineng": "绳Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -2125,11 +2125,11 @@
         ]
       },
       {
-        "index": 111,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 5.0,
-        "buffs": [
+        "xuhao": 111,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 5.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2142,16 +2142,16 @@
         ]
       },
       {
-        "index": 112,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 112,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)",
           "无惧",
           "离猎(拐)"
         ],
-        "ratio": 0.3,
-        "window": [
+        "bili": 0.3,
+        "fanwei": [
           84,
           86,
           89,
@@ -2164,21 +2164,21 @@
         ]
       },
       {
-        "index": 113,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 113,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": [
           "无惧",
           "离猎(拐)"
         ]
       },
       {
-        "index": 114,
-        "type": "skill",
-        "skill": "千灯一月单次",
-        "repeat": 5.0,
-        "buffs": [
+        "xuhao": 114,
+        "leixing": "jineng",
+        "jineng": "千灯一月单次",
+        "cishu": 5.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -2190,11 +2190,11 @@
         ]
       },
       {
-        "index": 115,
-        "type": "skill",
-        "skill": "白1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 115,
+        "leixing": "jineng",
+        "jineng": "白1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2207,11 +2207,11 @@
         ]
       },
       {
-        "index": 116,
-        "type": "skill",
-        "skill": "白2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 116,
+        "leixing": "jineng",
+        "jineng": "白2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2224,11 +2224,11 @@
         ]
       },
       {
-        "index": 117,
-        "type": "skill",
-        "skill": "双刀～",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 117,
+        "leixing": "jineng",
+        "jineng": "双刀～",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -2238,11 +2238,11 @@
         ]
       },
       {
-        "index": 118,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 118,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2255,11 +2255,11 @@
         ]
       },
       {
-        "index": 119,
-        "type": "skill",
-        "skill": "双刀～十字斩",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 119,
+        "leixing": "jineng",
+        "jineng": "双刀～十字斩",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -2271,11 +2271,11 @@
         ]
       },
       {
-        "index": 120,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 120,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2290,11 +2290,11 @@
         ]
       },
       {
-        "index": 121,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 121,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2310,11 +2310,11 @@
         ]
       },
       {
-        "index": 122,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 122,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2330,11 +2330,11 @@
         ]
       },
       {
-        "index": 123,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 123,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2350,11 +2350,11 @@
         ]
       },
       {
-        "index": 124,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 124,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2370,11 +2370,11 @@
         ]
       },
       {
-        "index": 125,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 125,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2390,11 +2390,11 @@
         ]
       },
       {
-        "index": 126,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 126,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "嗔焰",
@@ -2405,30 +2405,11 @@
         ]
       },
       {
-        "index": 127,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 11.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖10层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "迷踪",
-          "断石",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 128,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 127,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 11.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2436,20 +2417,18 @@
           "轮回",
           "燕归额外",
           "嗔焰",
-          "惧刃(拐)",
           "迷踪",
           "断石",
-          "蚀骨增伤",
           "无惧",
           "离猎(拐)"
         ]
       },
       {
-        "index": 129,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 128,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2466,11 +2445,11 @@
         ]
       },
       {
-        "index": 130,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 129,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2487,11 +2466,32 @@
         ]
       },
       {
-        "index": 131,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 5.0,
-        "buffs": [
+        "xuhao": 130,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖10层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "迷踪",
+          "断石",
+          "蚀骨增伤",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 131,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 5.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2507,11 +2507,11 @@
         ]
       },
       {
-        "index": 132,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 132,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2527,11 +2527,11 @@
         ]
       },
       {
-        "index": 133,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 133,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2547,11 +2547,11 @@
         ]
       },
       {
-        "index": 134,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 134,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -2563,31 +2563,11 @@
         ]
       },
       {
-        "index": 135,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖10层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "惧刃(拐)",
-          "迷踪",
-          "蚀骨增伤",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 136,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 135,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2603,11 +2583,11 @@
         ]
       },
       {
-        "index": 137,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 136,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2623,11 +2603,11 @@
         ]
       },
       {
-        "index": 138,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 137,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2643,11 +2623,31 @@
         ]
       },
       {
-        "index": 139,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 12.0,
-        "buffs": [
+        "xuhao": 138,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖10层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "迷踪",
+          "蚀骨增伤",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 139,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 12.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2662,11 +2662,11 @@
         ]
       },
       {
-        "index": 140,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 140,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2683,11 +2683,11 @@
         ]
       },
       {
-        "index": 141,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 141,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2703,11 +2703,11 @@
         ]
       },
       {
-        "index": 142,
-        "type": "skill",
-        "skill": "绳Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 142,
+        "leixing": "jineng",
+        "jineng": "绳Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -2721,11 +2721,11 @@
         ]
       },
       {
-        "index": 143,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 143,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 2.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2742,16 +2742,16 @@
         ]
       },
       {
-        "index": 144,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 144,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)",
           "无惧",
           "离猎(拐)"
         ],
-        "ratio": 0.3,
-        "window": [
+        "bili": 0.3,
+        "fanwei": [
           118,
           120,
           127,
@@ -2762,21 +2762,21 @@
         ]
       },
       {
-        "index": 145,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 145,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": [
           "无惧",
           "离猎(拐)"
         ]
       },
       {
-        "index": 146,
-        "type": "skill",
-        "skill": "白1",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 146,
+        "leixing": "jineng",
+        "jineng": "白1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2794,11 +2794,11 @@
         ]
       },
       {
-        "index": 147,
-        "type": "skill",
-        "skill": "白2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 147,
+        "leixing": "jineng",
+        "jineng": "白2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2816,11 +2816,11 @@
         ]
       },
       {
-        "index": 148,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 148,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2837,11 +2837,11 @@
         ]
       },
       {
-        "index": 149,
-        "type": "skill",
-        "skill": "双刀～",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 149,
+        "leixing": "jineng",
+        "jineng": "双刀～",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -2854,11 +2854,11 @@
         ]
       },
       {
-        "index": 150,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 150,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2874,11 +2874,11 @@
         ]
       },
       {
-        "index": 151,
-        "type": "skill",
-        "skill": "双刀～十字斩",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 151,
+        "leixing": "jineng",
+        "jineng": "双刀～十字斩",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -2892,11 +2892,11 @@
         ]
       },
       {
-        "index": 152,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 3.0,
-        "buffs": [
+        "xuhao": 152,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 3.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2913,34 +2913,11 @@
         ]
       },
       {
-        "index": 153,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖10层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "惧刃(拐)",
-          "气竭",
-          "真气失衡",
-          "迷踪",
-          "断石",
-          "蚀骨增伤",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 154,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 153,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2959,11 +2936,11 @@
         ]
       },
       {
-        "index": 155,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 154,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -2982,11 +2959,34 @@
         ]
       },
       {
-        "index": 156,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 5.0,
-        "buffs": [
+        "xuhao": 155,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖10层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "气竭",
+          "真气失衡",
+          "迷踪",
+          "断石",
+          "蚀骨增伤",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 156,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 5.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3004,11 +3004,11 @@
         ]
       },
       {
-        "index": 157,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 157,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3026,11 +3026,11 @@
         ]
       },
       {
-        "index": 158,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 158,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3048,11 +3048,11 @@
         ]
       },
       {
-        "index": 159,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 6.0,
-        "buffs": [
+        "xuhao": 159,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 6.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3069,11 +3069,11 @@
         ]
       },
       {
-        "index": 160,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 160,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -3085,30 +3085,11 @@
         ]
       },
       {
-        "index": 161,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖10层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "迷踪",
-          "断石",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 162,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 161,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3123,11 +3104,11 @@
         ]
       },
       {
-        "index": 163,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 162,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3142,11 +3123,11 @@
         ]
       },
       {
-        "index": 164,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 163,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3161,11 +3142,11 @@
         ]
       },
       {
-        "index": 165,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 164,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3180,11 +3161,11 @@
         ]
       },
       {
-        "index": 166,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 11.0,
-        "buffs": [
+        "xuhao": 165,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3199,11 +3180,30 @@
         ]
       },
       {
-        "index": 167,
-        "type": "skill",
-        "skill": "双刀Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 166,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 11.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖10层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "迷踪",
+          "断石",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 167,
+        "leixing": "jineng",
+        "jineng": "双刀Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -3216,31 +3216,11 @@
         ]
       },
       {
-        "index": 168,
-        "type": "skill",
-        "skill": "红1",
-        "repeat": 1.0,
-        "buffs": [
-          "易水歌5层",
-          "沧海帖10层",
-          "恶身",
-          "苦果",
-          "轮回",
-          "燕归额外",
-          "嗔焰",
-          "惧刃(拐)",
-          "迷踪",
-          "断石",
-          "无惧",
-          "离猎(拐)"
-        ]
-      },
-      {
-        "index": 169,
-        "type": "skill",
-        "skill": "红2",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 168,
+        "leixing": "jineng",
+        "jineng": "红1",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3256,11 +3236,11 @@
         ]
       },
       {
-        "index": 170,
-        "type": "skill",
-        "skill": "红3",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 169,
+        "leixing": "jineng",
+        "jineng": "红2",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3276,11 +3256,11 @@
         ]
       },
       {
-        "index": 171,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 6.0,
-        "buffs": [
+        "xuhao": 170,
+        "leixing": "jineng",
+        "jineng": "红3",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3296,11 +3276,31 @@
         ]
       },
       {
-        "index": 172,
-        "type": "skill",
-        "skill": "红4",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 171,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 6.0,
+        "zengyi": [
+          "易水歌5层",
+          "沧海帖10层",
+          "恶身",
+          "苦果",
+          "轮回",
+          "燕归额外",
+          "嗔焰",
+          "惧刃(拐)",
+          "迷踪",
+          "断石",
+          "无惧",
+          "离猎(拐)"
+        ]
+      },
+      {
+        "xuhao": 172,
+        "leixing": "jineng",
+        "jineng": "红4",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3315,11 +3315,11 @@
         ]
       },
       {
-        "index": 173,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 2.0,
-        "buffs": [
+        "xuhao": 173,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 2.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3334,11 +3334,11 @@
         ]
       },
       {
-        "index": 174,
-        "type": "skill",
-        "skill": "红5",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 174,
+        "leixing": "jineng",
+        "jineng": "红5",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3351,11 +3351,11 @@
         ]
       },
       {
-        "index": 175,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 4.0,
-        "buffs": [
+        "xuhao": 175,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 4.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3368,11 +3368,11 @@
         ]
       },
       {
-        "index": 176,
-        "type": "skill",
-        "skill": "绳Q",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 176,
+        "leixing": "jineng",
+        "jineng": "绳Q",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -3382,11 +3382,11 @@
         ]
       },
       {
-        "index": 177,
-        "type": "skill",
-        "skill": "老鼠",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 177,
+        "leixing": "jineng",
+        "jineng": "老鼠",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "恶身",
@@ -3399,16 +3399,16 @@
         ]
       },
       {
-        "index": 178,
-        "type": "settlement",
-        "repeat": 1,
-        "buffs": [
+        "xuhao": 178,
+        "leixing": "jiesuan",
+        "cishu": 1,
+        "zengyi": [
           "步乱(拐)",
           "无惧",
           "离猎(拐)"
         ],
-        "ratio": 0.3,
-        "window": [
+        "bili": 0.3,
+        "fanwei": [
           148,
           150,
           152,
@@ -3422,21 +3422,21 @@
         ]
       },
       {
-        "index": 179,
-        "type": "skill",
-        "skill": "N/a",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 179,
+        "leixing": "jineng",
+        "jineng": "N/a",
+        "cishu": 1.0,
+        "zengyi": [
           "无惧",
           "离猎(拐)"
         ]
       },
       {
-        "index": 180,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 180,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖3层",
           "轮回",
@@ -3449,11 +3449,11 @@
         ]
       },
       {
-        "index": 181,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 181,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖7层",
           "轮回",
@@ -3463,11 +3463,11 @@
         ]
       },
       {
-        "index": 182,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 182,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -3479,11 +3479,11 @@
         ]
       },
       {
-        "index": 183,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 183,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -3495,11 +3495,11 @@
         ]
       },
       {
-        "index": 184,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 184,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -3510,11 +3510,11 @@
         ]
       },
       {
-        "index": 185,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 185,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "无惧",
@@ -3522,11 +3522,11 @@
         ]
       },
       {
-        "index": 186,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 186,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -3538,11 +3538,11 @@
         ]
       },
       {
-        "index": 187,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 187,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -3556,11 +3556,11 @@
         ]
       },
       {
-        "index": 188,
-        "type": "skill",
-        "skill": "易水歌6重",
-        "repeat": 1.0,
-        "buffs": [
+        "xuhao": 188,
+        "leixing": "jineng",
+        "jineng": "易水歌6重",
+        "cishu": 1.0,
+        "zengyi": [
           "易水歌5层",
           "沧海帖10层",
           "轮回",
@@ -3571,1425 +3571,1425 @@
       }
     ]
   },
-  "skills": {
+  "wuxueQishu": {
     "白1": {
-      "generalDamage": 0.12,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.12,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 0.4205,
-      "physicalFlat": 117.0,
-      "elementRatio": 0.6307,
-      "elementFlat": 64.0,
-      "tuningCategory": "轻击",
-      "specificBonus": 0.1
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 0.4205,
+      "waigongGushang": 117.0,
+      "shuxingBeilv": 0.6307,
+      "shuxingGushang": 64.0,
+      "dingyinFenlei": "轻击",
+      "tedingZengshang": 0.1
     },
     "白2": {
-      "generalDamage": 0.12,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.12,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 0.4508,
-      "physicalFlat": 126.0,
-      "elementRatio": 0.6763,
-      "elementFlat": 68.0,
-      "tuningCategory": "轻击",
-      "specificBonus": 0.1
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 0.4508,
+      "waigongGushang": 126.0,
+      "shuxingBeilv": 0.6763,
+      "shuxingGushang": 68.0,
+      "dingyinFenlei": "轻击",
+      "tedingZengshang": 0.1
     },
     "白3": {
-      "generalDamage": 0.12,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.12,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 0.5772,
-      "physicalFlat": 161.0,
-      "elementRatio": 0.8658,
-      "elementFlat": 87.0,
-      "tuningCategory": "轻击",
-      "specificBonus": 0.1
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 0.5772,
+      "waigongGushang": 161.0,
+      "shuxingBeilv": 0.8658,
+      "shuxingGushang": 87.0,
+      "dingyinFenlei": "轻击",
+      "tedingZengshang": 0.1
     },
     "红1": {
-      "generalDamage": 0.12,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.12,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 0.6472,
-      "physicalFlat": 180.0,
-      "elementRatio": 0.9708,
-      "elementFlat": 98.0,
-      "tuningCategory": "轻击",
-      "specificBonus": 0.1
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 0.6472,
+      "waigongGushang": 180.0,
+      "shuxingBeilv": 0.9708,
+      "shuxingGushang": 98.0,
+      "dingyinFenlei": "轻击",
+      "tedingZengshang": 0.1
     },
     "红2": {
-      "generalDamage": 0.12,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.12,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 0.9012,
-      "physicalFlat": 250.0,
-      "elementRatio": 1.3518,
-      "elementFlat": 136.0,
-      "tuningCategory": "轻击",
-      "specificBonus": 0.1
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 0.9012,
+      "waigongGushang": 250.0,
+      "shuxingBeilv": 1.3518,
+      "shuxingGushang": 136.0,
+      "dingyinFenlei": "轻击",
+      "tedingZengshang": 0.1
     },
     "红3": {
-      "generalDamage": 0.12,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.12,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 1.4455,
-      "physicalFlat": 401.0,
-      "elementRatio": 2.1683,
-      "elementFlat": 218.0,
-      "tuningCategory": "轻击",
-      "specificBonus": 0.1
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 1.4455,
+      "waigongGushang": 401.0,
+      "shuxingBeilv": 2.1683,
+      "shuxingGushang": 218.0,
+      "dingyinFenlei": "轻击",
+      "tedingZengshang": 0.1
     },
     "红4": {
-      "generalDamage": 0.12,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.12,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 1.7358,
-      "physicalFlat": 481.0,
-      "elementRatio": 2.6037,
-      "elementFlat": 262.0,
-      "tuningCategory": "轻击",
-      "specificBonus": 0.1
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 1.7358,
+      "waigongGushang": 481.0,
+      "shuxingBeilv": 2.6037,
+      "shuxingGushang": 262.0,
+      "dingyinFenlei": "轻击",
+      "tedingZengshang": 0.1
     },
     "红5": {
-      "generalDamage": 0.12,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.12,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 2.5342,
-      "physicalFlat": 702.0,
-      "elementRatio": 3.8012,
-      "elementFlat": 382.0,
-      "tuningCategory": "轻击",
-      "specificBonus": 0.1
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 2.5342,
+      "waigongGushang": 702.0,
+      "shuxingBeilv": 3.8012,
+      "shuxingGushang": 382.0,
+      "dingyinFenlei": "轻击",
+      "tedingZengshang": 0.1
     },
     "双刀Q": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 1.3548,
-      "physicalFlat": 376.0,
-      "elementRatio": 2.0322,
-      "elementFlat": 205.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 1.3548,
+      "waigongGushang": 376.0,
+      "shuxingBeilv": 2.0322,
+      "shuxingGushang": 205.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "双刀～": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 0.8267,
-      "physicalFlat": 229.0,
-      "elementRatio": 1.24,
-      "elementFlat": 125.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 0.8267,
+      "waigongGushang": 229.0,
+      "shuxingBeilv": 1.24,
+      "shuxingGushang": 125.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "双刀～十字斩": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "双刀",
-      "physicalRatio": 2.4761,
-      "physicalFlat": 685.0,
-      "elementRatio": 3.7142,
-      "elementFlat": 373.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "双刀",
+      "waigongBeilv": 2.4761,
+      "waigongGushang": 685.0,
+      "shuxingBeilv": 3.7142,
+      "shuxingGushang": 373.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "老鼠": {
-      "generalDamage": 0.92,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.21,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.92,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.21,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.21
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "绳镖",
-      "physicalRatio": 0.3675,
-      "physicalFlat": 0.0,
-      "elementRatio": 0.55125,
-      "elementFlat": 0.0,
-      "tuningCategory": "老鼠",
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "绳镖",
+      "waigongBeilv": 0.3675,
+      "waigongGushang": 0.0,
+      "shuxingBeilv": 0.55125,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": "老鼠",
+      "tedingZengshang": 0.0
     },
     "绳Q": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "绳镖",
-      "physicalRatio": 0.0621,
-      "physicalFlat": 17.0,
-      "elementRatio": 0.0932,
-      "elementFlat": 9.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "绳镖",
+      "waigongBeilv": 0.0621,
+      "waigongGushang": 17.0,
+      "shuxingBeilv": 0.0932,
+      "shuxingGushang": 9.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "易水歌6重": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "心法",
-      "physicalRatio": 1.0,
-      "physicalFlat": 0.0,
-      "elementRatio": 1.0,
-      "elementFlat": 0.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "心法",
+      "waigongBeilv": 1.0,
+      "waigongGushang": 0.0,
+      "shuxingBeilv": 1.0,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "千灯一月单次": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "群体奇术",
-      "physicalRatio": 2.3774,
-      "physicalFlat": 476.0,
-      "elementRatio": 3.5661,
-      "elementFlat": 0.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "群体奇术",
+      "waigongBeilv": 2.3774,
+      "waigongGushang": 476.0,
+      "shuxingBeilv": 3.5661,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     },
     "N/a": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "charge": 0.0,
-      "forcedPrecise": false,
-      "forcedCrit": false,
-      "forcedResolve": false,
-      "type": "心法",
-      "physicalRatio": 0.0,
-      "physicalFlat": 0.0,
-      "elementRatio": 0.0,
-      "elementFlat": 0.0,
-      "tuningCategory": null,
-      "specificBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "xuli": 0.0,
+      "qiangzhiJingzhun": false,
+      "qiangzhiHuixin": false,
+      "qiangzhiHuiyi": false,
+      "leixing": "心法",
+      "waigongBeilv": 0.0,
+      "waigongGushang": 0.0,
+      "shuxingBeilv": 0.0,
+      "shuxingGushang": 0.0,
+      "dingyinFenlei": null,
+      "tedingZengshang": 0.0
     }
   },
-  "buffs": {
+  "zengyi": {
     "惧刃(拐)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 16.0,
         "lieshi": 16.0,
         "qiansi": 16.0,
         "pozhu": 16.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "步乱(拐)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.2
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.2
     },
     "离猎(拐)": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.02,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.02,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.02,
         "lieshi": 0.02,
         "qiansi": 0.02,
         "pozhu": 0.02
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "无惧": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.05,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.05,
+      "jiesuanZengshang": 0.0
     },
     "气竭": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.1,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.1,
+      "jiesuanZengshang": 0.0
     },
     "真气失衡": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.1,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.1,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.1,
+      "jiesuanZengshang": 0.0
     },
     "恶身": {
-      "generalDamage": 0.0,
-      "minPhysical": 68.7,
-      "maxPhysical": 68.7,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 68.7,
+      "zuidaWaigong": 68.7,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "苦果": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 10.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "轮回": {
-      "generalDamage": 0.1,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.1,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "嗔焰": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.1,
-      "critDamage": 0.5,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.1,
+      "huixinshang": 0.5,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "燕归额外": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.06,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.06,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.06
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "蚀骨增伤": {
-      "generalDamage": 0.05,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.05,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "迷踪": {
-      "generalDamage": 0.15,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.15,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "断石": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 25.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 25.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.25,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.25,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖1层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.01,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.01,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖2层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.02,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.02,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖3层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.03,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.03,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖4层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.04,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.04,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖5层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.05,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.05,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖6层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.06,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.06,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖7层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.07,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.07,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖8层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.08,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.08,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖9层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.09,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.09,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "沧海帖10层": {
-      "generalDamage": 0.0,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 0.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.0,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 0.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.1,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.1,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌1层": {
-      "generalDamage": 0.01,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 2.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.01,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 2.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌2层": {
-      "generalDamage": 0.02,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 4.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.02,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 4.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌3层": {
-      "generalDamage": 0.03,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 6.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.03,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 6.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌4层": {
-      "generalDamage": 0.04,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 8.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.04,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 8.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     },
     "易水歌5层": {
-      "generalDamage": 0.05,
-      "minPhysical": 0.0,
-      "maxPhysical": 0.0,
-      "physicalBonus": 0.0,
-      "physicalPenetration": 10.0,
-      "physicalDamageBonus": 0.0,
-      "elementAttackBonus": 0.0,
-      "penetration": {
+      "tongyongZengshang": 0.05,
+      "zuixiaoWaigong": 0.0,
+      "zuidaWaigong": 0.0,
+      "waigongJiacheng": 0.0,
+      "waigongChuantou": 10.0,
+      "waigongShanghaiJiacheng": 0.0,
+      "shugongJiacheng": 0.0,
+      "chuantou": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "elementDamageBonus": {
+      "shuxingJiacheng": {
         "mingjin": 0.0,
         "lieshi": 0.0,
         "qiansi": 0.0,
         "pozhu": 0.0
       },
-      "critRate": 0.0,
-      "critDamage": 0.0,
-      "resolveRate": 0.0,
-      "resolveDamage": 0.0,
-      "directCritRate": 0.0,
-      "directResolveRate": 0.0,
-      "specialDamageBonus": 0.0,
-      "settlementBonus": 0.0
+      "huixinlv": 0.0,
+      "huixinshang": 0.0,
+      "huiyilv": 0.0,
+      "huiyishang": 0.0,
+      "zhijieHuixinlv": 0.0,
+      "zhijieHuiyilv": 0.0,
+      "teshuZengshang": 0.0,
+      "jiesuanZengshang": 0.0
     }
   }
 }

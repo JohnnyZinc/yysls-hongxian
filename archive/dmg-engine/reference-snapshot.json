@@ -1,0 +1,38 @@
+{
+  "pozhu_feng_3.1": {
+    "liupaiBaoBianhao": "pozhu_feng_3.1",
+    "zongshang": 16149223.7099231,
+    "adps": 182477.104066928,
+    "biyelv": 1.00000002228733,
+    "biyelvJizhunAdps": 182477.10000000068,
+    "shifangShumu": 189,
+    "jiesuanShumu": 5
+  },
+  "pozhu_chen_3.1": {
+    "liupaiBaoBianhao": "pozhu_chen_3.1",
+    "zongshang": 16685750.1786913,
+    "adps": 173629.034117495,
+    "biyelv": 1.00000002371432,
+    "biyelvJizhunAdps": 173629.0300000006,
+    "shifangShumu": 184,
+    "jiesuanShumu": 5
+  },
+  "qiansi_yu_3.2": {
+    "liupaiBaoBianhao": "qiansi_yu_3.2",
+    "zongshang": 17881355.8748707,
+    "adps": 199346.21934081,
+    "biyelv": 0.999999996693243,
+    "biyelvJizhunAdps": 199346.2199999995,
+    "shifangShumu": 135,
+    "jiesuanShumu": 0
+  },
+  "pozhu_zun_3.5": {
+    "liupaiBaoBianhao": "pozhu_zun_3.5",
+    "zongshang": 16951729.7295347,
+    "adps": 179573.408151851,
+    "biyelv": 0.999999989708115,
+    "biyelvJizhunAdps": 179573.4099999999,
+    "shifangShumu": 135,
+    "jiesuanShumu": 5
+  }
+}
