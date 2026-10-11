@@ -1,0 +1,286 @@
+'use strict';
+
+/**
+ * panel.js — 装备 + 可选层 → 最终面板（对应装备面板计算器 v0.1 主表 W 列）
+ *
+ * 输入（computePanel 的参数对象）：
+ *   version    版本数据包（tools/extract_version_data.py 产出）
+ *   affixes    词条数据包（tools/convert_affix_md.py 产出）
+ *   build      { 流派: '破竹风', 武器类型: ['双刀','绳镖'] }
+ *   gear       8件装备实例：{ slot, 承音, 初始:{属性,数值}, 调律:[{属性,数值}×4], 定音:{属性,数值} }
+ *   selections { 弓玦, 装备套装, 心法:[×4], 武库 }
+ *
+ * 输出：
+ *   { stats: {46项最终面板}, 武器增: {按武器类型}, 技能定音: {词条名: 值}, warnings: [] }
+ *
+ * 转换规则（全部来自面板计算器 v0.1 主表 W 列公式，逐条对齐）：
+ *   精准率 = 65%基线 + (raw − 65%)/(1+判定抗性)
+ *   会心率 = (raw + 敏×0.076%) / (1+判定抗性)；会意率同（势×0.038%）
+ *   最小外功 = raw + 劲×0.22 + 敏×0.9；最大外功 = raw + 劲×1.36 + 势×0.9
+ *   外功穿透 = 固定层 + 装备词条(含定音)/(1+增益抗性) + 可选层   ← 只有外功穿透这样拆
+ *   技能定音/全武增/首领增/武器增/奇术增 = (固定层+可选层+装备词条)/(1+增益抗性)
+ *   其余属性纯求和
+ *   武学天赋：会心/会意/外功天赋 ×MIN(五维达标率,1)；
+ *             主属性攻击天赋不缩放；主属性穿透/加成天赋 ×MIN(主属性达标率,1)
+ */
+
+const num = (v) => (typeof v === 'number' ? v : 0);
+
+// 归一化：词条名/表行名 → 面板统计名
+const NORMALIZE = {
+  最小外功攻击: '最小外功', 最大外功攻击: '最大外功',
+  最小鸣金攻击: '最小鸣金', 最大鸣金攻击: '最大鸣金',
+  最小裂石攻击: '最小裂石', 最大裂石攻击: '最大裂石',
+  最小牵丝攻击: '最小牵丝', 最大牵丝攻击: '最大牵丝',
+  最小破竹攻击: '最小破竹', 最大破竹攻击: '最大破竹',
+  最小无相攻击: '最小无相', 最大无相攻击: '最大无相',
+  会心伤害加成: '会心伤害', 会意伤害加成: '会意伤害',
+  全武学增伤: '全武增', 首领单位增伤: '首领增', 奇术增伤: '奇术增',
+  对首领单位增伤: '首领增', 玩家单位增效: '对玩家单位增效',
+  对玩家单位增伤: '对玩家单位增效',
+  直议会心率: '直接会心率', 直议会意率: '直接会意率',
+};
+
+const WEAPON_TYPES = ['剑', '枪', '横刀', '陌刀', '伞', '扇', '绳镖', '双刀', '拳甲', '鼓'];
+
+function norm(name) {
+  name = String(name).trim();
+  return NORMALIZE[name] || name;
+}
+
+/** 三桶结构：fixed(固定层) / optional(弓玦+套装+心法+武库+天赋) / affix(装备词条) */
+function makeBuckets() {
+  return { fixed: {}, optional: {}, affix: {} };
+}
+
+function computePanel(input) {
+  const { version, build, gear = [], selections = {} } = input;
+  const warnings = [];
+  const C = version.constants;
+  const buckets = makeBuckets();
+  const weaponCats = { affix: {} };   // 武器增按类型分（只来自词条）
+  const dingyinRaw = {};              // 技能定音词条名 → 数值和（未除增益抗性）
+
+  const add = (bucket, stat, v) => {
+    buckets[bucket][stat] = num(buckets[bucket][stat]) + v;
+  };
+
+  // ---- 1. 固定层：六表求和 ----
+  for (const table of Object.values(version.fixed)) {
+    for (const [k, v] of Object.entries(table)) add('fixed', norm(k), num(v));
+  }
+
+  // ---- 2. 可选层选择 ----
+  const optSource = (table, name, label) => {
+    if (!name) return;
+    const rec = table[name];
+    if (!rec) { warnings.push(`未知的${label}: ${name}`); return; }
+    for (const [k, v] of Object.entries(rec)) add('optional', norm(k), num(v));
+  };
+  optSource(version.弓玦, selections.弓玦, '弓玦');
+  optSource(version.装备套装, selections.装备套装, '装备套装');
+  for (const x of selections.心法 || []) optSource(version.心法, x, '心法');
+  optSource(version.武库, selections.武库, '武库');
+
+  // ---- 3. 装备词条 ----
+  const affixRanges = (input.affixes && input.affixes.词条区间) || {};
+  for (const piece of gear) {
+    const list = [piece.初始, ...(piece.调律 || []), piece.定音].filter(Boolean);
+    for (const aff of list) {
+      const raw = norm(aff.属性);
+      const v = num(aff.数值);
+      // 承音上限校验（定音无承音惩罚）
+      if (piece.承音 && aff !== piece.定音) {
+        const range = affixRanges[raw] || affixRanges[aff.属性];
+        if (range && range.承音 != null && v > range.承音 + 1e-9) {
+          warnings.push(`承音装备词条超上限: ${piece.slot} ${aff.属性}=${v} > 承音值${range.承音}`);
+        }
+      }
+      if (raw === '全武增' || raw === '首领增' || raw === '奇术增' || raw === '对玩家单位增效') {
+        add('affix', raw, v);
+      } else if (raw === '武器增') {
+        add('affix', '武器增', v); // 无类型的武器增伤（理论不存在，兜底）
+      } else if (/武学增伤$/.test(raw) && WEAPON_TYPES.some((t) => raw.startsWith(t))) {
+        const type = raw.replace(/武学增伤$/, '');
+        weaponCats.affix[type] = num(weaponCats.affix[type]) + v;
+      } else if (/增伤$/.test(raw) || /增疗$/.test(raw)) {
+        // 护甲定音的指定技能增伤/增疗 → 技能定音（按词条名累计）
+        dingyinRaw[aff.属性] = num(dingyinRaw[aff.属性]) + v;
+      } else {
+        add('affix', raw, v);
+      }
+    }
+  }
+
+  // ---- 4. 武学天赋 ----
+  const talent = (version.武学天赋 && version.武学天赋[build.流派]) || null;
+  if (!talent) warnings.push(`武学天赋表缺少流派: ${build.流派}（按无天赋处理）`);
+
+  // 4a. 五维 final（纯求和）
+  const WUXU = ['体', '劲', '御', '敏', '势'];
+  const wuxuFinal = {};
+  for (const s of WUXU) {
+    wuxuFinal[s] = num(buckets.fixed[s]) + num(buckets.optional[s]) + num(buckets.affix[s]);
+  }
+
+  // 4b. 不缩放天赋：主属性攻击（最小/最大）
+  const talentScaled5 = [];    // 需要五维达标率缩放的天赋
+  let attrReqStat = null;
+  if (talent) {
+    for (const [k, v] of Object.entries(talent)) {
+      if (['五维要求', '五维要求数值', '属性要求', '属性要求数值'].includes(k)) continue;
+      const isMainAtk = /^最小(鸣金|裂石|牵丝|破竹)$/.test(k) || /^最大(鸣金|裂石|牵丝|破竹)$/.test(k);
+      const isWuxueScaled = ['会心率', '会意率', '最小外功', '最大外功'].includes(k);
+      if (isMainAtk) {
+        add('optional', k, num(v)); // 不缩放
+      } else if (isWuxueScaled) {
+        talentScaled5.push([k, num(v)]);
+      } else if (/穿透$|加成$/.test(k)) {
+        // 主属性穿透/加成天赋 → 延后按主属性达标率缩放
+      } else {
+        add('optional', k, num(v)); // 兜底：不缩放
+      }
+    }
+    attrReqStat = norm(talent['属性要求'] || '');
+  }
+
+  // 4c. 五维达标率
+  let ratio5 = 1;
+  if (talent && talent['五维要求']) {
+    const req = num(talent['五维要求数值']);
+    if (req > 0) ratio5 = Math.min(wuxuFinal[talent['五维要求']] / req, 1);
+  }
+  for (const [k, v] of talentScaled5) add('optional', k, v * ratio5);
+
+  // 4d. 主属性达标率（用含不缩放天赋的预最终值；缩放天赋不进攻击行，无循环）
+  let ratioMain = 1;
+  if (talent && attrReqStat) {
+    const pre = num(buckets.fixed[attrReqStat]) + num(buckets.optional[attrReqStat]) + num(buckets.affix[attrReqStat]);
+    const req = num(talent['属性要求数值']);
+    if (req > 0) ratioMain = Math.min(pre / req, 1);
+    if (/^最小(鸣金|裂石|牵丝|破竹)$/.test(attrReqStat)) {
+      const penKey = attrReqStat.replace(/^最小/, '') + '穿透';
+      const dmgKey = attrReqStat.replace(/^最小/, '') + '加成';
+      if (talent[penKey] != null) add('optional', penKey, num(talent[penKey]) * ratioMain);
+      if (talent[dmgKey] != null) add('optional', dmgKey, num(talent[dmgKey]) * ratioMain);
+    } else if (/^最大(鸣金|裂石|牵丝|破竹)$/.test(attrReqStat)) {
+      const elem = attrReqStat.replace(/^最大/, '');
+      if (talent[elem + '穿透'] != null) add('optional', elem + '穿透', num(talent[elem + '穿透']) * ratioMain);
+      if (talent[elem + '加成'] != null) add('optional', elem + '加成', num(talent[elem + '加成']) * ratioMain);
+    }
+  }
+
+  // ---- 5. 最终转换 ----
+  const total = (stat) => num(buckets.fixed[stat]) + num(buckets.optional[stat]) + num(buckets.affix[stat]);
+  const stats = {};
+  for (const s of WUXU) stats[s] = wuxuFinal[s];
+
+  // 精准率/会心率/会意率（判定抗性）
+  const jk = 1 + C['判定抗性'];
+  const precisionRaw = total('精准率');
+  stats['精准率'] = C['精准率基线'] + (precisionRaw - C['精准率基线']) / jk;
+  const critContrib = num(version['五维贡献']['会心率']['敏']);
+  const insightContrib = num(version['五维贡献']['会意率']['势']);
+  stats['会心率'] = (total('会心率') + wuxuFinal['敏'] * critContrib) / jk;
+  stats['会意率'] = (total('会意率') + wuxuFinal['势'] * insightContrib) / jk;
+
+  // 攻击（五维贡献）
+  stats['最小外功'] = total('最小外功') + wuxuFinal['劲'] * num(version['五维贡献']['最小外功']['劲'])
+    + wuxuFinal['敏'] * num(version['五维贡献']['最小外功']['敏']);
+  stats['最大外功'] = total('最大外功') + wuxuFinal['劲'] * num(version['五维贡献']['最大外功']['劲'])
+    + wuxuFinal['势'] * num(version['五维贡献']['最大外功']['势']);
+
+  // 属性攻击/无相：纯求和
+  for (const s of ['最小鸣金', '最大鸣金', '最小裂石', '最大裂石', '最小牵丝', '最大牵丝',
+    '最小破竹', '最大破竹', '最小无相', '最大无相']) {
+    stats[s] = total(s);
+  }
+
+  // 外功穿透（词条部分除增益抗性，其余不除）
+  stats['外功穿透'] = num(buckets.fixed['外功穿透'])
+    + num(buckets.affix['外功穿透']) / (1 + C['增益抗性'])
+    + num(buckets.optional['外功穿透']);
+
+  // 增益类：全额除增益抗性
+  for (const s of ['全武增', '首领增', '奇术增']) {
+    stats[s] = total(s) / (1 + C['增益抗性']);
+  }
+  // 武器增按类型除增益抗性（标量行弃用，恒为0，真实值在返回的 武器增 对象里）
+  const weaponFinal = {};
+  for (const [type, v] of Object.entries(weaponCats.affix)) {
+    weaponFinal[type] = v / (1 + C['增益抗性']);
+  }
+  stats['武器增'] = 0;
+  // 技能定音：按词条名分别求和后统一除增益抗性
+  const dingyinFinal = {};
+  let dingyinTotal = 0;
+  for (const [name, v] of Object.entries(dingyinRaw)) {
+    const fin = v / (1 + C['增益抗性']);
+    dingyinFinal[name] = fin;
+    dingyinTotal += fin;
+  }
+  stats['技能定音'] = dingyinTotal;
+
+  // 其余纯求和
+  for (const s of ['会心伤害', '会意伤害', '直接会心率', '直接会意率',
+    '鸣金穿透', '鸣金加成', '裂石穿透', '裂石加成', '牵丝穿透', '牵丝加成',
+    '破竹穿透', '破竹加成', '无相穿透', '外功伤害加成', '外功治疗加成',
+    '外功抗性', '外功防御', '外功伤害减免', '气血最大值', '鸣金伤害加成',
+    '对玩家单位增效']) {
+    stats[s] = total(s);
+  }
+
+  return {
+    stats,
+    武器增: weaponFinal,
+    技能定音: dingyinFinal,
+    五维达标率: ratio5,
+    主属性达标率: ratioMain,
+    warnings,
+  };
+}
+
+/**
+ * 最终面板 → dps.js 的 panel 覆盖对象
+ * @param panelResult computePanel 的返回
+ * @param build       { 流派, 主属性 }（主属性如 '破竹'，可由武学天赋属性要求推导）
+ * @param dingyinMap  护甲定音词条名 → DPS定音类型（如 {'粟子游尘鼠鼠增伤':'老鼠'}）
+ */
+function toDpsPanel(panelResult, build, dingyinMap = {}) {
+  const S = panelResult.stats;
+  const main = build.主属性;
+  const key = { 鸣金: 'mingjin', 裂石: 'lieshi', 牵丝: 'qiansi', 破竹: 'pozhu' }[main];
+  if (!key) throw new Error(`未知主属性: ${main}`);
+
+  const dinyin = {};
+  for (const [name, v] of Object.entries(panelResult.技能定音)) {
+    const type = dingyinMap[name];
+    if (type) dinyin[type] = num(dinyin[type]) + v;
+    else dinyin[name] = v; // 未映射时保留原名，DPS 引擎查不到即视为 0
+  }
+
+  const cats = { ...panelResult.武器增 };
+  cats['单体奇术'] = S['奇术增'];
+  cats['群体奇术'] = S['奇术增'];
+
+  return {
+    base: {
+      external: { min: S['最小外功'], max: S['最大外功'] },
+      [key]: { min: S['最小' + main], max: S['最大' + main] },
+      wuxiang: { min: S['最小无相'], max: S['最大无相'] },
+    },
+    pen: {
+      external: { pen: S['外功穿透'], dmg: S['外功伤害加成'] },
+      [key]: { pen: S[main + '穿透'], dmg: S[main + '加成'] },
+    },
+    rates: {
+      precise: S['精准率'], crit: S['会心率'], insight: S['会意率'],
+      directCrit: S['直接会心率'], directInsight: S['直接会意率'],
+      critDmg: S['会心伤害'], insightDmg: S['会意伤害'],
+    },
+    bonuses: { allWeapon: S['全武增'], boss: S['首领增'], cats },
+    dinyin,
+  };
+}
+
+module.exports = { computePanel, toDpsPanel };
