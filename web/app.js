@@ -50,12 +50,13 @@ async function fetchJson(url) {
 }
 
 async function loadBuildData(buildId) {
-  const [build, skills, effects] = await Promise.all([
+  const [build, skillsJson, effectsJson] = await Promise.all([
     fetchJson(`/data/${buildId}.json`),
     fetchJson(`/data/${buildId}.skills.json`),
     fetchJson(`/data/${buildId}.effects.json`),
   ]);
-  return { build, skills, effects };
+  // 注意解包：skills.json/effects.json 顶层含 _source 等元数据，数据在 .skills/.effects
+  return { build, skills: skillsJson.skills, effects: effectsJson.effects };
 }
 
 // ---------- 词条池 ----------
@@ -365,7 +366,7 @@ function compute() {
       ['直接会意率', pct(pr.stats['直接会意率'])],
       ['会心伤害', pct(pr.stats['会心伤害'])],
       ['会意伤害', pct(pr.stats['会意伤害'])],
-      ['五维 体/劲/御/敏/势', ['体', '劲', '御', '敏', '势'].map((s) => pr.stats[s]).join(' / ')],
+      ['五维 体/劲/御/敏/势', ['体', '劲', '御', '敏', '势'].map((s) => pr.stats[s].toFixed(1)).join(' / ')],
       ['五维达标率', pct(pr.五维达标率)],
       ['主属性达标率', pct(pr.主属性达标率)],
       ['气血最大值', pr.stats['气血最大值']],
@@ -384,7 +385,7 @@ function compute() {
         <details><summary>全部面板属性</summary>
           <div class="stat-grid" style="margin-top:8px">
             ${Object.entries(pr.stats).filter(([, v]) => typeof v === 'number')
-              .map(([k, v]) => `<div><span>${k}</span><span>${/率$/.test(k) ? pct(v) : (+v.toFixed(4)).toString()}</span></div>`).join('')}
+              .map(([k, v]) => `<div><span>${k}</span><span>${/率$|增$|增效$|定音$|加成$|伤害$|减免$/.test(k) ? pct(v) : (+v.toFixed(4)).toString()}</span></div>`).join('')}
           </div>
         </details>
       </div>`;

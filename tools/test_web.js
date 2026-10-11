@@ -95,6 +95,11 @@ assert.ok(resultsHtml.includes('DPS'), '结果缺少 DPS');
 assert.ok(resultsHtml.includes('毕业率'), '结果缺少毕业率');
 assert.ok(resultsHtml.includes('精准率'), '结果缺少精准率');
 assert.ok(!resultsHtml.includes('计算出错'), `计算出错: ${resultsHtml.slice(0, 300)}`);
+// 回归：skills/effects 必须正确解包，DPS 不得为 0（曾因整包未解包全事件零倍率）
+const dpsMatch = resultsHtml.match(/dps-big">([\d.]+)/);
+assert.ok(dpsMatch && parseFloat(dpsMatch[1]) > 0, `DPS 应大于 0（skills/effects 解包回归），实际=${dpsMatch ? dpsMatch[1] : '无'}`);
+// 面板关键值抽查（空装备=固定层+默认选区）
+assert.ok(resultsHtml.includes('精准率'), '面板关键值缺失');
 
 console.log('UI 冒烟测试通过：初始化/渲染/计算 全链路 OK');
 console.log('  (DPS 为空装备默认面板值，属预期)');
