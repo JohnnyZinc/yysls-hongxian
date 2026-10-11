@@ -28,7 +28,10 @@ createServer(async (req, res) => {
     const safe = normalize(pathname).split(sep).filter((p) => p !== '..').join(sep);
     const file = join(root, safe);
     const data = await readFile(file);
-    res.writeHead(200, { 'Content-Type': MIME[extname(file).toLowerCase()] || 'application/octet-stream' });
+    res.writeHead(200, {
+      'Content-Type': MIME[extname(file).toLowerCase()] || 'application/octet-stream',
+      'Cache-Control': 'no-store',
+    });
     res.end(data);
   } catch {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });

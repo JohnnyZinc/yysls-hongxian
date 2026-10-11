@@ -16,6 +16,19 @@
     </div>
   </header>
   <main id="app"><p class="muted">加载中…</p></main>
-  <script type="module" src="./app.js"></script>
+  <div id="boot-status" class="muted" style="margin-top:10px">① 页面已加载；② 脚本加载中…</div>
+  <script>
+    window.__bootStatus = function (text, cls) {
+      var el = document.getElementById('boot-status');
+      if (el) { el.textContent = text; el.style.color = cls === 'err' ? '#ff7676' : ''; }
+    };
+    window.addEventListener('error', function (e) {
+      __bootStatus('脚本错误: ' + (e.message || e.type) + (e.filename ? ' @' + e.filename + ':' + e.lineno : ''), 'err');
+    });
+    window.addEventListener('unhandledrejection', function (e) {
+      __bootStatus('异步错误: ' + String(e.reason), 'err');
+    });
+  </script>
+  <script type="module" src="./app.js?v=3"></script>
 </body>
 </html>

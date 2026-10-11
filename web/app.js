@@ -37,6 +37,10 @@ const state = {
 const $ = (sel) => document.querySelector(sel);
 const app = $('#app');
 
+/* 启动诊断：让每一步在页面上可见，任何失败都有具体提示 */
+const boot = (text, cls) => window.__bootStatus && window.__bootStatus(text, cls);
+boot('② 引擎模块已加载，拉取数据中…');
+
 // ---------- 数据加载 ----------
 
 async function fetchJson(url) {
@@ -348,6 +352,7 @@ async function init() {
   state.version = await fetchJson('/data/version/nanlvxianghe-shang.115.json');
   state.affixes = await fetchJson('/data/version/affixes-115.json');
   state.dingyinMap = await fetchJson('/data/version/dingyin-map.json');
+  boot('③ 数据已加载，初始化界面中…');
 
   // 恢复上次输入
   try {
@@ -372,6 +377,7 @@ async function init() {
 
 async function switchBuild(buildId) {
   state.buildId = buildId;
+  boot('④ 拉取流派数据中…');
   state.data = await loadBuildData(buildId);
   const b = state.data.build;
   $('#build-meta').textContent =
@@ -383,6 +389,7 @@ async function switchBuild(buildId) {
   state.selections.武库 = b.selectors.weapon_attribute;
   save();
   render();
+  boot('✓ 就绪');
 }
 
 init().catch((err) => {
