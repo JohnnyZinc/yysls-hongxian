@@ -117,9 +117,10 @@ function escapeHtml(s) {
 }
 
 function affixRowHtml(kind, index, piece, slot) {
-  const aff = piece[kind === '调律' ? '调律' : kind][kind === '调律' ? index : 0];
+  const isLaw = kind === '调律';
+  const aff = isLaw ? (piece.调律[index] || { 属性: '', 数值: null }) : piece[kind];
   const pool = kind === '初始' ? initialPool(slot)
-    : kind === '调律' ? lawPool(slot, piece.weaponType)
+    : isLaw ? lawPool(slot, piece.weaponType)
       : dingyinPool(slot);
   const name = aff.属性 || '';
   const pct = isPercentAffix(name);
@@ -323,6 +324,22 @@ function compute() {
   } catch (err) {
     box.innerHTML = `<div class="results"><ul class="warnings"><li>计算出错：${escapeHtml(err.message)}</li></ul></div>`;
   }
+}
+
+// ---------- 全局错误可见化 + file:// 检测 ----------
+
+function showError(title, detail) {
+  const box = $('#results') || app;
+  box.innerHTML = `<div class="results"><ul class="warnings"><li><b>${escapeHtml(title)}</b></li><li>${escapeHtml(detail)}</li></ul></div>`;
+}
+
+window.addEventListener('error', (e) => showError('脚本错误', e.message));
+window.addEventListener('unhandledrejection', (e) => showError('异步错误', String(e.reason)));
+
+if (location.protocol === 'file:') {
+  document.addEventListener('DOMContentLoaded', () => {
+    showError('打开方式错误', '本页面需要通过本地服务器打开：请访问 http://127.0.0.1:4173/ （在工作区根目录运行 node tools/serve.js 启动）');
+  });
 }
 
 // ---------- 启动 ----------
