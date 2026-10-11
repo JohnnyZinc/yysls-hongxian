@@ -60,6 +60,14 @@ for (const slot of ['左武器', '右武器', '环', '佩', '冠胄', '胸甲', 
 for (const key of ['弓玦', '装备套装', '武库', '心法1', '计算面板与 DPS']) {
   assert.ok(appHtml.includes(key), `页面缺少 ${key}`);
 }
+// 回归：武器调律下拉必须同时含指定武学增伤与普通词条（曾因池键名不匹配只剩前者）
+assert.ok(appHtml.includes('双刀武学增伤'), '武器调律下拉缺少指定武学增伤');
+assert.ok(appHtml.includes('最小外功攻击'), '武器调律下拉缺少普通词条');
+// 弓玦标注三率
+assert.ok(appHtml.includes('饮羽（精准率）'), '弓玦选项未标注提供的三率');
+// 区间提示并入数值框 placeholder，不再单独占行
+assert.ok(appHtml.includes('placeholder='), '数值框缺少区间 placeholder');
+assert.ok(!appHtml.includes('class="hint"'), '区间提示不应单独成行');
 
 // ---- 触发计算 ----
 const calcBtn = document.querySelector('#btn-calc');

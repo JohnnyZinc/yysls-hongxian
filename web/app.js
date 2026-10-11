@@ -70,9 +70,9 @@ function initialPool(slot) {
 function lawPool(slot, weaponType) {
   const pools = state.affixes.词条池['调律词条池'];
   if (isWeaponSlot(slot)) {
-    const base = [...(pools['武器'] || [])];
+    const base = [...(pools['武器'] || pools['武器的调律词条池'] || [])];
     const spec = `${weaponType}武学增伤`;
-    if ((pools['指定武学增伤包括'] || []).includes(spec)) base.push(spec);
+    if ((pools['指定武学增伤'] || pools['指定武学增伤包括'] || []).includes(spec)) base.push(spec);
     return base;
   }
   const key = slot === '冠胄' || slot === '胸甲' ? '冠胄和胸甲的调律词条池'
@@ -88,22 +88,27 @@ function dingyinPool(slot) {
   return state.affixes.护甲定音词条 || [];
 }
 
-/** 百分比词条输入按"百分点"录入（如 10.6 = 10.6%），绝对值词条直接录 */
-function isPercentAffix(name) {
-  if (!name) return false;
-  const r1 = state.affixes.词条区间[name];
-  if (r1 && r1.max != null) return r1.max <= 1;
-  const r2 = state.affixes.定音区间[name];
-  if (r2 && r2.max != null) return r2.max <= 1;
-  return /率$|增伤$|增效$|增疗$/.test(name);
+/** 查词条数值区间（decimal），无则 null */
+function rangeOf(name) {
+  if (!name) return null;
+  return state.affixes.词条区间[name] || state.affixes.定音区间[name] || null;
 }
 
-function rangeHint(name) {
-  const r = state.affixes.词条区间[name] || state.affixes.定音区间[name];
+/** 百分比词条输入按"百分点"录入（如 10.6 = 10.6%），绝对值词条直接录 */
+function isPercentAffix(name) {
+  const r = rangeOf(name);
+  if (r && r.max != null) return r.max <= 1;
+  return /率$|增伤$|增效$|增疗$/.test(name || '');
+}
+
+/** 数值框 placeholder：区间（承音勾选时显示承音上限） */
+function placeholderFor(name, isChengyin) {
+  const r = rangeOf(name);
   if (!r || r.max == null) return '';
-  const unit = r.max <= 1 ? '%' : '';
-  const fmt = (x) => (r.max <= 1 ? (x * 100).toFixed(x * 100 % 1 ? 2 : 1) : x);
-  return `区间 ${fmt(r.min)}~${fmt(r.max)}${unit}${r.承音 != null ? ` · 承音 ${fmt(r.承音)}` : ''}`;
+  const pct = r.max <= 1;
+  const fmt = (x) => (pct ? +(x * 100).toFixed(4) : x);
+  if (isChengyin && r.承音 != null) return `承音≤${fmt(r.承音)}`;
+  return `${fmt(r.min)}~${fmt(r.max)}`;
 }
 
 // ---------- 渲染 ----------
@@ -128,16 +133,16 @@ function affixRowHtml(kind, index, piece, slot) {
       : dingyinPool(slot);
   const name = aff.属性 || '';
   const pct = isPercentAffix(name);
+  const locked = piece.承音 && kind !== '定音'; // 承音锁定非定音词条数值
   const val = aff.数值 == null ? '' : (pct ? +(aff.数值 * 100).toFixed(4) : aff.数值);
-  const id = `${slot}-${kind}-${index}`;
+  const ph = placeholderFor(name, piece.承音 && kind !== '定音');
   return `
     <div class="affix-row">
-      <span class="tag">${kind === '调律' ? '调律' + (index + 1) : kind}</span>
+      <span class="tag">${isLaw ? '调律' + (index + 1) : kind}</span>
       <select data-slot="${slot}" data-kind="${kind}" data-idx="${index}" data-field="属性">${optionList(pool, name)}</select>
-      <input type="number" step="any" data-slot="${slot}" data-kind="${kind}" data-idx="${index}" data-field="数值" value="${val}">
+      <input type="number" step="any" data-slot="${slot}" data-kind="${kind}" data-idx="${index}" data-field="数值" value="${val}" placeholder="${escapeHtml(ph)}" ${locked ? 'disabled' : ''} title="${escapeHtml(ph)}">
       <span class="unit">${pct ? '%' : ''}</span>
-    </div>
-    <div class="hint">${name ? rangeHint(name) : ''}</div>`;
+    </div>`;
 }
 
 function gearCardHtml(slot, index) {
@@ -161,10 +166,16 @@ function render() {
   const v = state.version;
   const b = state.data ? state.data.build : null;
   const main = b ? b.selectors.weapon_attribute : '';
+  // 弓玦标注提供三率中的哪一个（如 饮羽（精准率））
+  const gongjueLabel = (n) => {
+    const rec = v.弓玦[n] || {};
+    const stat = Object.keys(rec).find((k) => /率$/.test(k));
+    return stat ? `${n}（${stat}）` : n;
+  };
   app.innerHTML = `
     <h2>可选层</h2>
     <div class="row">
-      <label>弓玦</label><select id="sel-gongjue">${optionList(Object.keys(v.弓玦), state.selections.弓玦)}</select>
+      <label>弓玦</label><select id="sel-gongjue">${optionList(Object.keys(v.弓玦), state.selections.弓玦, gongjueLabel)}</select>
       <label>装备套装</label><select id="sel-set">${optionList(Object.keys(v.装备套装), state.selections.装备套装)}</select>
       <label>武库</label><select id="sel-arsenal">${optionList(Object.keys(v.武库), state.selections.武库)}</select>
       ${[0, 1, 2, 3].map((i) => `<label>心法${i + 1}</label><select id="sel-xinfa-${i}">${optionList(Object.keys(v.心法), state.selections.心法[i])}</select>`).join('')}
@@ -174,7 +185,7 @@ function render() {
     <div class="row" style="margin-top:14px">
       <button id="btn-calc">计算面板与 DPS</button>
       <button id="btn-clear" style="background:var(--line)">清空装备</button>
-      <span class="muted">百分比词条按"数值+百分号"录入（如 14.4 表示 14.4%）；区间提示中的"承音"为承音装备的数值上限</span>
+      <span class="muted">选词条自动填最大值；百分比词条按"数值=百分号数值"录入（如 14.4 表示 14.4%）；勾选承音后词条自动设为承音值并锁定（定音词条不受承音限制）</span>
     </div>
     <div id="results"></div>`;
   bindEvents();
@@ -202,9 +213,15 @@ function bindEvents() {
       const target = kind === '调律' ? piece.调律[+idx] : piece[kind];
       if (field === '属性') {
         target.属性 = e.target.value;
-        target.数值 = null; // 换词条清空数值
+        // 选词条自动填最大值；承音状态下填承音值
+        const r = rangeOf(target.属性);
+        if (r && r.max != null) {
+          target.数值 = (piece.承音 && kind !== '定音' && r.承音 != null) ? r.承音 : r.max;
+        } else {
+          target.数值 = null;
+        }
         save();
-        renderCard(slot);   // 刷新单位与区间提示
+        renderCard(slot);
       } else {
         const pct = isPercentAffix(target.属性);
         target.数值 = e.target.value === '' ? null : pct ? +e.target.value / 100 : +e.target.value;
@@ -225,7 +242,24 @@ function bindEvents() {
     };
   }
   for (const el of app.querySelectorAll('[data-chengyin]')) {
-    el.onchange = (e) => { state.gear[+e.target.dataset.chengyin].承音 = e.target.checked; save(); };
+    el.onchange = (e) => {
+      const i = +e.target.dataset.chengyin;
+      const piece = state.gear[i];
+      piece.承音 = e.target.checked;
+      if (piece.承音) {
+        // 勾选承音：非定音词条数值自动设为承音值并锁定（定音无承音惩罚，不动）
+        const snap = (a) => {
+          if (!a || !a.属性) return;
+          const r = rangeOf(a.属性);
+          if (r && r.承音 != null) a.数值 = r.承音;
+        };
+        snap(piece.初始);
+        piece.调律.forEach(snap);
+      }
+      // 取消勾选：数值保持不变，恢复可编辑
+      save();
+      renderCard(SLOTS[i]);
+    };
   }
   $('#btn-calc').onclick = compute;
   $('#btn-clear').onclick = () => {
