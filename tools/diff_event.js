@@ -6,8 +6,9 @@
  * 前置: 已用 dump_excel_rows.py 导出 data/debug/<prefix>/row{N}.json
  */
 
-const fs = require('fs');
-const { loadBuild, calcDPS } = require('../engine/dps.js');
+import fs from 'node:fs';
+import { calcDPS } from '../engine/dps.js';
+import { loadBuild } from './load-build.js';
 
 const prefix = process.argv[2];
 const rows = process.argv.slice(3).map(Number);

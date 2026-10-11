@@ -11,8 +11,8 @@
  *   等级+35%/+20%，Excel v0.1 没有这两项，故对比时对这两项加回。
  */
 
-const fs = require('fs');
-const { computePanel } = require('../engine/panel.js');
+import fs from 'node:fs';
+import { computePanel } from '../engine/panel.js';
 
 const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
 const expected = JSON.parse(fs.readFileSync('data/debug/panel-v01-expected.json', 'utf-8'));

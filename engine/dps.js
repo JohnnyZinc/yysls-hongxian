@@ -11,20 +11,18 @@
  *   skills  = {build}.skills.json  武学/奇术表（倍率、固伤、标记、定音、真气）
  *   effects = {build}.effects.json 增益表（各乘区加成）
  *
- * 用法：
- *   const { loadBuild, calcDPS } = require('./engine/dps.js');
- *   const ctx = loadBuild('data/pozhufeng.115.3.2');
- *   const r = calcDPS(ctx);                       // 作者默认面板
- *   const r2 = calcDPS(ctx, { panel: {...} });    // 覆盖部分面板（装备对比）
- *   const r3 = calcDPS(ctx, { debug: true });     // 返回逐事件明细
+ * 用法（纯函数，Node 与浏览器通用）：
+ *   import { calcDPS } from './engine/dps.js';
+ *   const r = calcDPS({ build, skills, effects });   // build=流派JSON对象
+ *   const r2 = calcDPS(ctx, { panel: {...} });       // 覆盖部分面板（装备对比）
+ *   const r3 = calcDPS(ctx, { debug: true });        // 返回逐事件明细
+ *   （Node 侧读文件用 tools/load-build.js 的 loadBuild）
  *
  * 已知取舍（原型阶段）：
  *   - 只使用作者默认配置（心法选择、团队增益勾选），效果数值取 Excel 缓存值；
  *     面板输入（含全武增/首领增/类别增伤）已全部面板驱动，换装备即改 panel
  *   - 套装攻击乘数为提取时解析的生效值（如 倾觞×1.05），存于 build.set_attack_multiplier
  */
-
-const fs = require('fs');
 
 const num = (v) => (typeof v === 'number' ? v : 0);
 
@@ -57,16 +55,6 @@ function aggregateEffects(names, effectsById) {
     }
   }
   return agg;
-}
-
-/** 加载一个流派的 build/skills/effects 三件套 */
-function loadBuild(prefix) {
-  const read = (suffix) => JSON.parse(fs.readFileSync(prefix + suffix, 'utf-8'));
-  return {
-    build: read('.json'),
-    skills: read('.skills.json').skills,
-    effects: read('.effects.json').effects,
-  };
 }
 
 /** 从 build JSON 组装作者默认面板（Excel 输入区的缓存值） */
@@ -347,4 +335,4 @@ function calcDPS(ctx, options = {}) {
   return result;
 }
 
-module.exports = { calcDPS, loadBuild, makePanel, aggregateEffects, EFFECT_FIELDS };
+export { calcDPS, makePanel, aggregateEffects, EFFECT_FIELDS };

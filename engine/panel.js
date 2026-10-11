@@ -85,27 +85,39 @@ function computePanel(input) {
   // ---- 3. 装备词条 ----
   const affixRanges = (input.affixes && input.affixes.词条区间) || {};
   for (const piece of gear) {
-    const list = [piece.初始, ...(piece.调律 || []), piece.定音].filter(Boolean);
-    for (const aff of list) {
+    if (!piece) continue;
+    const slot = piece.slot || '';
+    const isArmorDing = !['左武器', '右武器', '环', '佩'].includes(slot);
+    const list = [
+      ['初始', piece.初始],
+      ['调律1', piece.调律 ? piece.调律[0] : null],
+      ['调律2', piece.调律 ? piece.调律[1] : null],
+      ['调律3', piece.调律 ? piece.调律[2] : null],
+      ['调律4', piece.调律 ? piece.调律[3] : null],
+      ['定音', piece.定音],
+    ];
+    for (const [kind, aff] of list) {
+      if (!aff || !aff.属性 || typeof aff.数值 !== 'number') continue;
       const raw = norm(aff.属性);
-      const v = num(aff.数值);
+      const v = aff.数值;
       // 承音上限校验（定音无承音惩罚）
-      if (piece.承音 && aff !== piece.定音) {
+      if (piece.承音 && kind !== '定音') {
         const range = affixRanges[raw] || affixRanges[aff.属性];
         if (range && range.承音 != null && v > range.承音 + 1e-9) {
-          warnings.push(`承音装备词条超上限: ${piece.slot} ${aff.属性}=${v} > 承音值${range.承音}`);
+          warnings.push(`承音装备词条超上限: ${slot} ${aff.属性}=${v} > 承音值${range.承音}`);
         }
+      }
+      // 护甲定音的技能增伤/增疗（含护盾增效等）→ 技能定音，按词条名累计
+      if (kind === '定音' && isArmorDing
+          && !['外功穿透', '无相穿透', '外功抗性'].includes(raw)) {
+        dingyinRaw[aff.属性] = num(dingyinRaw[aff.属性]) + v;
+        continue;
       }
       if (raw === '全武增' || raw === '首领增' || raw === '奇术增' || raw === '对玩家单位增效') {
         add('affix', raw, v);
-      } else if (raw === '武器增') {
-        add('affix', '武器增', v); // 无类型的武器增伤（理论不存在，兜底）
       } else if (/武学增伤$/.test(raw) && WEAPON_TYPES.some((t) => raw.startsWith(t))) {
         const type = raw.replace(/武学增伤$/, '');
         weaponCats.affix[type] = num(weaponCats.affix[type]) + v;
-      } else if (/增伤$/.test(raw) || /增疗$/.test(raw)) {
-        // 护甲定音的指定技能增伤/增疗 → 技能定音（按词条名累计）
-        dingyinRaw[aff.属性] = num(dingyinRaw[aff.属性]) + v;
       } else {
         add('affix', raw, v);
       }
@@ -283,4 +295,4 @@ function toDpsPanel(panelResult, build, dingyinMap = {}) {
   };
 }
 
-module.exports = { computePanel, toDpsPanel };
+export { computePanel, toDpsPanel };

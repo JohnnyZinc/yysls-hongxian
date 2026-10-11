@@ -1,0 +1,10 @@
+{
+  "name": "yysls-gear-tool",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tools/test_dps.js && node tools/test_panel.js",
+    "serve": "node tools/serve.js"
+  }
+}

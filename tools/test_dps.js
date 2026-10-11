@@ -10,8 +10,8 @@
  * 运行： node tools/test_dps.js
  */
 
-const path = require('path');
-const { loadBuild, calcDPS } = require('../engine/dps.js');
+import { calcDPS } from '../engine/dps.js';
+import { loadBuild } from './load-build.js';
 
 const BUILDS = [
   ['data/pozhufeng.115.3.2', '破竹风'],
