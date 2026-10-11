@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>燕云装备面板验证台</title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="/web/style.css">
 </head>
 <body>
   <header>
@@ -23,12 +23,17 @@
       if (el) { el.textContent = text; el.style.color = cls === 'err' ? '#ff7676' : ''; }
     };
     window.addEventListener('error', function (e) {
-      __bootStatus('脚本错误: ' + (e.message || e.type) + (e.filename ? ' @' + e.filename + ':' + e.lineno : ''), 'err');
-    });
+      // capture=true：同时捕获资源加载失败（如脚本/样式404）
+      if (e.target && e.target !== window && (e.target.src || e.target.href)) {
+        __bootStatus('资源加载失败(404?): ' + (e.target.src || e.target.href), 'err');
+      } else {
+        __bootStatus('脚本错误: ' + (e.message || e.type) + (e.filename ? ' @' + e.filename + ':' + e.lineno : ''), 'err');
+      }
+    }, true);
     window.addEventListener('unhandledrejection', function (e) {
       __bootStatus('异步错误: ' + String(e.reason), 'err');
     });
   </script>
-  <script type="module" src="./app.js?v=3"></script>
+  <script type="module" src="/web/app.js?v=3"></script>
 </body>
 </html>

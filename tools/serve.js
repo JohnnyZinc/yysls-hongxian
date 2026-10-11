@@ -24,7 +24,12 @@ const MIME = {
 createServer(async (req, res) => {
   try {
     let pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
-    if (pathname === '/') pathname = '/web/index.html';
+    // 根路径重定向到 /web/index.html：保证相对资源路径（./style.css 等）解析正确
+    if (pathname === '/' || pathname === '/web/' || pathname === '/web') {
+      res.writeHead(302, { Location: '/web/index.html' });
+      res.end();
+      return;
+    }
     const safe = normalize(pathname).split(sep).filter((p) => p !== '..').join(sep);
     const file = join(root, safe);
     const data = await readFile(file);
@@ -37,6 +42,13 @@ createServer(async (req, res) => {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('404 not found');
   }
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`端口 ${port} 已被占用：可能已有验证台在运行，直接访问 http://127.0.0.1:${port}/web/index.html 即可`);
+  } else {
+    console.error(`服务器错误: ${err.message}`);
+  }
+  process.exit(1);
 }).listen(port, '127.0.0.1', () => {
-  console.log(`验证台: http://127.0.0.1:${port}/  (根目录: ${root})`);
+  console.log(`验证台: http://127.0.0.1:${port}/web/index.html  (根目录: ${root})`);
 });
