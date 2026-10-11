@@ -90,8 +90,37 @@ function dingyinPool(slot) {
 
 /** 查词条数值区间（decimal），无则 null */
 function rangeOf(name) {
+  return lookupRange(state.affixes, name);
+}
+
+/** 词条别名：池内词条名 → 区间表行名 */
+const RANGE_ALIAS = {
+  全奇术增伤: '奇术增伤',
+  对首领单位增伤: '首领单位增伤',
+  对玩家单位增伤: '玩家单位增效',
+  对玩家单位增效: '玩家单位增效',
+};
+
+/**
+ * 词条名 → 数值区间（纯函数，供UI与测试共用）
+ * 覆盖：区间表精确名 / 定音区间 / 指定武学增伤→'武器增伤' /
+ *       护甲定音55条→'技能定音' / 别名表；无数据返回 null
+ */
+function lookupRange(affixData, name) {
   if (!name) return null;
-  return state.affixes.词条区间[name] || state.affixes.定音区间[name] || null;
+  const A = affixData.词条区间 || {};
+  const D = affixData.定音区间 || {};
+  if (A[name]) return A[name];
+  if (D[name]) return D[name];
+  if (/武学增伤$/.test(name) && name !== '全武学增伤'
+      && WEAPON_TYPES.some((t) => name.startsWith(t))) {
+    return A['武器增伤'] || null; // 各武器指定武学增伤共用'武器增伤'区间
+  }
+  if (Array.isArray(affixData.护甲定音词条) && affixData.护甲定音词条.includes(name)) {
+    return D['技能定音'] || null; // 护甲定音技能增伤/增疗共用'技能定音'区间
+  }
+  if (RANGE_ALIAS[name]) return A[RANGE_ALIAS[name]] || null;
+  return null;
 }
 
 /** 百分比词条输入按"百分点"录入（如 10.6 = 10.6%），绝对值词条直接录 */
@@ -101,10 +130,10 @@ function isPercentAffix(name) {
   return /率$|增伤$|增效$|增疗$/.test(name || '');
 }
 
-/** 数值框 placeholder：区间（承音勾选时显示承音上限） */
+/** 数值框 placeholder：区间（承音勾选时显示承音上限）；无区间数据显示待补 */
 function placeholderFor(name, isChengyin) {
   const r = rangeOf(name);
-  if (!r || r.max == null) return '';
+  if (!r || r.max == null) return name ? '区间待补' : '';
   const pct = r.max <= 1;
   const fmt = (x) => (pct ? +(x * 100).toFixed(4) : x);
   if (isChengyin && r.承音 != null) return `承音≤${fmt(r.承音)}`;
@@ -429,3 +458,6 @@ async function switchBuild(buildId) {
 init().catch((err) => {
   app.innerHTML = `<p style="color:var(--warn)">初始化失败：${escapeHtml(err.message)}</p>`;
 });
+
+// 供无头测试复用（lookupRange 为纯函数）
+export { lookupRange };

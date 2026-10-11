@@ -45,7 +45,7 @@ globalThis.fetch = async (url) => {
 };
 
 // ---- 跑真实的 app.js ----
-await import('../web/app.js');
+const appMod = await import('../web/app.js');
 await new Promise((r) => setTimeout(r, 200)); // 等 init() 完成
 
 const selHtml = document.querySelector('#build-select').innerHTML;
@@ -68,6 +68,21 @@ assert.ok(appHtml.includes('饮羽（精准率）'), '弓玦选项未标注提�
 // 区间提示并入数值框 placeholder，不再单独占行
 assert.ok(appHtml.includes('placeholder='), '数值框缺少区间 placeholder');
 assert.ok(!appHtml.includes('class="hint"'), '区间提示不应单独成行');
+
+// ---- lookupRange：词条名→区间 的完整覆盖回归 ----
+const A = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
+const lr = (n) => appMod.lookupRange(A, n);
+assert.ok(lr('最大外功攻击').max === 139.6, '普通词条区间查找失败');
+assert.ok(lr('双刀武学增伤').max === 0.113, '指定武学增伤应映射到武器增伤区间');
+assert.ok(lr('伞武学增伤').max === 0.113, '指定武学增伤(伞)应映射到武器增伤区间');
+assert.ok(lr('全武学增伤').max === 0.056, '全武学增伤用自己的区间');
+assert.ok(lr('对首领单位增伤').max === 0.059, '对首领单位增伤应映射到首领单位增伤区间');
+assert.ok(lr('对玩家单位增伤').max === 0.059, '对玩家单位增伤应映射到玩家单位增效区间');
+assert.ok(lr('全奇术增伤').max === 0.176, '全奇术增伤应映射到奇术增伤区间');
+assert.ok(lr('粟子游尘鼠鼠增伤').max === 0.106, '护甲定音应映射到技能定音区间');
+assert.ok(lr('嗟夫刀法护盾增效').max === 0.106, '护盾增效等非增伤结尾定音也应映射');
+assert.ok(lr('外功穿透').max === 19.4, '定音外功穿透区间');
+assert.ok(lr('最大无相攻击') === null, '无相攻击词条区间数据缺失应为null（待用户提供）');
 
 // ---- 触发计算 ----
 const calcBtn = document.querySelector('#btn-calc');
