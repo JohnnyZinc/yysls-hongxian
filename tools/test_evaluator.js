@@ -61,20 +61,33 @@ const view = () => {
   return i >= 0 ? html.slice(i) : '';
 };
 const appHtml = () => document.querySelector('#app').innerHTML;
+const { state, actions } = mod.__test;
 
 // ---- 1. 初始渲染（整体视图） ----
 const buildSel = document.querySelector('#ev-build').innerHTML;
 for (const name of ['破竹风', '牵丝玉', '破竹尘', '破竹樽', '裂石威', '牵丝霖（奶妈）']) {
   check(`流派下拉含 ${name}`, buildSel.includes(name));
 }
-check('流下拉含 大外流/小外流（破竹风模板）', appHtml().includes('大外流') && appHtml().includes('小外流'));
+const flowSel = document.querySelector('#ev-flow');
+check('流下拉含 大外流/小外流（破竹风模板）且可点', flowSel.innerHTML.includes('大外流') && flowSel.innerHTML.includes('小外流') && flowSel.disabled === false);
+check('页头口径摘要已更新（无模板警告不出现）',
+  document.querySelector('#ev-meta').textContent.includes('配额模板') && !document.querySelector('#ev-meta').textContent.includes('无配额模板'));
 check('整体视图：DPS/毕业率/监测发现渲染', view().includes('DPS') && view().includes('毕业率') && view().includes('监测发现'));
 const dpsMatch = view().match(/dps-big">([\d.]+)/);
 check('整体视图：DPS > 0（空装备=固定层面板）', !!dpsMatch && parseFloat(dpsMatch[1]) > 0);
 check('整体视图：属性面板含三率', view().includes('精准率') && view().includes('会心率'));
 
+// ---- 1.5 切流（大外流 → 小外流 → 回大外流） ----
+mod.__test.switchFlow('xiaoWai');
+check('切流：flowId/推导器切到小外流，下拉选中项同步',
+  state.flowId === 'xiaoWai' && state.prescription.flowId === 'xiaoWai'
+  && flowSel.innerHTML.includes('value="xiaoWai" selected'));
+check('切流：整体视图仍可用（小外流启用度出现在监测中）',
+  view().includes('DPS') && view().includes('启用度'));
+mod.__test.switchFlow('daWai');
+check('切回大外流：推导器复原', state.flowId === 'daWai' && state.prescription.flowId === 'daWai');
+
 // ---- 2. 添加天档左武器 → 背包视图 ----
-const { state, actions } = mod.__test;
 actions.setDraftSlot('左武器');
 actions.setDraftWeaponType('双刀');
 actions.setDraftAffix('初始', null, '最大外功攻击');

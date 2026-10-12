@@ -212,8 +212,29 @@ async function switchBuild(buildId) {
   state.draft = newDraft(state.draft.slot === '右武器' ? '右武器' : '左武器',
     state.draft.slot === '右武器' ? (cats[1] || '') : (cats[0] || ''));
   save();
+  renderHeader();
   render();
   boot('✓ 就绪');
+}
+
+/** 页头（#app 之外）：流下拉选项 + 口径摘要。在 switchBuild/switchFlow 后调用 */
+function renderHeader() {
+  const flowSel = $('#ev-flow');
+  if (state.flows) {
+    flowSel.disabled = false;
+    flowSel.innerHTML = state.flows.flows
+      .map((f) => `<option value="${f.flowId}" ${f.flowId === state.flowId ? 'selected' : ''}>${f.name}</option>`).join('');
+  } else {
+    flowSel.disabled = true;
+    flowSel.innerHTML = '<option value="">— 无模板 —</option>';
+  }
+  const b = state.data?.build;
+  const meta = [];
+  if (b) meta.push(`${b.name} · 主属性 ${b.selectors.weapon_attribute} · 套装 ${b.selectors.set}`);
+  meta.push(state.flows
+    ? `配额模板：${state.flows.flows.map((f) => f.name).join('/')}`
+    : '⚠ 无配额模板——匹配度/监测不可用，仅 DPS/面板');
+  $('#ev-meta').textContent = meta.join(' · ');
 }
 
 function applyFlow() {
@@ -229,6 +250,7 @@ function switchFlow(flowId) {
   applyFlow();
   state.selected = null;
   save();
+  renderHeader();
   render();
 }
 
@@ -326,10 +348,6 @@ function render() {
   if (b) meta.push(`${b.name} · 主属性 ${b.selectors.weapon_attribute} · 套装 ${b.selectors.set}`);
   if (state.flows) meta.push(`配额模板：${state.flows.flows.map((f) => f.name).join('/')}`);
   else meta.push('⚠ 无配额模板——匹配度/监测不可用，仅 DPS/面板');
-  const flowOptions = state.flows
-    ? state.flows.flows.map((f) => `<option value="${f.flowId}" ${f.flowId === state.flowId ? 'selected' : ''}>${f.name}</option>`).join('')
-    : '<option value="">— 无模板 —</option>';
-
   app.innerHTML = `
     <h2>口径（半固定层）</h2>
     <div class="row">
@@ -726,6 +744,8 @@ async function init() {
   const sel = $('#ev-build');
   sel.innerHTML = BUILDS.map(([id, name]) => `<option value="${id}" ${id === state.buildId ? 'selected' : ''}>${name}</option>`).join('');
   sel.onchange = () => switchBuild(sel.value);
+  const flowSel = $('#ev-flow');
+  flowSel.onchange = () => switchFlow(flowSel.value);
   await switchBuild(state.buildId && BUILDS.some(([id]) => id === state.buildId) ? state.buildId : BUILDS[0][0]);
 }
 
@@ -734,4 +754,4 @@ init().catch((err) => {
 });
 
 // 供无头冒烟测试驱动（actions 与 UI 事件同一份实现）
-export const __test = { state, actions, currentFlow, equippedList };
+export const __test = { state, actions, currentFlow, equippedList, switchFlow, renderHeader };
