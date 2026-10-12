@@ -1,0 +1,66 @@
+/* evaluator.css — 装备评价器专属样式（变量与基调沿用 style.css） */
+
+.nav { color: var(--accent); font-size: 13px; margin-left: 10px; text-decoration: none; }
+.nav:hover { text-decoration: underline; }
+
+/* 装备卡片网格 */
+.ev-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+@media (max-width: 1100px) { .ev-grid { grid-template-columns: repeat(2, 1fr); } }
+.ev-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+  padding: 8px 10px; cursor: pointer;
+}
+.ev-card:hover { border-color: var(--accent); }
+.ev-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.ev-card h4 {
+  margin: 0 0 6px; font-size: 13px;
+  display: flex; justify-content: space-between; align-items: center; gap: 6px;
+}
+.ev-card .btns { display: flex; gap: 6px; }
+.ev-card .btns button { padding: 2px 10px; font-size: 12px; background: var(--line); }
+.ev-card .btns button.primary { background: var(--accent); }
+.ev-card .aff { font-size: 12px; display: flex; justify-content: space-between; gap: 6px; margin: 2px 0; }
+.ev-card .aff .k { color: var(--muted); flex: none; width: 34px; }
+.ev-empty {
+  border: 1px dashed var(--line); border-radius: 6px; padding: 16px 10px;
+  text-align: center; color: var(--muted); font-size: 12px; cursor: default;
+}
+
+/* 档位徽章：天/地/玄/黄 */
+.tier-badge {
+  display: inline-block; padding: 1px 8px; border-radius: 10px;
+  font-size: 12px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap;
+}
+.tier-badge.big { font-size: 16px; padding: 3px 14px; }
+.tier-badge.tian { color: #ffd76a; border-color: #ffd76a; }
+.tier-badge.di { color: #6ab8ff; border-color: #6ab8ff; }
+.tier-badge.xuan { color: #c39bff; border-color: #c39bff; }
+.tier-badge.huang { color: #9aa3b5; border-color: #9aa3b5; }
+
+/* ΔDPS 三档徽章 */
+.verdict-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 4px;
+  font-size: 14px; font-weight: 700;
+}
+.verdict-badge.big { font-size: 18px; padding: 4px 16px; }
+.verdict-badge.better { background: rgba(62, 207, 142, .15); color: var(--good); border: 1px solid var(--good); }
+.verdict-badge.worse { background: rgba(255, 118, 118, .12); color: #ff7676; border: 1px solid #ff7676; }
+.verdict-badge.equal { background: rgba(139, 147, 167, .12); color: var(--muted); border: 1px solid var(--line); }
+.delta-big { font-size: 24px; font-weight: 700; }
+.verdict-row {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 8px;
+}
+
+/* 监测摘要 */
+h3.sec { color: var(--accent); font-size: 13px; margin: 14px 0 6px; }
+.digest { margin: 4px 0; font-size: 13px; }
+.digest .digest-title { color: var(--warn); font-size: 12px; margin-bottom: 2px; }
+.digest .digest-title.ok { color: var(--good); }
+
+/* 面板差异表 */
+.diff-table { width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 4px; }
+.diff-table td { border-bottom: 1px dashed var(--line); padding: 2px 6px; }
+.diff-table td.num { text-align: right; }
+
+.up { color: var(--good); }
+.down { color: #ff7676; }
