@@ -207,6 +207,7 @@ export function evaluateSwap({
     新件去向,
     候补,
     panelDiff: diffPanels(before.panel.stats, after.panel.stats),
+    afterPanelStats: after.panel.stats, // 供整合层做"假设穿上后"的监测（与 ΔDPS 同一面板口径）
     errors: [],
     口径: 'Δ% = DPS后/DPS前 − 1；|Δ%|≤死区 等价；等价次级排序=匹配度档位>当前DPS；ΔDPS 对流无感（min/max 收敛在引擎内处理）',
   };
