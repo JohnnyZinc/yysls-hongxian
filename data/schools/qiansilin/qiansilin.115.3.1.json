@@ -191,7 +191,7 @@
     "樽": "√",
     "征人归": null
   },
-  "set_attack_multiplier": 1.0,
+  "set_attack_multiplier": 1,
   "config": {
     "generic_extra": 0.175,
     "categories": [
@@ -201,7 +201,8 @@
         "panel_keys": [
           "san_dmg"
         ],
-        "includes_all_weapon": true
+        "includes_all_weapon": true,
+        "panel_key": "伞武学增伤"
       },
       {
         "label": "扇",
@@ -209,19 +210,13 @@
         "panel_keys": [
           "shan_dmg"
         ],
-        "includes_all_weapon": true
+        "includes_all_weapon": true,
+        "panel_key": "扇武学增伤"
       },
       {
-        "label": "单体奇术",
-        "value": 0.2677,
-        "panel_keys": [
-          "qishu_dmg"
-        ],
-        "includes_all_weapon": true
-      },
-      {
-        "label": "群体奇术",
-        "value": 0.2677,
+        "label": "奇术",
+        "value": 0,
+        "panel_key": "全奇术增伤",
         "panel_keys": [
           "qishu_dmg"
         ],

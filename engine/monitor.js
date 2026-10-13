@@ -95,15 +95,15 @@ export function quotaCensus(gear, flow) {
  * @returns null 当面板缺少外功数值；否则含 适用 标记（配额含最小外功行才适用）
  */
 export function enablement(panelStats, flow, affixes) {
-  const lo = num(panelStats?.['最小外功']);
-  const hi = num(panelStats?.['最大外功']);
+  const lo = num(panelStats?.['最小外功攻击']);
+  const hi = num(panelStats?.['最大外功攻击']);
   if (!lo && !hi) return null;
   const 已反转 = lo > hi;
   const 差值 = 已反转 ? 0 : Math.max(0, hi - lo);
   const out = {
     适用: (flow?.quota?.lines || []).some((L) => L.any_of.map(canonicalAffix).includes('最小外功攻击')),
-    最小外功: lo,
-    最大外功: hi,
+    最小外功攻击: lo,
+    最大外功攻击: hi,
     已反转,
     距反转差值: 差值,
   };

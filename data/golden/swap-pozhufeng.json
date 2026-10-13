@@ -1,9 +1,9 @@
 {
   "更好": {
-    "afterDps": 119201.45663538702,
-    "beforeDps": 117326.98000288532,
+    "afterDps": 103362.10410908076,
+    "beforeDps": 99456.20175486429,
     "deadZone": 0.005,
-    "deltaPct": 0.015976518209670103,
+    "deltaPct": 0.039272587182080196,
     "gradeNewTier": "天",
     "gradeOldTier": "地",
     "ok": true,
@@ -13,10 +13,10 @@
     "verdict": "更好"
   },
   "更差": {
-    "afterDps": 117326.98000288532,
-    "beforeDps": 119201.45663538702,
+    "afterDps": 99456.20175486429,
+    "beforeDps": 103362.10410908076,
     "deadZone": 0.005,
-    "deltaPct": -0.015725282940420263,
+    "deltaPct": -0.03778853369794469,
     "gradeNewTier": "地",
     "gradeOldTier": "天",
     "ok": true,
@@ -26,10 +26,10 @@
     "verdict": "更差"
   },
   "等价同档": {
-    "afterDps": 119188.70895238257,
-    "beforeDps": 119201.45663538702,
+    "afterDps": 103351.14220601927,
+    "beforeDps": 103362.10410908076,
     "deadZone": 0.005,
-    "deltaPct": -0.00010694234252052467,
+    "deltaPct": -0.00010605340473638706,
     "gradeNewTier": "天",
     "gradeOldTier": "天",
     "ok": true,
@@ -39,10 +39,10 @@
     "verdict": "等价"
   },
   "等价跨档": {
-    "afterDps": 119201.45663538702,
-    "beforeDps": 117326.98000288532,
+    "afterDps": 103362.10410908076,
+    "beforeDps": 99456.20175486429,
     "deadZone": 0.5,
-    "deltaPct": 0.015976518209670103,
+    "deltaPct": 0.039272587182080196,
     "gradeNewTier": "天",
     "gradeOldTier": "地",
     "ok": true,

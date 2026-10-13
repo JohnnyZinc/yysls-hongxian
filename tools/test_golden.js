@@ -199,8 +199,6 @@ runCase('面板:鸣金虹算例', 'panel-mingjinhong.json', () => {
   const r = panelCase();
   return {
     stats: r.stats,
-    武器增: r.武器增,
-    技能定音: r.技能定音,
     五维达标率: r.五维达标率,
     主属性达标率: r.主属性达标率,
     warnings: r.warnings,

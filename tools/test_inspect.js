@@ -105,7 +105,7 @@ const rAll = inspectOverall({
 });
 check('整体：DPS>0 且毕业率为数值', rAll.ok === true && rAll.DPS.dps > 0 && typeof rAll.DPS.graduationRate === 'number');
 check('整体：属性面板含三率与外功（真实数值）',
-  rAll.属性面板['精准率'] > 0 && rAll.属性面板['会心率'] > 0 && rAll.属性面板['最小外功'] > 0);
+  rAll.属性面板['精准率'] > 0 && rAll.属性面板['会心率'] > 0 && rAll.属性面板['最小外功攻击'] > 0);
 check('整体：满配实装监测无缺口/溢出',
   rAll.监测.配额缺口.length === 0 && rAll.监测.配额溢出.length === 0);
 check('整体：口径说明齐备', typeof rAll.口径 === 'string' && rAll.口径.includes('整体'));

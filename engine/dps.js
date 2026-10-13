@@ -37,8 +37,8 @@ const EFFECT_FIELDS = [
   'spec_dmg', 'final_dmg', 'spec_bonus',
 ];
 
-// 四系属性攻击（外功单独处理）
-const ATTR_KEYS = ['mingjin', 'lieshi', 'qiansi', 'pozhu'];
+// 四系属性攻击（外功单独处理）：内部键名 + 游戏全称标签
+const ATTRS = [['mingjin', '鸣金'], ['lieshi', '裂石'], ['qiansi', '牵丝'], ['pozhu', '破竹']];
 
 const ZERO_SKILL = Object.freeze({ type: null });
 
@@ -57,43 +57,47 @@ function aggregateEffects(names, effectsById) {
   return agg;
 }
 
-/** 从 build JSON 组装作者默认面板（Excel 输入区的缓存值） */
+/** 从 build JSON 组装作者默认面板（Excel 输入区缓存值；与 computePanel 同一 schema） */
 function makePanel(build) {
   const pi = build.panel_input || {};
   const get = (key) => (pi[key] ? num(pi[key].default) : 0);
-  const dinyin = {};
-  for (const entry of Object.values(pi)) {
-    if (entry && entry.label && /定音$/.test(entry.label)) {
-      dinyin[entry.label.replace(/定音$/, '')] = num(entry.default);
-    }
+  const stats = {
+    精准率: get('precise_rate'),
+    会心率: get('crit_rate'),
+    会意率: get('insight_rate'),
+    直接会心率: get('direct_crit_rate'),
+    直接会意率: get('direct_insight_rate'),
+    会心伤害加成: get('crit_dmg_bonus'),
+    会意伤害加成: get('insight_dmg_bonus'),
+    全武学增伤: get('all_weapon_dmg'), // 全武增
+    对首领单位增伤: get('boss_dmg'),   // 首领增
+    全奇术增伤: 0,                     // 全奇术增伤只来自装备词条，作者基准恒为 0
+    技能定音: get('dingyin'),
+  };
+  const bs = build.base_stats || {};
+  stats['最小外功攻击'] = num(bs.external && bs.external.min);
+  stats['最大外功攻击'] = num(bs.external && bs.external.max);
+  stats['最小无相攻击'] = num(bs.wuxiang && bs.wuxiang.min);
+  stats['最大无相攻击'] = num(bs.wuxiang && bs.wuxiang.max);
+  const pd = build.pen_dmg || {};
+  stats['外功穿透'] = num(pd.external && pd.external.pen);
+  stats['外功伤害加成'] = num(pd.external && pd.external.dmg);
+  for (const [key, label] of ATTRS) {
+    stats[`最小${label}攻击`] = num(bs[key] && bs[key].min);
+    stats[`最大${label}攻击`] = num(bs[key] && bs[key].max);
+    stats[`${label}穿透`] = num(pd[key] && pd[key].pen);
+    stats[`${label}加成`] = num(pd[key] && pd[key].dmg);
   }
-  // 武器/奇术类别增伤：按提取器建立的映射从面板键汇总
-  const cats = {};
+  // 武器/奇术类别增伤：Excel 缓存值（作者基准），键 = config.categories 的 panel_key
   for (const c of (build.config && build.config.categories) || []) {
     let v = 0;
     for (const k of c.panel_keys || []) v += get(k);
-    cats[c.label] = v;
+    stats[c.panel_key] = v;
   }
   return {
-    base: build.base_stats,
-    pen: build.pen_dmg,
-    rates: {
-      precise: get('precise_rate'),
-      crit: get('crit_rate'),
-      insight: get('insight_rate'),
-      directCrit: get('direct_crit_rate'),
-      directInsight: get('direct_insight_rate'),
-      critDmg: get('crit_dmg_bonus'),
-      insightDmg: get('insight_dmg_bonus'),
-    },
-    bonuses: {
-      allWeapon: get('all_weapon_dmg'), // 全武增
-      boss: get('boss_dmg'),            // 首领增
-      cats,                             // 武器/奇术类别增伤（面板键汇总）
-    },
+    stats,
     flatBonus: get('flat_dmg_bonus'),
     food: { ext: get('food_ext'), elem: get('food_elem') },
-    dinyin,
   };
 }
 
@@ -122,34 +126,47 @@ function calcDPS(ctx, options = {}) {
   const setMult = num(build.set_attack_multiplier) || 1;
 
   // —— 静态预计算 ——
-  const base = panel.base || {};
-  const wxMin = num(base.wuxiang && base.wuxiang.min);
-  const wxMax = num(base.wuxiang && base.wuxiang.max);
-  const extBase = base.external || {};
-  const extMin = (num(extBase.min) + panel.food.ext) * setMult;
+  const S = panel.stats || {};
+  // 守卫：面板必需键齐全性校验（缺键 → 抛错，杜绝静默按 0 计算的错数）
+  const REQUIRED = [
+    '精准率', '会心率', '会意率', '直接会心率', '直接会意率',
+    '会心伤害加成', '会意伤害加成',
+    '最小外功攻击', '最大外功攻击', '外功穿透', '外功伤害加成',
+    '全武学增伤', '对首领单位增伤', '全奇术增伤', '技能定音',
+    '最小无相攻击', '最大无相攻击',
+    ...ATTRS.flatMap(([, l]) => [`最小${l}攻击`, `最大${l}攻击`, `${l}穿透`, `${l}加成`]),
+  ];
+  const missing = REQUIRED.filter((k) => typeof S[k] !== 'number');
+  if (missing.length) {
+    throw new Error(`面板缺少必需键: ${missing.join('、')}——请使用 computePanel 的完整输出，勿手拼面板对象`);
+  }
+  const extBaseMin = num(S['最小外功攻击']);
+  const extBaseMax = num(S['最大外功攻击']);
+  const extMin = (extBaseMin + panel.food.ext) * setMult;
   const extMax =
-    Math.max(num(extBase.min) + panel.food.ext, num(extBase.max) + panel.food.elem) * setMult;
+    Math.max(extBaseMin + panel.food.ext, extBaseMax + panel.food.elem) * setMult;
 
-  const attrs = ATTR_KEYS.map((key) => {
-    const a = base[key] || {};
-    const isMain = a.label === mainLabel;
+  const attrs = ATTRS.map(([key, label]) => {
+    const isMain = label === mainLabel;
+    const aMin = num(S[`最小${label}攻击`]);
+    const aMax = num(S[`最大${label}攻击`]);
     return {
       key,
-      label: a.label,
-      min: (num(a.min) + (isMain ? wxMin : 0)) * setMult,
-      max: (Math.max(num(a.min), num(a.max)) + (isMain ? wxMax : 0)) * setMult,
+      label,
+      min: (aMin + (isMain ? num(S['最小无相攻击']) : 0)) * setMult,
+      max: (Math.max(aMin, aMax) + (isMain ? num(S['最大无相攻击']) : 0)) * setMult,
     };
   });
 
   // 通用增伤基数与各类型增伤：全部面板驱动
-  //   genericBase = 首领增 + 配置常数(提取时拆出的 1.5%基础/团队假设部分)
-  //   typeValue   = 类别面板增伤 (+ 全武增，按提取时数据驱动的检测标志)
+  //   genericBase = 对首领单位增伤 + 配置常数(提取时拆出的基础/团队假设部分)
+  //   typeValue   = 类别增伤（stats 按 panel_key 取） (+ 全武学增伤，按提取时数据驱动的检测标志)
   const cfg = build.config || {};
-  const genericBase = panel.bonuses.boss + num(cfg.generic_extra);
+  const genericBase = num(S['对首领单位增伤']) + num(cfg.generic_extra);
   const typeValues = {};
   for (const c of cfg.categories || []) {
-    let v = num(panel.bonuses.cats[c.label]);
-    if (c.includes_all_weapon === true) v += panel.bonuses.allWeapon;
+    let v = num(S[c.panel_key]);
+    if (c.includes_all_weapon === true) v += num(S['全武学增伤']);
     else if (c.includes_all_weapon !== false) v = num(c.value); // 无法判定时回退缓存
     typeValues[c.label] = v;
   }
@@ -188,10 +205,9 @@ function calcDPS(ctx, options = {}) {
     const AS = num(skill.ext_dmg) + agg.ext_dmg;
     const AT = extMin * (1 + AS) + num(skill.min_ext) + agg.min_ext - monster.defense;
     const AU = extMax * (1 + AS) + num(skill.max_ext) + agg.max_ext - monster.defense;
-    const extPen = panel.pen && panel.pen.external ? panel.pen.external : {};
-    const penExtRaw = num(extPen.pen) + num(skill.ext_pen) + agg.ext_pen - monster.extResist;
+    const penExtRaw = num(S['外功穿透']) + num(skill.ext_pen) + agg.ext_pen - monster.extResist;
     const AV = penExtRaw > 0 ? penExtRaw / 200 : penExtRaw / 100;
-    const AW = num(extPen.dmg) + num(skill.ext_skill_dmg) + agg.ext_skill_dmg;
+    const AW = num(S['外功伤害加成']) + num(skill.ext_skill_dmg) + agg.ext_skill_dmg;
     const AX = num(skill.elem_skill_dmg) + agg.elem_skill_dmg;
 
     // 倍率/固伤：固伤仅前两个武器类别享受固伤加成
@@ -209,16 +225,15 @@ function calcDPS(ctx, options = {}) {
       即时小外: AT, 即时大外: AU, 外穿加成: AV, 外伤加成: AW, 属攻加成: AX,
     };
     const attrTerms = attrs.map((a) => {
-      const p = (panel.pen && panel.pen[a.key]) || {};
       const penRaw =
-        num(p.pen) + num(skill[a.key + '_pen']) + agg[a.key + '_pen'] - monster.elemResist;
+        num(S[`${a.label}穿透`]) + num(skill[a.key + '_pen']) + agg[a.key + '_pen'] - monster.elemResist;
       const isMain = a.label === mainLabel;
       const lbl = ATTR_LABELS[a.key];
       const term = {
         small: a.min * (1 + AX),
         big: a.max * (1 + AX),
         pen: penRaw > 0 ? penRaw / 200 : penRaw / 100,
-        dmg: num(p.dmg) + num(skill[a.key + '_dmg']) + agg[a.key + '_dmg'],
+        dmg: num(S[`${a.label}加成`]) + num(skill[a.key + '_dmg']) + agg[a.key + '_dmg'],
         mult: isMain ? AP : AN,          // 主属性用属性倍率，其余用外功倍率
         flat: isMain ? AQ * 1.5 : 0,     // 属性固伤仅主属性生效，且×1.5
       };
@@ -230,8 +245,8 @@ function calcDPS(ctx, options = {}) {
     });
 
     // 会心/会意伤害倍率
-    const BQ = 1 + panel.rates.critDmg + num(skill.crit_dmg) + agg.crit_dmg;
-    const BS = 1 + panel.rates.insightDmg + num(skill.insight_dmg) + agg.insight_dmg;
+    const BQ = 1 + num(S['会心伤害加成']) + num(skill.crit_dmg) + agg.crit_dmg;
+    const BS = 1 + num(S['会意伤害加成']) + num(skill.insight_dmg) + agg.insight_dmg;
     const BW = agg.spec_dmg + monster.dungeonTalent;
     const BX = num(skill.spec_bonus) + agg.spec_bonus;
 
@@ -240,19 +255,19 @@ function calcDPS(ctx, options = {}) {
     const forceInsight = num(skill.force_insight) === 1;
     const forcePrecise = num(skill.force_precision) === 1;
 
-    const BO = Math.min(forceCrit ? 1 : panel.rates.precise, 1);
+    const BO = Math.min(forceCrit ? 1 : num(S['精准率']), 1);
     const BP =
       (forceCrit
         ? 1
-        : Math.min(0.8, panel.rates.crit + num(skill.crit_rate) + agg.crit_rate) +
-          panel.rates.directCrit +
+        : Math.min(0.8, num(S['会心率']) + num(skill.crit_rate) + agg.crit_rate) +
+          num(S['直接会心率']) +
           agg.direct_crit_rate) *
       (forceInsight ? 0 : 1);
     const BR =
       (forceInsight
         ? 1
-        : Math.min(0.4, panel.rates.insight + num(skill.insight_rate) + agg.insight_rate) +
-          panel.rates.directInsight +
+        : Math.min(0.4, num(S['会意率']) + num(skill.insight_rate) + agg.insight_rate) +
+          num(S['直接会意率']) +
           agg.direct_insight_rate) *
       (forceCrit ? 0 : 1);
     const BT = Math.min((1 - BR) * BO, BO * BP); // 会心占比
@@ -261,8 +276,9 @@ function calcDPS(ctx, options = {}) {
 
     // 定音加成：技能定音类型 → 面板对应定音值
     let dy = 1;
-    if (skill.dingyin_type != null && panel.dinyin[skill.dingyin_type] != null) {
-      dy = 1 + panel.dinyin[skill.dingyin_type];
+    if (skill.dingyin_type != null) {
+      // 定音词条由流派唯一决定：stats['技能定音'] 就是本流派定音值，标记为真即生效
+      dy = 1 + num(S['技能定音']);
     }
 
     // 伤害主体：外功项 + 四系属性项（会心=均值，会意=大攻，擦伤=小攻）

@@ -430,15 +430,19 @@ function statRowsHtml(stats, main) {
     ['会意率', pct(stats['会意率']) + (stats['会意率'] > 0.4 ? ' ⚠溢出' : '')],
     ['直接会心率', pct(stats['直接会心率'])],
     ['直接会意率', pct(stats['直接会意率'])],
-    ['最小外功', stats['最小外功'].toFixed(1)],
-    ['最大外功', stats['最大外功'].toFixed(1)],
-    [`最小${main}`, stats[`最小${main}`].toFixed(1)],
-    [`最大${main}`, stats[`最大${main}`].toFixed(1)],
+    ['最终生效会心率', pct(stats['最终生效会心率'])],
+    ['最终生效会意率', pct(stats['最终生效会意率'])],
+    ['最终生效会心会意率', pct(stats['最终生效会心会意率'])],
+    ['最小外功攻击', stats['最小外功攻击'].toFixed(1)],
+    ['最大外功攻击', stats['最大外功攻击'].toFixed(1)],
+    [`最小${main}攻击`, stats[`最小${main}攻击`].toFixed(1)],
+    [`最大${main}攻击`, stats[`最大${main}攻击`].toFixed(1)],
     ['外功穿透', stats['外功穿透'].toFixed(2)],
-    ['全武增', pct(stats['全武增'])],
-    ['首领增', pct(stats['首领增'])],
-    ['会心伤害', pct(stats['会心伤害'])],
-    ['会意伤害', pct(stats['会意伤害'])],
+    ['全武学增伤', pct(stats['全武学增伤'])],
+    ['对首领单位增伤', pct(stats['对首领单位增伤'])],
+    ['技能定音', pct(stats['技能定音'])],
+    ['会心伤害加成', pct(stats['会心伤害加成'])],
+    ['会意伤害加成', pct(stats['会意伤害加成'])],
     ['五维 体/劲/御/敏/势', ['体', '劲', '御', '敏', '势'].map((s) => stats[s].toFixed(1)).join(' / ')],
     ['气血最大值', String(Math.round(stats['气血最大值']))],
   ];
@@ -468,8 +472,8 @@ function digestHtml(d) {
     const e = d.启用度;
     parts.push(`<div class="digest"><div class="digest-title">小外流启用度</div><div>${
       e.已反转
-        ? `已反转（最小外功 ${e.最小外功.toFixed(0)} ＞ 最大外功 ${e.最大外功.toFixed(0)}）——伤害固定取最小外功`
-        : `未反转：最小 ${e.最小外功.toFixed(0)} / 最大 ${e.最大外功.toFixed(0)}，距反转差 ${e.距反转差值} 点${e.折算词条数 != null ? ` ≈ ${e.折算词条数} 条小外词条（${escapeHtml(e.折算口径 || '')}）` : ''}`
+        ? `已反转（最小外功攻击 ${e.最小外功攻击.toFixed(0)} ＞ 最大外功攻击 ${e.最大外功攻击.toFixed(0)}）——伤害固定取最小外功攻击`
+        : `未反转：最小外功攻击 ${e.最小外功攻击.toFixed(0)} / 最大外功攻击 ${e.最大外功攻击.toFixed(0)}，距反转差 ${e.距反转差值} 点${e.折算词条数 != null ? ` ≈ ${e.折算词条数} 条小外词条（${escapeHtml(e.折算口径 || '')}）` : ''}`
     }</div></div>`);
   }
   if (!parts.length) return '<p class="muted">监测无发现：三率全部达标，配额无缺口/溢出。</p>';

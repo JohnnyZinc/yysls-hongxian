@@ -3,7 +3,7 @@
 /**
  * app.js — 装备→面板→DPS 验证台（零依赖 vanilla ESM）
  */
-import { computePanel, toDpsPanel } from '../engine/panel.js';
+import { computePanel } from '../engine/panel.js';
 import { calcDPS } from '../engine/dps.js';
 
 const BUILDS = [
@@ -344,36 +344,48 @@ function compute() {
       build: { 流派: state.data.build.name },
       gear: pieces,
       selections: state.selections,
+      dingyinMap: state.dingyinMap,
     });
-    const dpsPanel = toDpsPanel(pr, { 主属性: main }, state.dingyinMap);
     const pi = state.data.build.panel_input;
-    dpsPanel.flatBonus = pi.flat_dmg_bonus ? pi.flat_dmg_bonus.default : 0;
-    dpsPanel.food = { ext: pi.food_ext ? pi.food_ext.default : 0, elem: pi.food_elem ? pi.food_elem.default : 0 };
-    const r = calcDPS(state.data, { panel: dpsPanel });
+    const r = calcDPS(state.data, {
+      panel: {
+        stats: pr.stats,
+        五维达标率: pr.五维达标率,
+        主属性达标率: pr.主属性达标率,
+        flatBonus: pi.flat_dmg_bonus ? pi.flat_dmg_bonus.default : 0,
+        food: { ext: pi.food_ext ? pi.food_ext.default : 0, elem: pi.food_elem ? pi.food_elem.default : 0 },
+      },
+    });
 
     const pct = (x) => (x * 100).toFixed(2) + '%';
     const rows = [
       ['精准率', pct(pr.stats['精准率'])],
       ['会心率', pct(pr.stats['会心率']) + (pr.stats['会心率'] > 0.8 ? ' ⚠溢出' : '')],
       ['会意率', pct(pr.stats['会意率']) + (pr.stats['会意率'] > 0.4 ? ' ⚠溢出' : '')],
-      ['最小外功', pr.stats['最小外功'].toFixed(1)],
-      ['最大外功', pr.stats['最大外功'].toFixed(1)],
-      [`最小${main}`, pr.stats[`最小${main}`].toFixed(1)],
-      [`最大${main}`, pr.stats[`最大${main}`].toFixed(1)],
+      ['最终生效会心率', pct(pr.stats['最终生效会心率'])],
+      ['最终生效会意率', pct(pr.stats['最终生效会意率'])],
+      ['最终生效会心会意率', pct(pr.stats['最终生效会心会意率'])],
+      ['最小外功攻击', pr.stats['最小外功攻击'].toFixed(1)],
+      ['最大外功攻击', pr.stats['最大外功攻击'].toFixed(1)],
+      [`最小${main}攻击`, pr.stats[`最小${main}攻击`].toFixed(1)],
+      [`最大${main}攻击`, pr.stats[`最大${main}攻击`].toFixed(1)],
       ['外功穿透', pr.stats['外功穿透'].toFixed(2)],
-      ['全武增', pct(pr.stats['全武增'])],
-      ['首领增', pct(pr.stats['首领增'])],
+      ['全武学增伤', pct(pr.stats['全武学增伤'])],
+      ['对首领单位增伤', pct(pr.stats['对首领单位增伤'])],
       ['直接会心率', pct(pr.stats['直接会心率'])],
       ['直接会意率', pct(pr.stats['直接会意率'])],
-      ['会心伤害', pct(pr.stats['会心伤害'])],
-      ['会意伤害', pct(pr.stats['会意伤害'])],
+      ['会心伤害加成', pct(pr.stats['会心伤害加成'])],
+      ['会意伤害加成', pct(pr.stats['会意伤害加成'])],
+      ['技能定音', pct(pr.stats['技能定音'])],
       ['五维 体/劲/御/敏/势', ['体', '劲', '御', '敏', '势'].map((s) => pr.stats[s].toFixed(1)).join(' / ')],
       ['五维达标率', pct(pr.五维达标率)],
       ['主属性达标率', pct(pr.主属性达标率)],
       ['气血最大值', pr.stats['气血最大值']],
     ];
-    const weaponStr = Object.entries(pr.武器增).map(([t, v]) => `${t} ${pct(v)}`).join('，') || '无';
-    const dingStr = Object.entries(pr.技能定音).map(([n, v]) => `${n} ${pct(v)}`).join('，') || '无';
+    const weaponStr = Object.entries(pr.stats)
+      .filter(([k, v]) => /武学增伤$/.test(k) && v !== 0)
+      .map(([t, v]) => `${t.replace(/武学增伤$/, '')} ${pct(v)}`)
+      .join('，') || '无';
 
     box.innerHTML = `
       <div class="results">
@@ -382,11 +394,11 @@ function compute() {
           （轴时长 ${r.duration}s · 毕业DPS ${r.graduateDps} · ${r.buildId}）</span></div>
         <ul class="warnings">${pr.warnings.map((w) => `<li>${escapeHtml(w)}</li>`).join('')}</ul>
         <div class="stat-grid">${rows.map(([k, v]) => `<div><span>${k}</span><span>${v}</span></div>`).join('')}</div>
-        <p class="muted" style="margin:8px 0 0">武器增伤：${weaponStr}　技能定音：${dingStr}</p>
+        <p class="muted" style="margin:8px 0 0">武器增伤：${weaponStr}　技能定音：${pct(pr.stats['技能定音'] ?? 0)}</p>
         <details><summary>全部面板属性</summary>
           <div class="stat-grid" style="margin-top:8px">
             ${Object.entries(pr.stats).filter(([, v]) => typeof v === 'number')
-              .map(([k, v]) => `<div><span>${k}</span><span>${/率$|增$|增效$|定音$|加成$|伤害$|减免$/.test(k) ? pct(v) : (+v.toFixed(4)).toString()}</span></div>`).join('')}
+              .map(([k, v]) => `<div><span>${k}</span><span>${/率$|增伤$|增效$|定音$|加成$|伤害$|减免$/.test(k) ? pct(v) : (+v.toFixed(4)).toString()}</span></div>`).join('')}
           </div>
         </details>
       </div>`;

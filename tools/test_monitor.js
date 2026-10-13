@@ -102,15 +102,15 @@ check('达标线：面板缺失按 0 处理（未达标）',
 
 // ———— 3. 小外流启用度 ————
 
-const en1 = enablement({ 最小外功: 4000, 最大外功: 4200 }, xiaoWai, affixes);
+const en1 = enablement({ 最小外功攻击: 4000, 最大外功攻击: 4200 }, xiaoWai, affixes);
 check('启用度：小外流适用，未反转，差值 200',
   en1.适用 === true && en1.已反转 === false && en1.距反转差值 === 200);
 check('启用度：承音折算 ≈2 条小外', en1.折算词条数 === 2);
 
-const en2 = enablement({ 最小外功: 4300, 最大外功: 4200 }, xiaoWai, affixes);
+const en2 = enablement({ 最小外功攻击: 4300, 最大外功攻击: 4200 }, xiaoWai, affixes);
 check('启用度：已反转（最小>最大，固定取小外）', en2.已反转 === true && en2.距反转差值 === 0 && en2.折算词条数 === undefined);
 
-const en3 = enablement({ 最小外功: 4000, 最大外功: 4200 }, daWai, affixes);
+const en3 = enablement({ 最小外功攻击: 4000, 最大外功攻击: 4200 }, daWai, affixes);
 check('启用度：大外流标记不适用（配额无最小外功行）', en3.适用 === false && en3.已反转 === false);
 
 // ———— 4. 集成：computePanel 真实面板贯通 ————
@@ -134,7 +134,7 @@ check('集成：空装备真实面板产出有限数值（固定层参与）', p
 
 const reportX = analyzeFlow({ panelStats: pr.stats, gear: fullGear, flow: xiaoWai, affixes });
 check('集成：小外流报告含启用度且适用',
-  reportX.ok === true && reportX.启用度?.适用 === true && reportX.启用度.最小外功 > 0);
+  reportX.ok === true && reportX.启用度?.适用 === true && reportX.启用度.最小外功攻击 > 0);
 
 const badReport = analyzeFlow({ panelStats: null, gear: [], flow: daWai });
 check('集成：缺 panelStats → 拒绝并报错', badReport.ok === false && badReport.errors.length > 0);

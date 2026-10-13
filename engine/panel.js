@@ -1,24 +1,33 @@
 'use strict';
 
 /**
- * panel.js — 装备 + 可选层 → 最终面板（对应装备面板计算器 v0.1 主表 W 列）
+ * panel.js — 装备 + 可选层 → 最终面板
+ *
+ * 输出即 dps.js 的输入（统一 schema，不再有第二层转换）。
  *
  * 输入（computePanel 的参数对象）：
- *   version    版本数据包（tools/extract_version_data.py 产出）
- *   affixes    词条数据包（tools/convert_affix_md.py 产出）
- *   build      { 流派: '破竹风', 武器类型: ['双刀','绳镖'] }
- *   gear       8件装备实例：{ slot, 承音, 初始:{属性,数值}, 调律:[{属性,数值}×4], 定音:{属性,数值} }
- *   selections { 弓玦, 装备套装, 心法:[×4], 武库 }
+ *   version     版本数据包（tools/extract_version_data.py 产出）
+ *   affixes     词条数据包（tools/convert_affix_md.py 产出）
+ *   build       { 流派: '破竹风' }
+ *   gear        8件装备实例：{ slot, 承音, 初始:{属性,数值}, 调律:[{属性,数值}×4], 定音:{属性,数值} }
+ *   selections  { 弓玦, 装备套装, 心法:[×4], 武库 }
+ *   dingyinMap  { 流派: 本流派唯一的护甲定音词条名 }，来自 data/version/dingyin-map.json
  *
  * 输出：
- *   { stats: {46项最终面板}, 武器增: {按武器类型}, 技能定音: {词条名: 值}, warnings: [] }
+ *   { stats, 五维达标率, 主属性达标率, warnings }
+ *   stats 键全部使用游戏内全称（项目约定：内部一律全称，不用简称）：
+ *   - 指定武学增伤按武器类型直接进 stats（`${类型}武学增伤`，为 0 不出键）；
+ *   - 技能定音为单一数值（定音词条由流派决定、无选择空间；数值随掷出结果变化，
+ *     是 ΔDPS 的真实变量之一）；
+ *   - 最终生效会心率/最终生效会意率/最终生效会心会意率：不含技能级标记的面板基准值，
+ *     技能级标记的逐技能修正在 dps.js。公式见 参考/燕云十六声的四种伤害与三率.md。
  *
- * 转换规则（全部来自面板计算器 v0.1 主表 W 列公式，逐条对齐）：
+ * 转换规则（数值行为与面板计算器 v0.1 W 列逐条对齐，仅键名全称化）：
  *   精准率 = 65%基线 + (raw − 65%)/(1+判定抗性)
- *   会心率 = (raw + 敏×0.076%) / (1+判定抗性)；会意率同（势×0.038%）
- *   最小外功 = raw + 劲×0.22 + 敏×0.9；最大外功 = raw + 劲×1.36 + 势×0.9
+ *   会心率 = (raw + 敏×0.076%)/(1+判定抗性)；会意率同（势×0.038%）
+ *   最小外功攻击 = raw + 劲×0.22 + 敏×0.9；最大外功攻击 = raw + 劲×1.36 + 势×0.9
  *   外功穿透 = 固定层 + 装备词条(含定音)/(1+增益抗性) + 可选层   ← 只有外功穿透这样拆
- *   技能定音/全武增/首领增/武器增/奇术增 = (固定层+可选层+装备词条)/(1+增益抗性)
+ *   全武学增伤/对首领单位增伤/全奇术增伤/`${武器}武学增伤`/技能定音 = 全额/(1+增益抗性)
  *   其余属性纯求和
  *   武学天赋：会心/会意/外功天赋 ×MIN(五维达标率,1)；
  *             主属性攻击天赋不缩放；主属性穿透/加成天赋 ×MIN(主属性达标率,1)
@@ -26,26 +35,28 @@
 
 const num = (v) => (typeof v === 'number' ? v : 0);
 
-// 归一化：词条名/表行名 → 面板统计名
-const NORMALIZE = {
-  最小外功攻击: '最小外功', 最大外功攻击: '最大外功',
-  最小鸣金攻击: '最小鸣金', 最大鸣金攻击: '最大鸣金',
-  最小裂石攻击: '最小裂石', 最大裂石攻击: '最大裂石',
-  最小牵丝攻击: '最小牵丝', 最大牵丝攻击: '最大牵丝',
-  最小破竹攻击: '最小破竹', 最大破竹攻击: '最大破竹',
-  最小无相攻击: '最小无相', 最大无相攻击: '最大无相',
-  会心伤害加成: '会心伤害', 会意伤害加成: '会意伤害',
-  全武学增伤: '全武增', 首领单位增伤: '首领增', 奇术增伤: '奇术增',
-  对首领单位增伤: '首领增', 玩家单位增效: '对玩家单位增效',
-  对玩家单位增伤: '对玩家单位增效',
+/** 名字归一：游戏内拼写变体/旧版提取短名 → 唯一全称 */
+const NAME_CANON = {
+  最小外功: '最小外功攻击', 最大外功: '最大外功攻击',
+  最小鸣金: '最小鸣金攻击', 最大鸣金: '最大鸣金攻击',
+  最小裂石: '最小裂石攻击', 最大裂石: '最大裂石攻击',
+  最小牵丝: '最小牵丝攻击', 最大牵丝: '最大牵丝攻击',
+  最小破竹: '最小破竹攻击', 最大破竹: '最大破竹攻击',
+  最小无相: '最小无相攻击', 最大无相: '最大无相攻击',
+  全武增: '全武学增伤',
+  首领增: '对首领单位增伤', 首领单位增伤: '对首领单位增伤',
+  奇术增: '全奇术增伤', 奇术增伤: '全奇术增伤',
+  对玩家单位增伤: '对玩家单位增效', 玩家增效: '对玩家单位增效',
+  会心伤害: '会心伤害加成', 会意伤害: '会意伤害加成',
   直议会心率: '直接会心率', 直议会意率: '直接会意率',
 };
 
+/** 指定武学增伤的十种武器类型 */
 const WEAPON_TYPES = ['剑', '枪', '横刀', '陌刀', '伞', '扇', '绳镖', '双刀', '拳甲', '鼓'];
 
 function norm(name) {
   name = String(name).trim();
-  return NORMALIZE[name] || name;
+  return NAME_CANON[name] || name;
 }
 
 /** 三桶结构：fixed(固定层) / optional(弓玦+套装+心法+武库+天赋) / affix(装备词条) */
@@ -54,12 +65,13 @@ function makeBuckets() {
 }
 
 function computePanel(input) {
-  const { version, build, gear = [], selections = {} } = input;
+  const { version, build, gear = [], selections = {}, dingyinMap = {} } = input;
   const warnings = [];
   const C = version.constants;
   const buckets = makeBuckets();
-  const weaponCats = { affix: {} };   // 武器增按类型分（只来自词条）
-  const dingyinRaw = {};              // 技能定音词条名 → 数值和（未除增益抗性）
+  let dingyinSum = 0;
+  const schoolAffix = dingyinMap?.[build.流派] ?? null;
+  let schoolAffixWarned = false;
 
   const add = (bucket, stat, v) => {
     buckets[bucket][stat] = num(buckets[bucket][stat]) + v;
@@ -107,20 +119,22 @@ function computePanel(input) {
           warnings.push(`承音装备词条超上限: ${slot} ${aff.属性}=${v} > 承音值${range.承音}`);
         }
       }
-      // 护甲定音的技能增伤/增疗（含护盾增效等）→ 技能定音，按词条名累计
+      // 护甲定音：词条由流派决定、无选择空间 → 匹配本流派词条才计入技能定音
       if (kind === '定音' && isArmorDing
           && !['外功穿透', '无相穿透', '外功抗性'].includes(raw)) {
-        dingyinRaw[aff.属性] = num(dingyinRaw[aff.属性]) + v;
+        if (schoolAffix == null) {
+          if (!schoolAffixWarned) {
+            warnings.push(`流派"${build.流派}"未登记护甲定音词条（dingyin-map.json），定音"${aff.属性}"未计入技能定音`);
+            schoolAffixWarned = true;
+          }
+        } else if (aff.属性 === schoolAffix) {
+          dingyinSum += v;
+        } else {
+          warnings.push(`护甲定音"${aff.属性}"非本流派词条"${schoolAffix}"，未计入技能定音`);
+        }
         continue;
       }
-      if (raw === '全武增' || raw === '首领增' || raw === '奇术增' || raw === '对玩家单位增效') {
-        add('affix', raw, v);
-      } else if (/武学增伤$/.test(raw) && WEAPON_TYPES.some((t) => raw.startsWith(t))) {
-        const type = raw.replace(/武学增伤$/, '');
-        weaponCats.affix[type] = num(weaponCats.affix[type]) + v;
-      } else {
-        add('affix', raw, v);
-      }
+      add('affix', raw, v);
     }
   }
 
@@ -136,21 +150,22 @@ function computePanel(input) {
   }
 
   // 4b. 不缩放天赋：主属性攻击（最小/最大）
-  const talentScaled5 = [];    // 需要五维达标率缩放的天赋
+  const talentScaled5 = [];   // 需要五维达标率缩放的天赋
   let attrReqStat = null;
   if (talent) {
     for (const [k, v] of Object.entries(talent)) {
       if (['五维要求', '五维要求数值', '属性要求', '属性要求数值'].includes(k)) continue;
-      const isMainAtk = /^最小(鸣金|裂石|牵丝|破竹)$/.test(k) || /^最大(鸣金|裂石|牵丝|破竹)$/.test(k);
-      const isWuxueScaled = ['会心率', '会意率', '最小外功', '最大外功'].includes(k);
+      const nk = norm(k);
+      const isMainAtk = /^最小(鸣金|裂石|牵丝|破竹)攻击$/.test(nk);
+      const isWuxuScaled = ['会心率', '会意率', '最小外功攻击', '最大外功攻击'].includes(nk);
       if (isMainAtk) {
-        add('optional', k, num(v)); // 不缩放
-      } else if (isWuxueScaled) {
-        talentScaled5.push([k, num(v)]);
-      } else if (/穿透$|加成$/.test(k)) {
+        add('optional', nk, num(v)); // 不缩放
+      } else if (isWuxuScaled) {
+        talentScaled5.push([nk, num(v)]);
+      } else if (/穿透$|加成$/.test(nk)) {
         // 主属性穿透/加成天赋 → 延后按主属性达标率缩放
       } else {
-        add('optional', k, num(v)); // 兜底：不缩放
+        add('optional', nk, num(v)); // 兜底：不缩放
       }
     }
     attrReqStat = norm(talent['属性要求'] || '');
@@ -170,13 +185,8 @@ function computePanel(input) {
     const pre = num(buckets.fixed[attrReqStat]) + num(buckets.optional[attrReqStat]) + num(buckets.affix[attrReqStat]);
     const req = num(talent['属性要求数值']);
     if (req > 0) ratioMain = Math.min(pre / req, 1);
-    if (/^最小(鸣金|裂石|牵丝|破竹)$/.test(attrReqStat)) {
-      const penKey = attrReqStat.replace(/^最小/, '') + '穿透';
-      const dmgKey = attrReqStat.replace(/^最小/, '') + '加成';
-      if (talent[penKey] != null) add('optional', penKey, num(talent[penKey]) * ratioMain);
-      if (talent[dmgKey] != null) add('optional', dmgKey, num(talent[dmgKey]) * ratioMain);
-    } else if (/^最大(鸣金|裂石|牵丝|破竹)$/.test(attrReqStat)) {
-      const elem = attrReqStat.replace(/^最大/, '');
+    const elem = attrReqStat.replace(/^最[小大](鸣金|裂石|牵丝|破竹)攻击$/, '$1');
+    if (elem !== attrReqStat) {
       if (talent[elem + '穿透'] != null) add('optional', elem + '穿透', num(talent[elem + '穿透']) * ratioMain);
       if (talent[elem + '加成'] != null) add('optional', elem + '加成', num(talent[elem + '加成']) * ratioMain);
     }
@@ -197,14 +207,15 @@ function computePanel(input) {
   stats['会意率'] = (total('会意率') + wuxuFinal['势'] * insightContrib) / jk;
 
   // 攻击（五维贡献）
-  stats['最小外功'] = total('最小外功') + wuxuFinal['劲'] * num(version['五维贡献']['最小外功']['劲'])
+  stats['最小外功攻击'] = total('最小外功攻击') + wuxuFinal['劲'] * num(version['五维贡献']['最小外功']['劲'])
     + wuxuFinal['敏'] * num(version['五维贡献']['最小外功']['敏']);
-  stats['最大外功'] = total('最大外功') + wuxuFinal['劲'] * num(version['五维贡献']['最大外功']['劲'])
+  stats['最大外功攻击'] = total('最大外功攻击') + wuxuFinal['劲'] * num(version['五维贡献']['最大外功']['劲'])
     + wuxuFinal['势'] * num(version['五维贡献']['最大外功']['势']);
 
   // 属性攻击/无相：纯求和
-  for (const s of ['最小鸣金', '最大鸣金', '最小裂石', '最大裂石', '最小牵丝', '最大牵丝',
-    '最小破竹', '最大破竹', '最小无相', '最大无相']) {
+  for (const s of ['最小鸣金攻击', '最大鸣金攻击', '最小裂石攻击', '最大裂石攻击',
+    '最小牵丝攻击', '最大牵丝攻击', '最小破竹攻击', '最大破竹攻击',
+    '最小无相攻击', '最大无相攻击']) {
     stats[s] = total(s);
   }
 
@@ -214,27 +225,20 @@ function computePanel(input) {
     + num(buckets.optional['外功穿透']);
 
   // 增益类：全额除增益抗性
-  for (const s of ['全武增', '首领增', '奇术增']) {
+  for (const s of ['全武学增伤', '对首领单位增伤', '全奇术增伤']) {
     stats[s] = total(s) / (1 + C['增益抗性']);
   }
-  // 武器增按类型除增益抗性（标量行弃用，恒为0，真实值在返回的 武器增 对象里）
-  const weaponFinal = {};
-  for (const [type, v] of Object.entries(weaponCats.affix)) {
-    weaponFinal[type] = v / (1 + C['增益抗性']);
+  // 指定武学增伤按武器类型：与对首领单位增伤同级、无条件出键（为 0 也出键，
+  // 保证覆盖语义下不残留作者基准值；零值过滤是 UI 的事）
+  for (const t of WEAPON_TYPES) {
+    const k = `${t}武学增伤`;
+    stats[k] = total(k) / (1 + C['增益抗性']);
   }
-  stats['武器增'] = 0;
-  // 技能定音：按词条名分别求和后统一除增益抗性
-  const dingyinFinal = {};
-  let dingyinTotal = 0;
-  for (const [name, v] of Object.entries(dingyinRaw)) {
-    const fin = v / (1 + C['增益抗性']);
-    dingyinFinal[name] = fin;
-    dingyinTotal += fin;
-  }
-  stats['技能定音'] = dingyinTotal;
+  // 技能定音：单一数值
+  stats['技能定音'] = dingyinSum / (1 + C['增益抗性']);
 
   // 其余纯求和
-  for (const s of ['会心伤害', '会意伤害', '直接会心率', '直接会意率',
+  for (const s of ['会心伤害加成', '会意伤害加成', '直接会心率', '直接会意率',
     '鸣金穿透', '鸣金加成', '裂石穿透', '裂石加成', '牵丝穿透', '牵丝加成',
     '破竹穿透', '破竹加成', '无相穿透', '外功伤害加成', '外功治疗加成',
     '外功抗性', '外功防御', '外功伤害减免', '气血最大值', '鸣金伤害加成',
@@ -242,57 +246,44 @@ function computePanel(input) {
     stats[s] = total(s);
   }
 
+  // 最终生效三率（不含技能级标记的面板基准；公式见 参考/燕云十六声的四种伤害与三率.md）
+  //   bo = 黄字精准率（cap 100%）；bp = 黄字会心率（cap 80%）+ 直议会心率（不受 cap）；
+  //   br = 黄字会意率（cap 40%）+ 直议会意率（不受 cap）
+  //   最终生效会心率 = bo × min(bp, 1−br)   ← 会意+会心 > 100% 时会心被挤占
+  //   最终生效会意率 = br                    ← 会意不受精准命中影响
+  //   最终生效会心会意率 = 两者之和（用户定义）
+  const bo = Math.min(1, stats['精准率']);
+  const bp = Math.min(0.8, stats['会心率']) + stats['直接会心率'];
+  const br = Math.min(0.4, stats['会意率']) + stats['直接会意率'];
+  stats['最终生效会心率'] = bo * Math.min(bp, 1 - br);
+  stats['最终生效会意率'] = br;
+  stats['最终生效会心会意率'] = bo * Math.min(bp, 1 - br) + br;
+
+  // 守卫：未识别的装备词条 → 警告（静默丢弃会变成"看不见的数值黑洞"）
+  const KNOWN = new Set([
+    ...WUXU, '精准率', '会心率', '会意率',
+    '最小外功攻击', '最大外功攻击',
+    ...['最小鸣金攻击', '最大鸣金攻击', '最小裂石攻击', '最大裂石攻击',
+      '最小牵丝攻击', '最大牵丝攻击', '最小破竹攻击', '最大破竹攻击',
+      '最小无相攻击', '最大无相攻击'],
+    '外功穿透', '全武学增伤', '对首领单位增伤', '全奇术增伤',
+    ...WEAPON_TYPES.map((t) => `${t}武学增伤`),
+    '会心伤害加成', '会意伤害加成', '直接会心率', '直接会意率',
+    '鸣金穿透', '鸣金加成', '裂石穿透', '裂石加成', '牵丝穿透', '牵丝加成',
+    '破竹穿透', '破竹加成', '无相穿透', '外功伤害加成', '外功治疗加成',
+    '外功抗性', '外功防御', '外功伤害减免', '气血最大值', '鸣金伤害加成',
+    '对玩家单位增效',
+  ]);
+  for (const k of Object.keys(buckets.affix)) {
+    if (!KNOWN.has(k)) warnings.push(`未识别的装备词条（未计入面板，请核对词条名或更新数据）: ${k}`);
+  }
+
   return {
     stats,
-    武器增: weaponFinal,
-    技能定音: dingyinFinal,
     五维达标率: ratio5,
     主属性达标率: ratioMain,
     warnings,
   };
 }
 
-/**
- * 最终面板 → dps.js 的 panel 覆盖对象
- * @param panelResult computePanel 的返回
- * @param build       { 流派, 主属性 }（主属性如 '破竹'，可由武学天赋属性要求推导）
- * @param dingyinMap  护甲定音词条名 → DPS定音类型（如 {'粟子游尘鼠鼠增伤':'老鼠'}）
- */
-function toDpsPanel(panelResult, build, dingyinMap = {}) {
-  const S = panelResult.stats;
-  const main = build.主属性;
-  const key = { 鸣金: 'mingjin', 裂石: 'lieshi', 牵丝: 'qiansi', 破竹: 'pozhu' }[main];
-  if (!key) throw new Error(`未知主属性: ${main}`);
-
-  const dinyin = {};
-  for (const [name, v] of Object.entries(panelResult.技能定音)) {
-    const type = dingyinMap[name];
-    if (type) dinyin[type] = num(dinyin[type]) + v;
-    else dinyin[name] = v; // 未映射时保留原名，DPS 引擎查不到即视为 0
-  }
-
-  const cats = { ...panelResult.武器增 };
-  cats['单体奇术'] = S['奇术增'];
-  cats['群体奇术'] = S['奇术增'];
-
-  return {
-    base: {
-      external: { min: S['最小外功'], max: S['最大外功'] },
-      [key]: { min: S['最小' + main], max: S['最大' + main] },
-      wuxiang: { min: S['最小无相'], max: S['最大无相'] },
-    },
-    pen: {
-      external: { pen: S['外功穿透'], dmg: S['外功伤害加成'] },
-      [key]: { pen: S[main + '穿透'], dmg: S[main + '加成'] },
-    },
-    rates: {
-      precise: S['精准率'], crit: S['会心率'], insight: S['会意率'],
-      directCrit: S['直接会心率'], directInsight: S['直接会意率'],
-      critDmg: S['会心伤害'], insightDmg: S['会意伤害'],
-    },
-    bonuses: { allWeapon: S['全武增'], boss: S['首领增'], cats },
-    dinyin,
-  };
-}
-
-export { computePanel, toDpsPanel };
+export { computePanel };

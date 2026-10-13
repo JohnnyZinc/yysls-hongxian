@@ -19,13 +19,13 @@
  *   - prescription 可选：提供则做档位次级排序与去向建议，不提供则仅按当前 DPS 排序。
  */
 
-import { computePanel, toDpsPanel } from './panel.js';
+import { computePanel } from './panel.js';
 import { calcDPS } from './dps.js';
 import { gradeItem } from './advisor.js';
 
 const TIER_RANK = { 天: 3, 地: 2, 玄: 1, 黄: 0 };
 
-/** 计算一套装备的 DPS（panel → dpsPanel → calcDPS），与验证台 compute() 同口径 */
+/** 计算一套装备的 DPS（computePanel → calcDPS，统一面板 schema 直通，无第二层转换） */
 export function evalGearDps({ buildCtx, version, affixes, dingyinMap, gear, selections }) {
   const pr = computePanel({
     version,
@@ -33,16 +33,21 @@ export function evalGearDps({ buildCtx, version, affixes, dingyinMap, gear, sele
     build: { 流派: buildCtx.build.name },
     gear: gear || [],
     selections: selections || {},
+    dingyinMap,
   });
-  const main = buildCtx.build.selectors.weapon_attribute;
-  const dpsPanel = toDpsPanel(pr, { 主属性: main }, dingyinMap);
   const pi = buildCtx.build.panel_input || {};
-  if (pi.flat_dmg_bonus) dpsPanel.flatBonus = pi.flat_dmg_bonus.default;
-  dpsPanel.food = {
-    ext: pi.food_ext ? pi.food_ext.default : 0,
-    elem: pi.food_elem ? pi.food_elem.default : 0,
+  const override = {
+    stats: pr.stats,
+    五维达标率: pr.五维达标率,
+    主属性达标率: pr.主属性达标率,
+    // 固伤加成/食物属于 build 级战斗配置（非装备面板属性），沿用 build 基准值
+    flatBonus: pi.flat_dmg_bonus ? pi.flat_dmg_bonus.default : 0,
+    food: {
+      ext: pi.food_ext ? pi.food_ext.default : 0,
+      elem: pi.food_elem ? pi.food_elem.default : 0,
+    },
   };
-  const r = calcDPS(buildCtx, { panel: dpsPanel });
+  const r = calcDPS(buildCtx, { panel: override });
   return { panel: pr, dps: r.dps, graduationRate: r.graduationRate };
 }
 

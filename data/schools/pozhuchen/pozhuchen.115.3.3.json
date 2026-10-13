@@ -84,10 +84,6 @@
       "label": "群体奇术增",
       "default": 0
     },
-    "huixuansan_dingyin": {
-      "label": "回旋伞定音",
-      "default": 0.3206
-    },
     "flat_dmg_bonus": {
       "label": "固伤加成",
       "default": 0.6
@@ -99,6 +95,10 @@
     "food_elem": {
       "label": "食物加成-属性",
       "default": 480
+    },
+    "dingyin": {
+      "label": "技能定音",
+      "default": 0.3206
     }
   },
   "base_stats": {
@@ -199,7 +199,7 @@
     "第四心法": null,
     "易水歌": null
   },
-  "set_attack_multiplier": 1.0,
+  "set_attack_multiplier": 1,
   "config": {
     "generic_extra": 0.095,
     "categories": [
@@ -209,7 +209,8 @@
         "panel_keys": [
           "san_dmg"
         ],
-        "includes_all_weapon": true
+        "includes_all_weapon": true,
+        "panel_key": "伞武学增伤"
       },
       {
         "label": "绳镖",
@@ -217,20 +218,15 @@
         "panel_keys": [
           "shengbiao_dmg"
         ],
-        "includes_all_weapon": true
+        "includes_all_weapon": true,
+        "panel_key": "绳镖武学增伤"
       },
       {
-        "label": "单体奇术",
+        "label": "奇术",
         "value": 0,
+        "panel_key": "全奇术增伤",
         "panel_keys": [
-          "single_qishu_dmg"
-        ],
-        "includes_all_weapon": false
-      },
-      {
-        "label": "群体奇术",
-        "value": 0,
-        "panel_keys": [
+          "single_qishu_dmg",
           "group_qishu_dmg"
         ],
         "includes_all_weapon": false
