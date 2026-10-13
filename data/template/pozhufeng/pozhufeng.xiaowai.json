@@ -1,5 +1,4 @@
 {
-  "$comment": "破竹风·小外流 毕业方案模板（一分支一文件）。文件名主干即 flowId（pozhufeng.xiaowai → xiaowai）。",
   "buildId": "pozhufeng",
   "name": "小外流",
   "quota": {
@@ -20,7 +19,6 @@
     "生效精准率": 0.98,
     "会心率": 0.65
   },
-  "thresholdNotes": "生效精准率=黄字精准率(panel.stats['精准率'])——用户确认精准只有白字/黄字两层且黄字=生效；会心率=黄字会心率(panel.stats['会心率'])。两者均为面板值，非 dps 的'最终生效会心概率'(逐技能会心占比BT)。",
   "idealArmorDingyin": "粟子游尘鼠鼠增伤",
   "priorityLayers": {
     "L2": ["双刀武学增伤", "绳镖武学增伤", "全武学增伤", "对首领单位增伤"],

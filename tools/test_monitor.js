@@ -87,7 +87,8 @@ const crRow = th.rows.find(r => r.指标 === '会心率');
 check('达标线：黄字精准率 97.2% < 98% → 未达标，差距 0.008',
   prRow.达标 === false && Math.abs(prRow.差距 - 0.008) < 1e-9 && prRow.当前值 === 0.972);
 check('达标线：黄字会心率 66% ≥ 65% → 达标', crRow.达标 === true && crRow.差距 === 0);
-check('达标线：口径注记随结果透出', typeof th.notes === 'string' && th.notes.includes('黄字'));
+check('达标线：每行带口径字段（来自 monitor.js 指标登记表，非文件注记）',
+  th.rows.every(r => typeof r.口径 === 'string' && r.口径.length > 0));
 
 const unknownFlow = clone(daWai);
 unknownFlow.thresholds = { 最终生效会心概率: 0.75 };
