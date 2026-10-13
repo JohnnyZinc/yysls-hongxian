@@ -12,8 +12,9 @@
 import fs from 'node:fs';
 import { derivePrescription, loadSlotModel } from '../engine/quota.js';
 import { gradeItem } from '../engine/advisor.js';
+import { loadVersionData } from './load-version.js';
 
-const affixes = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
+const { affixes } = loadVersionData();
 const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
 const daWai = { ...flowsDoc, flowId: 'dawai' };
 

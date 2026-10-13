@@ -425,8 +425,11 @@ if (location.protocol === 'file:') {
 // ---------- 启动 ----------
 
 async function init() {
-  state.version = await fetchJson('/data/version/nanlvxianghe-shang.115.json');
-  state.affixes = await fetchJson('/data/version/affixes-115.json');
+  // manifest 单点声明当前赛季；旧赛季目录原地保留但不加载
+  const manifest = await fetchJson('/data/version/manifest.json');
+  const season = manifest['当前赛季'];
+  state.version = await fetchJson(`/data/version/${season}/version.json`);
+  state.affixes = await fetchJson(`/data/version/${season}/affixes.json`);
   boot('③ 数据已加载，初始化界面中…');
 
   // 恢复上次输入

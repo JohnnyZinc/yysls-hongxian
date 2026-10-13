@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """把三份词条 MD（115阶词条数值区间表/各部位词条池表/神力词条）转换为
-data/version/affixes-115.json
+当前赛季目录下的 affixes.json（赛季由 data/version/manifest.json 声明）
 
 规则（用户确认）：
   - 气血最大值/外功防御词条的承音值 = 最大值 × 0.94（原表缺失，按统一规则补齐）
@@ -13,9 +13,18 @@ import sys
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-OUT = "data/version/affixes-115.json"
+MANIFEST = "data/version/manifest.json"
 RANGES_MD = r"参考\115阶词条数值区间表.md"
 POOLS_MD = r"参考\各部位词条池表.md"
+
+
+def current_season_dir():
+    """读 manifest 声明的当前赛季 → data/version/<赛季id>/ 目录"""
+    with open(MANIFEST, encoding="utf-8") as f:
+        season = json.load(f).get("当前赛季")
+    if not season:
+        raise SystemExit(f'{MANIFEST} 缺少 "当前赛季" 字段')
+    return f"data/version/{season}"
 
 
 def parse_pct(v):
@@ -100,6 +109,8 @@ def parse_pools(path):
 
 
 def main():
+    out_dir = current_season_dir()
+    out_path = f"{out_dir}/affixes.json"
     ranges = parse_range_table(RANGES_MD)
     pools, dingyin_ranges, skill_dingyin = parse_pools(POOLS_MD)
 
@@ -116,10 +127,10 @@ def main():
     if skill_dingyin:
         out["护甲定音词条"] = skill_dingyin
 
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as f:
+    os.makedirs(out_dir, exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
-    print(f"-> {OUT}")
+    print(f"-> {out_path}")
     print(f"词条区间 {len(ranges)} 条; 定音区间 {list(dingyin_ranges)}; "
           f"池: { {k: len(v) for k, v in pools.items()} }; 护甲定音词条 {len(skill_dingyin)} 条")
 

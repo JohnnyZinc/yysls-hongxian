@@ -13,8 +13,9 @@
 
 import fs from 'node:fs';
 import { computePanel } from '../engine/panel.js';
+import { loadVersionData } from './load-version.js';
 
-const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
+const { version } = loadVersionData();
 const expected = JSON.parse(fs.readFileSync('data/debug/panel-v01-expected.json', 'utf-8'));
 
 const result = computePanel({

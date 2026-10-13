@@ -11,6 +11,7 @@
  */
 import fs from 'node:fs';
 import assert from 'node:assert';
+import { loadVersionData } from './load-version.js';
 
 // ---- DOM / 浏览器环境桩 ----
 const els = new Map();
@@ -70,7 +71,7 @@ assert.ok(appHtml.includes('placeholder='), '数值框缺少区间 placeholder')
 assert.ok(!appHtml.includes('class="hint"'), '区间提示不应单独成行');
 
 // ---- lookupRange：词条名→区间 的完整覆盖回归 ----
-const A = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
+const A = loadVersionData().affixes;
 const lr = (n) => appMod.lookupRange(A, n);
 assert.ok(lr('最大外功攻击').max === 139.6, '普通词条区间查找失败');
 assert.ok(lr('双刀武学增伤').max === 0.113, '指定武学增伤应映射到武器增伤区间');

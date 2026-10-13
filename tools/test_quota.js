@@ -14,8 +14,9 @@
 
 import fs from 'node:fs';
 import { derivePrescription, loadSlotModel, canonicalAffix, verifyItemFits } from '../engine/quota.js';
+import { loadVersionData } from './load-version.js';
 
-const affixes = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
+const { affixes } = loadVersionData();
 const SCHOOLS_DIR = 'data/template/pozhufeng';
 // 装载器行为：flowId = 文件名去掉流派前缀与 .json
 const daWai = { ...JSON.parse(fs.readFileSync(`${SCHOOLS_DIR}/pozhufeng.dawai.json`, 'utf-8')), flowId: 'dawai' };

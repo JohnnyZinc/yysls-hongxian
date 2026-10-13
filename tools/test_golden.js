@@ -27,6 +27,7 @@ import { calcDPS } from '../engine/dps.js';
 import { loadBuild } from './load-build.js';
 import { derivePrescription } from '../engine/quota.js';
 import { evaluateSwap } from '../engine/swap.js';
+import { loadVersionData } from './load-version.js';
 
 const UPDATE = process.argv.includes('--update');
 const GOLDEN_DIR = 'data/golden';
@@ -72,7 +73,7 @@ function collectDiffs(path, a, b, out) {
 
 // ============ 1. 面板层快照 ============
 function panelCase() {
-  const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
+  const { version } = loadVersionData();
   return computePanel({
     version,
     affixes: { 词条区间: {} },
@@ -100,8 +101,7 @@ function dpsCase(prefix) {
 }
 
 // ============ 3. ΔDPS 层快照（与 test_swap 同一夹具） ============
-const affixes = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
-const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
+const { version, affixes } = loadVersionData();
 const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
 const daWai = { ...flowsDoc, flowId: 'dawai' };
 const buildCtx = loadBuild('pozhufeng.115.3.2');

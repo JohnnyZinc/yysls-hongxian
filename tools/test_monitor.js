@@ -14,9 +14,9 @@
 import fs from 'node:fs';
 import { computePanel } from '../engine/panel.js';
 import { analyzeFlow, evaluateThresholds, quotaCensus, enablement } from '../engine/monitor.js';
+import { loadVersionData } from './load-version.js';
 
-const affixes = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
-const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
+const { version, affixes } = loadVersionData();
 const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
 const daWai = { ...flowsDoc, flowId: 'dawai' };
 const xiaoWai = { ...JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.xiaowai.json', 'utf-8')), flowId: 'xiaowai' };
