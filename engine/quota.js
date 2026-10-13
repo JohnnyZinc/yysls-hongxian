@@ -214,7 +214,7 @@ function probeSingle(baseSpec, slot, c, lineOf, asInitial) {
  * @param weaponTypes 流派携带的武器类型 [左类型来源, 右类型来源] 的类型集合，
  *                    如 ['双刀','绳镖']（来自 build.weapon_categories，跨槽自由排列）
  */
-export function derivePrescription(affixes, flow, weaponTypes = [], dingyinAffix = null) {
+export function derivePrescription(affixes, flow, weaponTypes = []) {
   const model = loadSlotModel(affixes, weaponTypes);
   const errors = [], warnings = [];
   const fail = () => ({ feasible: false, errors, warnings, buildId: flow.buildId ?? null, flowId: flow.flowId ?? null });
@@ -429,9 +429,7 @@ export function derivePrescription(affixes, flow, weaponTypes = [], dingyinAffix
     buildId: flow.buildId ?? null,
     flowId: flow.flowId ?? null,
     flowName: flow.name ?? null,
-    idealArmorDingyin: dingyinAffix ?? null,
     thresholds: flow.thresholds ?? null,
-    priorityLayers: flow.priorityLayers ?? null,
     weaponTypes: { 左武器: arrangements[0][0], 右武器: arrangements[0][1] },
     errors: [],
     warnings,

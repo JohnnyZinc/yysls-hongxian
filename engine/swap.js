@@ -33,7 +33,6 @@ export function evalGearDps({ buildCtx, version, affixes, gear, selections }) {
     build: { 流派: buildCtx.build.name },
     gear: gear || [],
     selections: selections || {},
-    dingyinAffix: buildCtx.build.dingyin_affix,
   });
   const pi = buildCtx.build.panel_input || {};
   const override = {

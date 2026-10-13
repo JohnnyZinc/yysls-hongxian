@@ -157,12 +157,6 @@ export function gradeItem(prescription, slotName, item) {
     warnings.push('结构档位达标，但其余 7 部位无法补齐配额（局部必备/自由是必要条件，此处为精确复核结果）');
   }
 
-  if (item.dingyin && prescription.idealArmorDingyin && ARMOR_SLOTS.has(slotName)) {
-    notes.push(item.dingyin === prescription.idealArmorDingyin
-      ? '定音与流派理想一致'
-      : `定音「${item.dingyin}」≠ 流派理想「${prescription.idealArmorDingyin}」（可随时变音，仅提示不计档）`);
-  }
-
   return {
     ok: true,
     slot: slotName,

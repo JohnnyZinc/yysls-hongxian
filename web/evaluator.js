@@ -35,12 +35,25 @@ const TIER_CLASS = { 天: 'tian', 地: 'di', 玄: 'xuan', 黄: 'huang' };
 
 // ---------- 状态 ----------
 
-function newDraft(slot = '左武器', weaponType = '') {
+/** 方案对该部位定音槽的推荐词条（攻具=攻具定音，护甲=防具定音） */
+function planDingyin(slot, flow) {
+  if (!flow) return '';
+  const 攻具 = ['左武器', '右武器', '环', '佩'];
+  return (攻具.includes(slot) ? flow.攻具定音 : flow.防具定音) || '';
+}
+
+function newDraft(slot = '左武器', weaponType = '', flow = null) {
+  const dyName = planDingyin(slot, flow);
+  let dyVal = null;
+  if (dyName && state.affixes) {
+    const r = lookupRange(state.affixes, dyName);
+    if (r && r.max != null) dyVal = r.max;
+  }
   return {
     slot, weaponType, 承音: false,
     初始: { 属性: '', 数值: null },
     调律: [0, 1, 2, 3].map(() => ({ 属性: '', 数值: null })),
-    定音: { 属性: '', 数值: null },
+    定音: { 属性: dyName, 数值: dyVal },
   };
 }
 
@@ -206,8 +219,6 @@ async function switchBuild(buildId) {
   boot('④ 拉取流派数据中…');
   state.data = await loadBuildData(buildId);
   const b = state.data.build;
-  state.selections.装备套装 = state.selections.装备套装 || b.selectors.set;
-  state.selections.武库 = b.selectors.weapon_attribute;
   // 流派配额模板（仅部分流派有；404 优雅降级）
   state.flows = null;
   state.flowId = null;
@@ -220,10 +231,11 @@ async function switchBuild(buildId) {
     }
   } catch { /* 无模板：仅 DPS/面板可用 */ }
   applyFlow();
+  applyPlanDefaults();
   // 编辑器默认武器类型跟随流派（左/右武器）
   const cats = (b.weapon_categories || []).slice(1, 3).map((c) => c.label);
   state.draft = newDraft(state.draft.slot === '右武器' ? '右武器' : '左武器',
-    state.draft.slot === '右武器' ? (cats[1] || '') : (cats[0] || ''));
+    state.draft.slot === '右武器' ? (cats[1] || '') : (cats[0] || ''), currentFlow());
   save();
   renderHeader();
   render();
@@ -255,15 +267,27 @@ function applyFlow() {
   if (!flow) { state.prescription = null; return; }
   // 流派武器类型（指定增跟武器类型走、跨槽自由排列）：来自 build.weapon_categories
   const weaponTypes = (state.data?.build.weapon_categories || []).slice(1, 3).map((c) => c.label);
-  state.prescription = derivePrescription(state.affixes, flow, weaponTypes, state.data?.build.dingyin_affix ?? null);
+  state.prescription = derivePrescription(state.affixes, flow, weaponTypes);
   if (state.prescription && !state.prescription.feasible) {
     state.prescription = null; // 模板不可行时按"无模板"降级
   }
 }
 
+/** 方案推荐值 → UI 默认（选流派/切流时加载；下拉可改，改动只进面板，不动 DPS 参照系） */
+function applyPlanDefaults() {
+  const b = state.data?.build;
+  const flow = currentFlow();
+  state.selections.装备套装 = flow?.装备套装 || b?.selectors?.set || '';
+  state.selections.武库 = flow?.武库 || b?.selectors?.weapon_attribute || '';
+  state.selections.弓玦 = flow?.弓玦 || '';
+  const xf = Array.isArray(flow?.心法) ? flow.心法 : [];
+  state.selections.心法 = [0, 1, 2, 3].map((i) => xf[i] || '');
+}
+
 function switchFlow(flowId) {
   state.flowId = flowId;
   applyFlow();
+  applyPlanDefaults();
   state.selected = null;
   save();
   renderHeader();
@@ -633,7 +657,7 @@ const actions = {
     const wt = slot === '左武器' ? (cats[0] || state.draft.weaponType)
       : slot === '右武器' ? (cats[1] || state.draft.weaponType)
         : state.draft.weaponType;
-    state.draft = newDraft(slot, isWeaponSlot(slot) ? wt : '');
+    state.draft = newDraft(slot, isWeaponSlot(slot) ? wt : '', currentFlow());
     save(); render();
   },
 
@@ -674,7 +698,7 @@ const actions = {
   },
 
   resetDraft() {
-    state.draft = newDraft(state.draft.slot, state.draft.weaponType);
+    state.draft = newDraft(state.draft.slot, state.draft.weaponType, currentFlow());
     save(); render();
   },
 
@@ -692,7 +716,7 @@ const actions = {
     const uid = 'b' + (state.uidSeq++);
     state.backpack.push({ ...piece, uid });
     state.selected = { kind: 'backpack', uid };
-    state.draft = newDraft(p.slot, p.weaponType);
+    state.draft = newDraft(p.slot, p.weaponType, currentFlow());
     save(); render();
     return true;
   },

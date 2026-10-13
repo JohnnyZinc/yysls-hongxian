@@ -19,7 +19,7 @@ const { version, affixes } = loadVersionData();
 const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
 const daWai = { ...flowsDoc, flowId: 'dawai' };
 const buildCtx = loadBuild('pozhufeng.115.3.2');
-const prescription = derivePrescription(affixes, daWai, ['双刀', '绳镖'], buildCtx.build.dingyin_affix);
+const prescription = derivePrescription(affixes, daWai, ['双刀', '绳镖']);
 const selections = { 装备套装: buildCtx.build.selectors.set, 武库: buildCtx.build.selectors.weapon_attribute };
 
 let pass = 0;

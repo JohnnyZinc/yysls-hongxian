@@ -343,7 +343,6 @@ function compute() {
       build: { 流派: state.data.build.name },
       gear: pieces,
       selections: state.selections,
-      dingyinAffix: state.data.build.dingyin_affix,
     });
     const pi = state.data.build.panel_input;
     const r = calcDPS(state.data, {

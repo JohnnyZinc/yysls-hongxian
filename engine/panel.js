@@ -11,13 +11,13 @@
  *   build       { 流派: '破竹风' }
  *   gear        8件装备实例：{ slot, 承音, 初始:{属性,数值}, 调律:[{属性,数值}×4], 定音:{属性,数值} }
  *   selections  { 弓玦, 装备套装, 心法:[×4], 武库 }
- *   dingyinAffix  本流派唯一的护甲定音词条名（单字符串），来自 DPS 包 build.dingyin_affix
  *
  * 输出：
  *   { stats, 五维达标率, 主属性达标率, warnings }
  *   stats 键全部使用游戏内全称（项目约定：内部一律全称，不用简称）：
  *   - 指定武学增伤按武器类型直接进 stats（`${类型}武学增伤`，为 0 不出键）；
- *   - 技能定音为单一数值（定音词条由流派决定、无选择空间；数值随掷出结果变化，
+ *   - 技能定音为单一数值（护甲定音词条的数值无条件计入，名字不参与判断——
+ *     定音对流派是定死的、可随意重掷，数值才是事实，随掷出结果变化，
  *     是 ΔDPS 的真实变量之一）；
  *   - 最终生效会心率/最终生效会意率/最终生效会心会意率：不含技能级标记的面板基准值，
  *     技能级标记的逐技能修正在 dps.js。公式见 参考/燕云十六声的四种伤害与三率.md。
@@ -65,13 +65,11 @@ function makeBuckets() {
 }
 
 function computePanel(input) {
-  const { version, build, gear = [], selections = {}, dingyinAffix = null } = input;
+  const { version, build, gear = [], selections = {} } = input;
   const warnings = [];
   const C = version.constants;
   const buckets = makeBuckets();
   let dingyinSum = 0;
-  const schoolAffix = dingyinAffix ?? null;
-  let schoolAffixWarned = false;
 
   const add = (bucket, stat, v) => {
     buckets[bucket][stat] = num(buckets[bucket][stat]) + v;
@@ -119,19 +117,10 @@ function computePanel(input) {
           warnings.push(`承音装备词条超上限: ${slot} ${aff.属性}=${v} > 承音值${range.承音}`);
         }
       }
-      // 护甲定音：词条由流派决定、无选择空间 → 匹配本流派词条才计入技能定音
+      // 护甲定音：对流派是定死的、可随意重掷——名字不参与判断，数值无条件计入技能定音
       if (kind === '定音' && isArmorDing
           && !['外功穿透', '无相穿透', '外功抗性'].includes(raw)) {
-        if (schoolAffix == null) {
-          if (!schoolAffixWarned) {
-            warnings.push(`DPS 包未声明本流派定音词条（build.dingyin_affix），定音"${aff.属性}"未计入技能定音`);
-            schoolAffixWarned = true;
-          }
-        } else if (aff.属性 === schoolAffix) {
-          dingyinSum += v;
-        } else {
-          warnings.push(`护甲定音"${aff.属性}"非本流派词条"${schoolAffix}"，未计入技能定音`);
-        }
+        dingyinSum += v;
         continue;
       }
       add('affix', raw, v);
