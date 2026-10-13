@@ -17,9 +17,9 @@ import { analyzeFlow, evaluateThresholds, quotaCensus, enablement } from '../eng
 
 const affixes = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
 const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
-const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng.flows.json', 'utf-8'));
-const daWai = flowsDoc.flows.find(f => f.flowId === 'daWai');
-const xiaoWai = flowsDoc.flows.find(f => f.flowId === 'xiaoWai');
+const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
+const daWai = { ...flowsDoc, flowId: 'dawai' };
+const xiaoWai = { ...JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.xiaowai.json', 'utf-8')), flowId: 'xiaowai' };
 
 let pass = 0;
 const fails = [];
@@ -123,7 +123,7 @@ const pr = computePanel({
 });
 const report = analyzeFlow({ panelStats: pr.stats, gear: fullGear, flow: daWai, affixes });
 check('集成：报告 ok 且自描述（buildId/flowId/口径）',
-  report.ok === true && report.buildId === 'pozhufeng.115.3.2' && report.flowId === 'daWai'
+  report.ok === true && report.buildId === 'pozhufeng' && report.flowId === 'dawai'
   && typeof report.口径.说明 === 'string');
 check('集成：达标线当前值来自真实面板（精准率一致）',
   report.达标线.rows.find(r => r.指标 === '生效精准率').当前值 === pr.stats['精准率']);

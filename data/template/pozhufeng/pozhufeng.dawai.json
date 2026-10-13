@@ -1,0 +1,30 @@
+{
+  "$comment": "破竹风·大外流 毕业方案模板（一分支一文件）。文件名主干即 flowId（pozhufeng.dawai → dawai）。配额行计数按恰好、总和=40；指定武学增伤跟武器类型走且跨左右槽自由排列（由推导器按排列枚举，无需 pins）；词条名支持社区别名。thresholds/priorityLayers 供监测系统消费，idealArmorDingyin 供匹配度提示与毕业基准生成。",
+  "buildId": "pozhufeng",
+  "name": "大外流",
+  "quota": {
+    "lines": [
+      { "any_of": ["最大外功攻击"], "count": 12 },
+      { "any_of": ["双刀武学增伤"], "count": 1 },
+      { "any_of": ["绳镖武学增伤"], "count": 1 },
+      { "any_of": ["全武学增伤"], "count": 2 },
+      { "any_of": ["对首领单位增伤"], "count": 2 },
+      { "any_of": ["精准率"], "count": 2 },
+      { "any_of": ["会心率"], "count": 8 },
+      { "any_of": ["劲"], "count": 10 },
+      { "any_of": ["势"], "count": 2 }
+    ]
+  },
+  "thresholds": {
+    "生效精准率": 0.98,
+    "会心率": 0.65
+  },
+  "thresholdNotes": "生效精准率=黄字精准率(panel.stats['精准率'])——用户确认精准只有白字/黄字两层且黄字=生效；会心率=黄字会心率(panel.stats['会心率'])。两者均为面板值，非 dps 的'最终生效会心概率'(逐技能会心占比BT)。",
+  "idealArmorDingyin": "粟子游尘鼠鼠增伤",
+  "priorityLayers": {
+    "L2": ["双刀武学增伤", "绳镖武学增伤", "全武学增伤", "对首领单位增伤"],
+    "L3": ["最大外功攻击", "劲", "势"],
+    "L4": ["最大破竹攻击", "最大无相攻击"],
+    "L5": ["最小外功攻击", "气血最大值", "外功防御", "御", "体"]
+  }
+}

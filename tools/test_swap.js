@@ -21,10 +21,10 @@ import { evaluateSwap } from '../engine/swap.js';
 const affixes = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
 const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
 const dingyinMap = JSON.parse(fs.readFileSync('data/version/dingyin-map.json', 'utf-8'));
-const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng.flows.json', 'utf-8'));
-const daWai = flowsDoc.flows.find(f => f.flowId === 'daWai');
+const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
+const daWai = { ...flowsDoc, flowId: 'dawai' };
 const buildCtx = loadBuild('pozhufeng.115.3.2');
-const prescription = derivePrescription(affixes, daWai);
+const prescription = derivePrescription(affixes, daWai, ['双刀', '绳镖']);
 const selections = { 装备套装: buildCtx.build.selectors.set, 武库: buildCtx.build.selectors.weapon_attribute };
 
 let pass = 0;

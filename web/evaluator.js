@@ -29,7 +29,7 @@ const BUILDS = [
 const SLOTS = ['左武器', '右武器', '环', '佩', '冠胄', '胸甲', '胫甲', '腕甲'];
 const WEAPON_SLOTS = ['左武器', '右武器'];
 const WEAPON_TYPES = ['剑', '枪', '横刀', '陌刀', '伞', '扇', '绳镖', '双刀', '拳甲', '鼓'];
-const FLOWS_URL = (buildId) => `/data/template/${buildId.split('.')[0]}.flows.json`;
+const FLOWS_API = (prefix) => `/api/template/${encodeURIComponent(prefix)}`;
 const STORAGE_KEY = 'yysls-evaluator-v1';
 const TIER_CLASS = { 天: 'tian', 地: 'di', 玄: 'xuan', 黄: 'huang' };
 
@@ -90,6 +90,20 @@ async function loadBuildData(buildId) {
     fetchJson(`${dir}/${buildId}.effects.json`),
   ]);
   return { build, skills: skillsJson.skills, effects: effectsJson.effects };
+}
+
+/** 分支模板发现：serve.js 列举 data/template/<流派>/ 目录，逐文件拉取（文件名主干即 flowId） */
+async function loadFlows(buildId) {
+  const prefix = buildId.split('.')[0];
+  const listing = await fetchJson(FLOWS_API(prefix));
+  const flows = [];
+  for (const f of listing.files || []) {
+    const stem = f.replace(/\.json$/, '');
+    const flowId = stem.startsWith(`${prefix}.`) ? stem.slice(prefix.length + 1) : stem;
+    const doc = await fetchJson(`/data/template/${prefix}/${f}`);
+    flows.push({ ...doc, buildId: doc.buildId || prefix, flowId });
+  }
+  return { prefix, flows };
 }
 
 // ---------- 词条池 / 区间（与验证台同款） ----------
@@ -200,11 +214,10 @@ async function switchBuild(buildId) {
   state.flowId = null;
   state.prescription = null;
   try {
-    const doc = await fetchJson(FLOWS_URL(buildId));
-    state.flows = doc;
+    state.flows = await loadFlows(buildId);
     // 保留存档里的流选择（若仍存在）；否则取第一个
-    if (!doc.flows.some((f) => f.flowId === state.flowId)) {
-      state.flowId = doc.flows[0]?.flowId ?? null;
+    if (!state.flows.flows.some((f) => f.flowId === state.flowId)) {
+      state.flowId = state.flows.flows[0]?.flowId ?? null;
     }
   } catch { /* 无模板：仅 DPS/面板可用 */ }
   applyFlow();
@@ -240,7 +253,10 @@ function renderHeader() {
 
 function applyFlow() {
   const flow = currentFlow();
-  state.prescription = flow ? derivePrescription(state.affixes, flow) : null;
+  if (!flow) { state.prescription = null; return; }
+  // 流派武器类型（指定增跟武器类型走、跨槽自由排列）：来自 build.weapon_categories
+  const weaponTypes = (state.data?.build.weapon_categories || []).slice(1, 3).map((c) => c.label);
+  state.prescription = derivePrescription(state.affixes, flow, weaponTypes);
   if (state.prescription && !state.prescription.feasible) {
     state.prescription = null; // 模板不可行时按"无模板"降级
   }
@@ -469,8 +485,10 @@ function gradeDetailHtml(g) {
     parts.push(`<div class="muted">无效词条 ${g.k} 条 · 缺必备 ${g.m} 条${g.globalFitVerified === false ? ' · ⚠ 全局复核未通过' : ''}${g.globalFitVerified === true ? ' · 全局复核 ✓' : ''}</div>`);
   }
   if (g.missing?.length) {
-    parts.push(`<div class="digest"><div class="digest-title">缺必备</div>${g.missing.map((m) =>
-      `<div>${m.type === '初始位' ? `初始位应为「${escapeHtml(m.affix)}」` : `「${escapeHtml(m.affix)}」还差 ${m.deficit} 条`}</div>`).join('')}</div>`);
+    parts.push(`<div class="digest"><div class="digest-title">缺必备</div>${g.missing.map((m) => {
+      const label = Array.isArray(m.affix) ? `任选：${m.affix.join('/')}` : escapeHtml(m.affix);
+      return `<div>${m.type === '初始位' ? `初始位应为「${escapeHtml(m.affix)}」` : `「${label}」还差 ${m.deficit} 条`}</div>`;
+    }).join('')}</div>`);
   }
   if (g.invalidAffixes?.length) {
     parts.push(`<div class="digest"><div class="digest-title">无效词条</div>${g.invalidAffixes.map((u) =>

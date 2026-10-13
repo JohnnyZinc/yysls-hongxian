@@ -40,6 +40,16 @@ globalThis.location = { protocol: 'http:' };
 globalThis.CSS = { escape: (s) => s };
 globalThis.fetch = async (url) => {
   const p = String(url).replace(/^\//, '');
+  if (p.startsWith('api/template/')) {
+    // serve.js 的目录列举端点桩：返回 data/template/<流派>/ 下的分支模板文件
+    const dir = 'data/template/' + p.replace('api/template/', '');
+    try {
+      const files = (await fs.promises.readdir(dir)).filter((f) => f.endsWith('.json')).sort();
+      return { ok: true, json: async () => ({ prefix: dir.split('/').pop(), files }) };
+    } catch {
+      return { ok: false, status: 404, json: async () => ({ prefix: '', files: [] }) };
+    }
+  }
   const data = await fs.promises.readFile(p, 'utf-8');
   return { ok: true, json: async () => JSON.parse(data) };
 };
@@ -78,14 +88,14 @@ check('整体视图：DPS > 0（空装备=固定层面板）', !!dpsMatch && par
 check('整体视图：属性面板含三率', view().includes('精准率') && view().includes('会心率'));
 
 // ---- 1.5 切流（大外流 → 小外流 → 回大外流） ----
-mod.__test.switchFlow('xiaoWai');
+mod.__test.switchFlow('xiaowai');
 check('切流：flowId/推导器切到小外流，下拉选中项同步',
-  state.flowId === 'xiaoWai' && state.prescription.flowId === 'xiaoWai'
-  && flowSel.innerHTML.includes('value="xiaoWai" selected'));
+  state.flowId === 'xiaowai' && state.prescription.flowId === 'xiaowai'
+  && flowSel.innerHTML.includes('value="xiaowai" selected'));
 check('切流：整体视图仍可用（小外流启用度出现在监测中）',
   view().includes('DPS') && view().includes('启用度'));
-mod.__test.switchFlow('daWai');
-check('切回大外流：推导器复原', state.flowId === 'daWai' && state.prescription.flowId === 'daWai');
+mod.__test.switchFlow('dawai');
+check('切回大外流：推导器复原', state.flowId === 'dawai' && state.prescription.flowId === 'dawai');
 
 // ---- 2. 添加天档左武器 → 背包视图 ----
 actions.setDraftSlot('左武器');
@@ -123,7 +133,7 @@ check('删除：背包清空、回到整体视图',
 
 // ---- 5. 存档 ----
 const saved = JSON.parse(localStorage.getItem('yysls-evaluator-v1') || 'null');
-check('存档：equipped/backpack/flowId 持久化', !!saved && saved.flowId === 'daWai' && Array.isArray(saved.backpack));
+check('存档：equipped/backpack/flowId 持久化', !!saved && saved.flowId === 'dawai' && Array.isArray(saved.backpack));
 
 // ---- 汇总 ----
 console.log(`\n通过 ${pass}/${pass + fails.length}`);

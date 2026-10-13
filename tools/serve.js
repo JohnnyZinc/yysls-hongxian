@@ -5,7 +5,7 @@
  * 用法: node tools/serve.js [端口，默认4173]
  */
 import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { extname, join, normalize, sep } from 'node:path';
 
 const root = process.cwd();
@@ -28,6 +28,20 @@ createServer(async (req, res) => {
     if (pathname === '/' || pathname === '/web/' || pathname === '/web') {
       res.writeHead(302, { Location: '/web/index.html' });
       res.end();
+      return;
+    }
+    // 分支模板发现端点：浏览器无法列目录，由本服务器代劳（无需 index.json）
+    const tplMatch = pathname.match(/^\/api\/template\/([\w-]+)$/);
+    if (tplMatch) {
+      const dir = join(root, 'data', 'template', tplMatch[1]);
+      try {
+        const files = (await readdir(dir)).filter((f) => f.endsWith('.json')).sort();
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+        res.end(JSON.stringify({ prefix: tplMatch[1], files }));
+      } catch {
+        res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ prefix: tplMatch[1], files: [] }));
+      }
       return;
     }
     const safe = normalize(pathname).split(sep).filter((p) => p !== '..').join(sep);
