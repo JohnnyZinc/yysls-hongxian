@@ -50,10 +50,11 @@ async function fetchJson(url) {
 }
 
 async function loadBuildData(buildId) {
+  const dir = `/data/schools/${buildId.split('.')[0]}`;
   const [build, skillsJson, effectsJson] = await Promise.all([
-    fetchJson(`/data/${buildId}.json`),
-    fetchJson(`/data/${buildId}.skills.json`),
-    fetchJson(`/data/${buildId}.effects.json`),
+    fetchJson(`${dir}/${buildId}.json`),
+    fetchJson(`${dir}/${buildId}.skills.json`),
+    fetchJson(`${dir}/${buildId}.effects.json`),
   ]);
   // 注意解包：skills.json/effects.json 顶层含 _source 等元数据，数据在 .skills/.effects
   return { build, skills: skillsJson.skills, effects: effectsJson.effects };

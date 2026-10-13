@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 对比四个流派的 skills / effects，找出共同内容与差异。
-输出：控制台摘要 + data/comparison_report.json（完整细节）
+输出：控制台摘要 + archive/comparison_report.json（完整细节）
 """
 import json
 import math
@@ -141,9 +141,9 @@ def main():
         report, counts = compare(kind)
         print_report(kind, report, counts)
         full[kind] = report
-    with open("data/comparison_report.json", "w", encoding="utf-8") as f:
+    with open("archive/comparison_report.json", "w", encoding="utf-8") as f:
         json.dump(full, f, ensure_ascii=False, indent=2)
-    print("完整报告已写入 data/comparison_report.json")
+    print("完整报告已写入 archive/comparison_report.json")
 
 
 if __name__ == "__main__":

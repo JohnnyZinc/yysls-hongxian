@@ -2,24 +2,24 @@
 
 /**
  * diff_event.js — 逐事件对比引擎中间量 vs Excel 缓存值
- * 用法: node tools/diff_event.js <build_prefix> <row> [row...]
- * 前置: 已用 dump_excel_rows.py 导出 data/debug/<prefix>/row{N}.json
+ * 用法: node tools/diff_event.js <buildId> <row> [row...]
+ * 前置: 已用 dump_excel_rows.py 导出 data/debug/<buildId>/row{N}.json
  */
 
 import fs from 'node:fs';
 import { calcDPS } from '../engine/dps.js';
 import { loadBuild } from './load-build.js';
 
-const prefix = process.argv[2];
+const buildId = process.argv[2];
 const rows = process.argv.slice(3).map(Number);
 
-const ctx = loadBuild(`data/${prefix}`);
+const ctx = loadBuild(buildId);
 const r = calcDPS(ctx, { debug: true });
 
 for (const row of rows) {
   const ev = r.perEvent.find((e) => e.row === row);
-  const excel = JSON.parse(fs.readFileSync(`data/debug/${prefix}/row${row}.json`, 'utf-8'));
-  console.log(`===== ${prefix} row${row} [${ev ? ev.skill : '?'}] =====`);
+  const excel = JSON.parse(fs.readFileSync(`data/debug/${buildId}/row${row}.json`, 'utf-8'));
+  console.log(`===== ${buildId} row${row} [${ev ? ev.skill : '?'}] =====`);
   if (!ev || !ev.inter) {
     console.log('  (无引擎中间量——覆盖事件或未开debug)');
     continue;

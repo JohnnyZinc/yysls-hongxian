@@ -14,12 +14,12 @@ import { calcDPS } from '../engine/dps.js';
 import { loadBuild } from './load-build.js';
 
 const BUILDS = [
-  ['data/pozhufeng.115.3.2', '破竹风'],
-  ['data/qiansiyu.115.3.5', '牵丝玉'],
-  ['data/pozhuchen.115.3.3', '破竹尘'],
-  ['data/pozhuzun.115.3.6', '破竹樽'],
-  ['data/lieshiwei.115.3.1', '裂石威'],
-  ['data/qiansilin.115.3.1', '牵丝霖'],
+  ['pozhufeng.115.3.2', '破竹风'],
+  ['qiansiyu.115.3.5', '牵丝玉'],
+  ['pozhuchen.115.3.3', '破竹尘'],
+  ['pozhuzun.115.3.6', '破竹樽'],
+  ['lieshiwei.115.3.1', '裂石威'],
+  ['qiansilin.115.3.1', '牵丝霖'],
 ];
 
 const main = () => {

@@ -23,7 +23,7 @@ const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.
 const dingyinMap = JSON.parse(fs.readFileSync('data/version/dingyin-map.json', 'utf-8'));
 const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng.flows.json', 'utf-8'));
 const daWai = flowsDoc.flows.find(f => f.flowId === 'daWai');
-const buildCtx = loadBuild('data/pozhufeng.115.3.2');
+const buildCtx = loadBuild('pozhufeng.115.3.2');
 const prescription = derivePrescription(affixes, daWai);
 const selections = { 装备套装: buildCtx.build.selectors.set, 武库: buildCtx.build.selectors.weapon_attribute };
 

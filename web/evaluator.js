@@ -83,10 +83,11 @@ async function fetchJson(url) {
 }
 
 async function loadBuildData(buildId) {
+  const dir = `/data/schools/${buildId.split('.')[0]}`;
   const [build, skillsJson, effectsJson] = await Promise.all([
-    fetchJson(`/data/${buildId}.json`),
-    fetchJson(`/data/${buildId}.skills.json`),
-    fetchJson(`/data/${buildId}.effects.json`),
+    fetchJson(`${dir}/${buildId}.json`),
+    fetchJson(`${dir}/${buildId}.skills.json`),
+    fetchJson(`${dir}/${buildId}.effects.json`),
   ]);
   return { build, skills: skillsJson.skills, effects: effectsJson.effects };
 }

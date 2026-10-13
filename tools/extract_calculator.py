@@ -8,7 +8,7 @@
 用法:
   python extract_calculator.py <xlsx路径> <build_id> <中文名> <输出前缀> [game_version]
 例:
-  python extract_calculator.py "参考\破竹风115阶竞速轴属性毕业率进阶计算器3.1.xlsx" pozhufeng 破竹风 data/pozhufeng.115.3.5 115
+  python extract_calculator.py "参考\破竹风115阶竞速轴属性毕业率进阶计算器3.1.xlsx" pozhufeng 破竹风 data/schools/pozhufeng/pozhufeng.115.3.5 115
 
 设计要点：
   - 表头动态映射（四个文件的表头文字/列位有差异，按表头文字找列，不写死列号）
