@@ -81,8 +81,8 @@ check('溢出统计：精准率 缺口1', rowOf(overCensus, '精准率').缺口 
 
 const stats = { 精准率: 0.972, 会心率: 0.66, 会意率: 0.09 };
 const th = evaluateThresholds(stats, daWai);
-check('达标线：两行（生效精准率/会心率）', th.rows.length === 2);
-const prRow = th.rows.find(r => r.指标 === '生效精准率');
+check('达标线：两行（精准率/会心率）', th.rows.length === 2);
+const prRow = th.rows.find(r => r.指标 === '精准率');
 const crRow = th.rows.find(r => r.指标 === '会心率');
 check('达标线：黄字精准率 97.2% < 98% → 未达标，差距 0.008',
   prRow.达标 === false && Math.abs(prRow.差距 - 0.008) < 1e-9 && prRow.当前值 === 0.972);
@@ -127,7 +127,7 @@ check('集成：报告 ok 且自描述（buildId/flowId/口径）',
   report.ok === true && report.buildId === 'pozhufeng' && report.flowId === 'dawai'
   && typeof report.口径.说明 === 'string');
 check('集成：达标线当前值来自真实面板（精准率一致）',
-  report.达标线.rows.find(r => r.指标 === '生效精准率').当前值 === pr.stats['精准率']);
+  report.达标线.rows.find(r => r.指标 === '精准率').当前值 === pr.stats['精准率']);
 check('集成：配额统计与单测一致（满配全零缺口）',
   report.配额统计.rows.every(r => r.缺口 === 0 && r.溢出 === 0));
 check('集成：空装备真实面板产出有限数值（固定层参与）', pr.stats['精准率'] > 0);
