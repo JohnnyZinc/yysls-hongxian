@@ -131,6 +131,11 @@ check('集成：达标线当前值来自真实面板（精准率一致）',
 check('集成：配额统计与单测一致（满配全零缺口）',
   report.配额统计.rows.every(r => r.缺口 === 0 && r.溢出 === 0));
 check('集成：空装备真实面板产出有限数值（固定层参与）', pr.stats['精准率'] > 0);
+check('集成：新指标「最终生效会心率」已登记且达标线取自面板基准值',
+  (() => {
+    const r = evaluateThresholds(pr.stats, { ...clone(daWai), thresholds: { 最终生效会心率: 0.5 } });
+    return r.rows.length === 1 && r.rows[0].当前值 === pr.stats['最终生效会心率'] && r.warnings.length === 0;
+  })());
 
 const reportX = analyzeFlow({ panelStats: pr.stats, gear: fullGear, flow: xiaoWai, affixes });
 check('集成：小外流报告含启用度且适用',
