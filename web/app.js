@@ -24,7 +24,6 @@ const state = {
   data: null,           // { build, skills, effects }
   version: null,
   affixes: null,
-  dingyinMap: null,
   selections: { 弓玦: '', 装备套装: '', 心法: ['', '', '', ''], 武库: '' },
   gear: SLOTS.map(() => ({
     weaponType: '', 承音: false,
@@ -344,7 +343,7 @@ function compute() {
       build: { 流派: state.data.build.name },
       gear: pieces,
       selections: state.selections,
-      dingyinMap: state.dingyinMap,
+      dingyinAffix: state.data.build.dingyin_affix,
     });
     const pi = state.data.build.panel_input;
     const r = calcDPS(state.data, {
@@ -428,7 +427,6 @@ if (location.protocol === 'file:') {
 async function init() {
   state.version = await fetchJson('/data/version/nanlvxianghe-shang.115.json');
   state.affixes = await fetchJson('/data/version/affixes-115.json');
-  state.dingyinMap = await fetchJson('/data/version/dingyin-map.json');
   boot('③ 数据已加载，初始化界面中…');
 
   // 恢复上次输入

@@ -102,11 +102,10 @@ function dpsCase(prefix) {
 // ============ 3. ΔDPS 层快照（与 test_swap 同一夹具） ============
 const affixes = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
 const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
-const dingyinMap = JSON.parse(fs.readFileSync('data/version/dingyin-map.json', 'utf-8'));
 const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
 const daWai = { ...flowsDoc, flowId: 'dawai' };
 const buildCtx = loadBuild('pozhufeng.115.3.2');
-const prescription = derivePrescription(affixes, daWai, ['双刀', '绳镖']);
+const prescription = derivePrescription(affixes, daWai, ['双刀', '绳镖'], buildCtx.build.dingyin_affix);
 const swapSelections = {
   装备套装: buildCtx.build.selectors.set,
   武库: buildCtx.build.selectors.weapon_attribute,
@@ -145,7 +144,7 @@ const nearLeft = clonePiece(tianLeft);
 nearLeft.调律[0].数值 = V('最大外功攻击') - 1.2;
 
 const swapArgs = (currentGear, newItem, extra = {}) => ({
-  buildCtx, version, affixes, dingyinMap, selections: swapSelections,
+  buildCtx, version, affixes, selections: swapSelections,
   currentGear, newItem, prescription, ...extra,
 });
 

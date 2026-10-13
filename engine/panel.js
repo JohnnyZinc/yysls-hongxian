@@ -11,7 +11,7 @@
  *   build       { 流派: '破竹风' }
  *   gear        8件装备实例：{ slot, 承音, 初始:{属性,数值}, 调律:[{属性,数值}×4], 定音:{属性,数值} }
  *   selections  { 弓玦, 装备套装, 心法:[×4], 武库 }
- *   dingyinMap  { 流派: 本流派唯一的护甲定音词条名 }，来自 data/version/dingyin-map.json
+ *   dingyinAffix  本流派唯一的护甲定音词条名（单字符串），来自 DPS 包 build.dingyin_affix
  *
  * 输出：
  *   { stats, 五维达标率, 主属性达标率, warnings }
@@ -65,12 +65,12 @@ function makeBuckets() {
 }
 
 function computePanel(input) {
-  const { version, build, gear = [], selections = {}, dingyinMap = {} } = input;
+  const { version, build, gear = [], selections = {}, dingyinAffix = null } = input;
   const warnings = [];
   const C = version.constants;
   const buckets = makeBuckets();
   let dingyinSum = 0;
-  const schoolAffix = dingyinMap?.[build.流派] ?? null;
+  const schoolAffix = dingyinAffix ?? null;
   let schoolAffixWarned = false;
 
   const add = (bucket, stat, v) => {
@@ -124,7 +124,7 @@ function computePanel(input) {
           && !['外功穿透', '无相穿透', '外功抗性'].includes(raw)) {
         if (schoolAffix == null) {
           if (!schoolAffixWarned) {
-            warnings.push(`流派"${build.流派}"未登记护甲定音词条（dingyin-map.json），定音"${aff.属性}"未计入技能定音`);
+            warnings.push(`DPS 包未声明本流派定音词条（build.dingyin_affix），定音"${aff.属性}"未计入技能定音`);
             schoolAffixWarned = true;
           }
         } else if (aff.属性 === schoolAffix) {

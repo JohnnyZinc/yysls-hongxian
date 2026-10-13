@@ -49,7 +49,6 @@ const state = {
   data: null,           // { build, skills, effects }
   version: null,
   affixes: null,
-  dingyinMap: null,
   flows: null,          // { buildId, flows: [flow,...] } | null（流派无模板时为 null）
   flowId: null,
   prescription: null,   // derivePrescription 结果（仅当前流）
@@ -256,7 +255,7 @@ function applyFlow() {
   if (!flow) { state.prescription = null; return; }
   // 流派武器类型（指定增跟武器类型走、跨槽自由排列）：来自 build.weapon_categories
   const weaponTypes = (state.data?.build.weapon_categories || []).slice(1, 3).map((c) => c.label);
-  state.prescription = derivePrescription(state.affixes, flow, weaponTypes);
+  state.prescription = derivePrescription(state.affixes, flow, weaponTypes, state.data?.build.dingyin_affix ?? null);
   if (state.prescription && !state.prescription.feasible) {
     state.prescription = null; // 模板不可行时按"无模板"降级
   }
@@ -402,7 +401,7 @@ function viewHtml() {
   }
   const ctx = () => ({
     buildCtx: state.data, version: state.version, affixes: state.affixes,
-    dingyinMap: state.dingyinMap, selections: state.selections,
+    selections: state.selections,
   });
   const s = state.selected;
   try {
@@ -750,7 +749,6 @@ if (location.protocol === 'file:') {
 async function init() {
   state.version = await fetchJson('/data/version/nanlvxianghe-shang.115.json');
   state.affixes = await fetchJson('/data/version/affixes-115.json');
-  state.dingyinMap = await fetchJson('/data/version/dingyin-map.json');
   boot('③ 数据已加载，恢复存档…');
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');

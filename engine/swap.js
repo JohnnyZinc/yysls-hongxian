@@ -26,14 +26,14 @@ import { gradeItem } from './advisor.js';
 const TIER_RANK = { 天: 3, 地: 2, 玄: 1, 黄: 0 };
 
 /** 计算一套装备的 DPS（computePanel → calcDPS，统一面板 schema 直通，无第二层转换） */
-export function evalGearDps({ buildCtx, version, affixes, dingyinMap, gear, selections }) {
+export function evalGearDps({ buildCtx, version, affixes, gear, selections }) {
   const pr = computePanel({
     version,
     affixes,
     build: { 流派: buildCtx.build.name },
     gear: gear || [],
     selections: selections || {},
-    dingyinMap,
+    dingyinAffix: buildCtx.build.dingyin_affix,
   });
   const pi = buildCtx.build.panel_input || {};
   const override = {
@@ -86,7 +86,7 @@ function collectWorthOf(tier) {
 /**
  * 单件替换对比。
  * @param {{
- *   buildCtx, version, affixes, dingyinMap, selections,
+ *   buildCtx, version, affixes, selections,
  *   currentGear: Array,     // 当前实装（可少于 8 件，空位即缺该槽位）
  *   newItem: Object,        // 待评价的新装备（须含 slot）
  *   deadZone?: number,      // 等价死区 |Δ%|，默认 0.005（0.5%）
@@ -94,7 +94,7 @@ function collectWorthOf(tier) {
  * }} input
  */
 export function evaluateSwap({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   currentGear, newItem,
   deadZone = 0.005,
   prescription = null,
@@ -110,8 +110,8 @@ export function evaluateSwap({
   const gearBefore = currentGear;
   const gearAfter = [...currentGear.filter((g) => g?.slot !== slot), newItem];
 
-  const before = evalGearDps({ buildCtx, version, affixes, dingyinMap, gear: gearBefore, selections });
-  const after = evalGearDps({ buildCtx, version, affixes, dingyinMap, gear: gearAfter, selections });
+  const before = evalGearDps({ buildCtx, version, affixes, gear: gearBefore, selections });
+  const after = evalGearDps({ buildCtx, version, affixes, gear: gearAfter, selections });
 
   const deltaAbs = after.dps - before.dps;
   const deltaPct = before.dps > 0 ? deltaAbs / before.dps : 0;

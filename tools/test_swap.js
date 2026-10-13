@@ -20,11 +20,10 @@ import { evaluateSwap } from '../engine/swap.js';
 
 const affixes = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
 const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
-const dingyinMap = JSON.parse(fs.readFileSync('data/version/dingyin-map.json', 'utf-8'));
 const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
 const daWai = { ...flowsDoc, flowId: 'dawai' };
 const buildCtx = loadBuild('pozhufeng.115.3.2');
-const prescription = derivePrescription(affixes, daWai, ['双刀', '绳镖']);
+const prescription = derivePrescription(affixes, daWai, ['双刀', '绳镖'], buildCtx.build.dingyin_affix);
 const selections = { 装备套装: buildCtx.build.selectors.set, 武库: buildCtx.build.selectors.weapon_attribute };
 
 let pass = 0;
@@ -64,7 +63,7 @@ const tianLeft = fullGear[0];
 
 // —— 1. 更差：天 → 地件 ——
 const rA = evaluateSwap({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   currentGear: fullGear, newItem: diLeft, prescription,
 });
 check('更差：DPS 下降且超死区', rA.ok === true && rA.before.dps > 0 && rA.deltaPct < -rA.deadZone && rA.verdict === '更差');
@@ -78,7 +77,7 @@ check('更差：面板差异含 会心率↓ 与 势↑（新件带的势、丢�
 
 // —— 2. 更好：地件 → 天件（反向替换） ——
 const rB = evaluateSwap({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   currentGear: fullGear.map(g => (g.slot === '左武器' ? diLeft : g)),
   newItem: tianLeft, prescription,
 });
@@ -92,7 +91,7 @@ const nearLeft = clonePiece(tianLeft);
 nearLeft.调律[0].数值 = V('最大外功攻击') - 1.2;
 function clonePiece(p) { return JSON.parse(JSON.stringify(p)); }
 const rC = evaluateSwap({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   currentGear: fullGear, newItem: nearLeft, prescription,
 });
 check('等价-数值微差：|Δ%| 在死区内', rC.verdict === '等价' && Math.abs(rC.deltaPct) <= rC.deadZone);
@@ -104,7 +103,7 @@ check('等价-同档：新件也是天 → 按传家宝必留规则判候补',
 
 // —— 4. 等价-跨档：死区放大，档位优先于当前 DPS ——
 const rD = evaluateSwap({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   currentGear: fullGear.map(g => (g.slot === '左武器' ? diLeft : g)),
   newItem: tianLeft, prescription, deadZone: 0.5,
 });
@@ -115,7 +114,7 @@ check('等价-跨档：被替换的旧件（地）留作候补', rD.旧件去向
 
 // —— 5. 空位替换 ——
 const rE = evaluateSwap({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   currentGear: fullGear.filter(g => g.slot !== '左武器'),
   newItem: tianLeft, prescription,
 });
@@ -128,12 +127,12 @@ check('自描述：buildId、死区、口径齐全',
   rA.buildId === 'pozhufeng' && rA.deadZone === 0.005
   && typeof rA.口径 === 'string' && rA.口径.includes('等价'));
 const rA2 = evaluateSwap({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   currentGear: fullGear, newItem: diLeft, prescription,
 });
 check('确定性：同一输入两次结果一致', rA2.deltaAbs === rA.deltaAbs && rA2.verdict === rA.verdict);
 const rErr = evaluateSwap({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   currentGear: fullGear, newItem: { 初始: { 属性: '劲', 数值: 1 } },
 });
 check('错误处理：新件缺 slot → 拒绝', rErr.ok === false && rErr.errors.length > 0);

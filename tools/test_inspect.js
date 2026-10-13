@@ -16,11 +16,10 @@ import { inspectEquipped, inspectCandidate, inspectOverall } from '../engine/ins
 
 const affixes = JSON.parse(fs.readFileSync('data/version/affixes-115.json', 'utf-8'));
 const version = JSON.parse(fs.readFileSync('data/version/nanlvxianghe-shang.115.json', 'utf-8'));
-const dingyinMap = JSON.parse(fs.readFileSync('data/version/dingyin-map.json', 'utf-8'));
 const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
 const daWai = { ...flowsDoc, flowId: 'dawai' };
 const buildCtx = loadBuild('pozhufeng.115.3.2');
-const prescription = derivePrescription(affixes, daWai, ['双刀', '绳镖']);
+const prescription = derivePrescription(affixes, daWai, ['双刀', '绳镖'], buildCtx.build.dingyin_affix);
 const selections = { 装备套装: buildCtx.build.selectors.set, 武库: buildCtx.build.selectors.weapon_attribute };
 
 let pass = 0;
@@ -57,7 +56,7 @@ const tianLeft = fullGear[0];
 // ———— 1. 已穿戴装备视图 ————
 
 const rEq = inspectEquipped({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   gear: fullGear, piece: tianLeft, prescription, flow: daWai,
 });
 check('已穿戴：ok 且匹配度为天（含转律建议字段）',
@@ -70,7 +69,7 @@ check('已穿戴：监测达标行来自真实面板（当前值>0）',
   prescription.thresholds && Array.isArray(rEq.监测.达标未达));
 
 const rEqBad = inspectEquipped({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   gear: fullGear.filter(g => g.slot !== '左武器'), piece: tianLeft, prescription, flow: daWai,
 });
 check('已穿戴：装备不在实装列表 → 拒绝', rEqBad.ok === false && rEqBad.errors.length > 0);
@@ -78,7 +77,7 @@ check('已穿戴：装备不在实装列表 → 拒绝', rEqBad.ok === false && 
 // ———— 2. 背包装备视图 ————
 
 const rCand = inspectCandidate({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   gear: fullGear, newItem: diLeft, prescription, flow: daWai,
 });
 check('背包：ΔDPS 存在且为更差', rCand.ok === true && rCand.ΔDPS.verdict === '更差' && rCand.ΔDPS.deltaPct < -rCand.ΔDPS.deadZone);
@@ -92,7 +91,7 @@ check('背包：ΔDPS 去向建议齐全（旧件继续使用/新件候补）',
   typeof rCand.ΔDPS.去向.旧件 === 'string' && rCand.ΔDPS.去向.候补 === true);
 
 const rCandNoRx = inspectCandidate({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   gear: fullGear, newItem: diLeft, flow: daWai,
 });
 check('背包：缺 prescription → 拒绝', rCandNoRx.ok === false && rCandNoRx.errors.length > 0);
@@ -100,7 +99,7 @@ check('背包：缺 prescription → 拒绝', rCandNoRx.ok === false && rCandNoR
 // ———— 3. 整体视图 ————
 
 const rAll = inspectOverall({
-  buildCtx, version, affixes, dingyinMap, selections,
+  buildCtx, version, affixes, selections,
   gear: fullGear, prescription, flow: daWai,
 });
 check('整体：DPS>0 且毕业率为数值', rAll.ok === true && rAll.DPS.dps > 0 && typeof rAll.DPS.graduationRate === 'number');
