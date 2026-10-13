@@ -6,7 +6,7 @@
  * 输出即 dps.js 的输入（统一 schema，不再有第二层转换）。
  *
  * 输入（computePanel 的参数对象）：
- *   version     版本数据包（tools/extract_version_data.py 产出）
+ *   version     版本数据包（JSON，data/version/；提取器已归档 archive/legacy-tools/）
  *   affixes     词条数据包（tools/convert_affix_md.py 产出）
  *   build       { 流派: '破竹风' }
  *   gear        8件装备实例：{ slot, 承音, 初始:{属性,数值}, 调律:[{属性,数值}×4], 定音:{属性,数值} }

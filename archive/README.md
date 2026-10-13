@@ -29,26 +29,26 @@
 
 | 脚本 | 用途 | 结论去向 |
 |---|---|---|
-| extract_pozhufeng.py | 第一版破竹风提取器（写死列号） | 被 tools/extract_calculator.py（动态表头映射）取代 |
+| extract_pozhufeng.py | 第一版破竹风提取器（写死列号） | 被 extract_calculator.py（动态表头映射）取代 |
 | probe_shift.py | 探测裂石威/牵丝霖时间轴列偏移 | 已在 extract_calculator.py 中动态处理 |
 | analyze_l_overrides.py | 定位 L 列覆盖公式（结算/醉杀） | 已实现在 extract_calculator.py + engine/dps.js |
 | check_meridian_selector.py | 验证心法选择器与易水歌条件公式 | 结论：只用作者默认配置，条件值取缓存 |
 | check_qiansilin_na.py | 确认牵丝霖 N/a 技能为零倍率占位 | 无需引擎处理 |
 | verify_quirks.py | 验证 (拐)后缀增益同物同名异 | 结论写入归档前的对比报告 |
 | verify_new.py | 旧版提取结果核验 | 被 tools/test_dps.js 取代 |
+| extract_calculator.py | 社区 DPS Excel → 流派三件套 JSON（2025-统一schema改造后归档） | 六流派提取完毕；**重用前必须先同步产出键名/形状**（奇术单类+panel_key、定音单槽、轻击剔除），见交接文档 §0.5 |
+| extract_version_data.py | 面板计算器 Excel → 版本数据包（同批归档） | version JSON 转为手维护；重提取前须同步键名 |
 
 ## 当前活跃结构（速览）
 
 ```
-engine/dps.js            DPS 引擎（6流派精确对齐 Excel）
-data/{流派}.{115}.{版本}.json          build（时间轴/面板/怪物/验证基准）
-data/{流派}.{115}.{版本}.skills.json   武学奇术表
-data/{流派}.{115}.{版本}.effects.json  增益表
-data/comparison_report.json           六流派共享性对比报告
-data/debug/                           逐事件 Excel 缓存值（调试用）
-tools/extract_calculator.py           Excel → JSON 提取器
-tools/compare_data.py                 多流派 skills/effects 对比
-tools/test_dps.js                     引擎验证（node tools/test_dps.js）
-tools/diff_event.js + dump_excel_rows.py  逐事件中间量对比
-PRD.md                                产品需求文档
+engine/panel.js           面板引擎（统一 schema，输出即 dps.js 输入）
+engine/dps.js             DPS 引擎（六流派精确对齐 Excel，偏差 0.0000%）
+engine/{quota,advisor,monitor,swap,inspect}.js   评价三系统
+data/version/             版本数据包 + 词条区间 + 定音映射（手维护 JSON）
+data/schools/<前缀>/      六流派 DPS 三件套（build/skills/effects）
+data/template/<流派>/     分支毕业方案（一分支一文件）
+data/golden/              黄金基准快照（tools/test_golden.js）
+tools/test_*.js           回归测试（npm test）
+参考/                     社区 Excel 计算器 ×6 + 面板计算器 + 词条 MD（引擎数值权威对照源）
 ```
