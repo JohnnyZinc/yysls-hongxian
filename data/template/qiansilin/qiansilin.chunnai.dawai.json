@@ -10,6 +10,7 @@
   "quota": {
     "lines": [
       { "any_of": ["最大外功攻击"], "count": 12 },
+      { "any_of": ["最小外功攻击"], "count": 4 },
       { "any_of": ["扇武学增伤"], "count": 1 },
       { "any_of": ["全武学增伤"], "count": 2 },
       { "any_of": ["对玩家单位增效"], "count": 2 },
