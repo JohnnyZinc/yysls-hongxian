@@ -98,19 +98,23 @@ check('小外流：推导可行且无错误', xiaoWaiRx.feasible === true && xia
 
 const xlw = xiaoWaiRx.mergedSlots['左武器'];
 check('小外流·左武器：初始强制=最小外功攻击', xlw.initialForced === '最小外功攻击');
-check('小外流·左武器：必备 = {小外×2, 敏×1, 大无相×1, 指定增组×1}——整表唯一（仅武器类型可换）',
+check('小外流·左武器：必备 = {小外×2, 敏×1, 指定增组×1}；破竹/无相四选进自由（2025 配额放宽）',
   req(xlw, '最小外功攻击')?.count === 2 && req(xlw, '敏')?.count === 1
-  && req(xlw, '最大无相攻击')?.count === 1 && group(xlw)?.count === 1);
-check('小外流·左武器：大无相 min=1（初始位被小外锁死后只能走双武器调律）',
-  xlw.affixInfo['最大无相攻击']?.min === 1 && xlw.affixInfo['最大无相攻击']?.max === 1);
+  && group(xlw)?.count === 1
+  && xlw.freeSet.includes('最大无相攻击') && xlw.freeSet.includes('最小无相攻击'));
+check('小外流·左武器：大无相 min=0 且可出（初始位被小外锁死后走调律，进四选自由）',
+  xlw.affixInfo['最大无相攻击']?.min === 0 && (xlw.affixInfo['最大无相攻击']?.max ?? 0) >= 1);
 check('小外流·左武器：劲/大外无需求→无效', xlw.affixInfo['劲'] === undefined && xlw.affixInfo['最大外功攻击'] === undefined);
 
 const xj = xiaoWaiRx.mergedSlots['胫甲'];
 check('小外流·胫甲：初始位无强制（劲无需求）', xj.initialForced === null);
-check('小外流·胫甲：必备含大破竹×1', req(xj, '最大破竹攻击')?.count === 1);
+check('小外流·胫甲：必备 = {首领增×1, 敏×1, 小外×1}；破竹/无相进自由四选（2025 配额放宽）',
+  req(xj, '对首领单位增伤')?.count === 1 && req(xj, '敏')?.count === 1
+  && req(xj, '最小外功攻击')?.count === 1
+  && xj.freeSet.includes('最大破竹攻击') && xj.freeSet.includes('最小破竹攻击'));
 const xgz = xiaoWaiRx.mergedSlots['冠胄'];
-check('小外流·冠胄：必备含大破竹×1与敏×1；大无相出池（只能出在武器）',
-  req(xgz, '最大破竹攻击')?.count === 1 && req(xgz, '敏')?.count === 1
+check('小外流·冠胄：必备含敏×1与小外×1；大无相出池（只能出在武器）',
+  req(xgz, '敏')?.count === 1 && req(xgz, '最小外功攻击')?.count === 1
   && xgz.affixInfo['最大无相攻击']?.max === 0);
 
 // ———— 3. 校验与报错 ————
