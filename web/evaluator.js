@@ -19,14 +19,7 @@ import { inspectEquipped, inspectCandidate, inspectOverall } from '../engine/ins
 
 // ---------- 常量 ----------
 
-const BUILDS = [
-  ['pozhufeng.115.3.2', '破竹风'],
-  ['qiansiyu.115.3.5', '牵丝玉'],
-  ['pozhuchen.115.3.3', '破竹尘'],
-  ['pozhuzun.115.3.6', '破竹樽'],
-  ['lieshiwei.115.3.1', '裂石威'],
-  ['qiansilin.115.3.1', '牵丝霖（奶妈）'],
-];
+let BUILDS = []; // 由 manifest.json 的"流派"清单驱动（议题D；接流派=加一条 JSON，零代码）
 const SLOTS = ['左武器', '右武器', '环', '佩', '冠胄', '胸甲', '胫甲', '腕甲'];
 const WEAPON_SLOTS = ['左武器', '右武器'];
 const WEAPON_TYPES = ['剑', '枪', '横刀', '陌刀', '伞', '扇', '绳镖', '双刀', '拳甲', '鼓'];
@@ -792,9 +785,11 @@ if (location.protocol === 'file:') {
 }
 
 async function init() {
-  // manifest 单点声明当前赛季；旧赛季目录原地保留但不加载
+  // manifest 单点声明当前赛季与流派清单；旧赛季目录原地保留但不加载
   const manifest = await fetchJson('/data/version/manifest.json');
   const season = manifest['当前赛季'];
+  BUILDS = (manifest['流派'] || []).map((b) => [b.id, b.name]);
+  if (!BUILDS.length) throw new Error('manifest.json 缺少流派清单（"流派"字段）');
   state.version = await fetchJson(`/data/version/${season}/version.json`);
   state.affixes = await fetchJson(`/data/version/${season}/affixes.json`);
   boot('③ 数据已加载，恢复存档…');

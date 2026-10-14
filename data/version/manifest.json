@@ -1,3 +1,11 @@
 {
-  "当前赛季": "nanlvxianghe-shang.115"
+  "当前赛季": "nanlvxianghe-shang.115",
+  "流派": [
+    { "id": "pozhufeng.115.3.2", "name": "破竹风" },
+    { "id": "qiansiyu.115.3.5", "name": "牵丝玉" },
+    { "id": "pozhuchen.115.3.3", "name": "破竹尘" },
+    { "id": "pozhuzun.115.3.6", "name": "破竹樽" },
+    { "id": "lieshiwei.115.3.1", "name": "裂石威" },
+    { "id": "qiansilin.115.3.1", "name": "牵丝霖（奶妈）" }
+  ]
 }
