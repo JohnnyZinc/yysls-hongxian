@@ -339,13 +339,15 @@ function calcDPS(ctx, options = {}) {
 
   const duration = num(build.monster.duration && build.monster.duration.value);
   const dps = duration > 0 ? totalDamage / duration : 0;
+  // 毕业基准：调用方可传方案配额物化生成的基准（议题B），缺省回退 build 包 Excel I16
+  const graduateDps = num(options.graduateDps) || num(build.graduate_dps) || null;
   const result = {
     buildId: build.id || null,
     totalDamage,
     duration,
     dps,
-    graduateDps: build.graduate_dps || null,
-    graduationRate: build.graduate_dps ? dps / build.graduate_dps : null,
+    graduateDps,
+    graduationRate: graduateDps ? dps / graduateDps : null,
   };
   if (debug) result.perEvent = perEvent;
   return result;

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tools/test_golden.js && node tools/test_dps.js && node tools/test_panel.js && node tools/test_quota.js && node tools/test_advisor.js && node tools/test_monitor.js && node tools/test_swap.js && node tools/test_inspect.js",
+    "test": "node tools/test_golden.js && node tools/test_dps.js && node tools/test_panel.js && node tools/test_quota.js && node tools/test_advisor.js && node tools/test_monitor.js && node tools/test_swap.js && node tools/test_inspect.js && node tools/test_graduate.js",
     "test:all": "npm test && node tools/test_web.js && node tools/test_evaluator.js",
     "test:web": "node tools/test_web.js",
     "serve": "node tools/serve.js"

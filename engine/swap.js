@@ -26,7 +26,7 @@ import { gradeItem } from './advisor.js';
 const TIER_RANK = { 天: 3, 地: 2, 玄: 1, 黄: 0 };
 
 /** 计算一套装备的 DPS（computePanel → calcDPS，统一面板 schema 直通，无第二层转换） */
-export function evalGearDps({ buildCtx, version, affixes, gear, selections }) {
+export function evalGearDps({ buildCtx, version, affixes, gear, selections, graduateDps }) {
   const pr = computePanel({
     version,
     affixes,
@@ -46,7 +46,7 @@ export function evalGearDps({ buildCtx, version, affixes, gear, selections }) {
       elem: pi.food_elem ? pi.food_elem.default : 0,
     },
   };
-  const r = calcDPS(buildCtx, { panel: override });
+  const r = calcDPS(buildCtx, { panel: override, graduateDps });
   return { panel: pr, dps: r.dps, graduationRate: r.graduationRate };
 }
 
@@ -97,6 +97,7 @@ export function evaluateSwap({
   currentGear, newItem,
   deadZone = 0.005,
   prescription = null,
+  graduateDps,
 }) {
   const errors = [];
   if (!newItem?.slot) errors.push('新装备缺少 slot（部位）');
@@ -109,8 +110,8 @@ export function evaluateSwap({
   const gearBefore = currentGear;
   const gearAfter = [...currentGear.filter((g) => g?.slot !== slot), newItem];
 
-  const before = evalGearDps({ buildCtx, version, affixes, gear: gearBefore, selections });
-  const after = evalGearDps({ buildCtx, version, affixes, gear: gearAfter, selections });
+  const before = evalGearDps({ buildCtx, version, affixes, gear: gearBefore, selections, graduateDps });
+  const after = evalGearDps({ buildCtx, version, affixes, gear: gearAfter, selections, graduateDps });
 
   const deltaAbs = after.dps - before.dps;
   const deltaPct = before.dps > 0 ? deltaAbs / before.dps : 0;

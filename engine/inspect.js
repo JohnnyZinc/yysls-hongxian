@@ -42,7 +42,7 @@ function monitoringDigest(analysis) {
  * 视图一：点击已穿戴装备。
  * 匹配度+转律建议（含收藏价值）+ 当前实装的溢出/不足；无 ΔDPS。
  */
-export function inspectEquipped({ buildCtx, version, affixes, selections, gear, piece, prescription, flow }) {
+export function inspectEquipped({ buildCtx, version, affixes, selections, gear, piece, prescription, flow, graduateDps }) {
   const errors = [];
   if (!piece?.slot) errors.push('piece 缺少 slot（部位）');
   if (!prescription) errors.push('缺少 prescription（配额推导结果，匹配度需要）');
@@ -51,7 +51,7 @@ export function inspectEquipped({ buildCtx, version, affixes, selections, gear, 
   if (errors.length) return { ok: false, view: '已穿戴装备', errors };
 
   const 匹配度 = gradeItem(prescription, piece.slot, toGradeItem(piece));
-  const { panel: pr } = evalGearDps({ buildCtx, version, affixes, gear, selections });
+  const { panel: pr } = evalGearDps({ buildCtx, version, affixes, gear, selections, graduateDps });
   const analysis = analyzeFlow({ panelStats: pr.stats, gear, flow, affixes });
 
   return {
@@ -73,7 +73,7 @@ export function inspectEquipped({ buildCtx, version, affixes, selections, gear, 
  * 与同部位已穿戴装备的 ΔDPS + 匹配度/转律建议 + 假设穿上后的溢出/不足。
  */
 export function inspectCandidate({
-  buildCtx, version, affixes, selections, gear, newItem, prescription, flow, deadZone,
+  buildCtx, version, affixes, selections, gear, newItem, prescription, flow, deadZone, graduateDps,
 }) {
   const errors = [];
   if (!newItem?.slot) errors.push('newItem 缺少 slot（部位）');
@@ -83,7 +83,7 @@ export function inspectCandidate({
 
   const swap = evaluateSwap({
     buildCtx, version, affixes, selections,
-    currentGear: gear, newItem, prescription, deadZone,
+    currentGear: gear, newItem, prescription, deadZone, graduateDps,
   });
   const 匹配度 = gradeItem(prescription, newItem.slot, toGradeItem(newItem));
   // 假设穿上后的实装（与 ΔDPS 的替换后面板同口径）
@@ -119,12 +119,12 @@ export function inspectCandidate({
  * 视图三：什么都不选中——整体装备组合。
  * DPS 毕业率 + 属性面板 + 当前溢出/不足。
  */
-export function inspectOverall({ buildCtx, version, affixes, selections, gear, prescription, flow }) {
+export function inspectOverall({ buildCtx, version, affixes, selections, gear, prescription, flow, graduateDps }) {
   const errors = [];
   if (!flow) errors.push('缺少 flow（达标线/配额来源）');
   if (errors.length) return { ok: false, view: '整体', errors };
 
-  const { panel: pr, dps, graduationRate } = evalGearDps({ buildCtx, version, affixes, gear, selections });
+  const { panel: pr, dps, graduationRate } = evalGearDps({ buildCtx, version, affixes, gear, selections, graduateDps });
   const analysis = analyzeFlow({ panelStats: pr.stats, gear, flow, affixes });
 
   return {
@@ -137,6 +137,6 @@ export function inspectOverall({ buildCtx, version, affixes, selections, gear, p
     面板警告: pr.warnings ?? [],
     监测: monitoringDigest(analysis),
     errors: [],
-    口径: '整体视图=当前装备组合的 DPS 毕业率+属性面板+实装记账；无选中装备，无替换比较',
+    口径: `整体视图=当前装备组合的 DPS 毕业率+属性面板+实装记账；无选中装备，无替换比较；毕业率分母=${graduateDps != null ? '当前方案配额物化基准（议题B）' : 'build 包 Excel I16'}`,
   };
 }

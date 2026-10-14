@@ -479,3 +479,46 @@ export function verifyItemFits(prescription, slotName, item) {
   }
   return anyCompatible ? false : null;
 }
+
+/**
+ * 从可行 spec 构造一套"配额词条 → 槽位"的物理分配（构造法贪心 + 可行性预言机：
+ * 起步可行，每步只提交保持可行的放置，必然成功且恰好配满全部单元）。
+ * 供毕业基准生成器物化毕业装备使用（盘点 §3.3 / 议题B）。
+ * @param spec   某一武器排列的流网络 spec（prescription._base.arrangementSpecs[n].spec）
+ * @param lineOf 词条 → 配额行下标（prescription._base.lineOf）
+ * @returns [{ slot, affix }, ...]；初始/调律位置对面板无差别，不区分
+ */
+export function solveAssignment(spec, lineOf) {
+  const sp = cloneSpec(spec);
+  const units = [];
+  for (const slot of Object.keys(sp.slots)) {
+    const place = (asInitial) => {
+      for (const L of sp.lines) {
+        if (L.count <= 0) continue;
+        for (const c of L.members) {
+          const s = sp.slots[slot];
+          if (asInitial && (s.initialCap <= 0 || !s.initialPool.has(c) || s.bannedInitial.has(c))) continue;
+          if (!asInitial && (s.tuningCap <= 0 || !s.tuningPool.has(c) || s.bannedTuning.has(c))) continue;
+          const trial = cloneSpec(sp);
+          if (!reduceLine(trial, c, 1, lineOf)) continue;
+          const ts = trial.slots[slot];
+          // 初始放置只清容量（同词条还可占调律——毕业方案武器"初始+调律双大外"正是 min=2 语义）；
+          // 调律放置后封禁同词条——流量模型 M→W 边容量 1 = 同部位调律词条互不重复
+          if (asInitial) { ts.initialCap = 0; }
+          else { ts.tuningCap -= 1; ts.bannedTuning.add(c); }
+          if (!feasible(trial)) continue;
+          sp.lines = trial.lines;
+          sp.slots[slot] = ts;
+          units.push({ slot, affix: c });
+          return true;
+        }
+      }
+      return false;
+    };
+    if (sp.slots[slot].initialCap > 0 && !place(true)) return null;
+    while (sp.slots[slot].tuningCap > 0) {
+      if (!place(false)) return null;
+    }
+  }
+  return units;
+}

@@ -14,6 +14,7 @@
 
 import { derivePrescription } from '../engine/quota.js';
 import { gradeItem } from '../engine/advisor.js';
+import { computeGraduateDps } from '../engine/graduate.js';
 import { inspectEquipped, inspectCandidate, inspectOverall } from '../engine/inspect.js';
 
 // ---------- 常量 ----------
@@ -65,6 +66,7 @@ const state = {
   flows: null,          // { buildId, flows: [flow,...] } | null（流派无模板时为 null）
   flowId: null,
   prescription: null,   // derivePrescription 结果（仅当前流）
+  graduate: null,       // computeGraduateDps 结果（当前方案的毕业基准；null=回退 build 包 Excel I16）
   selections: { 弓玦: '', 装备套装: '', 心法: ['', '', '', ''], 武库: '' },
   equipped: {},         // { [slot]: piece }（全局装备库，切流派不清空）
   backpack: [],         // [piece + uid]
@@ -259,6 +261,12 @@ function renderHeader() {
   meta.push(state.flows
     ? `配额模板：${state.flows.flows.map((f) => f.name).join('/')}`
     : '⚠ 无配额模板——匹配度/监测不可用，仅 DPS/面板');
+  if (state.graduate?.ok) {
+    const dev = state.graduate.deviation != null ? `偏差 ${(state.graduate.deviation * 100).toFixed(1)}%` : '';
+    meta.push(`毕业基准 ${Math.round(state.graduate.dps)}（Excel I16 对照 ${Math.round(state.graduate.excelBaseline || 0)}${dev ? `，${dev}` : ''}）`);
+  } else if (state.graduate && !state.graduate.ok) {
+    meta.push(`⚠ 毕业基准生成失败：${(state.graduate.errors || []).join('；')}（回退 Excel I16）`);
+  }
   $('#ev-meta').textContent = meta.join(' · ');
 }
 
@@ -282,6 +290,18 @@ function applyPlanDefaults() {
   state.selections.弓玦 = flow?.弓玦 || '';
   const xf = Array.isArray(flow?.心法) ? flow.心法 : [];
   state.selections.心法 = [0, 1, 2, 3].map((i) => xf[i] || '');
+  refreshGraduate();
+}
+
+/** 毕业基准：按当前方案配额物化毕业装备生成（议题B）；失败/无方案时 null → 回退 Excel I16 */
+function refreshGraduate() {
+  const flow = currentFlow();
+  state.graduate = (state.prescription && flow)
+    ? computeGraduateDps({
+        buildCtx: state.data, version: state.version, affixes: state.affixes,
+        selections: state.selections, prescription: state.prescription, flow,
+      })
+    : null;
 }
 
 function switchFlow(flowId) {
@@ -426,6 +446,7 @@ function viewHtml() {
   const ctx = () => ({
     buildCtx: state.data, version: state.version, affixes: state.affixes,
     selections: state.selections,
+    graduateDps: state.graduate?.ok ? state.graduate.dps : undefined,
   });
   const s = state.selected;
   try {
@@ -600,11 +621,11 @@ function save() {
 }
 
 function bind() {
-  $('#ev-gongjue').onchange = (e) => { state.selections.弓玦 = e.target.value; save(); render(); };
-  $('#ev-set').onchange = (e) => { state.selections.装备套装 = e.target.value; save(); render(); };
-  $('#ev-arsenal').onchange = (e) => { state.selections.武库 = e.target.value; save(); render(); };
+  $('#ev-gongjue').onchange = (e) => { state.selections.弓玦 = e.target.value; refreshGraduate(); save(); render(); };
+  $('#ev-set').onchange = (e) => { state.selections.装备套装 = e.target.value; refreshGraduate(); save(); render(); };
+  $('#ev-arsenal').onchange = (e) => { state.selections.武库 = e.target.value; refreshGraduate(); save(); render(); };
   [0, 1, 2, 3].forEach((i) => {
-    $(`#ev-xinfa-${i}`).onchange = (e) => { state.selections.心法[i] = e.target.value; save(); render(); };
+    $(`#ev-xinfa-${i}`).onchange = (e) => { state.selections.心法[i] = e.target.value; refreshGraduate(); save(); render(); };
   });
   $('#ed-slot').onchange = (e) => actions.setDraftSlot(e.target.value);
   const wtype = $('#ed-wtype');
