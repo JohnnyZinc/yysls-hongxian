@@ -170,6 +170,11 @@ function calcDPS(ctx, options = {}) {
     else if (c.includes_all_weapon !== false) v = num(c.value); // 无法判定时回退缓存
     typeValues[c.label] = v;
   }
+  // 单体奇术/群体奇术类技能同用全奇术增伤乘区（奇术类别合并后的别名）
+  if (typeValues['奇术'] !== undefined) {
+    if (typeValues['单体奇术'] === undefined) typeValues['单体奇术'] = typeValues['奇术'];
+    if (typeValues['群体奇术'] === undefined) typeValues['群体奇术'] = typeValues['奇术'];
+  }
   // 前两个武器类别（Excel F4/F5）：这两类的固伤享受固伤加成
   const flatCats = (cfg.categories || []).slice(0, 2).map((c) => c.label);
 
@@ -250,26 +255,31 @@ function calcDPS(ctx, options = {}) {
     const BW = agg.spec_dmg + monster.dungeonTalent;
     const BX = num(skill.spec_bonus) + agg.spec_bonus;
 
-    // 强制标记与生效命中率（Excel BO/BP/BR 列）
+    // 强制标记与会意转化（Excel BO/BP/BR 列）
     const forceCrit = num(skill.force_crit) === 1;
     const forceInsight = num(skill.force_insight) === 1;
     const forcePrecise = num(skill.force_precision) === 1;
+    const insightConvert = num(skill.insight_convert) === 1;
 
     const BO = Math.min(forceCrit ? 1 : num(S['精准率']), 1);
+    const brNormal =
+      forceInsight
+        ? 1
+        : Math.min(0.4, num(S['会意率']) + num(skill.insight_rate) + agg.insight_rate) +
+          num(S['直接会意率']) +
+          agg.direct_insight_rate;
     const BP =
       (forceCrit
         ? 1
         : Math.min(0.8, num(S['会心率']) + num(skill.crit_rate) + agg.crit_rate) +
           num(S['直接会心率']) +
           agg.direct_crit_rate) *
-      (forceInsight ? 0 : 1);
-    const BR =
-      (forceInsight
-        ? 1
-        : Math.min(0.4, num(S['会意率']) + num(skill.insight_rate) + agg.insight_rate) +
-          num(S['直接会意率']) +
-          agg.direct_insight_rate) *
-      (forceCrit ? 0 : 1);
+        (forceInsight ? 0 : 1) +
+      (insightConvert ? Math.min(brNormal, 0.12) : 0); // 会意转化：会意生效值并入会心，至多 12%
+    const BR = Math.max(
+      brNormal * (forceCrit ? 0 : 1) - (insightConvert ? 0.12 : 0),
+      0
+    );
     const BT = Math.min((1 - BR) * BO, BO * BP); // 会心占比
     const BV = forcePrecise ? 0 : (1 - BO) * (1 - BR); // 擦伤占比
     const BU = 1 - BR - BT - BV; // 普攻占比
@@ -330,7 +340,9 @@ function calcDPS(ctx, options = {}) {
     let sum = 0;
     for (const ref of ev.l_override.refs) sum += LbyRow[ref] || 0;
     const bonus =
-      ev.l_override.bonus === 'final_dmg' ? 1 + agg.final_dmg : 1;
+      ev.l_override.bonus === 'final_dmg' ? 1 + agg.final_dmg
+      : ev.l_override.bonus === 'spec_bonus' ? 1 + agg.spec_bonus
+      : 1;
     const L = sum * ev.l_override.factor * bonus;
     LbyRow[ev.row] = L;
     totalDamage += L;

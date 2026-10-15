@@ -17,8 +17,11 @@ const BUILDS = [
   ['pozhufeng.115.3.2', '破竹风'],
   ['qiansiyu.115.3.5', '牵丝玉'],
   ['pozhuchen.115.3.3', '破竹尘'],
-  ['pozhuzun.115.3.6', '破竹樽'],
-  ['lieshiwei.115.3.1', '裂石威'],
+  ['pozhuzun.115.3.7', '破竹樽'],
+  ['lieshiwei.115.3.3', '裂石威'],
+  ['lieshijun.115.3.0', '裂石钧（双切）'],
+  ['qiansiyi.115.3.1', '牵丝翊'],
+  ['pozhuyuan.115.3.0', '破竹鸢'],
   ['qiansilin.115.3.1', '牵丝霖'],
 ];
 

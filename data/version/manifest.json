@@ -4,8 +4,11 @@
     { "id": "pozhufeng.115.3.2", "name": "破竹风" },
     { "id": "qiansiyu.115.3.5", "name": "牵丝玉" },
     { "id": "pozhuchen.115.3.3", "name": "破竹尘" },
-    { "id": "pozhuzun.115.3.6", "name": "破竹樽" },
-    { "id": "lieshiwei.115.3.1", "name": "裂石威" },
+    { "id": "pozhuzun.115.3.7", "name": "破竹樽" },
+    { "id": "lieshiwei.115.3.3", "name": "裂石威" },
+    { "id": "lieshijun.115.3.0", "name": "裂石钧（双切）" },
+    { "id": "qiansiyi.115.3.1", "name": "牵丝翊" },
+    { "id": "pozhuyuan.115.3.0", "name": "破竹鸢" },
     { "id": "qiansilin.115.3.1", "name": "牵丝霖（奶妈）" }
   ]
 }
