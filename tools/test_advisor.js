@@ -251,6 +251,51 @@ for (const [slot, item] of [
     a.ok && b.ok && a.tier === b.tier && a.k === b.k && a.m === b.m);
 }
 
+// —— 武器不分左右：部位=武器 → 在 左/右 两个武器槽位间取最优（用户定稿） ——
+{
+  const r = gradeItem(daWaiRx, '武器', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']));
+  check('武器部位：双刀增件按 武器 评价 → 天（与 左武器 评价一致）',
+    r.ok && r.tier === '天' && r.k === 0 && r.m === 0);
+}
+{
+  const r = gradeItem(daWaiRx, '武器', it('最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']));
+  check('武器部位：绳镖增件按 武器 评价 → 天', r.ok && r.tier === '天');
+}
+
+// —— 转律标记：已转律的装备只能继续转那一条（用户定稿） ——
+const swordItem = it('最大外功攻击', ['剑武学增伤', '势', '劲', '会意率']);
+{
+  const r = gradeItem(swordRx, '左武器', swordItem);
+  check('转律标记：未标记 → 任意一条可转（回归不变）', r.tier === '天' && r.substate === '天·需1次转律');
+}
+{
+  const r = gradeItem(swordRx, '左武器', { ...swordItem, converted: [false, true, false, false] });
+  check('转律标记：标在势(调律2) → 转势补大外 → 天·需1次转律',
+    r.tier === '天' && r.substate === '天·需1次转律' && r.conversion?.index === 1);
+}
+{
+  const r = gradeItem(swordRx, '左武器', { ...swordItem, converted: [true, false, false, false] });
+  check('转律标记：标在剑增(调律1) → 只能转剑增，补不回大外 → 地',
+    r.tier === '地' && r.k === 0 && r.m === 1);
+}
+{
+  const a = gradeItem(swordRx, '左武器', { ...swordItem, converted: [false, true, false, false] });
+  const b = gradeItemPotential(swordRx, '左武器', { ...swordItem, converted: [false, true, false, false] });
+  check('潜力一致性：标记转律的完整装备 潜力 = 匹配度',
+    a.ok && b.ok && a.tier === b.tier && a.k === b.k && a.m === b.m);
+}
+{
+  const b = gradeItemPotential(swordRx, '左武器',
+    { initial: '最大外功攻击', tunings: ['剑武学增伤', '', '', ''], converted: [true, false, false, false] });
+  check('潜力：标在剑增的半录装备 → 空位填充不受限，仍可天', b.ok && b.tier === '天');
+}
+{
+  const b = gradeItemPotential(swordRx, '左武器',
+    { initial: '最大外功攻击', tunings: ['剑武学增伤', '势', '劲', '会意率'], converted: [false, true, false, false] });
+  check('潜力：标在势 → 只能转势补大外，潜力仍为天',
+    b.ok && b.tier === '天' && b.notes.some((n) => n.includes('仅调律2')));
+}
+
 // ———— 汇总 ————
 
 console.log(`\n通过 ${pass}/${pass + fails.length}`);

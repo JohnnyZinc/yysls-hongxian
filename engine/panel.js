@@ -97,7 +97,8 @@ function computePanel(input) {
   for (const piece of gear) {
     if (!piece) continue;
     const slot = piece.slot || '';
-    const isArmorDing = !['左武器', '右武器', '环', '佩'].includes(slot);
+    // 武器不分左右槽（用户定稿）：部位=武器 与 左武器/右武器 同属攻具
+    const isArmorDing = !['左武器', '右武器', '武器', '环', '佩'].includes(slot);
     const list = [
       ['初始', piece.初始],
       ['调律1', piece.调律 ? piece.调律[0] : null],

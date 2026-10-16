@@ -15,7 +15,7 @@
  */
 
 import { gradeItem } from './advisor.js';
-import { evalGearDps, evaluateSwap } from './swap.js';
+import { evalGearDps, evaluateSwap, sameEquipKey } from './swap.js';
 import { analyzeFlow } from './monitor.js';
 
 /** 装备件 → 匹配度输入形状（与 swap.js 同规则） */
@@ -23,6 +23,7 @@ function toGradeItem(piece) {
   return {
     initial: piece?.初始?.属性,
     tunings: (piece?.调律 || []).map((t) => t?.属性),
+    converted: (piece?.调律 || []).map((t) => !!t?.转律),
     dingyin: piece?.定音?.属性,
   };
 }
@@ -85,9 +86,10 @@ export function inspectCandidate({
     buildCtx, version, affixes, selections,
     currentGear: gear, newItem, prescription, deadZone, graduateDps,
   });
+  if (!swap.ok) return { ok: false, view: '背包装备', errors: swap.errors }; // 如：武器无同类型已穿戴
   const 匹配度 = gradeItem(prescription, newItem.slot, toGradeItem(newItem));
-  // 假设穿上后的实装（与 ΔDPS 的替换后面板同口径）
-  const gearAfter = [...(gear || []).filter((g) => g?.slot !== newItem.slot), newItem];
+  // 假设穿上后的实装（与 ΔDPS 的替换后面板同口径；武器按类型顶替，另一把保留）
+  const gearAfter = [...(gear || []).filter((g) => !sameEquipKey(g, newItem)), newItem];
   const analysis = analyzeFlow({ panelStats: swap.afterPanelStats, gear: gearAfter, flow, affixes });
 
   return {

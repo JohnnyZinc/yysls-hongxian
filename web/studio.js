@@ -25,17 +25,24 @@ import { evalGearDps, evaluateSwap } from '../engine/swap.js';
 // ---------- 常量 ----------
 
 let BUILDS = []; // 由 manifest.json 的"流派"清单驱动；接流派 = manifest 加一条，零代码
-const SLOT_ROWS = [ // 左栏两行槽位：上行武器+饰品，下行防具
+// 槽位模型（用户定稿：武器不分左右）：
+//   装备件 slot = '武器' + weaponType（背包武器可穿任意一侧）；对比按类型（双刀只比双刀）。
+//   equipped 存储键沿用 左武器/右武器 仅作两个物理武器位（老页面可读），界面上一律显示 武器·类型。
+const SLOT_ROWS = [
   ['左武器', '右武器', '环', '佩'],
   ['冠胄', '胸甲', '胫甲', '腕甲'],
 ];
-const SLOTS = SLOT_ROWS.flat();
-const WEAPON_SLOTS = ['左武器', '右武器'];
+const EQUIP_KEYS = SLOT_ROWS.flat();               // equipped 存储键（8 个物理位）
+const WEAPON_KEYS = ['左武器', '右武器'];           // 两个武器物理位
+const WEAPON_SLOT = '武器';                        // 武器件的部位值
+const ARMOR_SLOTS = ['环', '佩', '冠胄', '胸甲', '胫甲', '腕甲'];
+const SLOTS = [WEAPON_SLOT, ...ARMOR_SLOTS];       // 录入表单/引擎语境的部位清单
+const 攻具 = [WEAPON_SLOT, '环', '佩'];
+const isWeaponKey = (key) => WEAPON_KEYS.includes(key);
 const WEAPON_TYPES = ['剑', '枪', '横刀', '陌刀', '伞', '扇', '绳镖', '双刀', '拳甲', '鼓'];
 const FLOWS_API = (prefix) => `/api/template/${encodeURIComponent(prefix)}`;
 const STORAGE_KEY = 'yysls-evaluator-v1'; // 与装备评价器共用存档，装备库互通
 const TIER_CLASS = { 天: 'tian', 地: 'di', 玄: 'xuan', 黄: 'huang' };
-const 攻具 = ['左武器', '右武器', '环', '佩'];
 
 // ---------- 草稿（录入表单数据） ----------
 
@@ -45,7 +52,7 @@ function planDingyin(slot, flow) {
   return (攻具.includes(slot) ? flow.攻具定音 : flow.防具定音) || '';
 }
 
-function newDraft(slot = '左武器', weaponType = '', flow = null, affixData = null) {
+function newDraft(slot = WEAPON_SLOT, weaponType = '', flow = null, affixData = null) {
   const A = affixData;
   const dyName = planDingyin(slot, flow);
   let dyVal = null;
@@ -131,7 +138,7 @@ async function loadFlows(buildId) {
 
 // ---------- 词条池 / 区间（与评价器同款） ----------
 
-const isWeaponSlot = (slot) => WEAPON_SLOTS.includes(slot);
+const isWeaponSlot = (slot) => slot === WEAPON_SLOT;
 
 function initialPool(slot) {
   const g = state.affixes.词条池['初始词条池'];
@@ -226,7 +233,19 @@ function currentFlow() {
 }
 
 function equippedList() {
-  return SLOTS.map((s) => state.equipped[s]).filter(Boolean);
+  return EQUIP_KEYS.map((k) => state.equipped[k]).filter(Boolean);
+}
+
+/** 同类已穿戴装备：非武器按部位；武器按类型（不分左右，用户定稿） */
+function comparableEquipped(piece) {
+  if (!piece) return null;
+  if (piece.slot !== WEAPON_SLOT) return state.equipped[piece.slot] || null;
+  return WEAPON_KEYS.map((k) => state.equipped[k])
+    .find((g) => g?.slot === WEAPON_SLOT && String(g?.weaponType ?? '') === String(piece.weaponType ?? '')) || null;
+}
+
+function wornWeaponTypes() {
+  return WEAPON_KEYS.map((k) => state.equipped[k]?.weaponType).filter(Boolean).join('/') || '（无）';
 }
 
 function backpackByUid(uid) {
@@ -263,11 +282,11 @@ async function switchBuild(buildId) {
   } catch { /* 无模板：仅 DPS/面板可用 */ }
   applyFlow();
   applyPlanDefaults(); // 切流派：以方案默认覆盖口径选择（与评价器同款行为）
-  // 录入草稿默认武器类型跟随流派（左/右武器）
+  // 录入草稿默认武器类型跟随流派（部位=武器，不分左右）
   const cats = (b.weapon_categories || []).slice(1, 3).map((c) => c.label);
   state.draft = newDraft(
     state.draft.slot,
-    state.draft.slot === '右武器' ? (cats[1] || '') : state.draft.slot === '左武器' ? (cats[0] || '') : '',
+    state.draft.slot === WEAPON_SLOT ? (state.draft.weaponType || cats[0] || '') : '',
     currentFlow(), state.affixes,
   );
   save();
@@ -378,26 +397,29 @@ function toGradeItem(piece) {
   return {
     initial: piece?.初始?.属性,
     tunings: (piece?.调律 || []).map((t) => t?.属性),
+    converted: (piece?.调律 || []).map((t) => !!t?.转律),
     dingyin: piece?.定音?.属性,
   };
 }
 
-function slotCardHtml(slot) {
-  const piece = state.equipped[slot];
-  const selected = state.selected?.kind === 'equipped' && state.selected.slot === slot;
+function slotCardHtml(key) {
+  const piece = state.equipped[key];
+  const selected = state.selected?.kind === 'equipped' && state.selected.slot === key;
   if (!piece) {
+    const emptyLabel = isWeaponKey(key) ? '武器' : key;
     return `
-      <div class="st-slot empty ${selected ? 'selected' : ''}" data-act="openEditor" data-slot="${escapeHtml(slot)}" title="点击录入${escapeHtml(slot)}装备">
-        <div class="name">${escapeHtml(slot)}</div>
+      <div class="st-slot empty ${selected ? 'selected' : ''}" data-act="openEditor" data-slot="${escapeHtml(isWeaponKey(key) ? WEAPON_SLOT : key)}" title="点击录入${escapeHtml(emptyLabel)}装备">
+        <div class="name">${escapeHtml(emptyLabel)}</div>
         <div class="empty-hint">空位<br>点击录入</div>
       </div>`;
   }
+  const label = piece.slot === WEAPON_SLOT ? `武器 · ${piece.weaponType || '?'}` : key;
   const rows = pieceAffixRows(piece)
-    .map(([k, a]) => `<div title="${escapeHtml(k)}·${escapeHtml(a.属性)} ${escapeHtml(fmtAffixValue(a.属性, a.数值))}"><span class="k">${k}</span> ${escapeHtml(a.属性)}</div>`)
+    .map(([k, a]) => `<div title="${escapeHtml(k)}·${escapeHtml(a.属性)} ${escapeHtml(fmtAffixValue(a.属性, a.数值))}${a.转律 ? '（已转律）' : ''}"><span class="k">${k}${a.转律 ? '·转' : ''}</span> ${escapeHtml(a.属性)}</div>`)
     .join('');
   return `
-    <div class="st-slot ${selected ? 'selected' : ''}" data-sel-kind="equipped" data-sel-slot="${escapeHtml(slot)}">
-      <div class="name"><span>${escapeHtml(slot)}${piece.承音 ? '<span class="muted">·承</span>' : ''}</span>${tierBadgeHtml(piece)}</div>
+    <div class="st-slot ${selected ? 'selected' : ''}" data-sel-kind="equipped" data-sel-slot="${escapeHtml(key)}" title="${isWeaponKey(key) ? '武器不分左右：对比与替换按武器类型进行' : ''}">
+      <div class="name"><span>${escapeHtml(label)}${piece.承音 ? '<span class="muted">·承</span>' : ''}</span>${tierBadgeHtml(piece)}</div>
       <div class="affixes">${rows || '<div>未录词条</div>'}</div>
     </div>`;
 }
@@ -405,7 +427,7 @@ function slotCardHtml(slot) {
 function bpCardHtml(piece) {
   const selected = state.selected?.kind === 'backpack' && state.selected.uid === piece.uid;
   const rows = pieceAffixRows(piece)
-    .map(([k, a]) => `<div><span class="k">${k}</span><span class="n" title="${escapeHtml(a.属性)}">${escapeHtml(a.属性)}</span><span class="v">${escapeHtml(fmtAffixValue(a.属性, a.数值))}</span></div>`)
+    .map(([k, a]) => `<div><span class="k">${k}${a.转律 ? '·转' : ''}</span><span class="n" title="${escapeHtml(a.属性)}">${escapeHtml(a.属性)}</span><span class="v">${escapeHtml(fmtAffixValue(a.属性, a.数值))}</span></div>`)
     .join('');
   return `
     <div class="st-bp-card ${selected ? 'selected' : ''}" data-sel-kind="backpack" data-sel-uid="${escapeHtml(piece.uid)}">
@@ -442,7 +464,7 @@ function affixTableHtml(piece) {
       ${rows.map(([k, a]) => `
         <tr>
           <td class="pos">${k}</td>
-          <td>${a?.属性 ? escapeHtml(a.属性) : '<span class="muted">— 未录 —</span>'}</td>
+          <td>${a?.属性 ? `${escapeHtml(a.属性)}${a.转律 ? ' <span class="conv-tag" title="已转律：之后只能继续转这一条">已转律</span>' : ''}` : '<span class="muted">— 未录 —</span>'}</td>
           <td class="num">${a?.属性 ? escapeHtml(fmtAffixValue(a.属性, a.数值)) || '<span class="muted">待补</span>' : ''}</td>
         </tr>`).join('')}
     </table>`;
@@ -498,8 +520,9 @@ function idleHtml() {
     </section>`;
 }
 
-function equippedDetailHtml(piece, slot) {
+function equippedDetailHtml(piece, slotKey) {
   const flow = currentFlow();
+  const title = piece.slot === WEAPON_SLOT ? `已穿戴 · 武器 · ${piece.weaponType || '?'}` : `已穿戴 · ${slotKey}`;
   let body;
   if (!state.prescription || !flow) {
     body = '<p class="muted">当前流派暂无配额模板——匹配度与监测不可用。</p>';
@@ -513,16 +536,16 @@ function equippedDetailHtml(piece, slot) {
       });
       body = `
         <div class="st-eval"><h4>① 匹配度（留什么）</h4>${gradeDetailHtml(r.匹配度)}</div>
-        <div class="st-eval"><h4>② ΔDPS（穿什么）</h4><div class="dim-note">已穿戴装备：不与其他同部位装备比较，无 ΔDPS。换成背包同部位装备可看对比；全局的溢出/不足见右栏「整体监测发现」。</div></div>`;
+        <div class="st-eval"><h4>② ΔDPS（穿什么）</h4><div class="dim-note">已穿戴装备：不与其他装备比较，无 ΔDPS${piece.slot === WEAPON_SLOT ? '（武器按类型与背包同类对比）' : '。换成背包同部位装备可看对比'}；全局的溢出/不足见右栏「整体监测发现」。</div></div>`;
     } catch (err) {
       body = `<ul class="warnings"><li>评价计算出错：${escapeHtml(err.message)}</li></ul>`;
     }
   }
   return `
     <section class="st-panel">
-      ${detailHeadHtml(`已穿戴 · ${slot}`, piece, `
-        <button class="primary" data-act="unequip" data-slot="${escapeHtml(slot)}">脱下</button>
-        <button class="ghost" data-act="removeEquipped" data-slot="${escapeHtml(slot)}">删除</button>`)}
+      ${detailHeadHtml(title, piece, `
+        <button class="primary" data-act="unequip" data-slot="${escapeHtml(slotKey)}">脱下</button>
+        <button class="ghost" data-act="removeEquipped" data-slot="${escapeHtml(slotKey)}">删除</button>`)}
       ${affixTableHtml(piece)}
       ${body}
     </section>`;
@@ -530,9 +553,18 @@ function equippedDetailHtml(piece, slot) {
 
 function candidateDetailHtml(piece) {
   const flow = currentFlow();
+  const canCompare = piece.slot !== WEAPON_SLOT || !!comparableEquipped(piece);
   let body;
   if (!state.prescription || !flow) {
     body = '<p class="muted">当前流派暂无配额模板——匹配度与监测不可用。</p>';
+  } else if (!canCompare) {
+    // 武器按类型对比（用户定稿）：没有同类型已穿戴 ⇒ 无替换基准
+    const g = gradeItem(state.prescription, piece.slot, toGradeItem(piece));
+    body = `
+      <div class="st-eval"><h4>① ΔDPS（穿什么）——与同类型已穿戴对比</h4>
+        <div class="dim-note">无可对比：当前穿戴武器（${escapeHtml(wornWeaponTypes())}）中没有 ${escapeHtml(piece.weaponType || '?')}——武器按类型对比，不同类型不比较。可先穿上（两把武器位未满时直接入位）或留背包。</div></div>
+      <div class="st-eval"><h4>② 匹配度（留什么）</h4>${gradeDetailHtml(g)}</div>
+      <div class="dim-note">监测发现属全局装备组合口径，见右栏「整体监测发现」。</div>`;
   } else {
     try {
       const r = inspectCandidate({
@@ -543,7 +575,7 @@ function candidateDetailHtml(piece) {
       });
       const d = r.ΔDPS;
       body = `
-        <div class="st-eval"><h4>① ΔDPS（穿什么）——与同部位已穿戴对比</h4>${evalDeltaHtml(d)}</div>
+        <div class="st-eval"><h4>① ΔDPS（穿什么）——${piece.slot === WEAPON_SLOT ? '与同类型已穿戴对比' : '与同部位已穿戴对比'}</h4>${evalDeltaHtml(d)}</div>
         <div class="st-eval"><h4>② 匹配度（留什么）</h4>${gradeDetailHtml(r.匹配度)}</div>
         <div class="dim-note">监测发现属全局装备组合口径，见右栏「整体监测发现」。</div>`;
     } catch (err) {
@@ -552,7 +584,7 @@ function candidateDetailHtml(piece) {
   }
   return `
     <section class="st-panel">
-      ${detailHeadHtml(`背包 · ${piece.slot}${piece.weaponType ? ` · ${piece.weaponType}` : ''}`, piece, `
+      ${detailHeadHtml(`背包 · ${piece.slot === WEAPON_SLOT ? `武器 · ${piece.weaponType || '?'}` : piece.slot}`, piece, `
         <button class="primary" data-act="equip" data-uid="${escapeHtml(piece.uid)}">穿上</button>
         <button class="ghost" data-act="removeBackpack" data-uid="${escapeHtml(piece.uid)}">删除</button>`)}
       ${affixTableHtml(piece)}
@@ -562,7 +594,7 @@ function candidateDetailHtml(piece) {
 
 // ===== 录入表单（边录入边评价） =====
 
-/** 草稿 → 装备件形状（供引擎评价与入包共用） */
+/** 草稿 → 装备件形状（供引擎评价与入包共用）；转律标记随词条存储 */
 function draftPiece() {
   const p = state.draft;
   return {
@@ -570,12 +602,15 @@ function draftPiece() {
     weaponType: p.weaponType || undefined,
     承音: p.承音 || undefined,
     初始: { 属性: p.初始.属性, 数值: p.初始.数值 },
-    调律: p.调律.map((a) => ({ 属性: a.属性, 数值: a.数值 })),
+    调律: p.调律.map((a) => (a.转律
+      ? { 属性: a.属性, 数值: a.数值, 转律: true }
+      : { 属性: a.属性, 数值: a.数值 })),
     定音: { 属性: p.定音.属性, 数值: p.定音.数值 },
   };
 }
 
-/** 录入表单的实时评价状态：潜力（部分录入）+ 毕业率变化与三向建议（结构录满） */
+/** 录入表单的实时评价状态：潜力（部分录入）+ 毕业率变化与三向建议（结构录满）；
+ *  武器按类型对比：没有同类型已穿戴时无替换基准（noCompare） */
 function editorEvalState() {
   const p = state.draft;
   const n = (p.初始.属性 ? 1 : 0) + p.调律.filter((a) => a.属性).length;
@@ -585,31 +620,39 @@ function editorEvalState() {
     pot = gradeItemPotential(state.prescription, p.slot, toGradeItem(p));
   }
   let swap = null;
+  let noCompare = false;
   if (complete) {
-    try {
-      swap = evaluateSwap({
-        buildCtx: state.data, version: state.version, affixes: state.affixes,
-        selections: state.selections, currentGear: equippedList(), newItem: draftPiece(),
-        prescription: state.prescription,
-        graduateDps: state.graduate?.ok ? state.graduate.dps : undefined,
-      });
-    } catch { swap = null; }
+    const piece = draftPiece();
+    const comparable = comparableEquipped(piece);
+    if (piece.slot === WEAPON_SLOT && !comparable) {
+      noCompare = true; // 武器按类型对比：当前没有同类已穿戴
+    } else {
+      try {
+        swap = evaluateSwap({
+          buildCtx: state.data, version: state.version, affixes: state.affixes,
+          selections: state.selections, currentGear: equippedList(), newItem: piece,
+          prescription: state.prescription,
+          graduateDps: state.graduate?.ok ? state.graduate.dps : undefined,
+        });
+      } catch { swap = null; }
+    }
   }
   let advice = null;
   if (swap?.ok) {
     if (swap.verdict === '更好' || (swap.verdict === '等价' && swap.swapRecommended)) {
-      advice = { key: 'equip', text: swap.replacedOld ? '直接穿上（替换当前同部位）' : '直接穿上（补上空位）' };
+      advice = { key: 'equip', text: swap.replacedOld ? '直接穿上（替换当前同类型/同部位装备）' : '直接穿上（补上空位）' };
     } else if (swap.候补) {
       advice = { key: 'keep', text: '保留到背包（候补：当前穿戴更优，但这件有长期价值）' };
     } else {
       advice = { key: 'discard', text: '直接回收删除（不如当前穿戴，且无长期价值）' };
     }
   }
-  return { n, complete, pot, swap, advice };
+  return { n, complete, pot, swap, advice, noCompare };
 }
 
 function potentialReasonHtml(pot) {
   const reasons = [];
+  if (pot.notes?.length) reasons.push(...pot.notes);
   if (pot.missing?.length) {
     reasons.push(`还缺：${pot.missing.map((m) => {
       const label = Array.isArray(m.affix) ? `(${m.affix.join('/')})` : m.affix;
@@ -661,6 +704,10 @@ function editorEvalHtml(s) {
         <span>${escapeHtml(d.recommendation)}</span>
       </div>
       <div class="muted">毕业率 ${grBefore != null ? escapeHtml(pctFmt(grBefore)) : '—'} → ${grAfter != null ? escapeHtml(pctFmt(grAfter)) : '—'} · DPS ${d.deltaPct >= 0 ? '+' : ''}${(d.deltaPct * 100).toFixed(2)}%</div>`);
+  } else if (s.noCompare) {
+    parts.push(`
+      <h4 class="sec" style="margin-top:12px">毕业率变化（假设穿上）</h4>
+      <div class="dim-note">无可对比：当前穿戴武器（${escapeHtml(wornWeaponTypes())}）中没有 ${escapeHtml(state.draft.weaponType || '?')}——武器按类型对比，不同类型不比较。可直接穿上（武器位未满时入位）或先留背包。</div>`);
   } else if (s.complete && !s.swap) {
     parts.push('<p class="muted" style="margin-top:8px">毕业率变化暂不可计算（数据不全或引擎出错）。</p>');
   }
@@ -684,23 +731,27 @@ function editorHtml() {
     const val = aff.数值 == null ? '' : (pct ? +(aff.数值 * 100).toFixed(4) : aff.数值);
     const ph = placeholderFor(name, p.承音 && kind !== '定音');
     const idxAttr = idx == null ? '' : ` data-ed-idx="${idx}"`;
+    const convCell = kind === '调律'
+      ? `<label class="conv" title="勾选 = 这条已转律；转律后只能继续转这一条（其余词条不能再转）"><input type="checkbox" data-ed-kind="调律"${idxAttr} data-ed-field="转律" ${aff.转律 ? 'checked' : ''}>转律</label>`
+      : '<span class="conv none"></span>';
     return `
       <div class="affix-row">
         <span class="tag">${kind === '调律' ? '调律' + (idx + 1) : kind}</span>
         <select data-ed-kind="${kind}"${idxAttr} data-ed-field="属性">${optionList(pool, name)}</select>
         <input type="number" step="any" data-ed-kind="${kind}"${idxAttr} data-ed-field="数值" value="${val}" placeholder="${escapeHtml(ph)}" title="${escapeHtml(ph)}">
+        ${convCell}
         <span class="unit">${pct ? '%' : ''}</span>
       </div>`;
   };
   return `
     <div class="st-editor-head">
       <label>部位</label>
-      <select id="ed-slot">${SLOTS.map((s) => `<option value="${s}" ${s === p.slot ? 'selected' : ''}>${s}</option>`).join('')}</select>
-      ${isWeaponSlot(p.slot) ? `<label>武器</label><select id="ed-wtype">${optionList(WEAPON_TYPES, p.weaponType)}</select>` : ''}
+      <select id="ed-slot">${SLOTS.map((s) => `<option value="${s}" ${s === p.slot ? 'selected' : ''}>${s === WEAPON_SLOT ? '武器（不分左右）' : s}</option>`).join('')}</select>
+      ${isWeaponSlot(p.slot) ? `<label>武器类型</label><select id="ed-wtype">${optionList(WEAPON_TYPES, p.weaponType)}</select>` : ''}
       <label>承音</label><input type="checkbox" id="ed-chengyin" ${p.承音 ? 'checked' : ''}>
     </div>
     ${row('初始')}${[0, 1, 2, 3].map((i) => row('调律', i)).join('')}${row('定音')}
-    <p class="muted" style="margin:6px 0 0">选词条自动填区间最大值；勾选承音自动改为承音值（定音不受限）；百分比词条按百分号数值录入</p>
+    <p class="muted" style="margin:6px 0 0">选词条自动填区间最大值；勾选承音自动改为承音值（定音不受限）；百分比词条按百分号数值录入；「转律」勾选标记已转律的调律位——之后只能继续转那一条</p>
     ${s.n > 0 ? editorEvalHtml(s) : ''}
     <div class="st-editor-btns">
       ${complete ? `<button id="ed-equip" class="${s.advice?.key === 'equip' ? 'primary' : 'ghost'}">直接穿上</button>` : ''}
@@ -949,6 +1000,7 @@ function bind() {
 
 function onDraftFieldChange(e) {
   const { edKind: kind, edIdx, edField: field } = e.target.dataset;
+  if (field === '转律') { actions.setDraftConverted(+edIdx, e.target.checked); return; }
   const target = kind === '调律' ? state.draft.调律[+edIdx] : state.draft[kind];
   if (field === '属性') {
     actions.setDraftAffix(kind, edIdx == null ? null : +edIdx, e.target.value);
@@ -975,14 +1027,16 @@ const actions = {
     return state.selected;
   },
 
-  /** 打开录入表单；传 slot 可预选部位（左栏空槽位点击） */
+  /** 打开录入表单；传 slot 可预选部位（左栏空槽位点击；部位=武器 不分左右） */
   openEditor(slot) {
     state.editing = true;
     state.selected = null;
     if (slot && SLOTS.includes(slot) && slot !== state.draft.slot) {
       const cats = (state.data?.build.weapon_categories || []).slice(1, 3).map((c) => c.label);
-      const wt = slot === '左武器' ? (cats[0] || '') : slot === '右武器' ? (cats[1] || '') : '';
-      state.draft = newDraft(slot, isWeaponSlot(slot) ? wt : '', currentFlow(), state.affixes);
+      const wt = slot === WEAPON_SLOT
+        ? ((state.draft.slot === WEAPON_SLOT && state.draft.weaponType) || cats[0] || '')
+        : '';
+      state.draft = newDraft(slot, wt, currentFlow(), state.affixes);
     }
     render();
   },
@@ -1015,10 +1069,8 @@ const actions = {
 
   setDraftSlot(slot) {
     const cats = (state.data?.build.weapon_categories || []).slice(1, 3).map((c) => c.label);
-    const wt = slot === '左武器' ? (cats[0] || state.draft.weaponType)
-      : slot === '右武器' ? (cats[1] || state.draft.weaponType)
-        : state.draft.weaponType;
-    state.draft = newDraft(slot, isWeaponSlot(slot) ? wt : '', currentFlow(), state.affixes);
+    const wt = slot === WEAPON_SLOT ? (state.draft.weaponType || cats[0] || '') : '';
+    state.draft = newDraft(slot, wt, currentFlow(), state.affixes);
     save(); render();
   },
 
@@ -1058,6 +1110,16 @@ const actions = {
     save(); render();
   },
 
+  /** 转律标记（单选语义）：勾选某条 = 该条已转律，其余清除；取消勾选 = 全部未转律 */
+  setDraftConverted(idx, v) {
+    if (!state.draft.调律[idx]) return;
+    state.draft.调律.forEach((a, i) => {
+      if (i === idx && v) a.转律 = true;
+      else delete a.转律;
+    });
+    save(); render();
+  },
+
   addDraft() {
     const p = state.draft;
     if (!p.初始.属性) return null;
@@ -1081,11 +1143,28 @@ const actions = {
   equip(uid) {
     const i = state.backpack.findIndex((b) => b.uid === uid);
     if (i < 0) return;
-    const piece = state.backpack.splice(i, 1)[0];
-    const old = state.equipped[piece.slot];
+    const piece = state.backpack[i];
+    // 物理位选择：武器按类型顶替（不分左右）；无同类时空位优先；两把都被其他类型占用 → 阻止
+    let key;
+    if (piece.slot === WEAPON_SLOT) {
+      key = WEAPON_KEYS.find((k) => {
+        const g = state.equipped[k];
+        return g?.slot === WEAPON_SLOT && String(g?.weaponType ?? '') === String(piece.weaponType ?? '');
+      }) || WEAPON_KEYS.find((k) => !state.equipped[k]);
+      if (!key) {
+        state.selected = { kind: 'backpack', uid };
+        save(); render();
+        boot(`两把武器位已被 ${wornWeaponTypes()} 占用——先脱下其中一把再穿 ${piece.weaponType || '该武器'}`, 'err');
+        return;
+      }
+    } else {
+      key = piece.slot;
+    }
+    state.backpack.splice(i, 1);
+    const old = state.equipped[key];
     if (old) state.backpack.push({ ...old, uid: nextUid() });
-    state.equipped[piece.slot] = piece;
-    state.selected = { kind: 'equipped', slot: piece.slot };
+    state.equipped[key] = piece;
+    state.selected = { kind: 'equipped', slot: key };
     save(); render();
   },
 
@@ -1144,6 +1223,10 @@ async function init() {
       state.selections = { ...state.selections, ...saved.selections };
       state.equipped = saved.equipped || {};
       state.backpack = saved.backpack || [];
+      // 迁移：武器不分左右（用户定稿）——旧存档的 左武器/右武器 部位归一为 武器（存储键不动）
+      const normalizeSlot = (p) => { if (p && (p.slot === '左武器' || p.slot === '右武器')) p.slot = WEAPON_SLOT; };
+      state.backpack.forEach(normalizeSlot);
+      Object.values(state.equipped).forEach(normalizeSlot);
       // uid 计数器对齐存量（含已穿戴件残留的旧 uid），避免新件撞号
       let maxSeq = 0;
       const scan = (p) => { const m = /^b(\d+)$/.exec(p?.uid || ''); if (m) maxSeq = Math.max(maxSeq, +m[1]); };

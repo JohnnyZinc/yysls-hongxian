@@ -137,6 +137,36 @@ const rErr = evaluateSwap({
 });
 check('错误处理：新件缺 slot → 拒绝', rErr.ok === false && rErr.errors.length > 0);
 
+// —— 武器不分左右：部位=武器 按类型对比（用户定稿） ——
+const wDual = { ...fullGear[0], slot: '武器', weaponType: '双刀' };
+const wRope = { ...fullGear[1], slot: '武器', weaponType: '绳镖' };
+const weaponGear = [wDual, wRope, ...fullGear.slice(2)];
+{
+  const r = evaluateSwap({ buildCtx, version, affixes, selections, currentGear: weaponGear, newItem: { ...wDual }, prescription });
+  check('武器对比：同类型（双刀↔双刀，词条相同）→ 等价替换，另一把绳镖保留',
+    r.ok === true && r.replacedOld === true && r.verdict === '等价' && r.gradeOld.tier === '天');
+}
+{
+  const bump = (piece) => ({
+    ...piece,
+    初始: { ...piece.初始, 数值: piece.初始.数值 * 1.1 },
+    调律: piece.调律.map((a) => ({ ...a, 数值: a.数值 * 1.1 })),
+  });
+  const r = evaluateSwap({ buildCtx, version, affixes, selections, currentGear: weaponGear, newItem: bump(wDual), prescription });
+  check('武器对比：整体 roll 更高的双刀 → 更好（同类型替换生效）',
+    r.ok === true && r.verdict === '更好' && r.after.dps > r.before.dps);
+}
+{
+  const sword = {
+    slot: '武器', weaponType: '剑',
+    初始: { 属性: '最大外功攻击', 数值: V('最大外功攻击') },
+    调律: ['最大外功攻击', '劲', '势', '会心率'].map((a) => ({ 属性: a, 数值: V(a) })),
+  };
+  const r = evaluateSwap({ buildCtx, version, affixes, selections, currentGear: weaponGear, newItem: sword, prescription });
+  check('武器对比：剑 vs 双刀/绳镖 → 不同类型不比较，拒绝对比',
+    r.ok === false && (r.errors || [])[0]?.includes('武器按类型对比'));
+}
+
 // —— 汇总 ——
 
 console.log(`\n通过 ${pass}/${pass + fails.length}`);

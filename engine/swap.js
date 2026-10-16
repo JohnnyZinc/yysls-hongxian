@@ -70,8 +70,19 @@ function toGradeItem(piece) {
   return {
     initial: piece?.初始?.属性,
     tunings: (piece?.调律 || []).map((t) => t?.属性),
+    converted: (piece?.调律 || []).map((t) => !!t?.转律),
     dingyin: piece?.定音?.属性,
   };
+}
+
+/**
+ * 装备同一性：非武器按部位；武器不分左右槽（部位=武器）按类型——双刀只与双刀对比（用户定稿）。
+ * 旧数据（部位=左武器/右武器）仍按部位相等处理，行为不变。
+ */
+export function sameEquipKey(a, b) {
+  if (a?.slot !== b?.slot) return false;
+  if (a?.slot !== '武器') return true;
+  return String(a?.weaponType ?? '') === String(b?.weaponType ?? '');
 }
 
 function collectWorthOf(tier) {
@@ -106,9 +117,16 @@ export function evaluateSwap({
   if (errors.length) return { ok: false, errors };
 
   const slot = newItem.slot;
-  const oldItem = currentGear.find((g) => g?.slot === slot) || null;
+  const oldItem = currentGear.find((g) => sameEquipKey(g, newItem)) || null;
+  // 武器按类型对比：没有同类型已穿戴 ⇒ 无替换基准（不同类型不比较，用户定稿）
+  if (slot === '武器' && !oldItem) {
+    return {
+      ok: false,
+      errors: ['武器按类型对比：当前未穿戴同类型武器，无法替换对比（不同类型不比较）'],
+    };
+  }
   const gearBefore = currentGear;
-  const gearAfter = [...currentGear.filter((g) => g?.slot !== slot), newItem];
+  const gearAfter = [...currentGear.filter((g) => !sameEquipKey(g, newItem)), newItem];
 
   const before = evalGearDps({ buildCtx, version, affixes, gear: gearBefore, selections, graduateDps });
   const after = evalGearDps({ buildCtx, version, affixes, gear: gearAfter, selections, graduateDps });

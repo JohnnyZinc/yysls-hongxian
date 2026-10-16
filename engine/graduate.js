@@ -63,7 +63,7 @@ export function materializeGraduateGear(prescription, affixes, flow) {
     if ((affixes?.护甲定音词条 || []).includes(name)) return 定音区间['技能定音']?.max ?? null;
     return null;
   };
-  const 攻具 = new Set(['左武器', '右武器', '环', '佩']);
+  const 攻具 = new Set(['左武器', '右武器', '武器', '环', '佩']);
 
   const bySlot = {};
   for (const { slot, affix } of units) (bySlot[slot] ??= []).push(affix);
