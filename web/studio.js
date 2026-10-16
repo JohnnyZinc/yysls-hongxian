@@ -5,19 +5,22 @@
  *
  * 布局（用户定稿）：
  *   左栏  上：已穿戴 8 部位（两行各 4）；下：背包（未穿戴装备）。
- *   中栏  默认 = 「录入装备」按钮；点击装备 → 词条数值 + 三维评价（ΔDPS/匹配度/监测）；
+ *   中栏  默认 = 「录入装备」按钮；点击装备 → 词条数值 + 评价（ΔDPS/匹配度，监测属全局组合放右栏）；
  *         再次点击同一件 → 取消选中回到按钮；点按钮 → 录入表单。
- *   右栏  上：流派（+流）；下：心法×4/武库/装备套装/弓玦套装；再下：DPS 毕业率；再下：属性面板。
+ *   右栏  上：流派（+流）；下：心法×4/武库/装备套装/弓玦套装；再下：DPS 毕业率；再下：属性面板 + 整体监测发现。
  *
- * 复用 P1 引擎（quota/advisor/monitor/swap/inspect/graduate），三系统并列、不给综合结论。
+ * 录入体验（用户定稿）：边录入边评价——每录一条词条显示当前潜力（天地玄黄）；
+ * 结构录满后显示毕业率变化，并在入包前给出「穿上/保留背包/回收删除」建议。
+ *
+ * 复用 P1 引擎（quota/advisor/monitor/swap/inspect/graduate），不给综合结论。
  * 存档与评价器共用 localStorage key（yysls-evaluator-v1），两个页面互通同一装备库。
  */
 
 import { derivePrescription } from '../engine/quota.js';
-import { gradeItem } from '../engine/advisor.js';
+import { gradeItem, gradeItemPotential } from '../engine/advisor.js';
 import { computeGraduateDps } from '../engine/graduate.js';
 import { inspectEquipped, inspectCandidate, inspectOverall } from '../engine/inspect.js';
-import { evalGearDps } from '../engine/swap.js';
+import { evalGearDps, evaluateSwap } from '../engine/swap.js';
 
 // ---------- 常量 ----------
 
@@ -491,7 +494,7 @@ function idleHtml() {
   return `
     <section class="st-panel st-idle">
       <button id="st-open-editor" class="big">＋ 录入装备</button>
-      <p class="muted">点击左侧装备卡片，查看词条与三维评价<br>再次点击同一卡片取消选中</p>
+      <p class="muted">点击左侧装备卡片，查看词条与评价<br>再次点击同一卡片取消选中</p>
     </section>`;
 }
 
@@ -510,8 +513,7 @@ function equippedDetailHtml(piece, slot) {
       });
       body = `
         <div class="st-eval"><h4>① 匹配度（留什么）</h4>${gradeDetailHtml(r.匹配度)}</div>
-        <div class="st-eval"><h4>② 监测发现（当前实装）</h4>${digestHtml(r.监测)}</div>
-        <div class="st-eval"><h4>③ ΔDPS（穿什么）</h4><div class="dim-note">已穿戴装备：不与其他同部位装备比较，无 ΔDPS。换成背包同部位装备可看对比。</div></div>`;
+        <div class="st-eval"><h4>② ΔDPS（穿什么）</h4><div class="dim-note">已穿戴装备：不与其他同部位装备比较，无 ΔDPS。换成背包同部位装备可看对比；全局的溢出/不足见右栏「整体监测发现」。</div></div>`;
     } catch (err) {
       body = `<ul class="warnings"><li>评价计算出错：${escapeHtml(err.message)}</li></ul>`;
     }
@@ -543,7 +545,7 @@ function candidateDetailHtml(piece) {
       body = `
         <div class="st-eval"><h4>① ΔDPS（穿什么）——与同部位已穿戴对比</h4>${evalDeltaHtml(d)}</div>
         <div class="st-eval"><h4>② 匹配度（留什么）</h4>${gradeDetailHtml(r.匹配度)}</div>
-        <div class="st-eval"><h4>③ 监测发现（假设穿上后）</h4>${digestHtml(r.监测)}</div>`;
+        <div class="dim-note">监测发现属全局装备组合口径，见右栏「整体监测发现」。</div>`;
     } catch (err) {
       body = `<ul class="warnings"><li>评价计算出错：${escapeHtml(err.message)}</li></ul>`;
     }
@@ -558,10 +560,120 @@ function candidateDetailHtml(piece) {
     </section>`;
 }
 
-// ===== 录入表单 =====
+// ===== 录入表单（边录入边评价） =====
+
+/** 草稿 → 装备件形状（供引擎评价与入包共用） */
+function draftPiece() {
+  const p = state.draft;
+  return {
+    slot: p.slot,
+    weaponType: p.weaponType || undefined,
+    承音: p.承音 || undefined,
+    初始: { 属性: p.初始.属性, 数值: p.初始.数值 },
+    调律: p.调律.map((a) => ({ 属性: a.属性, 数值: a.数值 })),
+    定音: { 属性: p.定音.属性, 数值: p.定音.数值 },
+  };
+}
+
+/** 录入表单的实时评价状态：潜力（部分录入）+ 毕业率变化与三向建议（结构录满） */
+function editorEvalState() {
+  const p = state.draft;
+  const n = (p.初始.属性 ? 1 : 0) + p.调律.filter((a) => a.属性).length;
+  const complete = !!(p.初始.属性 && p.调律.every((a) => a.属性));
+  let pot = null;
+  if (state.prescription && n > 0) {
+    pot = gradeItemPotential(state.prescription, p.slot, toGradeItem(p));
+  }
+  let swap = null;
+  if (complete) {
+    try {
+      swap = evaluateSwap({
+        buildCtx: state.data, version: state.version, affixes: state.affixes,
+        selections: state.selections, currentGear: equippedList(), newItem: draftPiece(),
+        prescription: state.prescription,
+        graduateDps: state.graduate?.ok ? state.graduate.dps : undefined,
+      });
+    } catch { swap = null; }
+  }
+  let advice = null;
+  if (swap?.ok) {
+    if (swap.verdict === '更好' || (swap.verdict === '等价' && swap.swapRecommended)) {
+      advice = { key: 'equip', text: swap.replacedOld ? '直接穿上（替换当前同部位）' : '直接穿上（补上空位）' };
+    } else if (swap.候补) {
+      advice = { key: 'keep', text: '保留到背包（候补：当前穿戴更优，但这件有长期价值）' };
+    } else {
+      advice = { key: 'discard', text: '直接回收删除（不如当前穿戴，且无长期价值）' };
+    }
+  }
+  return { n, complete, pot, swap, advice };
+}
+
+function potentialReasonHtml(pot) {
+  const reasons = [];
+  if (pot.missing?.length) {
+    reasons.push(`还缺：${pot.missing.map((m) => {
+      const label = Array.isArray(m.affix) ? `(${m.affix.join('/')})` : m.affix;
+      return m.deficit ? `${label}×${m.deficit}` : label;
+    }).join('、')}`);
+  }
+  if (pot.invalidAffixes?.length) {
+    reasons.push(`无效词条：${pot.invalidAffixes.map((u) => u.affix).join('、')}`);
+  }
+  if (reasons.length) {
+    return `<div class="digest">${reasons.map((r) => `<div>${escapeHtml(r)}</div>`).join('')}</div>`;
+  }
+  return '';
+}
+
+function editorEvalHtml(s) {
+  const parts = [];
+  parts.push(`<div class="st-sec-title" style="margin-top:12px"><span>实时评价（尚未入包）</span><span class="muted">已录 ${s.n}/5 词条</span></div>`);
+  if (s.pot) {
+    if (!s.pot.ok) {
+      parts.push(`<ul class="warnings">${(s.pot.errors || []).map((e) => `<li>${escapeHtml(e)}</li>`).join('')}</ul>`);
+    } else {
+      const cls = TIER_CLASS[s.pot.tier] || '';
+      const sub = s.pot.substate ? '（需1次转律）' : '';
+      parts.push(`
+        <div class="verdict-row">
+          <span class="muted">当前潜力</span>
+          <span class="tier-badge big ${cls}" title="${escapeHtml(s.pot.口径)}">${escapeHtml(s.pot.tier)}${sub}</span>
+          <span class="muted">空位按最优填充 + 转律后最高可达</span>
+        </div>
+        ${potentialReasonHtml(s.pot)}
+        ${s.pot.warnings?.length ? `<ul class="warnings">${s.pot.warnings.map((w) => `<li>${escapeHtml(w)}</li>`).join('')}</ul>` : ''}`);
+    }
+  } else if (s.n > 0) {
+    parts.push('<p class="muted">当前流派无配额模板——潜力不可评，仅 DPS 可比。</p>');
+  }
+  if (s.swap?.ok) {
+    const d = s.swap;
+    const cls = d.verdict === '更好' ? 'better' : d.verdict === '更差' ? 'worse' : 'equal';
+    const grBefore = d.before.graduationRate;
+    const grAfter = d.after.graduationRate;
+    const dpp = grBefore != null && grAfter != null ? grAfter - grBefore : null;
+    const sign = dpp != null && dpp >= 0 ? '+' : '';
+    parts.push(`
+      <h4 class="sec" style="margin-top:12px">毕业率变化（假设穿上）</h4>
+      <div class="verdict-row">
+        <span class="verdict-badge big ${cls}">${escapeHtml(d.verdict)}</span>
+        ${dpp != null ? `<span class="delta-big ${dpp > 0 ? 'up' : dpp < 0 ? 'down' : ''}">${sign}${(dpp * 100).toFixed(2)}pp</span>` : ''}
+        <span>${escapeHtml(d.recommendation)}</span>
+      </div>
+      <div class="muted">毕业率 ${grBefore != null ? escapeHtml(pctFmt(grBefore)) : '—'} → ${grAfter != null ? escapeHtml(pctFmt(grAfter)) : '—'} · DPS ${d.deltaPct >= 0 ? '+' : ''}${(d.deltaPct * 100).toFixed(2)}%</div>`);
+  } else if (s.complete && !s.swap) {
+    parts.push('<p class="muted" style="margin-top:8px">毕业率变化暂不可计算（数据不全或引擎出错）。</p>');
+  }
+  if (s.advice) {
+    parts.push(`<div style="margin-top:8px">建议：<b>${escapeHtml(s.advice.text)}</b></div>`);
+  }
+  return `<div class="st-live-eval">${parts.join('')}</div>`;
+}
 
 function editorHtml() {
   const p = state.draft;
+  const s = editorEvalState();
+  const complete = s.complete;
   const row = (kind, idx = null) => {
     const aff = kind === '调律' ? p.调律[idx] : p[kind];
     const pool = kind === '初始' ? initialPool(p.slot)
@@ -589,8 +701,11 @@ function editorHtml() {
     </div>
     ${row('初始')}${[0, 1, 2, 3].map((i) => row('调律', i)).join('')}${row('定音')}
     <p class="muted" style="margin:6px 0 0">选词条自动填区间最大值；勾选承音自动改为承音值（定音不受限）；百分比词条按百分号数值录入</p>
+    ${s.n > 0 ? editorEvalHtml(s) : ''}
     <div class="st-editor-btns">
-      <button id="ed-add" class="primary">添加到背包</button>
+      ${complete ? `<button id="ed-equip" class="${s.advice?.key === 'equip' ? 'primary' : 'ghost'}">直接穿上</button>` : ''}
+      <button id="ed-add" class="${!s.advice || s.advice.key === 'keep' ? 'primary' : 'ghost'}">添加到背包</button>
+      <button id="ed-discard" class="${s.advice?.key === 'discard' ? 'primary' : 'ghost'}">丢弃</button>
       <button id="ed-cancel" class="ghost">取消</button>
     </div>`;
 }
@@ -797,6 +912,10 @@ function bind() {
   if (chengyin) chengyin.onchange = (e) => actions.setDraftChengyin(e.target.checked);
   const edAdd = $('#ed-add');
   if (edAdd) edAdd.onclick = () => actions.addDraft();
+  const edEquip = $('#ed-equip');
+  if (edEquip) edEquip.onclick = () => actions.addAndEquip();
+  const edDiscard = $('#ed-discard');
+  if (edDiscard) edDiscard.onclick = () => actions.resetDraft();
   const edCancel = $('#ed-cancel');
   if (edCancel) edCancel.onclick = () => actions.cancelEditor();
   for (const el of centerEl.querySelectorAll('[data-ed-field]')) {
@@ -942,20 +1061,20 @@ const actions = {
   addDraft() {
     const p = state.draft;
     if (!p.初始.属性) return null;
-    const piece = {
-      slot: p.slot,
-      weaponType: p.weaponType || undefined,
-      承音: p.承音 || undefined,
-      初始: { 属性: p.初始.属性, 数值: p.初始.数值 },
-      调律: p.调律.map((a) => ({ 属性: a.属性, 数值: a.数值 })),
-      定音: { 属性: p.定音.属性, 数值: p.定音.数值 },
-    };
     const uid = nextUid();
-    state.backpack.push({ ...piece, uid });
+    state.backpack.push({ ...draftPiece(), uid });
     state.editing = false;
     state.selected = { kind: 'backpack', uid };
     state.draft = newDraft(p.slot, p.weaponType, currentFlow(), state.affixes);
     save(); render();
+    return uid;
+  },
+
+  /** 录入后直接穿上（入包 + 装备一步完成；被替换的旧件进背包） */
+  addAndEquip() {
+    const uid = actions.addDraft();
+    if (!uid) return null;
+    actions.equip(uid);
     return uid;
   },
 

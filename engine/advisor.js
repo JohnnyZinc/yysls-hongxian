@@ -178,3 +178,173 @@ export function gradeItem(prescription, slotName, item) {
     口径: '转律最优解后的 (k,m) 字典序评档（按可兼容武器排列取最优）；roll 数值不入档；定音不入档',
   };
 }
+
+// ———— 潜力评分（录入中的不完整装备） ————
+
+/** 单个排列下的最优填充：空位从池中挑最有利词条 + 已录调律允许至多 1 次转律（与 gradeItem 同口径），取 (k, m, 转律次数) 字典序最优 */
+function bestFillState(rx, initial, tuningsIn) {
+  const initialPool = rx.initialPool || [];
+  const tuningPool = rx.tuningPool || [];
+  const conversionPool = rx.conversionPool || [];
+  const conversionSet = new Set(conversionPool);
+  const validSet = new Set([...(rx.required || []).flatMap(membersOf), ...rx.freeSet]);
+  const reqMembers = [...new Set((rx.required || []).flatMap(membersOf))];
+
+  // 有用目标 = 必备行成员（可减 m）；"任意有效词条"与占用情况相关，用占位符惰性物化
+  const FILL_ANY = '\u0000FILL'; // 空位 → 未占用的调律池词条（优先有效集内）
+  const CONV_ANY = '\u0000CONV'; // 转律 → 未占用的转律池词条（优先有效集内）
+  const fillInitial = reqMembers.filter((a) => initialPool.includes(a));
+  const fillTuning = reqMembers.filter((a) => tuningPool.includes(a));
+  const convTuning = reqMembers.filter((a) => conversionSet.has(a));
+  const fillerInitial = initialPool.find((a) => validSet.has(a)) || initialPool[0] || '';
+
+  // 每个位置的候选值：0=初始位，1..4=调律位
+  const options = [
+    initial ? [initial] : [...new Set([...(rx.initialForced ? [rx.initialForced] : []), ...fillInitial, fillerInitial].filter(Boolean))],
+  ];
+  for (let i = 0; i < 4; i++) {
+    const cur = tuningsIn[i];
+    if (cur) {
+      const opts = [cur]; // 保留不转
+      for (const a of convTuning) if (a !== cur) opts.push(a); // 转律到有用目标（减 m）
+      if (!validSet.has(cur) && conversionPool.length) opts.push(CONV_ANY); // 无效词条转成任意有效目标（减 k）
+      options.push(opts);
+    } else {
+      options.push([...new Set(fillTuning).add(FILL_ANY)]); // 空位：有用目标或任意未占用有效词条
+    }
+  }
+
+  /** 从池中挑一个未占用词条：优先有效集内（彼此等价），否则任意（诚实计 k） */
+  const pickUnused = (pool, used) => {
+    let fallback = '';
+    for (const a of pool) {
+      if (used.has(a)) continue;
+      if (validSet.has(a)) return a;
+      if (!fallback) fallback = a;
+    }
+    return fallback;
+  };
+
+  let best = null;
+  const raw = new Array(5).fill('');
+  const dfs = (p, usedTuning, convCount) => {
+    if (p === 5) {
+      // 物化占位符（同类候选彼此等价，贪心逐个解析不影响最优性）
+      const values = raw.slice();
+      const used = new Set(values.filter((v) => v && v !== FILL_ANY && v !== CONV_ANY));
+      let feasible = true;
+      for (let i = 1; i <= 4 && feasible; i++) {
+        if (values[i] === FILL_ANY) {
+          const v = pickUnused(tuningPool, used);
+          if (!v) { feasible = false; break; }
+          values[i] = v; used.add(v);
+        }
+      }
+      for (let i = 1; i <= 4 && feasible; i++) {
+        if (values[i] === CONV_ANY) {
+          const v = pickUnused(conversionPool, used);
+          if (!v) { feasible = false; break; }
+          values[i] = v; used.add(v);
+        }
+      }
+      if (!feasible) return;
+      const finalConversions = [];
+      for (let i = 0; i < 4; i++) {
+        if (tuningsIn[i] && values[i + 1] !== tuningsIn[i]) finalConversions.push({ from: tuningsIn[i], to: values[i + 1] });
+      }
+      const st = evalState(rx, values[0], values.slice(1));
+      const score = [st.k, st.m, finalConversions.length];
+      if (!best || lexLess(score, best.score)) best = { ...st, conversions: finalConversions, score };
+      return;
+    }
+    for (const v of options[p]) {
+      if (p >= 1) {
+        if (v !== FILL_ANY && v !== CONV_ANY && usedTuning.has(v)) continue; // 调律互不重复（可与初始重复）
+        const from = tuningsIn[p - 1];
+        const isConv = !!(from && v !== from);
+        if (isConv && convCount >= 1) continue; // 转律至多 1 次（gradeItem 同口径）
+        raw[p] = v;
+        usedTuning.add(v);
+        dfs(p + 1, usedTuning, convCount + (isConv ? 1 : 0));
+        usedTuning.delete(v);
+      } else {
+        raw[p] = v;
+        dfs(p + 1, usedTuning, convCount);
+      }
+    }
+  };
+  dfs(0, new Set(), 0);
+  return best;
+}
+
+/**
+ * 单件潜力评分（录入中的不完整装备）：
+ * 已录词条固定，空位按"最优填充"补齐、已录调律允许转律，取 (k, m, 转律次数) 字典序最优，
+ * 映射到与 gradeItem 相同的天地玄黄档位 —— 即"当前词条下这件装备最高能到什么档"。
+ * 口径：初始位无效词条无法转律，会永久压低潜力上限；roll 数值与定音不入潜力档；
+ * 全局精确复核（verifyItemFits）只对完整装备做，潜力阶段不复核。
+ */
+export function gradeItemPotential(prescription, slotName, partial) {
+  const arrangements = prescription?.arrangements || [];
+  if (!arrangements.length || !arrangements.some((a) => a.slots[slotName])) {
+    return { ok: false, errors: [`未知部位或 prescription 缺少该部位的排列数据：${slotName}`] };
+  }
+  const initial = partial?.initial ? canonicalAffix(partial.initial) : '';
+  const tuningsIn = (partial?.tunings || []).map((t) => (t ? canonicalAffix(t) : '')).slice(0, 4);
+  while (tuningsIn.length < 4) tuningsIn.push('');
+  const enteredCount = (initial ? 1 : 0) + tuningsIn.filter(Boolean).length;
+  if (enteredCount === 0) {
+    return { ok: true, slot: slotName, empty: true, enteredCount: 0, tier: null, errors: [], 口径: '未录入词条，无潜力可评' };
+  }
+
+  let best = null;
+  for (const arr of arrangements) {
+    const rx = arr.slots[slotName];
+    if (!rx) continue;
+    // 兼容性：已录入单元必须在该排列的池中（错型指定增 ⇒ 该排列对这件装备不存在）
+    const initialPoolSet = new Set(rx.initialPool);
+    const tuningPoolSet = new Set(rx.tuningPool);
+    const compatible = [
+      ...(initial ? [{ position: 'initial', affix: initial }] : []),
+      ...tuningsIn.filter(Boolean).map((a) => ({ position: 'tuning', affix: a })),
+    ].every((u) => (u.position === 'initial' ? initialPoolSet.has(u.affix) : tuningPoolSet.has(u.affix)));
+    if (!compatible) continue;
+    const cand = bestFillState(rx, initial, tuningsIn);
+    if (cand && (!best || lexLess(cand.score, best.score))) best = { ...cand, rx };
+  }
+  if (!best) {
+    return { ok: false, enteredCount, errors: ['已录入词条与任何武器排列矛盾（如一把武器同时携带两条指定武学增伤）'] };
+  }
+
+  const tier = best.k === 0 ? (best.m === 0 ? '天' : '地') : (best.k === 1 ? '玄' : '黄');
+  const notes = [], warnings = [];
+  if (best.conversions.length) {
+    notes.push(`潜力按最优转律计（${best.conversions.length} 次：${best.conversions.map((c) => `${c.from}→${c.to}`).join('、')}）`);
+  }
+  for (const c of best.conversions) {
+    if (SHENLI_AFFIXES.has(c.from)) warnings.push(`「${c.from}」是神力词条，转掉永久损失（转律池不含神力）`);
+  }
+  if (best.invalid.some((u) => u.position === 'initial')) {
+    notes.push('初始位词条不在毕业需求内且无法转律——潜力上限被永久压低');
+  }
+
+  return {
+    ok: true,
+    slot: slotName,
+    buildId: prescription.buildId ?? null,
+    flowId: prescription.flowId ?? null,
+    flowName: prescription.flowName ?? null,
+    tier,
+    substate: tier === '天' && best.conversions.length ? '天·需1次转律' : null,
+    k: best.k,
+    m: best.m,
+    enteredCount,
+    conversions: best.conversions,
+    invalidAffixes: best.invalid,
+    missing: best.missing,
+    notes,
+    warnings,
+    errors: [],
+    口径: '潜力 = 已录词条固定、空位最优填充+转律后的最高档位（(k,m) 字典序，按可兼容武器排列取最优）；roll 数值与定音不入档',
+  };
+}

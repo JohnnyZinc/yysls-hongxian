@@ -93,22 +93,29 @@ check('切流：右栏监测出现小外流启用度', R().includes('启用度')
 mod.__test.switchFlow('dawai');
 check('切回大外流：推导器复原', state.flowId === 'dawai' && state.prescription.flowId === 'dawai');
 
-// ---- 2. 录入表单 → 添加到背包 ----
+// ---- 2. 录入表单（边录入边评价） → 添加到背包 ----
 actions.openEditor('冠胄');
 check('录入：空槽位打开表单并预选部位', state.editing === true && state.draft.slot === '冠胄');
+check('录入：未录词条时无实时评价', !C().includes('实时评价'));
 actions.setDraftSlot('左武器');
 actions.setDraftWeaponType('双刀');
+check('录入：仍未录词条，无实时评价', !C().includes('实时评价'));
 actions.setDraftAffix('初始', null, '最大外功攻击');
+check('录入：录第1条词条即显示潜力', C().includes('实时评价') && C().includes('当前潜力') && C().includes('已录 1/5'));
+check('录入：潜力=天（空位可最优填充），尚无毕业率变化',
+  C().includes('天') && !C().includes('毕业率变化（假设穿上）'));
 actions.setDraftAffix('调律', 0, '最大外功攻击');
 actions.setDraftAffix('调律', 1, '劲');
 actions.setDraftAffix('调律', 2, '双刀武学增伤');
 actions.setDraftAffix('调律', 3, '会心率');
 check('录入：初始+调律数值自动填区间值', state.draft.初始.数值 > 0 && state.draft.调律[2].数值 > 0);
 check('录入：中栏出现 6 词条行与按钮', C().includes('调律4') && C().includes('添加到背包') && C().includes('取消'));
+check('录入：结构录满后显示毕业率变化 + 更好 + 直接穿上建议',
+  C().includes('毕业率变化（假设穿上）') && C().includes('更好') && C().includes('直接穿上'));
 const uid = actions.addDraft();
 check('添加：成功进背包并自动选中（背包视图）', !!uid && state.selected?.kind === 'backpack' && state.editing === false);
-check('背包视图：ΔDPS/匹配度/监测三维评价齐备',
-  C().includes('① ΔDPS') && C().includes('② 匹配度') && C().includes('③ 监测发现（假设穿上后）'));
+check('背包视图：ΔDPS/匹配度两维评价齐备，监测不在单件视图（属全局）',
+  C().includes('① ΔDPS') && C().includes('② 匹配度') && !C().includes('监测发现（假设穿上后）'));
 check('背包视图：补空位 → 更好（从无到有）', C().includes('更好'));
 check('背包视图：匹配度=天', C().includes('天'));
 check('左栏：背包卡片出现且计数=1', L().includes('1 件未穿戴') && L().includes('双刀'));
@@ -117,7 +124,7 @@ check('左栏：背包卡片出现且计数=1', L().includes('1 件未穿戴') &
 actions.select({ kind: 'backpack', uid });
 check('再次点击：取消选中，中栏回到录入装备按钮', state.selected === null && C().includes('录入装备') && !C().includes('ΔDPS'));
 actions.select({ kind: 'backpack', uid });
-check('再点一次：重新选中，三维评价回来', state.selected?.kind === 'backpack' && C().includes('① ΔDPS'));
+check('再点一次：重新选中，评价回来', state.selected?.kind === 'backpack' && C().includes('① ΔDPS'));
 
 // ---- 4. 穿上 → 已穿戴视图 ----
 actions.equip(uid);
@@ -125,7 +132,7 @@ check('穿上：装备移入已穿戴、视图切为已穿戴',
   state.equipped['左武器'] != null && !state.backpack.some((b) => b.uid === uid) && state.selected?.kind === 'equipped');
 check('已穿戴视图：明确标注无 ΔDPS', C().includes('无 ΔDPS'));
 check('已穿戴视图：匹配度=天（传家宝）', C().includes('天'));
-check('已穿戴视图：实装监测显示配额缺口（只穿1件，大外缺10）', C().includes('缺 10'));
+check('右栏：整体监测发现显示配额缺口（只穿1件，大外缺10）', R().includes('缺 10'));
 check('已穿戴视图：词条表格展示初始/调律/定音', C().includes('调律 2') && C().includes('双刀武学增伤'));
 
 // ---- 5. 脱下 / 删除 ----
@@ -134,6 +141,21 @@ check('脱下：回到背包并切到背包视图', state.selected?.kind === 'ba
 const uid2 = state.selected.uid;
 actions.removeBackpack(uid2);
 check('删除：背包清空、中栏回到录入装备按钮', state.backpack.length === 0 && C().includes('录入装备'));
+
+// ---- 5.5 录入后直接穿上（一步入包+装备） ----
+actions.openEditor('环');
+actions.setDraftAffix('初始', null, '最大外功攻击');
+actions.setDraftAffix('调律', 0, '最大外功攻击');
+actions.setDraftAffix('调律', 1, '全武学增伤');
+actions.setDraftAffix('调律', 2, '劲');
+actions.setDraftAffix('调律', 3, '会心率');
+const uid3 = actions.addAndEquip();
+check('直接穿上：一步入包+装备（原为空位，无旧件）',
+  !!uid3 && state.equipped['环'] != null && !state.backpack.some((b) => b.uid === uid3)
+  && state.selected?.kind === 'equipped' && state.editing === false);
+actions.unequip('环');
+actions.removeBackpack(state.selected.uid);
+check('清理：环位回到空、背包清空', state.equipped['环'] == null && state.backpack.length === 0);
 
 // ---- 6. 存档 ----
 const saved = JSON.parse(localStorage.getItem('yysls-evaluator-v1') || 'null');

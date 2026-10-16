@@ -11,7 +11,7 @@
 
 import fs from 'node:fs';
 import { derivePrescription, loadSlotModel } from '../engine/quota.js';
-import { gradeItem } from '../engine/advisor.js';
+import { gradeItem, gradeItemPotential } from '../engine/advisor.js';
 import { loadVersionData } from './load-version.js';
 
 const { affixes } = loadVersionData();
@@ -199,6 +199,56 @@ const gp = (slot, item) => gradeItem(daWaiRx, slot, item);
   const r = gp('左武器', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']));
   check('结果自描述：含 buildId/flowId/口径',
     r.buildId === 'pozhufeng' && r.flowId === 'dawai' && typeof r.口径 === 'string');
+}
+
+// ———— 潜力评分（gradeItemPotential：录入中的不完整装备） ————
+
+const swordPot = (item) => gradeItemPotential(swordRx, '左武器', item);
+const pot = (slot, item) => gradeItemPotential(daWaiRx, slot, item);
+
+{
+  const r = swordPot(it('', ['', '', '', '']));
+  check('潜力：未录入词条 → 无评价（empty）', r.ok && r.empty === true && r.tier === null && r.enteredCount === 0);
+}
+{
+  const r = swordPot(it('', ['劲', '', '', '']));
+  check('潜力：仅录1条有效调律 → 天（空位可最优填充）',
+    r.ok && r.tier === '天' && r.k === 0 && r.m === 0 && r.conversions.length === 0 && r.enteredCount === 1);
+}
+{
+  const r = swordPot(it('最大外功攻击', ['最大外功攻击', '', '', '']));
+  check('潜力：初始+1调律已对齐 → 天', r.ok && r.tier === '天' && r.k === 0 && r.m === 0);
+}
+{
+  const r = swordPot(it('敏', ['最大外功攻击', '剑武学增伤', '势', '']));
+  check('潜力：初始位无效词条 → 玄（永久压低上限）', r.ok && r.tier === '玄' && r.k === 1
+    && r.notes.some((n) => n.includes('初始位')));
+}
+{
+  const r = swordPot(it('最大外功攻击', ['剑武学增伤', '势', '劲', '会意率']));
+  check('潜力：完整装备与 gradeItem 同口径 → 天·需1次转律',
+    r.ok && r.tier === '天' && r.substate === '天·需1次转律' && r.conversions.length === 1);
+}
+{
+  const r = swordPot(it('最大外功攻击', ['最大外功攻击', '剑武学增伤', '势', '气血最大值']));
+  check('潜力：无效调律转律救回 → 天·需1次转律',
+    r.ok && r.tier === '天' && r.substate === '天·需1次转律'
+    && r.conversions.some((c) => c.from === '气血最大值'));
+}
+
+// 真实 dawai：完整装备的潜力档必须等于 gradeItem 档（同口径一致性）
+for (const [slot, item] of [
+  ['左武器', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率'])],
+  ['左武器', it('最大外功攻击', ['最大外功攻击', '劲', '势', '精准率'])],
+  ['左武器', it('敏', ['最大外功攻击', '劲', '双刀武学增伤', '势'])],
+  ['环', it('最大外功攻击', ['最大外功攻击', '劲', '精准率', '会心率'])],
+  ['冠胄', it('精准率', ['最大外功攻击', '劲', '气血最大值', '外功防御'])],
+  ['胫甲', it('劲', ['最大外功攻击', '劲', '对首领单位增伤', '精准率'])],
+]) {
+  const a = gradeItem(daWaiRx, slot, item);
+  const b = pot(slot, item);
+  check(`潜力一致性：${slot} 完整装备 潜力(${b.tier}) = 匹配度(${a.tier})`,
+    a.ok && b.ok && a.tier === b.tier && a.k === b.k && a.m === b.m);
 }
 
 // ———— 汇总 ————
