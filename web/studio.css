@@ -1,0 +1,126 @@
+/* studio.css — 三栏工作台专属样式（变量与基调沿用 style.css；徽章类沿用 evaluator.css） */
+
+/* ---------- 三栏骨架 ---------- */
+.studio {
+  display: grid;
+  grid-template-columns: minmax(300px, 370px) minmax(420px, 1fr) minmax(300px, 385px);
+  gap: 12px;
+  align-items: start;
+}
+.st-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.st-panel {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  padding: 10px 12px;
+}
+.st-sec-title {
+  font-size: 13px; color: var(--accent); margin: 0 0 8px;
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+}
+.st-sec-title .muted { font-weight: 400; }
+
+@media (max-width: 1250px) {
+  .studio { grid-template-columns: minmax(280px, 330px) minmax(380px, 1fr) minmax(280px, 340px); }
+}
+@media (max-width: 1050px) {
+  .studio { grid-template-columns: 1fr; }
+}
+
+/* ---------- 左栏：装备槽位（2 行 × 4） ---------- */
+.st-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.st-slot {
+  border: 1px solid var(--line); border-radius: 6px; background: var(--panel);
+  padding: 6px 6px 5px; min-height: 96px; cursor: pointer; min-width: 0;
+}
+.st-slot:hover { border-color: var(--accent); }
+.st-slot.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.st-slot.empty { border-style: dashed; color: var(--muted); background: transparent; }
+.st-slot .name {
+  font-size: 12px; font-weight: 700; margin-bottom: 4px;
+  display: flex; justify-content: space-between; align-items: center; gap: 4px;
+}
+.st-slot .name .tier-badge { padding: 0 6px; font-size: 11px; }
+.st-slot .affixes { font-size: 10px; line-height: 1.5; color: var(--muted); }
+.st-slot .affixes div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-slot .affixes .k { color: #7d8698; }
+.st-slot .empty-hint { font-size: 10px; margin-top: 14px; text-align: center; }
+
+/* ---------- 左栏：背包 ---------- */
+.st-backpack { display: flex; flex-direction: column; gap: 8px; max-height: 56vh; overflow: auto; }
+.st-bp-card {
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px;
+  cursor: pointer; background: var(--panel); min-width: 0;
+}
+.st-bp-card:hover { border-color: var(--accent); }
+.st-bp-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.st-bp-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 700;
+}
+.st-bp-affixes {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px;
+  margin-top: 4px; font-size: 11px; font-weight: 400;
+}
+.st-bp-affixes div {
+  display: flex; justify-content: space-between; gap: 6px;
+  border-bottom: 1px dashed var(--line); padding: 1px 0; min-width: 0;
+}
+.st-bp-affixes .k { color: #7d8698; flex: none; }
+.st-bp-affixes .n { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.st-bp-affixes .v { flex: none; color: var(--text); }
+
+/* ---------- 中栏 ---------- */
+.st-idle {
+  min-height: 340px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 14px; text-align: center;
+}
+.st-idle button.big { font-size: 16px; padding: 12px 40px; }
+.st-detail-head {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; flex-wrap: wrap; margin-bottom: 4px;
+}
+.st-detail-head h3 { margin: 0; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+.st-detail-actions { display: flex; gap: 6px; }
+.st-detail-actions button { padding: 3px 14px; font-size: 12px; }
+.st-detail-actions button.primary { background: var(--accent); }
+.st-detail-actions button.ghost { background: var(--line); }
+
+.st-affix-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0 2px; }
+.st-affix-table th {
+  text-align: left; font-weight: 400; color: var(--muted); font-size: 12px;
+  border-bottom: 1px solid var(--line); padding: 3px 8px;
+}
+.st-affix-table td { border-bottom: 1px solid var(--line); padding: 4px 8px; }
+.st-affix-table td.num { text-align: right; }
+.st-affix-table td.pos { color: var(--muted); width: 64px; font-size: 12px; }
+
+.st-eval { border-left: 3px solid var(--line); padding: 2px 0 2px 12px; margin: 12px 0; }
+.st-eval h4 { margin: 2px 0 8px; font-size: 13px; color: var(--accent); }
+.st-eval .dim-note { color: var(--muted); font-size: 13px; }
+
+/* 录入表单 */
+.st-editor-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+.st-editor-head label { color: var(--muted); font-size: 12px; }
+.st-editor-btns { display: flex; gap: 8px; margin-top: 10px; }
+.st-editor-btns button.ghost { background: var(--line); }
+.st-editor .affix-row select { min-width: 0; }
+.st-editor .affix-row input[type="number"] { flex: 1; width: auto; min-width: 0; }
+
+/* ---------- 右栏 ---------- */
+.st-field { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.st-field label { flex: none; width: 70px; color: var(--muted); font-size: 12px; }
+.st-field select { flex: 1; min-width: 0; }
+.st-plan-reset {
+  background: var(--line); font-size: 11px; padding: 2px 10px; margin-top: 6px;
+}
+.st-grad-num { font-size: 34px; font-weight: 700; color: var(--good); line-height: 1.2; }
+.st-grad-note { font-size: 11px; }
+.st-stat-group h5 {
+  margin: 10px 0 3px; font-size: 12px; color: var(--muted); font-weight: 400;
+}
+.st-stats div {
+  display: flex; justify-content: space-between; gap: 8px;
+  border-bottom: 1px dashed var(--line); font-size: 12px; padding: 1px 0; min-width: 0;
+}
+.st-stats span:first-child { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-stats span:last-child { flex: none; }
+.st-foot-meta { font-size: 11px; line-height: 1.6; }

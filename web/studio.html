@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>燕云装备工作台（三栏）</title>
+  <link rel="stylesheet" href="/web/style.css">
+  <link rel="stylesheet" href="/web/evaluator.css">
+  <link rel="stylesheet" href="/web/studio.css">
+</head>
+<body>
+  <header>
+    <h1>装备工作台（三栏）
+      <a class="nav" href="/web/evaluator.html">→ 装备评价器</a>
+      <a class="nav" href="/web/index.html">→ 面板/DPS 验证台</a>
+    </h1>
+  </header>
+  <main class="studio" id="app">
+    <div class="st-col" id="st-left"><p class="muted">加载中…</p></div>
+    <div class="st-col" id="st-center"></div>
+    <div class="st-col" id="st-right"></div>
+  </main>
+  <div id="boot-status" class="muted" style="margin-top:10px">① 页面已加载；② 脚本加载中…</div>
+  <script>
+    window.__bootStatus = function (text, cls) {
+      var el = document.getElementById('boot-status');
+      if (el) { el.textContent = text; el.style.color = cls === 'err' ? '#ff7676' : ''; }
+    };
+    window.addEventListener('error', function (e) {
+      if (e.target && e.target !== window && (e.target.src || e.target.href)) {
+        __bootStatus('资源加载失败(404?): ' + (e.target.src || e.target.href), 'err');
+      } else {
+        __bootStatus('脚本错误: ' + (e.message || e.type) + (e.filename ? ' @' + e.filename + ':' + e.lineno : ''), 'err');
+      }
+    }, true);
+    window.addEventListener('unhandledrejection', function (e) {
+      __bootStatus('异步错误: ' + String(e.reason), 'err');
+    });
+  </script>
+  <script type="module" src="/web/studio.js?v=1"></script>
+</body>
+</html>
