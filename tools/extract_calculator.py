@@ -16,15 +16,21 @@
   2. 单体/群体奇术两类合并为单个"奇术"类，panel_key=全奇术增伤；
      每个类别都带 panel_key（武器类型 → `${类型}武学增伤`）；
   3. 其余（skills/effects 忠实提取含 dingingyin_type/zhenqi_ratio、_headers、
-     validation/formula_templates、l_override、count_conditional）与归档版一致。
+     validation/formula_templates、l_override、count_conditional）与归档版一致；
+  4. 套装攻击乘数带作用域 set_attack_scope（"外功"/"全部"）：115 阶表 外功与四属性各行都写
+     IF($G$2=套装,X,1)；110 阶表只有外功行写了（如鸣金影飞隼×1.1）→ 记 "外功"。
+     引擎据此决定属性攻击是否也乘，否则属性攻击会虚高一档（鸣金影实为 +1.83%）。
 """
 import json
 import os
 import re
 import sys
 
-from openpyxl import load_workbook
-from openpyxl.utils import get_column_letter
+try:  # 有 openpyxl 优先；离线环境退回标准库实现 tools/xlsx_lite.py
+    from openpyxl import load_workbook
+    from openpyxl.utils import get_column_letter
+except ImportError:  # pragma: no cover
+    from xlsx_lite import load_workbook, get_column_letter
 
 
 # ---------------- 基础工具 ----------------
@@ -378,12 +384,33 @@ def extract_build(wbf, wbv, xlsx_name, build_id, name_cn, game_version, dingyin_
     m = re.search(r"(\d+\.\d+)\.xlsx$", xlsx_name)
     calc_version = m.group(1) if m else None
 
+    def _row_set_mult(row):
+        """取某条实际属性行（D 列=最小攻击）上生效的套装攻击乘数；无 → 1.0"""
+        f = clean(ws.cell(row=row, column=4).value)
+        if not is_formula(f):
+            return 1.0
+        m = re.search(r'IF\(\$G\$2="([^"]+)"\s*,\s*([0-9.]+)\s*,\s*1\)', f)
+        if m and m.group(1) == selectors["set"]:
+            return float(m.group(2))
+        return 1.0
+
     set_attack_multiplier = 1.0
     d10 = clean(ws["D10"].value)
     if is_formula(d10):
         mset = re.search(r'IF\(\$G\$2="([^"]+)"\s*,\s*([0-9.]+)\s*,\s*1\)', d10)
         if mset and mset.group(1) == selectors["set"]:
             set_attack_multiplier = float(mset.group(2))
+
+    # 作用域（版本差异，由表自己说话）：115 阶表 外功+四属性 各乘一次；
+    # 110 阶表只乘外功（属性行没写 IF）→ 记 "外功"，引擎按此生效，否则属性攻击会虚高 ~10%
+    attr_mults = [_row_set_mult(r) for r in range(11, 15)]
+    if set_attack_multiplier != 1.0 and all(m == 1.0 for m in attr_mults):
+        set_attack_scope = "外功"
+    elif all(abs(m - set_attack_multiplier) < 1e-9 for m in attr_mults):
+        set_attack_scope = "全部"
+    else:
+        set_attack_scope = "全部"
+        print(f"警告: 套装攻击乘数在属性行不一致（外功 {set_attack_multiplier} / 属性 {attr_mults}），按 全部 处理")
 
     # ---- 拆分"面板部分"与"配置常数部分" + 奇术单类合并 + panel_key ----
     panel_defaults = {}
@@ -483,6 +510,7 @@ def extract_build(wbf, wbv, xlsx_name, build_id, name_cn, game_version, dingyin_
         "monster": monster,
         "team_buffs": team_buffs,
         "set_attack_multiplier": set_attack_multiplier,
+        "set_attack_scope": set_attack_scope,
         "config": config,
         "graduate_dps": grad_dps,
         "timeline": timeline,
