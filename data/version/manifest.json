@@ -1,14 +1,111 @@
 {
   "当前赛季": "nanlvxianghe-shang.115",
   "流派": [
-    { "id": "pozhufeng.115.3.2", "name": "破竹风" },
-    { "id": "qiansiyu.115.3.5", "name": "牵丝玉" },
-    { "id": "pozhuchen.115.3.3", "name": "破竹尘" },
-    { "id": "pozhuzun.115.3.7", "name": "破竹樽" },
-    { "id": "lieshiwei.115.3.3", "name": "裂石威" },
-    { "id": "lieshijun.115.3.0", "name": "裂石钧（双切）" },
-    { "id": "qiansiyi.115.3.1", "name": "牵丝翊" },
-    { "id": "pozhuyuan.115.3.0", "name": "破竹鸢" },
-    { "id": "qiansilin.115.3.1", "name": "牵丝霖（奶妈）" }
+    {
+      "id": "pozhufeng",
+      "name": "破竹风"
+    },
+    {
+      "id": "qiansiyu",
+      "name": "牵丝玉"
+    },
+    {
+      "id": "pozhuchen",
+      "name": "破竹尘"
+    },
+    {
+      "id": "pozhuzun",
+      "name": "破竹樽"
+    },
+    {
+      "id": "lieshiwei",
+      "name": "裂石威"
+    },
+    {
+      "id": "lieshijun",
+      "name": "裂石钧"
+    },
+    {
+      "id": "qiansiyi",
+      "name": "牵丝翊"
+    },
+    {
+      "id": "pozhuyuan",
+      "name": "破竹鸢"
+    },
+    {
+      "id": "qiansilin",
+      "name": "牵丝霖"
+    },
+    {
+      "id": "mingjinhong",
+      "name": "鸣金虹"
+    },
+    {
+      "id": "mingjinying",
+      "name": "鸣金影"
+    }
+  ],
+  "build包": [
+    {
+      "id": "pozhufeng.115.3.2",
+      "流派": "pozhufeng",
+      "分支": null
+    },
+    {
+      "id": "qiansiyu.115.3.5",
+      "流派": "qiansiyu",
+      "分支": null
+    },
+    {
+      "id": "pozhuchen.115.3.3",
+      "流派": "pozhuchen",
+      "分支": null
+    },
+    {
+      "id": "pozhuzun.115.3.7",
+      "流派": "pozhuzun",
+      "分支": null
+    },
+    {
+      "id": "lieshiwei.115.3.3",
+      "流派": "lieshiwei",
+      "分支": null
+    },
+    {
+      "id": "lieshijun.shuangqie.115.3.0",
+      "流派": "lieshijun",
+      "分支": "shuangqie"
+    },
+    {
+      "id": "lieshijun.chuntang.115.3.0",
+      "流派": "lieshijun",
+      "分支": "chuntang"
+    },
+    {
+      "id": "qiansiyi.115.3.1",
+      "流派": "qiansiyi",
+      "分支": null
+    },
+    {
+      "id": "pozhuyuan.115.3.0",
+      "流派": "pozhuyuan",
+      "分支": null
+    },
+    {
+      "id": "qiansilin.115.3.1",
+      "流派": "qiansilin",
+      "分支": null
+    },
+    {
+      "id": "mingjinhong.110.1.3",
+      "流派": "mingjinhong",
+      "分支": null
+    },
+    {
+      "id": "mingjinying.110.1.5",
+      "流派": "mingjinying",
+      "分支": null
+    }
   ]
 }

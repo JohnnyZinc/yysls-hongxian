@@ -1,0 +1,130 @@
+{
+ "_source": "yysls-assistant.cn「裂石钧纯唐115竞速表 by@Violetta」（更新 2026-10-10）",
+ "_sheet": "武学奇术(站点 IR)",
+ "_note": "技能数值由站点 IR 虚拟机求值（含气竭+21%会伤/热血+40%特定增伤等技能内条件）；名称用站点中文名。",
+ "skills": {
+  "易水歌": {
+   "ext_mult": 1,
+   "elem_mult": 1,
+   "crit_dmg": 0.21,
+   "type": "心法"
+  },
+  "箫吟千浪流星": {
+   "ext_mult": 1.4906,
+   "ext_flat": 386,
+   "elem_mult": 2.2359,
+   "crit_dmg": 0.21,
+   "type": "群体奇术"
+  },
+  "千灯一月单次": {
+   "ext_mult": 2.3774,
+   "ext_flat": 476,
+   "elem_mult": 3.5661,
+   "crit_dmg": 0.21,
+   "type": "群体奇术"
+  },
+  "白刃杀将": {
+   "ext_mult": 1.2338,
+   "ext_flat": 342,
+   "elem_mult": 1.8507,
+   "elem_flat": 186,
+   "crit_dmg": 0.21,
+   "type": "横刀"
+  },
+  "飞鸿踏雪": {
+   "ext_mult": 3.7797,
+   "ext_flat": 1045,
+   "elem_mult": 5.6696,
+   "elem_flat": 570,
+   "crit_dmg": 0.21,
+   "type": "横刀"
+  },
+  "拨雪寻春热血": {
+   "ext_mult": 3.6553,
+   "ext_flat": 1012,
+   "elem_mult": 5.4829,
+   "elem_flat": 550,
+   "generic_dmg": 0.1,
+   "crit_dmg": 0.21,
+   "dingyin_type": "轻重击派生技",
+   "type": "横刀"
+  },
+  "横刀安西军(热血)": {
+   "ext_mult": 1.47,
+   "elem_mult": 2.205,
+   "crit_dmg": 0.21,
+   "spec_bonus": 0.4,
+   "dingyin_type": "轻重击派生技",
+   "type": "横刀"
+  },
+  "冢上霜": {
+   "ext_mult": 2.4495,
+   "ext_flat": 677,
+   "elem_mult": 3.6743,
+   "elem_flat": 368,
+   "crit_dmg": 0.21,
+   "type": "横刀"
+  },
+  "白刃杀将·刺": {
+   "ext_mult": 2.1324,
+   "ext_flat": 590,
+   "elem_mult": 3.1986,
+   "elem_flat": 322,
+   "crit_dmg": 0.21,
+   "type": "横刀"
+  },
+  "横刀安西军": {
+   "ext_mult": 1.47,
+   "elem_mult": 2.205,
+   "crit_dmg": 0.21,
+   "dingyin_type": "轻重击派生技",
+   "type": "横刀"
+  },
+  "骑龙回马": {
+   "ext_mult": 7.1084,
+   "ext_flat": 1369,
+   "elem_mult": 10.6626,
+   "crit_dmg": 0.21,
+   "type": "单体奇术"
+  },
+  "拨雪寻春": {
+   "ext_mult": 2.8245,
+   "ext_flat": 782,
+   "elem_mult": 4.2368,
+   "elem_flat": 425,
+   "generic_dmg": 0.1,
+   "crit_dmg": 0.21,
+   "dingyin_type": "轻重击派生技",
+   "type": "横刀"
+  },
+  "荡八荒极": {
+   "ext_mult": 3.5256,
+   "ext_flat": 528.84,
+   "elem_mult": 5.2884,
+   "elem_flat": 532,
+   "crit_dmg": 0.21,
+   "type": "陌刀"
+  },
+  "陌刀安西军荡八荒": {
+   "ext_mult": 1.05,
+   "elem_mult": 1.575,
+   "crit_dmg": 0.21,
+   "type": "陌刀"
+  },
+  "横刀易武": {
+   "ext_mult": 0.6486,
+   "ext_flat": 180,
+   "elem_mult": 0.9729,
+   "elem_flat": 98,
+   "crit_dmg": 0.21,
+   "type": "横刀"
+  },
+  "衍九矢9hit": {
+   "ext_mult": 10.3162,
+   "ext_flat": 2096.55,
+   "elem_mult": 15.4742,
+   "crit_dmg": 0.21,
+   "type": "群体奇术"
+  }
+ }
+}

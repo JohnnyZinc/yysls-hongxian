@@ -1,0 +1,122 @@
+{
+ "_source": "yysls-assistant.cn「裂石钧纯唐115竞速表 by@Violetta」（更新 2026-10-10）",
+ "_sheet": "增益(站点 IR)",
+ "_note": "增益数值由站点 IR 虚拟机按轴内实际层数配置求值；逐层条目命名沿用 Excel 提取包惯例。",
+ "effects": {
+  "征人归": {
+   "generic_dmg": 0.08
+  },
+  "惧刃": {
+   "mingjin_pen": 16,
+   "lieshi_pen": 16,
+   "qiansi_pen": 16,
+   "pozhu_pen": 16
+  },
+  "断岳": {
+   "generic_dmg": 0.08
+  },
+  "无惧": {
+   "spec_dmg": 0.05
+  },
+  "易水歌1层": {
+   "generic_dmg": 0.01,
+   "ext_pen": 2
+  },
+  "易水歌2层": {
+   "generic_dmg": 0.02,
+   "ext_pen": 4
+  },
+  "易水歌3层": {
+   "generic_dmg": 0.03,
+   "ext_pen": 6
+  },
+  "易水歌4层": {
+   "generic_dmg": 0.04,
+   "ext_pen": 8
+  },
+  "易水歌5层": {
+   "generic_dmg": 0.05,
+   "ext_pen": 10
+  },
+  "气竭": {
+   "spec_dmg": 0.1
+  },
+  "沧海帖10层": {
+   "crit_dmg": 0.1
+  },
+  "沧海帖1层": {
+   "crit_dmg": 0.01
+  },
+  "沧海帖2层": {
+   "crit_dmg": 0.02
+  },
+  "沧海帖3层": {
+   "crit_dmg": 0.03
+  },
+  "沧海帖4层": {
+   "crit_dmg": 0.04
+  },
+  "沧海帖5层": {
+   "crit_dmg": 0.05
+  },
+  "沧海帖6层": {
+   "crit_dmg": 0.06
+  },
+  "沧海帖7层": {
+   "crit_dmg": 0.07
+  },
+  "沧海帖8层": {
+   "crit_dmg": 0.08
+  },
+  "沧海帖9层": {
+   "crit_dmg": 0.09
+  },
+  "真气失衡": {
+   "spec_dmg": 0.1,
+   "mingjin_dmg": 0.1
+  },
+  "离猎(拐)": {
+   "ext_skill_dmg": 0.02,
+   "mingjin_dmg": 0.02,
+   "lieshi_dmg": 0.02,
+   "qiansi_dmg": 0.02,
+   "pozhu_dmg": 0.02
+  },
+  "穿喉1": {
+   "ext_pen": 3,
+   "crit_dmg": 0.03
+  },
+  "穿喉2": {
+   "ext_pen": 6,
+   "crit_dmg": 0.06
+  },
+  "穿喉3": {
+   "ext_pen": 9,
+   "crit_dmg": 0.09
+  },
+  "穿喉4": {
+   "ext_pen": 12,
+   "crit_dmg": 0.12
+  },
+  "穿喉5(普)": {
+   "ext_pen": 10,
+   "crit_dmg": 0.1
+  },
+  "穿喉5": {
+   "ext_pen": 15,
+   "crit_dmg": 0.15
+  },
+  "箫吟千浪(2)": {
+   "generic_dmg": 0.02
+  },
+  "胆寒": {
+   "ext_skill_dmg": 0.12,
+   "lieshi_dmg": 0.12
+  },
+  "铁衣": {
+   "generic_dmg": 0.08,
+   "lieshi_pen": 12,
+   "ext_pen": 12
+  }
+ }
+}

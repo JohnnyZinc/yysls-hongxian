@@ -9,7 +9,11 @@
   "constants": {
     "判定抗性": 1.8,
     "增益抗性": 0.32,
-    "精准率基线": 0.65
+    "精准率基线": 0.65,
+    "精准率上限": 1,
+    "黄字会心率上限": 0.8,
+    "黄字会意率上限": 0.4,
+    "会意转化上限": 0.12
   },
   "五维贡献": {
     "最小外功": {
@@ -594,6 +598,49 @@
       "最大外功": 140
     }
   },
+  "防具套装": {
+    "易相": {},
+    "鹰扬": {},
+    "玄甲": {},
+    "不知寒": {},
+    "梨雪": {},
+    "鸣珂": {},
+    "江凝": {},
+    "抱玉": {},
+    "尚义": {},
+    "盈盏": {},
+    "桂月": {},
+    "凌波步": {},
+    "御无缺": {}
+  },
+  "套装简称": {
+    "烟柳重重": "烟",
+    "时雨": "雨",
+    "浣花": "花",
+    "飞隼": "飞",
+    "燕归": "归",
+    "断岳": "断",
+    "倾觞": "觞",
+    "裁云": "云",
+    "撼天": "撼",
+    "连星": "星",
+    "岳山倾": "山",
+    "玉斗": "斗",
+    "急风骤": "风",
+    "易相": "易",
+    "鹰扬": "鹰",
+    "玄甲": "玄",
+    "不知寒": "寒",
+    "梨雪": "雪",
+    "鸣珂": "珂",
+    "江凝": "江",
+    "抱玉": "玉",
+    "尚义": "义",
+    "盈盏": "盏",
+    "桂月": "月",
+    "凌波步": "步",
+    "御无缺": "御"
+  },
   "武库": {
     "通用": {
       "最小外功": 186,
@@ -614,6 +661,403 @@
     "破竹": {
       "最小破竹": 211,
       "最大破竹": 423
+    }
+  },
+  "界面图片": {
+    "弓玦图标": "equip/弓.png",
+    "武库": {
+      "通用": "arsenal/COMMON.png",
+      "鸣金": "arsenal/MINGJIN.png",
+      "裂石": "arsenal/LIESHI.png",
+      "牵丝": "arsenal/QIANSI.png",
+      "破竹": "arsenal/POZHU.png"
+    },
+    "槽位图": {
+      "武器": {
+        "剑": "equip/slot/武器/剑.png",
+        "枪": "equip/slot/武器/枪.png",
+        "伞": "equip/slot/武器/伞.png",
+        "扇": "equip/slot/武器/扇.png",
+        "双刀": "equip/slot/武器/双刀.png",
+        "绳镖": "equip/slot/武器/绳镖.png",
+        "横刀": "equip/slot/武器/横刀.png",
+        "陌刀": "equip/slot/武器/陌刀.png",
+        "拳甲": "equip/slot/武器/拳甲.png",
+        "鼓": "equip/slot/武器/鼓.png"
+      },
+      "环": "equip/环.png",
+      "佩": "equip/佩.png",
+      "冠胄": "equip/冠胄.png",
+      "胸甲": "equip/胸甲.png",
+      "胫甲": "equip/胫甲.png",
+      "腕甲": "equip/腕甲.png"
+    },
+    "心法图": {
+      "易水歌": "mind-official/81.png",
+      "四时无常": "mind-official/82.png",
+      "征人归": "mind-official/41.png",
+      "极乐泣血": "mind-official/5.png",
+      "怒斩马": "mind-official/44.png",
+      "明晦同尘": "mind-official/47.png",
+      "所恨年年": "mind-official/42.png",
+      "丹心篆": "mind-official/48.png",
+      "归雁经": "mind-official/43.png",
+      "长生无相": "mind-official/45.png",
+      "婆娑影": "mind-official/46.png",
+      "无名心法": "mind-official/104.png",
+      "千山法": "mind-official/101.png",
+      "威猛歌": "mind-official/103.png",
+      "星火燎原": "mind-official/102.png",
+      "君臣药": "mind-official/351.png",
+      "千丝蛊": "mind-official/354.png",
+      "杏花不见": "mind-official/352.png",
+      "指玄篇注": "mind-official/353.png",
+      "剑气纵横": "mind-official/154.png",
+      "逐狼心经": "mind-official/151.png",
+      "移经易武": "mind-official/152.png",
+      "凝神章": "mind-official/153.png",
+      "花上月令": "mind-official/304.png",
+      "纵地摘星": "mind-official/303.png",
+      "葫芦飞飞": "mind-official/301.png",
+      "春雷篇": "mind-official/302.png",
+      "山河绝韵": "mind-official/401.png",
+      "困兽心经": "mind-official/402.png",
+      "抗造大法": "mind-official/403.png",
+      "磐石诀": "mind-official/404.png",
+      "忘川绝响": "mind-official/451.png",
+      "断石之构": "mind-official/453.png",
+      "心弥泥鱼": "mind-official/452.png",
+      "沧浪剑诀": "mind-official/454.png",
+      "千营一呼": "mind-official/501.png",
+      "绳舟行木": "mind-official/502.png",
+      "灯儿亮": "mind-official/503.png",
+      "大唐歌": "mind-official/504.png",
+      "霜天白夜": "mind-official/551.png",
+      "穿喉诀": "mind-official/553.png",
+      "孤忠不辞": "mind-official/552.png",
+      "燎原踏": "mind-official/554.png",
+      "扶摇直上": "mind-official/601.png",
+      "擒天势": "mind-official/602.png",
+      "三穷致知": "mind-official/603.png",
+      "天行健": "mind-official/604.png",
+      "相和歌": "mind-official/651.png",
+      "风知意": "mind-official/652.png",
+      "弦墨篇": "mind-official/653.png",
+      "寸草心": "mind-official/654.png",
+      "一醉千秋": "mind-official/701.png",
+      "飞仙醉言": "mind-official/702.png",
+      "燕别云岫": "mind-official/703.png",
+      "大卷微身": "mind-official/704.png",
+      "生龙活虎": "mind-official/1.png",
+      "晚雪间": "mind-official/2.png",
+      "铁身诀": "mind-official/3.png",
+      "山月无影": "mind-official/4.png",
+      "沙摆尾": "mind-official/6.png"
+    },
+    "心法卡底": {
+      "金": "mind-card/card-gold.png",
+      "蓝": "mind-card/card-blue.png",
+      "紫": "mind-card/card-purple.png"
+    },
+    "心法品质": {
+      "金": [
+        "易水歌",
+        "四时无常",
+        "无名心法",
+        "君臣药",
+        "剑气纵横",
+        "花上月令",
+        "山河绝韵",
+        "忘川绝响",
+        "千营一呼",
+        "霜天白夜",
+        "扶摇直上",
+        "相和歌",
+        "一醉千秋"
+      ],
+      "蓝": [
+        "极乐泣血",
+        "生龙活虎",
+        "晚雪间",
+        "铁身诀",
+        "山月无影",
+        "沙摆尾"
+      ],
+      "紫": [
+        "征人归",
+        "怒斩马",
+        "明晦同尘",
+        "所恨年年",
+        "丹心篆",
+        "归雁经",
+        "长生无相",
+        "婆娑影",
+        "千山法",
+        "威猛歌",
+        "星火燎原",
+        "千丝蛊",
+        "杏花不见",
+        "指玄篇注",
+        "逐狼心经",
+        "移经易武",
+        "凝神章",
+        "纵地摘星",
+        "葫芦飞飞",
+        "春雷篇",
+        "困兽心经",
+        "抗造大法",
+        "磐石诀",
+        "断石之构",
+        "心弥泥鱼",
+        "沧浪剑诀",
+        "绳舟行木",
+        "灯儿亮",
+        "大唐歌",
+        "穿喉诀",
+        "孤忠不辞",
+        "燎原踏",
+        "擒天势",
+        "三穷致知",
+        "天行健",
+        "风知意",
+        "弦墨篇",
+        "寸草心",
+        "飞仙醉言",
+        "燕别云岫",
+        "大卷微身"
+      ]
+    },
+    "心法所属流派": {
+      "mingjinhong": [
+        "无名心法",
+        "千山法",
+        "威猛歌",
+        "星火燎原"
+      ],
+      "mingjinying": [
+        "剑气纵横",
+        "逐狼心经",
+        "移经易武",
+        "凝神章"
+      ],
+      "lieshiwei": [
+        "山河绝韵",
+        "困兽心经",
+        "抗造大法",
+        "磐石诀"
+      ],
+      "lieshijun": [
+        "霜天白夜",
+        "穿喉诀",
+        "孤忠不辞",
+        "燎原踏"
+      ],
+      "qiansiyu": [
+        "花上月令",
+        "纵地摘星",
+        "葫芦飞飞",
+        "春雷篇"
+      ],
+      "qiansilin": [
+        "君臣药",
+        "千丝蛊",
+        "杏花不见",
+        "指玄篇注"
+      ],
+      "qiansiyi": [
+        "相和歌",
+        "风知意",
+        "弦墨篇",
+        "寸草心"
+      ],
+      "pozhufeng": [
+        "忘川绝响",
+        "断石之构",
+        "心弥泥鱼",
+        "沧浪剑诀"
+      ],
+      "pozhuchen": [
+        "千营一呼",
+        "绳舟行木",
+        "灯儿亮",
+        "大唐歌"
+      ],
+      "pozhuyuan": [
+        "扶摇直上",
+        "擒天势",
+        "三穷致知",
+        "天行健"
+      ],
+      "pozhuzun": [
+        "一醉千秋",
+        "飞仙醉言",
+        "燕别云岫",
+        "大卷微身"
+      ],
+      "tongyong": [
+        "易水歌",
+        "四时无常",
+        "征人归",
+        "极乐泣血",
+        "怒斩马",
+        "明晦同尘",
+        "所恨年年",
+        "丹心篆",
+        "归雁经",
+        "长生无相",
+        "婆娑影",
+        "生龙活虎",
+        "晚雪间",
+        "铁身诀",
+        "山月无影",
+        "沙摆尾"
+      ]
+    },
+    "流派横幅": {
+      "pozhufeng": "mind-tag/POZHU_FENG.png",
+      "pozhuchen": "mind-tag/POZHU_CHEN.png",
+      "lieshiwei": "mind-tag/LIESHI_WEI.png",
+      "qiansilin": "mind-tag/QIANSI_LIN.png",
+      "mingjinying": "mind-tag/MINGJIN_YING.png",
+      "mingjinhong": "mind-tag/MINGJIN_HONG.png",
+      "qiansiyu": "mind-tag/QIANSI_YU.png",
+      "tongyong": "mind-tag/TONGYONG.png",
+      "lieshijun": "mind-tag/LIESHI_JUN.png",
+      "pozhuyuan": "mind-tag/POZHU_YUAN.png",
+      "qiansiyi": "mind-tag/QIANSI_YI.png",
+      "pozhuzun": "mind-tag/POZHU_ZUN.png"
+    },
+    "流派横幅底": {
+      "mingjinhong": "tag-bg/MINGJIN.png",
+      "mingjinying": "tag-bg/MINGJIN.png",
+      "lieshiwei": "tag-bg/LIESHI.png",
+      "lieshijun": "tag-bg/LIESHI.png",
+      "qiansiyu": "tag-bg/QIANSI.png",
+      "qiansilin": "tag-bg/QIANSI.png",
+      "qiansiyi": "tag-bg/QIANSI.png",
+      "pozhufeng": "tag-bg/POZHU.png",
+      "pozhuchen": "tag-bg/POZHU.png",
+      "pozhuyuan": "tag-bg/POZHU.png",
+      "pozhuzun": "tag-bg/POZHU.png"
+    },
+    "流派横幅底通用": "tag-bg/TONGYONG.png",
+    "心法占位图": "mind/XF_FYZS.png",
+    "流派图": {
+      "mingjinhong": "martial/MINGJIN_HONG.png",
+      "mingjinying": "martial/MINGJIN_YING.png",
+      "lieshiwei": "martial/LIESHI_WEI.png",
+      "lieshijun": "martial/LIESHI_JUN.png",
+      "qiansiyu": "martial/QIANSI_YU.png",
+      "qiansilin": "martial/QIANSI_LIN.png",
+      "qiansiyi": "martial/QIANSI_YI.png",
+      "pozhufeng": "martial/POZHU_FENG.png",
+      "pozhuchen": "martial/POZHU_CHEN.png",
+      "pozhuyuan": "martial/POZHU_YUAN.png",
+      "pozhuzun": "martial/POZHU_ZUN.png"
+    },
+    "流派元素": {
+      "mingjinhong": "arsenal/MINGJIN.png",
+      "mingjinying": "arsenal/MINGJIN.png",
+      "lieshiwei": "arsenal/LIESHI.png",
+      "lieshijun": "arsenal/LIESHI.png",
+      "qiansiyu": "arsenal/QIANSI.png",
+      "qiansilin": "arsenal/QIANSI.png",
+      "qiansiyi": "arsenal/QIANSI.png",
+      "pozhufeng": "arsenal/POZHU.png",
+      "pozhuchen": "arsenal/POZHU.png",
+      "pozhuyuan": "arsenal/POZHU.png",
+      "pozhuzun": "arsenal/POZHU.png"
+    },
+    "流派顺序": [
+      "mingjinhong",
+      "mingjinying",
+      "lieshiwei",
+      "lieshijun",
+      "qiansiyu",
+      "qiansilin",
+      "qiansiyi",
+      "pozhufeng",
+      "pozhuchen",
+      "pozhuyuan",
+      "pozhuzun"
+    ],
+    "流派武学": {
+      "mingjinhong": [
+        { "名": "无名剑法", "图": "kongfu/mingjinhong-jian.png" },
+        { "名": "无名枪法", "图": "kongfu/mingjinhong-qiang.png" }
+      ],
+      "mingjinying": [
+        { "名": "积矩九剑", "图": "kongfu/mingjinying-jian.png" },
+        { "名": "九曲惊神枪", "图": "kongfu/mingjinying-qiang.png" }
+      ],
+      "lieshiwei": [
+        { "名": "八方风雷枪", "图": "kongfu/lieshiwei-qiang.png" },
+        { "名": "嗟夫刀法", "图": "kongfu/lieshiwei-modao.png" }
+      ],
+      "lieshijun": [
+        { "名": "十方破阵", "图": "kongfu/lieshijun-modao.png" },
+        { "名": "斩雪刀法", "图": "kongfu/lieshijun-hengdao.png" }
+      ],
+      "qiansiyu": [
+        { "名": "青山执笔", "图": "kongfu/qiansiyu-shan.png" },
+        { "名": "九重春色", "图": "kongfu/qiansiyu-san.png" }
+      ],
+      "qiansilin": [
+        { "名": "明川药典", "图": "kongfu/qiansilin-shan.png" },
+        { "名": "千香引魂蛊", "图": "kongfu/qiansilin-san.png" }
+      ],
+      "qiansiyi": [
+        { "名": "杏游草野", "图": "kongfu/qiansiyi-shan.png" },
+        { "名": "文动霓裳", "图": "kongfu/qiansiyi-wulinggu.png" }
+      ],
+      "pozhufeng": [
+        { "名": "泥犁三垢", "图": "kongfu/pozhufeng-shuangdao.png" },
+        { "名": "粟子游尘", "图": "kongfu/pozhufeng-lianren.png" }
+      ],
+      "pozhuchen": [
+        { "名": "醉梦游春", "图": "kongfu/pozhuchen-san.png" },
+        { "名": "粟子行云", "图": "kongfu/pozhuchen-lianren.png" }
+      ],
+      "pozhuyuan": [
+        { "名": "千机索天", "图": "kongfu/pozhuyuan-lianren.png" },
+        { "名": "天志垂象", "图": "kongfu/pozhuyuan-shoujia.png" }
+      ],
+      "pozhuzun": [
+        { "名": "断水双诀", "图": "kongfu/pozhuzun-shuangdao.png" },
+        { "名": "悬身拳法", "图": "kongfu/pozhuzun-shoujia.png" }
+      ]
+    },
+    "背包图": {
+      "武器": {
+        "剑": "equip/bag/武器/剑.png",
+        "枪": "equip/bag/武器/枪.png",
+        "伞": "equip/bag/武器/伞.png",
+        "扇": "equip/bag/武器/扇.png",
+        "双刀": "equip/bag/武器/双刀.png",
+        "绳镖": "equip/bag/武器/绳镖.png",
+        "横刀": "equip/bag/武器/横刀.png",
+        "陌刀": "equip/bag/武器/陌刀.png",
+        "拳甲": "equip/bag/武器/拳甲.png",
+        "鼓": "equip/bag/武器/鼓.png"
+      },
+      "环": "equip/环.png",
+      "佩": "equip/佩.png",
+      "冠胄": "equip/冠胄.png",
+      "胸甲": "equip/胸甲.png",
+      "胫甲": "equip/胫甲.png",
+      "腕甲": "equip/腕甲.png"
+    }
+  },
+  "方案类型": {
+    "dawai": {
+      "name": "大外流",
+      "小外反超": false,
+      "口径": "拉高单次伤害上限：堆最大外功攻击"
+    },
+    "xiaowai": {
+      "name": "小外流",
+      "小外反超": true,
+      "口径": "追求每次伤害稳定：使最小外功攻击 ≥ 最大外功攻击"
     }
   }
 }

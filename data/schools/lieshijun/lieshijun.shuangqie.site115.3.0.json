@@ -1,0 +1,3568 @@
+{
+ "_source": "yysls-assistant.cn「裂石钧双切115竞速表 by@Violetta」（更新 2026-10-10）",
+ "_sheet": "AxisSimulation",
+ "_extraction": "tools/extract_from_site.mjs（IR 虚拟机求值，非 Excel 提取）",
+ "id": "lieshijun.shuangqie.site115.3.0",
+ "name": "裂石钧",
+ "game_version": "115",
+ "calc_version": "3.0",
+ "selectors": {
+  "weapon_attribute": "裂石",
+  "set": "断岳"
+ },
+ "weapon_categories": [
+  {
+   "label": "横刀",
+   "value": 0.0847,
+   "panel_keys": [
+    "hengdao_dmg"
+   ],
+   "includes_all_weapon": true,
+   "panel_key": "横刀武学增伤"
+  },
+  {
+   "label": "陌刀",
+   "value": 0.1701,
+   "panel_keys": [
+    "modao_dmg"
+   ],
+   "includes_all_weapon": true,
+   "panel_key": "陌刀武学增伤"
+  },
+  {
+   "label": "奇术",
+   "value": 0,
+   "panel_keys": [
+    "qishu_dmg"
+   ],
+   "includes_all_weapon": false,
+   "panel_key": "全奇术增伤"
+  }
+ ],
+ "panel_input": {
+  "precise_rate": {
+   "label": "精准率",
+   "default": 0.9771
+  },
+  "crit_rate": {
+   "label": "会心率",
+   "default": 0.7941
+  },
+  "insight_rate": {
+   "label": "会意率",
+   "default": 0.0913
+  },
+  "direct_crit_rate": {
+   "label": "直接会心率",
+   "default": 0.092
+  },
+  "direct_insight_rate": {
+   "label": "直接会意率",
+   "default": 0
+  },
+  "crit_dmg_bonus": {
+   "label": "会心伤害加成",
+   "default": 0.54
+  },
+  "insight_dmg_bonus": {
+   "label": "会意伤害加成",
+   "default": 0.35
+  },
+  "all_weapon_dmg": {
+   "label": "全武增",
+   "default": 0.0847
+  },
+  "boss_dmg": {
+   "label": "首领增",
+   "default": 0.0892
+  },
+  "modao_dmg": {
+   "label": "陌刀增",
+   "default": 0.0854
+  },
+  "hengdao_dmg": {
+   "label": "横刀增",
+   "default": 0
+  },
+  "qishu_dmg": {
+   "label": "奇术增",
+   "default": 0
+  },
+  "dingyin": {
+   "label": "技能定音",
+   "default": 0.3206
+  },
+  "flat_dmg_bonus": {
+   "label": "固伤加成",
+   "default": 0.6
+  },
+  "food_ext": {
+   "label": "食物加成-外功",
+   "default": 240
+  },
+  "food_elem": {
+   "label": "食物加成-属性",
+   "default": 480
+  }
+ },
+ "base_stats": {
+  "external": {
+   "label": "外功",
+   "min": 4473,
+   "max": 3339.6
+  },
+  "mingjin": {
+   "label": "鸣金",
+   "min": null,
+   "max": null
+  },
+  "lieshi": {
+   "label": "裂石",
+   "min": 561.1,
+   "max": 1519.3
+  },
+  "qiansi": {
+   "label": "牵丝",
+   "min": null,
+   "max": null
+  },
+  "pozhu": {
+   "label": "破竹",
+   "min": null,
+   "max": null
+  },
+  "wuxiang": {
+   "label": "无相",
+   "min": 79.2,
+   "max": 250.8
+  }
+ },
+ "pen_dmg": {
+  "external": {
+   "pen": 58.68,
+   "dmg": null
+  },
+  "mingjin": {
+   "pen": null,
+   "dmg": null
+  },
+  "lieshi": {
+   "pen": 36,
+   "dmg": 0.15
+  },
+  "qiansi": {
+   "pen": null,
+   "dmg": null
+  },
+  "pozhu": {
+   "pen": null,
+   "dmg": null
+  },
+  "wuxiang": {
+   "pen": null,
+   "dmg": null
+  }
+ },
+ "monster": {
+  "defense": {
+   "label": "防御",
+   "value": 618.3
+  },
+  "ext_resist": {
+   "label": "外抗",
+   "value": 8
+  },
+  "elem_resist": {
+   "label": "属抗",
+   "value": 30
+  },
+  "dungeon_talent": {
+   "label": "副本天赋",
+   "value": 0.06
+  },
+  "duration": {
+   "label": "战斗时间",
+   "value": 89.4
+  }
+ },
+ "team_buffs": {
+  "_desc": "天赋，断岳，天工火，队友威，尘，虹,影",
+  "minds": [
+   "XF_STBY",
+   "XF_GZBC",
+   "XF_CHJ",
+   "XF_YSG"
+  ],
+  "pitch": "十方破阵·蓄力技增伤"
+ },
+ "set_attack_multiplier": 1,
+ "config": {
+  "generic_extra": 0.095,
+  "categories": [
+   {
+    "label": "横刀",
+    "value": 0.0847,
+    "panel_keys": [
+     "hengdao_dmg"
+    ],
+    "includes_all_weapon": true,
+    "panel_key": "横刀武学增伤"
+   },
+   {
+    "label": "陌刀",
+    "value": 0.1701,
+    "panel_keys": [
+     "modao_dmg"
+    ],
+    "includes_all_weapon": true,
+    "panel_key": "陌刀武学增伤"
+   },
+   {
+    "label": "奇术",
+    "value": 0,
+    "panel_keys": [
+     "qishu_dmg"
+    ],
+    "includes_all_weapon": false,
+    "panel_key": "全奇术增伤"
+   }
+  ]
+ },
+ "graduate_dps": 183878.46,
+ "timeline": [
+  {
+   "row": 2,
+   "skill": "箫吟千浪流星",
+   "count": 1,
+   "effects": [
+    "易水歌2层",
+    "沧海帖1层",
+    "胆寒",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 1,
+    "skillKey": "SKILL_QS_XYQLLX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 2,
+     "tieStack": 1,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 3,
+   "skill": "箫吟千浪流星",
+   "count": 1,
+   "effects": [
+    "易水歌3层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 2,
+    "skillKey": "SKILL_QS_XYQLLX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 3,
+     "tieStack": 2,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 4,
+   "skill": "箫吟千浪流星",
+   "count": 1,
+   "effects": [
+    "易水歌4层",
+    "沧海帖3层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 3,
+    "skillKey": "SKILL_QS_XYQLLX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 4,
+     "tieStack": 3,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 5,
+   "skill": "箫吟千浪流星",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖4层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 4,
+    "skillKey": "SKILL_QS_XYQLLX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 4,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 6,
+   "skill": "箫吟千浪流星",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖5层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 5,
+    "skillKey": "SKILL_QS_XYQLLX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 5,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 7,
+   "skill": "千灯一月单次",
+   "count": 1,
+   "effects": [
+    "易水歌2层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 6,
+    "skillKey": "SKILL_QS_QDYYDC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 2,
+     "tieStack": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 8,
+   "skill": "千灯一月单次",
+   "count": 1,
+   "effects": [
+    "易水歌3层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 7,
+    "skillKey": "SKILL_QS_QDYYDC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 3,
+     "tieStack": 2,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 9,
+   "skill": "千灯一月单次",
+   "count": 1,
+   "effects": [
+    "易水歌4层",
+    "沧海帖3层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 8,
+    "skillKey": "SKILL_QS_QDYYDC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 4,
+     "tieStack": 3,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 10,
+   "skill": "千灯一月单次",
+   "count": 1,
+   "effects": [
+    "易水歌4层",
+    "沧海帖3层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 9,
+    "skillKey": "SKILL_QS_QDYYDC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 4,
+     "tieStack": 3,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 11,
+   "skill": "千灯一月单次",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖4层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 10,
+    "skillKey": "SKILL_QS_QDYYDC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 4,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 12,
+   "skill": "飞鸿踏雪",
+   "count": 1,
+   "effects": [
+    "易水歌1层",
+    "沧海帖1层",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 11,
+    "skillKey": "SKILL_ZXDF_FHTX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 1,
+     "tieStack": 1
+    }
+   }
+  },
+  {
+   "row": 13,
+   "skill": "白刃杀将·刺",
+   "count": 1,
+   "effects": [
+    "易水歌2层",
+    "沧海帖1层",
+    "胆寒",
+    "断岳",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 12,
+    "skillKey": "SKILL_ZXDF_BRSJC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 2,
+     "tieStack": 1,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 14,
+   "skill": "横刀安西军",
+   "count": 0.25,
+   "effects": [
+    "易水歌2层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "穿喉1",
+    "断岳",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 13,
+    "skillKey": "SKILL_ZXDF_HDAXJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 2,
+     "tieStack": 2,
+     "CHJStack": 1,
+     "CHJStatus": 3,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 15,
+   "skill": "横刀安西军",
+   "count": 0.25,
+   "effects": [
+    "易水歌2层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "穿喉2",
+    "断岳",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 14,
+    "skillKey": "SKILL_ZXDF_HDAXJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 2,
+     "tieStack": 2,
+     "CHJStack": 2,
+     "CHJStatus": 3,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 16,
+   "skill": "横刀安西军",
+   "count": 0.25,
+   "effects": [
+    "易水歌2层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "穿喉3",
+    "断岳",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 15,
+    "skillKey": "SKILL_ZXDF_HDAXJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 2,
+     "tieStack": 2,
+     "CHJStack": 3,
+     "CHJStatus": 3,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 17,
+   "skill": "横刀安西军",
+   "count": 0.25,
+   "effects": [
+    "易水歌2层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "穿喉4",
+    "断岳",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 16,
+    "skillKey": "SKILL_ZXDF_HDAXJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 2,
+     "tieStack": 2,
+     "CHJStack": 4,
+     "CHJStatus": 3,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 18,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌3层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "箫吟千浪(5)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 5,
+   "site_event": {
+    "id": 17,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 3,
+     "tieStack": 2,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 5
+    }
+   }
+  },
+  {
+   "row": 19,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌3层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(5)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 5,
+   "site_event": {
+    "id": 18,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 3,
+     "tieStack": 2,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 5
+    }
+   }
+  },
+  {
+   "row": 20,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌3层",
+    "沧海帖2层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(3)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 3,
+   "site_event": {
+    "id": 19,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 3,
+     "tieStack": 2,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 3
+    }
+   }
+  },
+  {
+   "row": 21,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌4层",
+    "沧海帖3层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(5)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 5,
+   "site_event": {
+    "id": 20,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 4,
+     "tieStack": 3,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 5
+    }
+   }
+  },
+  {
+   "row": 22,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌4层",
+    "沧海帖3层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(5)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 5,
+   "site_event": {
+    "id": 21,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 4,
+     "tieStack": 3,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 5
+    }
+   }
+  },
+  {
+   "row": 23,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌4层",
+    "沧海帖3层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(3)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 3,
+   "site_event": {
+    "id": 22,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 4,
+     "tieStack": 3,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 3
+    }
+   }
+  },
+  {
+   "row": 24,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖3层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(5)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 5,
+   "site_event": {
+    "id": 23,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 3,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 5
+    }
+   }
+  },
+  {
+   "row": 25,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖3层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(5)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 5,
+   "site_event": {
+    "id": 24,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 3,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 5
+    }
+   }
+  },
+  {
+   "row": 26,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖4层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(3)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 3,
+   "site_event": {
+    "id": 25,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 4,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 3
+    }
+   }
+  },
+  {
+   "row": 27,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖4层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(5)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 5,
+   "site_event": {
+    "id": 26,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 4,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 5
+    }
+   }
+  },
+  {
+   "row": 28,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖4层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(5)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 5,
+   "site_event": {
+    "id": 27,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 4,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 5
+    }
+   }
+  },
+  {
+   "row": 29,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖5层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "箫吟千浪(3)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 3,
+   "site_event": {
+    "id": 28,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 5,
+     "CHJStack": 5,
+     "CHJStatus": 3,
+     "distance": 3
+    }
+   }
+  },
+  {
+   "row": 30,
+   "skill": "骑龙回马",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖5层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 29,
+    "skillKey": "SKILL_QS_QLHM",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 5,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 31,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖5层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 30,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 5,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 32,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖6层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 31,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 6,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 33,
+   "skill": "焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖6层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 32,
+    "skillKey": "SKILL_SFPZ_FCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 6,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 34,
+   "skill": "荡八荒极",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖6层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 33,
+    "skillKey": "SKILL_SFPZ_DBHJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 6,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 35,
+   "skill": "陌刀安西军荡八荒",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖6层",
+    "胆寒",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 34,
+    "skillKey": "SKILL_SFPZ_MDAXJDBH",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 6,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 36,
+   "skill": "白刃杀将",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖7层",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 35,
+    "skillKey": "SKILL_ZXDF_BRSJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 7,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 37,
+   "skill": "飞鸿踏雪",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖8层",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 36,
+    "skillKey": "SKILL_ZXDF_FHTX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 8,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 38,
+   "skill": "白刃杀将·刺",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖8层",
+    "胆寒",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 37,
+    "skillKey": "SKILL_ZXDF_BRSJC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 8,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 39,
+   "skill": "横刀安西军",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖8层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 38,
+    "skillKey": "SKILL_ZXDF_HDAXJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 8,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 40,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖9层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 39,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 9,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 41,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖9层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 40,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 9,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 42,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖9层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 41,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 9,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 43,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖9层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 42,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 9,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 44,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖9层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 43,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 9,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 45,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 44,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 46,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 45,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 47,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 46,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 48,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 47,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 49,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 48,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 50,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 49,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 51,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 50,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 52,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 51,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 53,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 52,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 54,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 53,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 55,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 54,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 56,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 55,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 57,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 56,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 58,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 57,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 59,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 58,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 60,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 59,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 61,
+   "skill": "白刃杀将",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 60,
+    "skillKey": "SKILL_ZXDF_BRSJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 62,
+   "skill": "飞鸿踏雪",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 61,
+    "skillKey": "SKILL_ZXDF_FHTX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 63,
+   "skill": "白刃杀将·刺",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 62,
+    "skillKey": "SKILL_ZXDF_BRSJC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 64,
+   "skill": "横刀安西军",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 63,
+    "skillKey": "SKILL_ZXDF_HDAXJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 65,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 64,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 66,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 65,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 67,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 66,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 68,
+   "skill": "陌刀安西军下劈",
+   "count": 3,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 67,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 69,
+   "skill": "陌刀安西军跳劈",
+   "count": 3,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 68,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 70,
+   "skill": "加速焚此心",
+   "count": 3,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 69,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 71,
+   "skill": "荡八荒极",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 70,
+    "skillKey": "SKILL_SFPZ_DBHJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 72,
+   "skill": "陌刀安西军荡八荒",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 71,
+    "skillKey": "SKILL_SFPZ_MDAXJDBH",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 73,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 72,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 74,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 73,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 75,
+   "skill": "焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 74,
+    "skillKey": "SKILL_SFPZ_FCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 76,
+   "skill": "千灯一月单次",
+   "count": 2,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 75,
+    "skillKey": "SKILL_QS_QDYYDC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 77,
+   "skill": "千灯一月单次",
+   "count": 3,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 76,
+    "skillKey": "SKILL_QS_QDYYDC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 78,
+   "skill": "白刃杀将",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 77,
+    "skillKey": "SKILL_ZXDF_BRSJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 79,
+   "skill": "飞鸿踏雪",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 78,
+    "skillKey": "SKILL_ZXDF_FHTX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 80,
+   "skill": "白刃杀将·刺",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 79,
+    "skillKey": "SKILL_ZXDF_BRSJC",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 81,
+   "skill": "横刀安西军",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 80,
+    "skillKey": "SKILL_ZXDF_HDAXJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 82,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 81,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 83,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 82,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 84,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 83,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 85,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 84,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 86,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 85,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 87,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 86,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 88,
+   "skill": "陌刀安西军下劈",
+   "count": 2,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 87,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 89,
+   "skill": "陌刀安西军跳劈",
+   "count": 2,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 88,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 90,
+   "skill": "加速焚此心",
+   "count": 2,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 89,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 91,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 90,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 92,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 91,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 93,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 92,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 94,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 93,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 95,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 94,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 96,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 95,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 97,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 96,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 98,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 97,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 99,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 98,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 100,
+   "skill": "荡八荒极",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 99,
+    "skillKey": "SKILL_SFPZ_DBHJ",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 101,
+   "skill": "陌刀安西军荡八荒",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 100,
+    "skillKey": "SKILL_SFPZ_MDAXJDBH",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 102,
+   "skill": "飞鸿踏雪",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 101,
+    "skillKey": "SKILL_ZXDF_FHTX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 103,
+   "skill": "陌刀安西军下劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 102,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 104,
+   "skill": "陌刀安西军跳劈",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 103,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 105,
+   "skill": "加速焚此心",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 104,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 106,
+   "skill": "陌刀安西军下劈",
+   "count": 2,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 105,
+    "skillKey": "SKILL_SFPZ_MDAXJXP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 107,
+   "skill": "陌刀安西军跳劈",
+   "count": 2,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 106,
+    "skillKey": "SKILL_SFPZ_MDAXJTP",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 108,
+   "skill": "加速焚此心",
+   "count": 2,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5",
+    "开山",
+    "断岳",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 107,
+    "skillKey": "SKILL_SFPZ_JSFCX",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 3
+    }
+   }
+  },
+  {
+   "row": 109,
+   "skill": "易水歌",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖3层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "箫吟千浪(2)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_distance": 2,
+   "site_event": {
+    "id": 108,
+    "skillKey": "SKILL_XF_YSG",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 3,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "distance": 2
+    }
+   }
+  },
+  {
+   "row": 110,
+   "skill": "易水歌",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖7层",
+    "胆寒",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 109,
+    "skillKey": "SKILL_XF_YSG",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 7,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 111,
+   "skill": "易水歌",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 110,
+    "skillKey": "SKILL_XF_YSG",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 112,
+   "skill": "易水歌",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "穿喉5(普)",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 111,
+    "skillKey": "SKILL_XF_YSG",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "DSZGStack": 5
+    }
+   }
+  },
+  {
+   "row": 113,
+   "skill": "易水歌",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 112,
+    "skillKey": "SKILL_XF_YSG",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 114,
+   "skill": "易水歌",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 113,
+    "skillKey": "SKILL_XF_YSG",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 115,
+   "skill": "易水歌",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "惧刃",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 114,
+    "skillKey": "SKILL_XF_YSG",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  },
+  {
+   "row": 116,
+   "skill": "易水歌",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "穿喉5(普)",
+    "气竭",
+    "真气失衡",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 115,
+    "skillKey": "SKILL_XF_YSG",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2,
+     "DSZGStack": 5
+    }
+   }
+  },
+  {
+   "row": 117,
+   "skill": "易水歌",
+   "count": 1,
+   "effects": [
+    "易水歌5层",
+    "沧海帖10层",
+    "胆寒",
+    "穿喉5(普)",
+    "无惧",
+    "铁衣",
+    "离猎(拐)"
+   ],
+   "site_event": {
+    "id": 116,
+    "skillKey": "SKILL_XF_YSG",
+    "runtime": {
+     "energy": 2,
+     "YSGStack": 5,
+     "tieStack": 10,
+     "CHJStack": 5,
+     "CHJStatus": 2
+    }
+   }
+  }
+ ],
+ "formula_templates": {},
+ "_site": {
+  "axis_name": "裂石钧双切115竞速表 by@Violetta",
+  "axis_update": "2026-10-10",
+  "minds": [
+   "XF_STBY",
+   "XF_GZBC",
+   "XF_CHJ",
+   "XF_YSG"
+  ],
+  "armor_pitch": "十方破阵·蓄力技增伤",
+  "goat_key": {
+   "EXTERNAL_SUM": 3915.1,
+   "LIESHI_SUM": 975.4,
+   "ACCURACY_RATE": 98,
+   "CRITICAL_RATE": 80,
+   "INSIGHT_RATE": 8.95,
+   "GOD_POWER": [
+    {
+     "key": "BOSS_DAMAGE",
+     "count": 2
+    },
+    {
+     "key": "WUXUE_DAMAGE",
+     "count": 2
+    },
+    {
+     "key": "BIGBLADE_DAMAGE",
+     "count": 1
+    }
+   ]
+  },
+  "best_max": [
+   {
+    "key": "MIN_EXTERNAL_ATTACK",
+    "count": 12
+   },
+   {
+    "key": "MIN",
+    "count": 8
+   },
+   {
+    "key": "MAX_WUXIANG_ATTACK",
+    "count": 2
+   },
+   {
+    "key": "ACCURACY_RATE",
+    "count": 3
+   },
+   {
+    "key": "CRITICAL_RATE",
+    "count": 5
+   },
+   {
+    "key": "MAX_LIESHI_ATTACK",
+    "count": 5
+   },
+   {
+    "key": "BIGBLADE_DAMAGE",
+    "count": 1
+   },
+   {
+    "key": "WUXUE_DAMAGE",
+    "count": 2
+   },
+   {
+    "key": "BOSS_DAMAGE",
+    "count": 2
+   }
+  ],
+  "best_plan_rate_threshold": {
+   "ACCURACY_RATE": 85,
+   "CRITICAL_RATE": 65,
+   "INSIGHT_RATE": 0
+  },
+  "global_key": {
+   "DEFENCE": 618.3,
+   "EXTERNAL_RESISTANCE": 8,
+   "ELEMENT_RESISTANCE": 30,
+   "COMMON_DAMAGE": 9.5,
+   "RAID_DAMAGE": 6,
+   "MAX_EXTERNAL_ATTACK": 480,
+   "MIN_EXTERNAL_ATTACK": 240
+  },
+  "hundred_damage": 16438733.94,
+  "battle_time": 89.4
+ },
+ "validation": {
+  "site_total_damage": 16438733.94,
+  "site_dps": 183878.46
+ }
+}

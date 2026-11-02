@@ -1,0 +1,49 @@
+{
+  "generatedBy": "tools/build_static_index.js",
+  "prefix": {
+    "lieshijun": [
+      "lieshijun.chuntang.dawai.json",
+      "lieshijun.chuntang.xiaowai.json",
+      "lieshijun.shuangqie.dawai.json",
+      "lieshijun.shuangqie.xiaowai.json"
+    ],
+    "lieshiwei": [
+      "lieshiwei.dawai.json"
+    ],
+    "mingjinhong": [
+      "mingjinhong.dawai.json"
+    ],
+    "mingjinying": [
+      "mingjinying.dawai.json"
+    ],
+    "pozhuchen": [
+      "pozhuchen.dawai.json",
+      "pozhuchen.xiaowai.json"
+    ],
+    "pozhufeng": [
+      "pozhufeng.dawai.json",
+      "pozhufeng.xiaowai.json"
+    ],
+    "pozhuyuan": [
+      "pozhuyuan.dawai.json",
+      "pozhuyuan.xiaowai.json"
+    ],
+    "pozhuzun": [
+      "pozhuzun.dawai.json",
+      "pozhuzun.xiaowai.json"
+    ],
+    "qiansilin": [
+      "qiansilin.chunnai.dawai.json",
+      "qiansilin.huoquannai.dawai.json",
+      "qiansilin.huoquannai.xiaowai.json"
+    ],
+    "qiansiyi": [
+      "qiansiyi.dawai.json",
+      "qiansiyi.xiaowai.json"
+    ],
+    "qiansiyu": [
+      "qiansiyu.feitianyu.dawai.json",
+      "qiansiyu.zoudiyu.dawai.json"
+    ]
+  }
+}
