@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tools/test_golden.js && node tools/test_dps.js && node tools/test_panel.js && node tools/test_quota.js && node tools/test_advisor.js && node tools/test_monitor.js && node tools/test_swap.js && node tools/test_inspect.js && node tools/test_graduate.js",
-    "test:all": "npm test && node tools/test_web.js && node tools/test_evaluator.js && node tools/test_studio.js",
-    "test:web": "node tools/test_web.js",
-    "test:evaluator": "node tools/test_evaluator.js",
+    "test": "node tools/check_templates.js && node tools/test_golden.js && node tools/test_dps.js && node tools/test_panel.js && node tools/test_quota.js && node tools/test_advisor.js && node tools/test_conversion.js && node tools/test_monitor.js && node tools/test_swap.js && node tools/test_bucket.js && node tools/test_dispose.js && node tools/test_search.js && node tools/test_inspect.js && node tools/test_graduate.js",
+    "test:all": "npm test && node tools/test_studio.js && node tools/test_assist.js",
+    "check:data": "node tools/check_templates.js",
     "test:studio": "node tools/test_studio.js",
+    "build:index": "node tools/build_static_index.js",
     "serve": "node tools/serve.js"
   }
 }

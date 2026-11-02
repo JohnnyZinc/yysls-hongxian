@@ -24,9 +24,9 @@ const MIME = {
 createServer(async (req, res) => {
   try {
     let pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
-    // 根路径重定向到 /web/index.html：保证相对资源路径（./style.css 等）解析正确
+    // 根路径重定向到 /web/studio.html：保证相对资源路径（./style.css 等）解析正确
     if (pathname === '/' || pathname === '/web/' || pathname === '/web') {
-      res.writeHead(302, { Location: '/web/index.html' });
+      res.writeHead(302, { Location: '/web/studio.html' });
       res.end();
       return;
     }
@@ -58,11 +58,11 @@ createServer(async (req, res) => {
   }
 }).on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
-    console.error(`端口 ${port} 已被占用：可能已有验证台在运行，直接访问 http://127.0.0.1:${port}/web/index.html 即可`);
+    console.error(`端口 ${port} 已被占用：可能已有工作台在运行，直接访问 http://127.0.0.1:${port}/web/studio.html 即可`);
   } else {
     console.error(`服务器错误: ${err.message}`);
   }
   process.exit(1);
 }).listen(port, '127.0.0.1', () => {
-  console.log(`验证台: http://127.0.0.1:${port}/web/index.html  (根目录: ${root})`);
+  console.log(`装备评价工作台: http://127.0.0.1:${port}/web/studio.html  (根目录: ${root})`);
 });

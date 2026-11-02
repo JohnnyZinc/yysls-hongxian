@@ -35,7 +35,10 @@
 
 const num = (v) => (typeof v === 'number' ? v : 0);
 
-/** 名字归一：游戏内拼写变体/旧版提取短名 → 唯一全称 */
+import { weaponTypesOf } from './quota.js';
+
+/** 名字归一：游戏内拼写变体/旧版提取短名 → 唯一全称（面板 schema 层归一，非社区叫法别名——
+ *  社区叫法→真名的数据在 affixes.别名，由 quota.js canonicalAffix 处理） */
 const NAME_CANON = {
   最小外功: '最小外功攻击', 最大外功: '最大外功攻击',
   最小鸣金: '最小鸣金攻击', 最大鸣金: '最大鸣金攻击',
@@ -51,8 +54,8 @@ const NAME_CANON = {
   直议会心率: '直接会心率', 直议会意率: '直接会意率',
 };
 
-/** 指定武学增伤的十种武器类型 */
-const WEAPON_TYPES = ['剑', '枪', '横刀', '陌刀', '伞', '扇', '绳镖', '双刀', '拳甲', '鼓'];
+// 三率上限的兼容缺省（权威值在 version.json constants；仅当版本包缺键时兜底，盘点 §2.2 #1）
+const DEFAULT_CAPS = { 精准率上限: 1, 黄字会心率上限: 0.8, 黄字会意率上限: 0.4 };
 
 function norm(name) {
   name = String(name).trim();
@@ -70,6 +73,12 @@ function computePanel(input) {
   const C = version.constants;
   const buckets = makeBuckets();
   let dingyinSum = 0;
+
+  // 武器类型清单：派生自版本包"指定武学增伤包括"（单一来源，盘点 §2.2 #4）
+  const weaponTypes = weaponTypesOf(input.affixes);
+  // 属性攻击/无相求和清单：派生自词条区间键（最[小大]<系>攻击 模式，盘点 §2.2 #6）
+  const attrAtkKeys = Object.keys((input.affixes && input.affixes.词条区间) || {})
+    .filter((k) => /^最[小大](鸣金|裂石|牵丝|破竹|无相)攻击$/.test(k));
 
   const add = (bucket, stat, v) => {
     buckets[bucket][stat] = num(buckets[bucket][stat]) + v;
@@ -97,8 +106,8 @@ function computePanel(input) {
   for (const piece of gear) {
     if (!piece) continue;
     const slot = piece.slot || '';
-    // 武器不分左右槽（用户定稿）：部位=武器 与 左武器/右武器 同属攻具
-    const isArmorDing = !['左武器', '右武器', '武器', '环', '佩'].includes(slot);
+    // 武器不分左右（用户定稿）：部位=武器 与 武器1/武器2 两个槽位同属攻具
+    const isArmorDing = !['武器1', '武器2', '武器', '环', '佩'].includes(slot);
     const list = [
       ['初始', piece.初始],
       ['调律1', piece.调律 ? piece.调律[0] : null],
@@ -202,10 +211,8 @@ function computePanel(input) {
   stats['最大外功攻击'] = total('最大外功攻击') + wuxuFinal['劲'] * num(version['五维贡献']['最大外功']['劲'])
     + wuxuFinal['势'] * num(version['五维贡献']['最大外功']['势']);
 
-  // 属性攻击/无相：纯求和
-  for (const s of ['最小鸣金攻击', '最大鸣金攻击', '最小裂石攻击', '最大裂石攻击',
-    '最小牵丝攻击', '最大牵丝攻击', '最小破竹攻击', '最大破竹攻击',
-    '最小无相攻击', '最大无相攻击']) {
+  // 属性攻击/无相：纯求和（清单由词条区间键派生）
+  for (const s of attrAtkKeys) {
     stats[s] = total(s);
   }
 
@@ -220,7 +227,7 @@ function computePanel(input) {
   }
   // 指定武学增伤按武器类型：与对首领单位增伤同级、无条件出键（为 0 也出键，
   // 保证覆盖语义下不残留作者基准值；零值过滤是 UI 的事）
-  for (const t of WEAPON_TYPES) {
+  for (const t of weaponTypes) {
     const k = `${t}武学增伤`;
     stats[k] = total(k) / (1 + C['增益抗性']);
   }
@@ -237,27 +244,35 @@ function computePanel(input) {
   }
 
   // 最终生效三率（不含技能级标记的面板基准；公式见 参考/燕云十六声的四种伤害与三率.md）
-  //   bo = 黄字精准率（cap 100%）；bp = 黄字会心率（cap 80%）+ 直议会心率（不受 cap）；
-  //   br = 黄字会意率（cap 40%）+ 直议会意率（不受 cap）
+  //   bo = 黄字精准率（cap 精准率上限）；bp = 黄字会心率（cap 黄字会心率上限）+ 直接会心率（不受 cap）；
+  //   br = 黄字会意率（cap 黄字会意率上限）+ 直接会意率（不受 cap）
   //   最终生效会心率 = bo × min(bp, 1−br)   ← 会意+会心 > 100% 时会心被挤占
   //   最终生效会意率 = br                    ← 会意不受精准命中影响
   //   最终生效会心会意率 = 两者之和（用户定义）
-  const bo = Math.min(1, stats['精准率']);
-  const bp = Math.min(0.8, stats['会心率']) + stats['直接会心率'];
-  const br = Math.min(0.4, stats['会意率']) + stats['直接会意率'];
+  //   上限值来自 version.constants（与判定抗性同族；缺键时按 DEFAULT_CAPS 兜底并警告）
+  const capOf = (k) => {
+    const v = C[k];
+    if (typeof v !== 'number') {
+      warnings.push(`版本包 constants 缺少「${k}」，按默认 ${DEFAULT_CAPS[k]} 处理（请补数据）`);
+      return DEFAULT_CAPS[k];
+    }
+    return v;
+  };
+  const bo = Math.min(capOf('精准率上限'), stats['精准率']);
+  const bp = Math.min(capOf('黄字会心率上限'), stats['会心率']) + stats['直接会心率'];
+  const br = Math.min(capOf('黄字会意率上限'), stats['会意率']) + stats['直接会意率'];
   stats['最终生效会心率'] = bo * Math.min(bp, 1 - br);
   stats['最终生效会意率'] = br;
   stats['最终生效会心会意率'] = bo * Math.min(bp, 1 - br) + br;
 
   // 守卫：未识别的装备词条 → 警告（静默丢弃会变成"看不见的数值黑洞"）
+  // 已知词条全集 = 五维/三率/攻击/增益类 + 派生清单（attrAtkKeys/weaponTypes）
   const KNOWN = new Set([
     ...WUXU, '精准率', '会心率', '会意率',
     '最小外功攻击', '最大外功攻击',
-    ...['最小鸣金攻击', '最大鸣金攻击', '最小裂石攻击', '最大裂石攻击',
-      '最小牵丝攻击', '最大牵丝攻击', '最小破竹攻击', '最大破竹攻击',
-      '最小无相攻击', '最大无相攻击'],
+    ...attrAtkKeys,
     '外功穿透', '全武学增伤', '对首领单位增伤', '全奇术增伤',
-    ...WEAPON_TYPES.map((t) => `${t}武学增伤`),
+    ...weaponTypes.map((t) => `${t}武学增伤`),
     '会心伤害加成', '会意伤害加成', '直接会心率', '直接会意率',
     '鸣金穿透', '鸣金加成', '裂石穿透', '裂石加成', '牵丝穿透', '牵丝加成',
     '破竹穿透', '破竹加成', '无相穿透', '外功伤害加成', '外功治疗加成',

@@ -3,10 +3,14 @@
 /**
  * swap.js — 系统③ΔDPS：单件替换对比（纯函数、无 IO）
  *
- * 流程（评价系统设计.md §6 / 交接文档 §8 原设计）：
+ * 流程（评价系统设计.md §6 / §12.2 武器桶模型）：
  *   录入新装备 → 识别槽位 → 找当前同槽位装备（无则视为空位）
+ *   **同槽可能有多件**（双枪流派：一个类型桶容量 2）⇒ 逐件试换，取 ΔDPS 最优者为被替换者，
+ *   输出 targetIndex / targetSlotKey / gearAfter（不能再靠 sameEquipKey 找"那一件"——
+ *   同类型两件会被它认成同一件，导致替换时两把一起被删）
  *   → 当前装备 vs 替换后装备：各跑 panel.js → dps.js
- *   → Δ% = DPS后/DPS前 − 1 → 三档判定（死区 |Δ%|≤阈值 等价，可配，默认 0.5%）
+ *   → Δ% = DPS后/DPS前 − 1 → 三档判定（死区 |Δ%|≤阈值 等价，可配，默认 0.5%；
+ *      方案文件可经 flow.死区 覆盖默认值——由 inspect 层传入，盘点 §2.2 #9）
  *   → 等价时次级排序：匹配度档位 > 当前 DPS（跨档一律档位优先——承音会收敛 roll，
  *     档位代表长期价值；同档之间才比当前数值）
  *   → 面板差异解释（v1 = 面板差异级：哪些面板属性变了、方向如何）
@@ -46,7 +50,7 @@ export function evalGearDps({ buildCtx, version, affixes, gear, selections, grad
       elem: pi.food_elem ? pi.food_elem.default : 0,
     },
   };
-  const r = calcDPS(buildCtx, { panel: override, graduateDps });
+  const r = calcDPS(buildCtx, { panel: override, graduateDps, constants: version?.constants });
   return { panel: pr, dps: r.dps, graduationRate: r.graduationRate };
 }
 
@@ -68,6 +72,7 @@ export function diffPanels(before, after) {
 /** 装备件 → 匹配度输入形状 */
 function toGradeItem(piece) {
   return {
+    weaponType: piece?.weaponType || '', // 剑只匹配剑槽，缺此字段会漏判本槽必备
     initial: piece?.初始?.属性,
     tunings: (piece?.调律 || []).map((t) => t?.属性),
     converted: (piece?.调律 || []).map((t) => !!t?.转律),
@@ -76,7 +81,7 @@ function toGradeItem(piece) {
 }
 
 /**
- * 装备同一性：非武器按部位；武器不分左右槽（部位=武器）按类型——双刀只与双刀对比（用户定稿）。
+ * 装备同一性：非武器按部位；武器不分左右（部位=武器，只是两个槽位）按类型——剑只与剑对比（用户定稿）。
  * 旧数据（部位=左武器/右武器）仍按部位相等处理，行为不变。
  */
 export function sameEquipKey(a, b) {
@@ -117,19 +122,39 @@ export function evaluateSwap({
   if (errors.length) return { ok: false, errors };
 
   const slot = newItem.slot;
-  const oldItem = currentGear.find((g) => sameEquipKey(g, newItem)) || null;
-  // 武器按类型对比：没有同类型已穿戴 ⇒ 无替换基准（不同类型不比较，用户定稿）
-  if (slot === '武器' && !oldItem) {
+  // 同槽候选：非武器按部位；武器按**类型桶**（同一类型可能有多个槽，如双枪流派）
+  const targets = currentGear
+    .map((g, i) => ({ g, i }))
+    .filter(({ g }) => sameEquipKey(g, newItem));
+  // 武器按类型对比：当前未穿戴该类型 ⇒ 无替换基准（不同类型不比较，用户定稿）
+  if (slot === '武器' && !targets.length) {
     return {
       ok: false,
       errors: ['武器按类型对比：当前未穿戴同类型武器，无法替换对比（不同类型不比较）'],
     };
   }
-  const gearBefore = currentGear;
-  const gearAfter = [...currentGear.filter((g) => !sameEquipKey(g, newItem)), newItem];
 
-  const before = evalGearDps({ buildCtx, version, affixes, gear: gearBefore, selections, graduateDps });
-  const after = evalGearDps({ buildCtx, version, affixes, gear: gearAfter, selections, graduateDps });
+  const before = evalGearDps({ buildCtx, version, affixes, gear: currentGear, selections, graduateDps });
+
+  // 桶语义（评价系统设计.md §12.2）：桶内可能多件（双枪）⇒ 逐件试换，取 ΔDPS 最优者为被替换者。
+  // 非武器空位（targets 为空）⇒ 直接追加。
+  let targetIndex = -1;
+  let after = null;
+  if (!targets.length) {
+    const gearAfter = [...currentGear, newItem];
+    after = evalGearDps({ buildCtx, version, affixes, gear: gearAfter, selections, graduateDps });
+  } else {
+    let bestDps = -Infinity;
+    for (const t of targets) {
+      const cand = currentGear.map((g, i) => (i === t.i ? newItem : g));
+      const r = evalGearDps({ buildCtx, version, affixes, gear: cand, selections, graduateDps });
+      if (r.dps > bestDps) { bestDps = r.dps; targetIndex = t.i; after = r; }
+    }
+  }
+  const gearAfter = targetIndex >= 0
+    ? currentGear.map((g, i) => (i === targetIndex ? newItem : g))
+    : [...currentGear, newItem];
+  const oldItem = targetIndex >= 0 ? currentGear[targetIndex] : null;
 
   const deltaAbs = after.dps - before.dps;
   const deltaPct = before.dps > 0 ? deltaAbs / before.dps : 0;
@@ -138,7 +163,7 @@ export function evaluateSwap({
   let verdict;
   if (deltaPct > deadZone) verdict = '更好';
   else if (deltaPct < -deadZone) verdict = '更差';
-  else verdict = '等价';
+  else verdict = '等价'; // 用户定稿文案：对外只报更好/更差/等价，不展示变化幅度
 
   // —— 档位（可选） ——
   let gradeNew = null;
@@ -170,16 +195,16 @@ export function evaluateSwap({
     (verdict === '等价' && (
       tieBreak === '新件档位更高' ||
       tieBreak === '新件当前数值略优' ||
-      (rankNew != null && rankOld === -1) // 等价 + 补空位且有档位
+      (rankNew != null && rankOld === -1) // 相同 + 补空位且有档位
     ));
   let recommendation;
   if (verdict === '更好') recommendation = '建议替换';
   else if (verdict === '更差') recommendation = '保留旧件';
-  else if (tieBreak === '新件档位更高') recommendation = '等价但新件匹配度更高——建议替换（长期价值）';
-  else if (tieBreak === '旧件档位更高') recommendation = '等价但旧件匹配度更高——保留旧件';
-  else if (tieBreak === '新件当前数值略优') recommendation = `等价（死区 ${(deadZone * 100).toFixed(1)}%），新件当前数值略优——可替换`;
-  else if (tieBreak === '旧件当前数值略优') recommendation = `等价（死区 ${(deadZone * 100).toFixed(1)}%），旧件当前数值略优——保留旧件`;
-  else recommendation = '完全等价——任意选择';
+  else if (tieBreak === '新件档位更高') recommendation = '两件相当，但新件匹配度更高——建议替换（长期价值）';
+  else if (tieBreak === '旧件档位更高') recommendation = '两件相当，但旧件匹配度更高——保留旧件';
+  else if (tieBreak === '新件当前数值略优') recommendation = '两件相当，新件当前数值略优——可替换';
+  else if (tieBreak === '旧件当前数值略优') recommendation = '两件相当，旧件当前数值略优——保留旧件';
+  else recommendation = '两件完全相当——任意选择';
 
   // —— 去向/收藏建议（防误删蒙尘宝物） ——
   const newTier = gradeNew?.ok ? (gradeNew.tier ?? null) : null;
@@ -213,6 +238,9 @@ export function evaluateSwap({
     ok: true,
     slot,
     buildId: buildCtx.build.id ?? null,
+    targetIndex, // 被替换件在 currentGear 里的下标；-1 = 空位（未替换任何件）
+    targetSlotKey: oldItem?.slotKey ?? null, // 被替换件的槽位 key（gear 件带 slotKey 时才有）
+    gearAfter, // 替换后的整套装备（供整合层复用，保证与 ΔDPS 同一口径）
     replacedOld: !!oldItem,
     before: { dps: before.dps, graduationRate: before.graduationRate },
     after: { dps: after.dps, graduationRate: after.graduationRate },
@@ -224,14 +252,14 @@ export function evaluateSwap({
     tieBreak,
     swapRecommended,
     gradingAvailable: !!prescription,
-    gradeOld: gradeOld ? { tier: gradeOld.tier ?? null, substate: gradeOld.substate ?? null, k: gradeOld.k ?? null, m: gradeOld.m ?? null, 空位: !!gradeOld.空位 } : null,
-    gradeNew: gradeNew ? { tier: gradeNew.tier ?? null, substate: gradeNew.substate ?? null, k: gradeNew.k ?? null, m: gradeNew.m ?? null } : null,
+    gradeOld: gradeOld ? { tier: gradeOld.tier ?? null, k: gradeOld.k ?? null, m: gradeOld.m ?? null, 空位: !!gradeOld.空位 } : null,
+    gradeNew: gradeNew ? { tier: gradeNew.tier ?? null, k: gradeNew.k ?? null, m: gradeNew.m ?? null } : null,
     旧件去向,
     新件去向,
     候补,
     panelDiff: diffPanels(before.panel.stats, after.panel.stats),
     afterPanelStats: after.panel.stats, // 供整合层做"假设穿上后"的监测（与 ΔDPS 同一面板口径）
     errors: [],
-    口径: 'Δ% = DPS后/DPS前 − 1；|Δ%|≤死区 等价；等价次级排序=匹配度档位>当前DPS；ΔDPS 对流无感（min/max 收敛在引擎内处理）',
+    口径: 'Δ% = DPS后/DPS前 − 1；|Δ%|≤死区 判"等价"；等价次级排序=匹配度档位>当前DPS；对外只报更好/更差/等价，不展示幅度',
   };
 }

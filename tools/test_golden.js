@@ -38,7 +38,8 @@ const BUILDS = [
   ['pozhuchen.115.3.3', '破竹尘'],
   ['pozhuzun.115.3.7', '破竹樽'],
   ['lieshiwei.115.3.3', '裂石威'],
-  ['lieshijun.115.3.0', '裂石钧（双切）'],
+  ['lieshijun.shuangqie.115.3.0', '裂石钧（双切）'],
+  ['lieshijun.chuntang.115.3.0', '裂石钧（纯唐）'],
   ['qiansiyi.115.3.1', '牵丝翊'],
   ['pozhuyuan.115.3.0', '破竹鸢'],
   ['qiansilin.115.3.1', '牵丝霖'],
@@ -76,10 +77,10 @@ function collectDiffs(path, a, b, out) {
 
 // ============ 1. 面板层快照 ============
 function panelCase() {
-  const { version } = loadVersionData();
+  const { version, affixes } = loadVersionData();
   return computePanel({
     version,
-    affixes: { 词条区间: {} },
+    affixes,
     build: { 流派: '鸣金虹' },
     gear: [],
     selections: {
@@ -130,8 +131,8 @@ function clonePiece(p) { return JSON.parse(JSON.stringify(p)); }
 
 // 满配 8 件（大外流，与 test_swap 同结构同数值）
 const fullGear = [
-  mk('左武器', '最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']),
-  mk('右武器', '最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']),
+  mk('武器1', '最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']),
+  mk('武器2', '最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']),
   mk('环', '最大外功攻击', ['最大外功攻击', '全武学增伤', '劲', '会心率']),
   mk('佩', '最大外功攻击', ['最大外功攻击', '全武学增伤', '劲', '精准率']),
   mk('冠胄', '精准率', ['最大外功攻击', '劲', '会心率', '势']),
@@ -139,8 +140,8 @@ const fullGear = [
   mk('胫甲', '劲', ['最大外功攻击', '劲', '对首领单位增伤', '会心率']),
   mk('腕甲', '劲', ['最大外功攻击', '劲', '对首领单位增伤', '会心率']),
 ];
-// 地件左武器：缺双刀增（神力不可转得）、带气血（无效可转）
-const diLeft = mk('左武器', '最大外功攻击', ['最大外功攻击', '劲', '势', '气血最大值']);
+// 地件武器1：缺双刀增（神力不可转得）、带气血（无效可转）
+const diLeft = mk('武器1', '最大外功攻击', ['最大外功攻击', '劲', '势', '气血最大值']);
 const tianLeft = fullGear[0];
 // 等价-同档：单条大外 roll −1.2
 const nearLeft = clonePiece(tianLeft);
@@ -215,9 +216,9 @@ for (const [prefix, name] of BUILDS) {
 // ΔDPS：四个判定场景
 runCase('ΔDPS:更差(天→地)', 'swap-pozhufeng.json', () => ({
   更差: pickSwap(evaluateSwap(swapArgs(fullGear, diLeft))),
-  更好: pickSwap(evaluateSwap(swapArgs(fullGear.map((g) => (g.slot === '左武器' ? diLeft : g)), tianLeft))),
+  更好: pickSwap(evaluateSwap(swapArgs(fullGear.map((g) => (g.slot === '武器1' ? diLeft : g)), tianLeft))),
   等价同档: pickSwap(evaluateSwap(swapArgs(fullGear, nearLeft))),
-  等价跨档: pickSwap(evaluateSwap(swapArgs(fullGear.map((g) => (g.slot === '左武器' ? diLeft : g)), tianLeft, { deadZone: 0.5 }))),
+  等价跨档: pickSwap(evaluateSwap(swapArgs(fullGear.map((g) => (g.slot === '武器1' ? diLeft : g)), tianLeft, { deadZone: 0.5 }))),
 }));
 
 if (UPDATE) {

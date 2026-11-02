@@ -6,14 +6,14 @@
  * 机制（用户确认）：
  *   - 指定武学增伤跟武器类型走（双刀武器只能出双刀增），但类型跨左右槽自由排列；
  *   - 推导器按排列枚举求解后合并：每把武器必备"恰好1条本类型指定增（any_of 组）"，
- *     双刀增/绳镖增在左武器都是自由项（min=0, max=1）；
+ *     双刀增/绳镖增在武器1都是自由项（min=0, max=1）；
  *   - 一件装备同时携带两条指定增 → 与任何排列矛盾 → 评分拒绝（advisor 侧）。
  * 基准：破竹风·大外流供应分析（12大外/10劲/神力6 全锁死）+ 小外流（12小外/6大破竹/
  * 8敏每部位1条/大无相双武器调律各1）。
  */
 
 import fs from 'node:fs';
-import { derivePrescription, loadSlotModel, canonicalAffix, verifyItemFits } from '../engine/quota.js';
+import { derivePrescription, loadSlotModel, canonicalAffix, verifyItemFits, aliasMapOf } from '../engine/quota.js';
 import { loadVersionData } from './load-version.js';
 
 const { affixes } = loadVersionData();
@@ -36,42 +36,50 @@ const group = (rx) => rx.required.find(r => r.any_of);
 
 // ———— 0. 别名与模型 ————
 
-check('别名：大外→最大外功攻击', canonicalAffix('大外') === '最大外功攻击');
-check('别名：全武学增效→全武学增伤', canonicalAffix('全武学增效') === '全武学增伤');
+// 别名表改由 affixes JSON 提供（单一来源，盘点 §2.2 #2）
+const ALIAS = aliasMapOf(affixes);
+check('别名：大外→最大外功攻击', canonicalAffix('大外', ALIAS) === '最大外功攻击');
+check('别名：全武学增效→全武学增伤', canonicalAffix('全武学增效', ALIAS) === '全武学增伤');
+check('别名：未登记叫法原样返回', canonicalAffix('最大外功攻击', ALIAS) === '最大外功攻击');
 const model = loadSlotModel(affixes, ['双刀', '剑']);
-check('模型：武器调律池按流派类型展开指定增（双刀+剑）',
-  model.slots['左武器'].tuningPool.includes('双刀武学增伤') && model.slots['左武器'].tuningPool.includes('剑武学增伤')
-  && !model.slots['左武器'].tuningPool.includes('枪武学增伤'));
+check('模型：武器槽只展开本槽绑定类型的指定增（武器1=双刀增，武器2=剑增，互不包含）',
+  model.slots['武器1'].tuningPool.includes('双刀武学增伤')
+  && !model.slots['武器1'].tuningPool.includes('剑武学增伤')
+  && model.slots['武器2'].tuningPool.includes('剑武学增伤')
+  && !model.slots['武器2'].tuningPool.includes('双刀武学增伤')
+  && !model.slots['武器1'].tuningPool.includes('枪武学增伤'));
 check('模型：未知武器类型被识别', loadSlotModel(affixes, ['双刀', '魔杖']).unknownTypes.length === 1);
 check('模型：转律池不含神力与精准率',
-  !model.slots['左武器'].conversionPool.includes('全武学增伤') && !model.slots['左武器'].conversionPool.includes('精准率'));
+  !model.slots['武器1'].conversionPool.includes('全武学增伤') && !model.slots['武器1'].conversionPool.includes('精准率'));
 
 // ———— 1. 大外流推导 ————
 
 const daWaiRx = derivePrescription(affixes, daWai, WT);
 check('大外流：推导可行且无错误', daWaiRx.feasible === true && daWaiRx.errors.length === 0);
-check('大外流：两个武器排列（类型跨槽自由）', daWaiRx.arrangements.length === 2
-  && daWaiRx.arrangements[0].arrangement.左武器 === '双刀' && daWaiRx.arrangements[1].arrangement.左武器 === '绳镖');
+check('大外流：只有一套槽位绑定（武器不分左右，不枚举排列）', daWaiRx.arrangements.length === 1
+  && daWaiRx.arrangements[0].arrangement.武器1 === '双刀'
+  && daWaiRx.arrangements[0].arrangement.武器2 === '绳镖');
 check('大外流：结果自描述（buildId/flowId）', daWaiRx.buildId === 'pozhufeng' && daWaiRx.flowId === 'dawai');
 
-const lw = daWaiRx.mergedSlots['左武器'];
-check('大外流·左武器：初始强制=最大外功攻击（12大外锁死的推论）', lw.initialForced === '最大外功攻击');
-check('大外流·左武器：必备 大外×2（1初始+1调律）', req(lw, '最大外功攻击')?.count === 2);
-check('大外流·左武器：必备 劲×1', req(lw, '劲')?.count === 1);
-check('大外流·左武器：必备组 恰好1条指定增（双刀增/绳镖增任一）',
-  group(lw)?.count === 1 && sameSet(group(lw).any_of, ['双刀武学增伤', '绳镖武学增伤']));
-check('大外流·左武器：自由集 = {双刀增,绳镖增,势,精准率,会心率}',
-  sameSet(lw.freeSet, ['双刀武学增伤', '绳镖武学增伤', '势', '精准率', '会心率']));
-check('大外流·左武器：大外 min=2 max=2', lw.affixInfo['最大外功攻击']?.min === 2 && lw.affixInfo['最大外功攻击']?.max === 2);
-check('大外流·左武器：双刀增 min=0 max=1（可左可右，排列自由）',
-  lw.affixInfo['双刀武学增伤']?.min === 0 && lw.affixInfo['双刀武学增伤']?.max === 1);
-check('大外流·左武器：绳镖增同样 min=0 max=1（左武器可以是绳镖）',
-  lw.affixInfo['绳镖武学增伤']?.min === 0 && lw.affixInfo['绳镖武学增伤']?.max === 1);
+const lw = daWaiRx.mergedSlots['武器1'];
+check('大外流·武器1：初始强制=最大外功攻击（12大外锁死的推论）', lw.initialForced === '最大外功攻击');
+check('大外流·武器1：必备 大外×2（1初始+1调律）', req(lw, '最大外功攻击')?.count === 2);
+check('大外流·武器1：必备 劲×1', req(lw, '劲')?.count === 1);
+check('大外流·武器1：必备 双刀增×1（本槽类型绑定，不是任选组）',
+  req(lw, '双刀武学增伤')?.count === 1 && group(lw) === undefined);
+check('大外流·武器1：自由集 = {势,精准率,会心率}（双刀增已计入必备）',
+  sameSet(lw.freeSet, ['势', '精准率', '会心率']));
+check('大外流·武器1：大外 min=2 max=2', lw.affixInfo['最大外功攻击']?.min === 2 && lw.affixInfo['最大外功攻击']?.max === 2);
+check('大外流·武器1：双刀增 min=1 max=1（本槽必备，只能由本槽承担）',
+  lw.affixInfo['双刀武学增伤']?.min === 1 && lw.affixInfo['双刀武学增伤']?.max === 1);
+check('大外流·武器1：绳镖增不在本槽池中（游戏事实：绳镖增不可能出现在双刀上）',
+  lw.affixInfo['绳镖武学增伤']?.outOfPool === true);
 
-const rw = daWaiRx.mergedSlots['右武器'];
-check('大外流·右武器：与左武器同构（初始大外+劲+指定增组）',
+const rw = daWaiRx.mergedSlots['武器2'];
+check('大外流·武器2（=绳镖）：初始大外+劲+绳镖增×1（各自绑定本槽类型）',
   rw.initialForced === '最大外功攻击' && req(rw, '最大外功攻击')?.count === 2
-  && req(rw, '劲')?.count === 1 && group(rw)?.count === 1);
+  && req(rw, '劲')?.count === 1 && req(rw, '绳镖武学增伤')?.count === 1
+  && req(rw, '双刀武学增伤') === undefined);
 
 const huan = daWaiRx.mergedSlots['环'];
 check('大外流·环：初始强制=大外，必备含全武×1',
@@ -96,15 +104,15 @@ check('大外流·胫甲：必备 = {大外×1, 劲×2, 首领增×1}',
 const xiaoWaiRx = derivePrescription(affixes, xiaoWai, WT);
 check('小外流：推导可行且无错误', xiaoWaiRx.feasible === true && xiaoWaiRx.errors.length === 0);
 
-const xlw = xiaoWaiRx.mergedSlots['左武器'];
-check('小外流·左武器：初始强制=最小外功攻击', xlw.initialForced === '最小外功攻击');
-check('小外流·左武器：必备 = {小外×2, 敏×1, 指定增组×1}；破竹/无相四选进自由（2025 配额放宽）',
+const xlw = xiaoWaiRx.mergedSlots['武器1'];
+check('小外流·武器1：初始强制=最小外功攻击', xlw.initialForced === '最小外功攻击');
+check('小外流·武器1：必备 = {小外×2, 敏×1, 双刀增×1}；破竹/无相四选进自由（2025 配额放宽）',
   req(xlw, '最小外功攻击')?.count === 2 && req(xlw, '敏')?.count === 1
-  && group(xlw)?.count === 1
+  && req(xlw, '双刀武学增伤')?.count === 1
   && xlw.freeSet.includes('最大无相攻击') && xlw.freeSet.includes('最小无相攻击'));
-check('小外流·左武器：大无相 min=0 且可出（初始位被小外锁死后走调律，进四选自由）',
+check('小外流·武器1：大无相 min=0 且可出（初始位被小外锁死后走调律，进四选自由）',
   xlw.affixInfo['最大无相攻击']?.min === 0 && (xlw.affixInfo['最大无相攻击']?.max ?? 0) >= 1);
-check('小外流·左武器：劲/大外无需求→无效', xlw.affixInfo['劲'] === undefined && xlw.affixInfo['最大外功攻击'] === undefined);
+check('小外流·武器1：劲/大外无需求→无效', xlw.affixInfo['劲'] === undefined && xlw.affixInfo['最大外功攻击'] === undefined);
 
 const xj = xiaoWaiRx.mergedSlots['胫甲'];
 check('小外流·胫甲：初始位无强制（劲无需求）', xj.initialForced === null);
@@ -153,23 +161,25 @@ aliasFlow.quota = { lines: [
   { any_of: ['势'], count: 2 },
 ] };
 const aliasRx = derivePrescription(affixes, aliasFlow, WT);
-check('别名流：可行且左武器推导与标准写法一致',
+check('别名流：可行且武器1推导与标准写法一致',
   aliasRx.feasible === true
-  && aliasRx.mergedSlots['左武器'].initialForced === lw.initialForced
-  && sameSet(aliasRx.mergedSlots['左武器'].freeSet, lw.freeSet));
+  && aliasRx.mergedSlots['武器1'].initialForced === lw.initialForced
+  && sameSet(aliasRx.mergedSlots['武器1'].freeSet, lw.freeSet));
 
-// ———— 5. verifyItemFits 精确复核（按排列取或） ————
+// ———— 5. verifyItemFits 精确复核 ————
 
-check('复核：大外流毕业剑（双刀增在左）→ 全局可补齐',
-  verifyItemFits(daWaiRx, '左武器', { initial: '最大外功攻击', tunings: ['最大外功攻击', '劲', '双刀武学增伤', '会心率'] }) === true);
-check('复核：绳镖增放左武器（左武器是绳镖）→ 合法且可补齐',
-  verifyItemFits(daWaiRx, '左武器', { initial: '最大外功攻击', tunings: ['最大外功攻击', '劲', '绳镖武学增伤', '会心率'] }) === true);
+check('复核：大外流毕业双刀（武器1）→ 全局可补齐',
+  verifyItemFits(daWaiRx, '武器1', { initial: '最大外功攻击', tunings: ['最大外功攻击', '劲', '双刀武学增伤', '会心率'] }) === true);
+check('复核：绳镖增放武器2（武器2=绳镖）→ 合法且可补齐',
+  verifyItemFits(daWaiRx, '武器2', { initial: '最大外功攻击', tunings: ['最大外功攻击', '劲', '绳镖武学增伤', '会心率'] }) === true);
+check('复核：绳镖增放武器1（武器1=双刀）→ 错型，不可补齐',
+  verifyItemFits(daWaiRx, '武器1', { initial: '最大外功攻击', tunings: ['最大外功攻击', '劲', '绳镖武学增伤', '会心率'] }) === null);
 check('复核：大外流毕业环 → 全局可补齐',
   verifyItemFits(daWaiRx, '环', { initial: '最大外功攻击', tunings: ['最大外功攻击', '全武学增伤', '劲', '精准率'] }) === true);
 check('复核：大外流毕业胫甲 → 全局可补齐',
   verifyItemFits(daWaiRx, '胫甲', { initial: '劲', tunings: ['最大外功攻击', '劲', '对首领单位增伤', '会心率'] }) === true);
 check('复核：小外流毕业剑 → 全局可补齐',
-  verifyItemFits(xiaoWaiRx, '左武器', { initial: '最小外功攻击', tunings: ['最小外功攻击', '双刀武学增伤', '敏', '最大无相攻击'] }) === true);
+  verifyItemFits(xiaoWaiRx, '武器1', { initial: '最小外功攻击', tunings: ['最小外功攻击', '双刀武学增伤', '敏', '最大无相攻击'] }) === true);
 
 // ———— 汇总 ————
 

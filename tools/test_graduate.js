@@ -4,7 +4,7 @@
  * test_graduate.js — 毕业基准生成器验证（盘点 §3.3 / 议题B）
  *
  * 覆盖：
- *   1. 物化：8 部位 × 5 词条 = 40 条，全部有数值；定音按方案预填（攻具=攻具定音，护甲=防具定音）
+ *   1. 物化：8 部位 × 5 词条 = 40 条，全部取**承音值**（毕业=玩家现实可达；定音区间无承音概念故取最大值）；定音按方案预填（攻具=攻具定音，护甲=防具定音）
  *   2. 全局配额：物化装备跑 quotaCensus → 全部 缺口0/溢出0（构造即按配额行扣减）
  *   3. 终极自检：物化装备逐件匹配度全"天"
  *   4. 基准：dps>0；大外流/小外流基准不同（按流各自一个基准）
@@ -14,9 +14,10 @@
 
 import { loadBuild } from './load-build.js';
 import { loadVersionData } from './load-version.js';
-import { derivePrescription } from '../engine/quota.js';
+import { derivePrescription, lookupAffixRange } from '../engine/quota.js';
 import { gradeItem } from '../engine/advisor.js';
 import { quotaCensus } from '../engine/monitor.js';
+import { computePanel } from '../engine/panel.js';
 import { calcDPS } from '../engine/dps.js';
 import { materializeGraduateGear, computeGraduateDps } from '../engine/graduate.js';
 
@@ -42,13 +43,30 @@ if (!mat.ok) console.error('物化失败：', mat.errors);
 check('8 部位齐全', mat.gear?.length === 8);
 check('40 词条（8×5）', mat.gear?.every((p) => (p.初始.属性 ? 1 : 0) + p.调律.filter((t) => t.属性).length === 5) === true);
 check('词条全有数值', mat.gear?.every((p) => [p.初始, ...p.调律].every((a) => typeof a.数值 === 'number')) === true);
-check('护甲定音=方案防具定音', mat.gear?.filter((p) => !['左武器', '右武器', '环', '佩'].includes(p.slot)).every((p) => p.定音?.属性 === daWai.防具定音) === true);
-check('攻具定音=方案攻具定音', mat.gear?.filter((p) => ['左武器', '右武器', '环', '佩'].includes(p.slot)).every((p) => p.定音?.属性 === daWai.攻具定音) === true);
+check('护甲定音=方案防具定音', mat.gear?.filter((p) => !['武器1', '武器2', '环', '佩'].includes(p.slot)).every((p) => p.定音?.属性 === daWai.防具定音) === true);
+check('攻具定音=方案攻具定音', mat.gear?.filter((p) => ['武器1', '武器2', '环', '佩'].includes(p.slot)).every((p) => p.定音?.属性 === daWai.攻具定音) === true);
 check('定音数值=定音区间最大值（护甲定音经技能定音别名）', mat.gear?.every((p) => {
   const expected = affixes.定音区间[p.定音.属性]?.max
     ?? (affixes.护甲定音词条?.includes(p.定音.属性) ? affixes.定音区间['技能定音']?.max : undefined);
   return p.定音?.数值 === expected;
 }) === true);
+
+// —— 1b. 数值口径：承音值（用户定稿 2026-10-22：毕业=玩家现实可达，满值只是理想 roll）——
+const allAffixes = (mat.gear || []).flatMap((p) => [p.初始, ...p.调律]);
+check('毕业词条数值=承音值（区间承音值，非满值）', allAffixes.length === 40
+  && allAffixes.every((a) => a.数值 === lookupAffixRange(affixes, a.属性)?.承音));
+check('承音值≠满值（断言有效：确有词条两者不同）',
+  allAffixes.some((a) => {
+    const r = lookupAffixRange(affixes, a.属性);
+    return r && r.承音 != null && r.承音 !== r.max;
+  }));
+check('物化装备标为承音（与承音值口径自洽，panel 不会报超限）',
+  (mat.gear || []).every((p) => p.承音 === true));
+const prGrad = computePanel({
+  version, affixes, build: { 流派: ctx.build.name }, gear: mat.gear,
+  selections: { 装备套装: '燕归', 武库: '破竹', 弓玦: '', 心法: ['', '', '', ''] },
+});
+check('毕业基准面板无警告（尤无承音超限噪声）', (prGrad.warnings || []).length === 0);
 
 // —— 2. 全局配额 0 缺口/0 溢出 ——
 const census = quotaCensus(mat.gear, daWai);

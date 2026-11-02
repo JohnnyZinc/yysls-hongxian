@@ -7,58 +7,87 @@
  *   输入：版本包词条池（affixes JSON）+ 分支配额（flow.quota.lines）+ 流派武器类型（weaponTypes）
  *   输出：按武器排列枚举求解后合并的每部位 { 初始强制, 必备集合（含 any_of 组）, 自由集 }
  *
- * 机制确认（用户定稿）：
- *   - 指定武学增伤跟武器类型走：双刀武器只能出双刀增，其他武器/部位不可能出；
- *   - 流派携带的两把武器跨左右槽自由排列（双刀可在左也可在右）；
- *   - 因此武器槽的指定增供应按"排列"枚举：每种排列下，左/右槽的调律池各含本排列
- *     类型的指定增；推导器对每种排列完整求解后合并（min取最小/max取最大）；
- *   - 合并后每把武器的必备集合出现 any_of 组需求："恰好 1 条本类型指定增（双刀增/绳镖增任一）"；
- *   - 一件装备同时携带两条指定增 → 与任何排列矛盾 → 物理不可能（评分拒绝）。
+ * 机制确认（用户定稿 2026-10-27，取代旧的"左右武器排列枚举"）：
+ *   - 游戏武器不分左右，一个流派只是携带两把特定武器（如鸣金虹=剑+枪）；
+ *   - 两个武器槽位无名无左右含义，槽位身份 = 流派武器列表里绑定的类型；
+ *     槽位 key 用 武器1/武器2（与流派无关，换流派不丢装备），显示名取当前流派类型；
+ *   - 指定武学增伤跟武器类型走：剑只能出剑增，枪与其他 7 部位都不可能出剑增；
+ *     因此武器槽的调律池在建模时直接只含「本槽类型」的指定增，不做排列枚举；
+ *   - ⇒ 配额里 1 条剑增只能由剑槽承担 ⇒ 剑槽的必备里剑增 min=1（旧模型因跨排列取 min
+ *     被抹成 0、掉进自由集，导致"无剑增的剑"被误判天档——已修）；
+ *   - 一件装备同时携带两条指定增 → 与任何槽位矛盾 → 物理不可能（评分拒绝）。
  *
  * 其余口径（不变）：
  *   - 40 槽供需匹配 → 最大流判可行；封禁/预填探测得 min/max；
  *   - 配额行计数按"恰好"，总和必须 = 40；
  *   - 词条名先经 canonicalAffix 归一（教训4）；
- *   - verifyItemFits 做"整件预指派后其余部位能否补齐"的精确复核（按排列取或）。
- *   - pins 机制已废除（被排列枚举取代）。
+ *   - verifyItemFits 做"整件预指派后其余部位能否补齐"的精确复核。
+ *   - pins 机制已废除；排列枚举机制已废除（槽位无名，互换即同一配置）。
  */
 
-// ———— 别名归一（社区叫法 → 词条真名；议题C 计划迁往 affixes JSON） ————
+// ———— 词条元数据（单一来源 = affixes JSON；本节只是访问器，盘点 §2.2 #2/#3/#4） ————
+//
+// 数据约定（affixes JSON 顶层字段）：
+//   别名       社区叫法 → 词条真名（如 大外→最大外功攻击；换季随社区叫法演变直接改数据）
+//   神力词条   神力清单（转律池不含、转掉不可再生）
+//   区间键别名 词条真名 → 区间表行名（如 全奇术增伤→奇术增伤）
+// 武器类型清单不单独存：由 调律词条池."指定武学增伤包括" 去掉"武学增伤"后缀派生。
 
-const ALIAS = {
-  最大外功: '最大外功攻击', 大外: '最大外功攻击',
-  最小外功: '最小外功攻击', 小外: '最小外功攻击',
-  大鸣金: '最大鸣金攻击', 小鸣金: '最小鸣金攻击',
-  大裂石: '最大裂石攻击', 小裂石: '最小裂石攻击',
-  大牵丝: '最大牵丝攻击', 小牵丝: '最小牵丝攻击',
-  大破竹: '最大破竹攻击', 小破竹: '最小破竹攻击',
-  大无相: '最大无相攻击', 小无相: '最小无相攻击',
-  全武: '全武学增伤', 全武学增效: '全武学增伤',
-  首领增: '对首领单位增伤', 首领增伤: '对首领单位增伤',
-  玩家增: '对玩家单位增效',
-  全奇术增: '全奇术增伤',
-  会心: '会心率', 会意: '会意率', 精准: '精准率',
-};
-
-export function canonicalAffix(name) {
-  const n = String(name ?? '').trim();
-  return ALIAS[n] || n;
+/** 社区叫法 → 真名映射（来自 affixes.别名；无该字段时返回空对象＝恒等） */
+export function aliasMapOf(affixes) {
+  return affixes?.别名 || {};
 }
 
-// 神力词条：转律池不含（转不进来），转掉不可再生（议题C 计划迁往 affixes JSON）
-export const SHENLI_AFFIXES = new Set([
-  '全武学增伤', '对首领单位增伤', '对玩家单位增效', '全奇术增伤',
-  '剑武学增伤', '枪武学增伤', '伞武学增伤', '扇武学增伤', '双刀武学增伤',
-  '绳镖武学增伤', '横刀武学增伤', '陌刀武学增伤', '拳甲武学增伤', '鼓武学增伤',
-]);
+/** 神力词条集合（来自 affixes.神力词条） */
+export function shenliSetOf(affixes) {
+  return new Set(affixes?.神力词条 || []);
+}
+
+/** 武器类型清单（派生自"指定武学增伤包括"，去后缀） */
+export function weaponTypesOf(affixes) {
+  return (affixes?.词条池?.调律词条池?.['指定武学增伤包括'] || [])
+    .map((s) => String(s).replace(/武学增伤$/, ''))
+    .filter(Boolean);
+}
+
+/**
+ * 词条名 → 数值区间记录（词条区间/定音区间共用查找逻辑）。
+ * 覆盖：区间表精确名 / 定音区间 / 指定武学增伤→'武器增伤' /
+ *       护甲定音55条→'技能定音' / 区间键别名；无数据返回 null。
+ * UI 三页与 graduate.js 共用本函数（单一来源，勿再各写一份）。
+ */
+export function lookupAffixRange(affixes, name) {
+  if (!name) return null;
+  const A = affixes?.词条区间 || {};
+  const D = affixes?.定音区间 || {};
+  if (A[name]) return A[name];
+  if (D[name]) return D[name];
+  if (/武学增伤$/.test(name) && name !== '全武学增伤'
+      && weaponTypesOf(affixes).some((t) => name.startsWith(t))) {
+    return A['武器增伤'] || null; // 各武器指定武学增伤共用'武器增伤'区间
+  }
+  if (Array.isArray(affixes?.护甲定音词条) && affixes.护甲定音词条.includes(name)) {
+    return D['技能定音'] || null; // 护甲定音技能增伤/增疗共用'技能定音'区间
+  }
+  const alias = affixes?.区间键别名 || {};
+  if (alias[name]) return A[alias[name]] || null;
+  return null;
+}
+
+/** 词条名归一（社区叫法 → 真名）。别名表由调用方传入（aliasMapOf(affixes)）；未传时恒等。 */
+export function canonicalAffix(name, aliasMap = null) {
+  const n = String(name ?? '').trim();
+  return (aliasMap && aliasMap[n]) || n;
+}
 
 // ———— 部位模型 ————
 
-const WEAPON_SLOTS = ['左武器', '右武器'];
+// 两个武器槽位：游戏内不分左右，只是两个槽；槽位身份由流派武器类型按顺序绑定
+const WEAPON_SLOTS = ['武器1', '武器2'];
 const ARMOR_RING_CONV_KEY = '冠胄、胸甲、胫甲、腕甲、环、佩的转律词条池';
 const SLOT_DEFS = [
-  { slot: '左武器', initialKey: '武器', tuningKey: '武器的调律词条池', conversionKey: '武器的转律词条池' },
-  { slot: '右武器', initialKey: '武器', tuningKey: '武器的调律词条池', conversionKey: '武器的转律词条池' },
+  { slot: '武器1', initialKey: '武器', tuningKey: '武器的调律词条池', conversionKey: '武器的转律词条池' },
+  { slot: '武器2', initialKey: '武器', tuningKey: '武器的调律词条池', conversionKey: '武器的转律词条池' },
   { slot: '环', initialKey: '环', tuningKey: '环和佩的调律词条池', conversionKey: ARMOR_RING_CONV_KEY },
   { slot: '佩', initialKey: '佩', tuningKey: '环和佩的调律词条池', conversionKey: ARMOR_RING_CONV_KEY },
   { slot: '冠胄', initialKey: '冠胄', tuningKey: '冠胄和胸甲的调律词条池', conversionKey: ARMOR_RING_CONV_KEY },
@@ -69,32 +98,47 @@ const SLOT_DEFS = [
 
 /**
  * 由版本包构建 8 部位词条池模型。
- * weaponTypes = 流派携带的武器类型（如 ['双刀','绳镖']，来自 build.weapon_categories）。
- * 武器调律池的"指定武学增伤"伞形展开为流派自身类型的指定增（跟武器类型走，用户确认），
- * 且左右槽同池（类型跨槽自由排列，排列约束在求解层处理）。
+ * weaponTypes = 流派携带的两把武器类型（如 ['剑','枪']，来自 template/<流派>/_meta.json 的 武器）。
+ * 两个武器槽按该数组的顺序绑定类型（武器1←types[0]，武器2←types[1]）；槽位无左右含义。
+ * 武器调律池的"指定武学增伤"只展开为「本槽绑定类型」的那一条：剑槽只能出剑增，
+ * 枪槽只能出枪增 —— 这是游戏事实，不需要也不允许排列枚举。
  */
 export function loadSlotModel(affixes, weaponTypes = []) {
   const pools = affixes.词条池;
-  const known = new Set((pools.调律词条池['指定武学增伤包括'] || []).map(canonicalAffix));
-  const types = (weaponTypes || []).map(canonicalAffix).filter(Boolean);
+  const aliasMap = aliasMapOf(affixes);
+  const cano = (x) => canonicalAffix(x, aliasMap);
+  const known = new Set((pools.调律词条池['指定武学增伤包括'] || []).map(cano));
+  const types = (weaponTypes || []).map(cano).filter(Boolean);
   const specAffixes = [...new Set(types.filter((t) => known.has(`${t}武学增伤`)).map((t) => `${t}武学增伤`))];
   const unknownTypes = types.filter((t) => !known.has(`${t}武学增伤`));
+  // 槽位 → 本槽可用的指定增（武器槽只含自己那一条；非武器槽不含指定增）
+  const specOfSlot = (slot) => {
+    const wi = WEAPON_SLOTS.indexOf(slot);
+    if (wi < 0 || !types[wi]) return null;
+    return [`${types[wi]}武学增伤`];
+  };
   const slots = {};
+  const slotTypes = {};
   for (const def of SLOT_DEFS) {
-    const initialPool = (pools.初始词条池[def.initialKey] || []).map(canonicalAffix);
+    const initialPool = (pools.初始词条池[def.initialKey] || []).map(cano);
+    const mySpec = specOfSlot(def.slot);
     const tuningPool = [];
-    for (const a of (pools.调律词条池[def.tuningKey] || []).map(canonicalAffix)) {
-      if (a === '指定武学增伤') tuningPool.push(...specAffixes);
-      else tuningPool.push(a);
+    for (const a of (pools.调律词条池[def.tuningKey] || []).map(cano)) {
+      if (a === '指定武学增伤') {
+        if (mySpec) tuningPool.push(...mySpec);
+        else if (specAffixes.length) tuningPool.push(...specAffixes); // 未给类型时的兜底（保持不可行诊断）
+      } else tuningPool.push(a);
     }
-    const conversionPool = (pools.转律词条池[def.conversionKey] || []).map(canonicalAffix);
+    const conversionPool = (pools.转律词条池[def.conversionKey] || []).map(cano);
     slots[def.slot] = {
       initialPool: [...new Set(initialPool)],
       tuningPool: [...new Set(tuningPool)],
       conversionPool: [...new Set(conversionPool)],
     };
+    const wi = WEAPON_SLOTS.indexOf(def.slot);
+    if (wi >= 0) slotTypes[def.slot] = types[wi] ?? null;
   }
-  return { slots, specAffixes, unknownTypes };
+  return { slots, specAffixes, unknownTypes, aliasMap, slotTypes };
 }
 
 // ———— 最大流（Edmonds-Karp，规模极小：≤40 单元） ————
@@ -210,20 +254,29 @@ function probeSingle(baseSpec, slot, c, lineOf, asInitial) {
 
 /**
  * @param affixes     版本包 affixes JSON（含 词条池）
- * @param flow        单个分支对象 { name, quota:{lines}, thresholds?, ... }（无 flowId/pins，由文件名与模型取代）
+ * @param flow        单个方案对象 { 流派, 分支, 方案, quota:{lines}, thresholds?, ... }
  * @param weaponTypes 流派携带的武器类型 [左类型来源, 右类型来源] 的类型集合，
  *                    如 ['双刀','绳镖']（来自 build.weapon_categories，跨槽自由排列）
  */
 export function derivePrescription(affixes, flow, weaponTypes = []) {
   const model = loadSlotModel(affixes, weaponTypes);
+  const aliasMap = model.aliasMap;
   const errors = [], warnings = [];
-  const fail = () => ({ feasible: false, errors, warnings, buildId: flow.buildId ?? null, flowId: flow.flowId ?? null });
+  // 自描述（三层）：流派 ⊃ 分支 ⊃ 方案；buildId/flowId 为历史字段，值由三层派生以保持下游兼容
+  const selfDesc = () => ({
+    流派: flow?.流派 ?? null,
+    分支: flow?.分支 ?? null,
+    方案: flow?.方案 ?? null,
+    buildId: flow?.流派 ?? null,
+    flowId: flow?.分支 ? `${flow.分支}.${flow.方案}` : (flow?.方案 ?? null),
+  });
+  const fail = () => ({ feasible: false, errors, warnings, ...selfDesc() });
 
   if (model.unknownTypes.length) {
     errors.push(`未知武器类型（不在"指定武学增伤包括"清单中）：${model.unknownTypes.join('/')}`);
   }
   const lines = (flow?.quota?.lines || []).map((l) => ({
-    members: l.any_of.map(canonicalAffix),
+    members: l.any_of.map((m) => canonicalAffix(m, aliasMap)),
     count: l.count,
   }));
   const hasSpecLine = lines.some((L) => L.members.some((m) => /武学增伤$/.test(m) && m !== '全武学增伤'));
@@ -244,19 +297,14 @@ export function derivePrescription(affixes, flow, weaponTypes = []) {
     }
   });
 
-  // 2) 武器排列枚举（类型跨左右槽自由排列）
-  const types = (weaponTypes || []).map(canonicalAffix).filter(Boolean);
+  // 2) 武器槽绑定：槽位身份 = 流派武器列表顺序绑定的类型，不枚举排列（槽位不分左右）
+  const types = (weaponTypes || []).map((t) => canonicalAffix(t, aliasMap)).filter(Boolean);
   const typeArr = [types[0] ?? null, types[1] ?? null];
-  const arrangements = [];
-  const seenArr = new Set();
-  for (const arr of [typeArr, [typeArr[1], typeArr[0]]]) {
-    const key = arr.join('|');
-    if (!seenArr.has(key)) { seenArr.add(key); arrangements.push(arr); }
-  }
 
   if (errors.length) return fail();
 
-  // 3) 基础 spec（槽位同池：含流派全部指定增）+ 各排列 spec（错型指定增按槽封禁）
+  // 3) 唯一 spec：各武器槽的调律池已在 loadSlotModel 按绑定类型裁剪（剑槽只含剑增），
+  //    故无需 bannedTuning，也不存在"另一种排列"。
   const baseSpec = {
     lines: lines.map((L) => ({ members: [...L.members], count: L.count })),
     slots: Object.fromEntries(Object.entries(model.slots).map(([slot, s]) => [slot, {
@@ -268,16 +316,10 @@ export function derivePrescription(affixes, flow, weaponTypes = []) {
       bannedTuning: new Set(),
     }])),
   };
-  const arrangementSpecs = arrangements.map((arr) => {
-    const sp = cloneSpec(baseSpec);
-    WEAPON_SLOTS.forEach((slot, i) => {
-      const my = arr[i];
-      for (const t of new Set([...typeArr])) {
-        if (t && t !== my) sp.slots[slot].bannedTuning.add(`${t}武学增伤`);
-      }
-    });
-    return { arrangement: { 左武器: arr[0], 右武器: arr[1] }, spec: sp };
-  });
+  const arrangementSpecs = [{
+    arrangement: { 武器1: typeArr[0], 武器2: typeArr[1] },
+    spec: baseSpec,
+  }];
 
   if (!arrangementSpecs.some(({ spec }) => feasible(spec))) {
     const got = Math.max(...arrangementSpecs.map(({ spec }) => {
@@ -351,20 +393,8 @@ export function derivePrescription(affixes, flow, weaponTypes = []) {
         if (min === 0 && max >= 1) freeSet.push(c);
       }
 
-      // 组需求探测（v1：流派指定增组——全部指定增同时封禁后不可行 ⇒ 每槽强制 1 条任选）
-      if (slot === '左武器' || slot === '右武器') {
-        if (model.specAffixes.length >= 2) {
-          const sp = cloneSpec(arrSpec);
-          for (const c of model.specAffixes) sp.slots[slot].bannedTuning.add(c);
-          if (!feasible(sp)) {
-            required.push({ any_of: [...model.specAffixes], count: 1, source: 'derived-group' });
-            // 组已覆盖成员的强制语义，剔除成员的 per-affix 条目防重复计数
-            for (let i = required.length - 1; i >= 0; i--) {
-              if (required[i].affix && model.specAffixes.includes(required[i].affix)) required.splice(i, 1);
-            }
-          }
-        }
-      }
+      // 指定增的必备性由 per-affix 探测自然得出（剑槽池只含剑增 ⇒ 封禁后不可行 ⇒ min=1），
+      // 不再需要"任选组"需求（旧模型因槽位同池才需要 any_of 组）。
 
       perSlot[slot] = { initialForced, required, freeSet, affixInfo };
     }
@@ -385,18 +415,13 @@ export function derivePrescription(affixes, flow, weaponTypes = []) {
     for (const c of allAffixes) {
       const vals = inAll.map((s) => s.affixInfo[c] ?? { min: 0, max: 0 });
       affixInfo[c] = { min: Math.min(...vals.map((v) => v.min)), max: Math.max(...vals.map((v) => v.max)) };
+      // outOfPool 必须在合并后保留：它表达"该词条在本槽位完全不可出"（如绳镖增在双刀槽），
+      // 下游（评分兼容性判断/UI）据此区分"自由但没选"与"物理不可能"
+      if (vals.every((v) => v.outOfPool)) affixInfo[c].outOfPool = true;
     }
     const required = [];
     for (const c of allAffixes) {
       if ((affixInfo[c]?.min ?? 0) > 0) required.push({ affix: c, count: affixInfo[c].min, source: 'derived' });
-    }
-    // 组需求：所有排列都强制 ⇒ 合并后仍强制（且成员无 per-affix 强制时才加，防重复计数）
-    const groupCount = perArr.filter((p) => p.slots[slot].required.some((r) => r.any_of)).length;
-    if (groupCount === perArr.length) {
-      const members = perArr[0].slots[slot].required.find((r) => r.any_of).any_of;
-      if (!required.some((r) => r.any_of && r.any_of.some((m) => members.includes(m)))) {
-        required.push({ any_of: members, count: 1, source: 'derived-group' });
-      }
     }
     const freeSet = [...new Set(inAll.flatMap((s) => s.freeSet))].sort((a, b2) => a.localeCompare(b2, 'zh'));
     required.sort((a, b2) => (a.affix ?? a.any_of.join('/')).localeCompare(b2.affix ?? b2.any_of.join('/'), 'zh'));
@@ -418,24 +443,40 @@ export function derivePrescription(affixes, flow, weaponTypes = []) {
       required: s.required,
       freeSet: s.freeSet,
       affixInfo: s.affixInfo,
+      weaponType: model.slotTypes?.[slot] ?? null,
       initialPool: model.slots[slot].initialPool,
-      tuningPool: model.slots[slot].tuningPool.filter((a) => !arrangementSpecs[perArr.indexOf(p)].spec.slots[slot].bannedTuning.has(a)),
+      tuningPool: model.slots[slot].tuningPool,
       conversionPool: model.slots[slot].conversionPool,
     }])),
   }));
 
+  // 武器槽等价（评价系统设计.md §12.3）：两槽 required 完全相同 ⇒ 桶内无序，可用桶语义。
+  // 为 false（如主手吃指定增、副手不吃）时，上层必须按指定槽评档，不能"跨槽取最优"（会虚高）。
+  const reqSig = (s) => JSON.stringify((s?.required || [])
+    .map((r) => (r.any_of ? { any: [...r.any_of].sort(), count: r.count } : { affix: r.affix, count: r.count }))
+    .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))));
+  const w1 = mergedSlots['武器1'];
+  const w2 = mergedSlots['武器2'];
+  const 槽位等价 = !!(w1 && w2 && reqSig(w1) === reqSig(w2));
+
   return {
     feasible: true,
-    buildId: flow.buildId ?? null,
-    flowId: flow.flowId ?? null,
-    flowName: flow.name ?? null,
+    ...selfDesc(),
     thresholds: flow.thresholds ?? null,
-    weaponTypes: { 左武器: arrangements[0][0], 右武器: arrangements[0][1] },
+    weaponTypes: { 武器1: typeArr[0], 武器2: typeArr[1] },
+    slotTypes: model.slotTypes,
+    槽位等价,
     errors: [],
     warnings,
     arrangements: arrangementsOut,
     mergedSlots,
     _base: { baseSpec, arrangementSpecs, lineOf },
+    // 词条元数据随推导结果传递（单一来源=affixes JSON；advisor/monitor 消费）
+    _aliasMap: aliasMap,
+    _shenli: shenliSetOf(affixes),
+    // 原始词条表引用：转律试算要按**目标词条**重取数值（承音值），
+    // 不能沿用被转掉那条的数值（小外 131.2 转成敏会用 131.2，虚高 58%）。
+    _affixes: affixes,
   };
 }
 
@@ -447,37 +488,164 @@ export function derivePrescription(affixes, flow, weaponTypes = []) {
  */
 export function verifyItemFits(prescription, slotName, item) {
   const base = prescription._base;
-  const merged = prescription.mergedSlots?.[slotName];
-  if (!base || !merged) return null;
-  const initial = canonicalAffix(item.initial);
-  const tunings = (item.tunings || []).map(canonicalAffix);
+  if (!base) return null;
+  const aliasMap = prescription._aliasMap || {};
+  const slotKeys = verifySlotKeys(prescription, slotName, item, aliasMap);
+  if (!slotKeys.length) return null;
+  const initial = canonicalAffix(item.initial, aliasMap);
+  const tunings = (item.tunings || []).map((t) => canonicalAffix(t, aliasMap));
   const units = [{ position: 'initial', affix: initial }, ...tunings.map((a) => ({ position: 'tuning', affix: a }))];
 
   let anyCompatible = false;
-  for (const { spec: arrSpec } of base.arrangementSpecs) {
-    const sSpec = arrSpec.slots[slotName];
-    // 该排列下装备是否物理合法：任一单元错型/出池 ⇒ 排除该排列
-    const legal = units.every((u) => {
-      if (u.position === 'initial') return merged.initialPool.includes(u.affix);
-      return merged.tuningPool.includes(u.affix) && !sSpec.bannedTuning.has(u.affix);
-    });
-    if (!legal) continue;
-    anyCompatible = true;
+  for (const sk of slotKeys) {
+    const merged = prescription.mergedSlots?.[sk];
+    if (!merged) continue;
+    for (const { spec: arrSpec } of base.arrangementSpecs) {
+      const sSpec = arrSpec.slots[sk];
+      if (!sSpec) continue;
+      // 该排列下装备是否物理合法：任一单元错型/出池 ⇒ 排除该排列
+      const legal = units.every((u) => {
+        if (u.position === 'initial') return merged.initialPool.includes(u.affix);
+        return merged.tuningPool.includes(u.affix) && !sSpec.bannedTuning.has(u.affix);
+      });
+      if (!legal) continue;
+      anyCompatible = true;
 
+      const sp = cloneSpec(arrSpec);
+      sp.slots[sk].initialCap = 0;
+      sp.slots[sk].tuningCap = 0;
+      let ok = true;
+      for (const u of units) {
+        const info = merged.affixInfo[u.affix];
+        if (!info || info.max < 1) continue; // 无效单元：占槽不占需求
+        if (!reduceLine(sp, u.affix, 1, base.lineOf)) { ok = false; break; }
+      }
+      if (!ok) continue;
+      const { cap, target } = buildGraph(sp);
+      if (maxFlow(cap, 'S', 'T') === target) return true;
+    }
+  }
+  return anyCompatible ? false : null;
+}
+
+/**
+ * 本方案"被配额需求"的词条全集（配额行 any_of 的并集，已归一为真名）。
+ *
+ * 用途：转律目标的硬约束——**转成的词条必须在这里面**。
+ * 转成不在配额里的词条（如大外流里的"会意率"）不减少任何缺口，只是把一条废词条
+ * 换成另一条对装配毫无贡献的词条（k 会降、DPS 会微涨），对"凑满配额"没有意义，
+ * 却会挤掉真正该转的方向（如补"劲"）。这类候选一律不产出建议。
+ */
+export function demandAffixesOf(prescription) {
+  const spec = prescription?._base?.arrangementSpecs?.[0]?.spec;
+  const out = new Set();
+  for (const L of spec?.lines || []) {
+    for (const m of L.members || []) out.add(m);
+  }
+  return out;
+}
+
+/**
+ * 把一批**已固定的装备**钉进槽位后，检查"其余空槽自由填充"能否恰好配满配额。
+ *
+ * 与 verifyItemFits 的区别（关键）：
+ *   verifyItemFits 只钉住**一件**，其余 7 个部位可以重新自由规划 ⇒ 回答"结构上还有没有解"；
+ *   verifyGearFits 钉住**玩家实际拥有的全部件** ⇒ 回答"以这套固定件，还补得齐吗"。
+ * 后者才是"该转成哪条词条"的正确判据：转 A 还是转 B，差别往往不在缺口数，
+ * 而在"剩下的空位里到底还塞不塞得下"（例：劲缺 2，但只剩胸甲，而胸甲初始池不出劲）。
+ *
+ * @param gear 已固定件数组（装备件形状：slot / weaponType / 初始 / 调律）
+ * @returns true=可配满 / false=配不满 / null=数据不足
+ */
+export function verifyGearFits(prescription, gear) {
+  const base = prescription?._base;
+  if (!base) return null;
+  const aliasMap = prescription._aliasMap || {};
+  let anyLegal = false;
+
+  for (const { spec: arrSpec, arrangement } of base.arrangementSpecs) {
+    const mapped = assignGearToSlots(gear, arrangement, aliasMap);
+    if (!mapped) continue;
     const sp = cloneSpec(arrSpec);
-    sp.slots[slotName].initialCap = 0;
-    sp.slots[slotName].tuningCap = 0;
+    for (const { key } of mapped) {
+      if (!sp.slots[key]) { mapped.length = 0; break; }
+      sp.slots[key].initialCap = 0;
+      sp.slots[key].tuningCap = 0;
+    }
+    if (!mapped.length) continue;
+
     let ok = true;
-    for (const u of units) {
-      const info = merged.affixInfo[u.affix];
-      if (!info || info.max < 1) continue; // 无效单元：占槽不占需求
-      if (!reduceLine(sp, u.affix, 1, base.lineOf)) { ok = false; break; }
+    for (const { piece, key } of mapped) {
+      const merged = prescription.mergedSlots?.[key];
+      if (!merged) { ok = false; break; }
+      const units = pieceUnits(piece);
+      // 物理合法性：初始位 / 调律位各自必须在池中
+      for (let i = 0; i < units.length && ok; i++) {
+        const c = canonicalAffix(units[i], aliasMap);
+        const pool = i === 0 ? merged.initialPool : merged.tuningPool;
+        if (!pool.includes(c)) ok = false;
+      }
+      if (!ok) break;
+      anyLegal = true;
+      for (const a of units) {
+        const c = canonicalAffix(a, aliasMap);
+        const info = merged.affixInfo[c];
+        if (!info || info.max < 1) continue; // 无效词条：占槽不占需求
+        if (!reduceLine(sp, c, 1, base.lineOf)) { ok = false; break; }
+      }
+      if (!ok) break;
     }
     if (!ok) continue;
     const { cap, target } = buildGraph(sp);
     if (maxFlow(cap, 'S', 'T') === target) return true;
   }
-  return anyCompatible ? false : null;
+  return anyLegal ? false : null;
+}
+
+/** 装备件 → 槽位列表（初始 + 调律，含数值无关） */
+function pieceUnits(piece) {
+  const out = [];
+  const init = piece?.初始?.属性 ?? piece?.initial;
+  if (init) out.push(init);
+  for (const t of piece?.调律 || []) if (t?.属性) out.push(t.属性);
+  return out;
+}
+
+/** 把件分配到具体槽 key：武器按类型（同类型多槽顺序占位），防具按部位；分配失败返回 null */
+function assignGearToSlots(gear, arrangement, aliasMap) {
+  const used = new Set();
+  const out = [];
+  for (const p of gear || []) {
+    if (!p) continue;
+    if (p.slot === '武器') {
+      const wt = canonicalAffix(p?.weaponType ?? '', aliasMap);
+      const key = Object.keys(arrangement || {}).find((k) => !used.has(k)
+        && arrangement[k] != null && canonicalAffix(arrangement[k], aliasMap) === wt);
+      if (!key) return null;
+      used.add(key);
+      out.push({ piece: p, key });
+    } else {
+      out.push({ piece: p, key: p.slot });
+    }
+  }
+  return out;
+}
+
+/**
+ * 复核要针对哪些**槽位 key**。
+ * 防具：就是部位本身。武器：按 weaponType 定位到绑定的槽（`武器` 不是 mergedSlots 的键，
+ * 直接拿它查会永远返回 null ⇒ 武器件从来不做全局复核，这是双枪/转律可行性判断的致命缺口）。
+ * 同类型双枪（槽位等价）时两个槽都试，任一行即可；类型不符则退回全部武器槽。
+ */
+function verifySlotKeys(prescription, slotName, item, aliasMap) {
+  if (slotName !== '武器') return [slotName];
+  const arr = prescription?._base?.arrangementSpecs?.[0]?.arrangement || {};
+  const keys = Object.keys(arr).filter((k) => arr[k] != null);
+  if (!keys.length) return [];
+  const wt = canonicalAffix(item?.weaponType, aliasMap);
+  if (!wt) return keys;
+  const matched = keys.filter((k) => canonicalAffix(arr[k], aliasMap) === wt);
+  return matched.length ? matched : keys;
 }
 
 /**

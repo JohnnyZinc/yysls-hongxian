@@ -4,8 +4,12 @@
  * graduate.js — 毕业基准生成器（盘点 §3.3 / 议题B）
  *
  * 毕业率的分母不再用 build 包写死的 Excel I16 常数，而是按当前流方案的配额
- * 物化一套毕业装备（40 词条全部承音值；定音按方案的 防具定音/攻具定音、数值取定音区间最大值）
+ * 物化一套毕业装备（40 词条取**承音值**；定音按方案的 防具定音/攻具定音，定音区间无承音概念故取最大值）
  * → computePanel → calcDPS 生成基准 DPS。方案一改，基准自动变，零手工。
+ *
+ * 毕业 = 玩家现实能达到的状态（用户定稿 2026-10-22 改口径）：承音值是重掷收敛后的实际可达上限，
+ * 满值（区间最大值）只是理想 roll，实战不存在；故毕业基准**按承音值**算，满值降级为理论参考。
+ * （历史：曾按满值算，导致毕业基准偏高、与其配套的方案配额也不再是最优分法。）
  *
  * 口径：
  *   - 物化装备与玩家装备走同一参照系（selections 可选层 + build 包固定参照系），
@@ -16,26 +20,19 @@
  *   - 无方案/推导不可行的流派由调用方回退 build.graduate_dps（calcDPS 默认行为）。
  */
 
-import { solveAssignment } from './quota.js';
+import { solveAssignment, lookupAffixRange } from './quota.js';
 import { computePanel } from './panel.js';
 import { calcDPS } from './dps.js';
 import { gradeItem } from './advisor.js';
 
-// 词条 → 区间表键的系统性别名（与 panel.js/app.js 的口径同源约定；
-// 独立维护是已知重复债，别名表迁移落地后并入同一来源，见盘点 §2.2 #2）
-const RANGE_ALIAS = {
-  全奇术增伤: '奇术增伤',
-  对首领单位增伤: '首领单位增伤',
-  对玩家单位增效: '玩家单位增效',
-};
-for (const t of ['剑', '枪', '横刀', '陌刀', '伞', '扇', '绳镖', '双刀', '拳甲', '鼓']) {
-  RANGE_ALIAS[`${t}武学增伤`] = '武器增伤';
-}
-
-/** 词条的毕业数值 = 承音值（缺则退区间最大值；毕业=理想 roll） */
+/**
+ * 词条的毕业数值 = **承音值**（用户定稿 2026-10-22：毕业 = 玩家现实能达到的状态，
+ * 承音是重掷收敛后的实际可达上限；满值是理想 roll，实战不存在，只作理论参考）。
+ * 缺承音值时退满值（数据不全的兜底）。
+ * 区间查找走 quota.js lookupAffixRange（单一来源：词条区间/定音区间/区间键别名/武器增伤派生）。
+ */
 function affixValue(affixes, name) {
-  const table = affixes?.词条区间 || {};
-  const rec = table[name] || table[RANGE_ALIAS[name]];
+  const rec = lookupAffixRange(affixes, name);
   return rec ? (rec.承音 ?? rec.max) : null;
 }
 
@@ -55,15 +52,12 @@ export function materializeGraduateGear(prescription, affixes, flow) {
     return { ok: false, errors: [`配额分配失败：得到 ${units?.length ?? 0}/40 单元`], warnings };
   }
 
-  const 定音区间 = affixes?.定音区间 || {};
-  // 防具定音词条名 → '技能定音' 区间（55 条共用，系统性别名与 panel.js 同口径）
+  // 定音数值查找走 lookupAffixRange：定音区间精确名 / 护甲定音55条→'技能定音' 共用逻辑（单一来源）
   const dingyinValue = (name) => {
     if (!name) return null;
-    if (定音区间[name]) return 定音区间[name].max;
-    if ((affixes?.护甲定音词条 || []).includes(name)) return 定音区间['技能定音']?.max ?? null;
-    return null;
+    return lookupAffixRange(affixes, name)?.max ?? null;
   };
-  const 攻具 = new Set(['左武器', '右武器', '武器', '环', '佩']);
+  const 攻具 = new Set(['武器1', '武器2', '武器', '环', '佩']);
 
   const bySlot = {};
   for (const { slot, affix } of units) (bySlot[slot] ??= []).push(affix);
@@ -75,6 +69,7 @@ export function materializeGraduateGear(prescription, affixes, flow) {
     }
     const piece = {
       slot,
+      // 口径=承音值 → 标 承音:true（语义自洽，且 panel 的承音超限校验与之相符：数值 ≤ 承音值）
       承音: true,
       初始: { 属性: list[0], 数值: affixValue(affixes, list[0]) },
       调律: list.slice(1, 5).map((a) => ({ 属性: a, 数值: affixValue(affixes, a) })),
@@ -109,6 +104,8 @@ export function computeGraduateDps({ buildCtx, version, affixes, selections, pre
   // 终极自检：物化装备逐件匹配度必须全"天"
   for (const piece of mat.gear) {
     const g = gradeItem(prescription, piece.slot, {
+      // 物化件按所在武器槽的绑定类型声明（槽位=流派武器列表顺序），自检才能对号入座
+      weaponType: prescription.slotTypes?.[piece.slot] || '',
       initial: piece.初始.属性,
       tunings: piece.调律.map((t) => t.属性),
     });
@@ -124,7 +121,7 @@ export function computeGraduateDps({ buildCtx, version, affixes, selections, pre
     gear: mat.gear,
     selections: selections || {},
   });
-  const r = calcDPS(buildCtx, { panel: pr });
+  const r = calcDPS(buildCtx, { panel: pr, constants: version?.constants });
   const excelBaseline = buildCtx.build.graduate_dps ?? null;
   return {
     ok: true,
@@ -134,6 +131,6 @@ export function computeGraduateDps({ buildCtx, version, affixes, selections, pre
     deviation: excelBaseline ? (r.dps - excelBaseline) / excelBaseline : null,
     errors: [],
     warnings,
-    口径: '毕业基准=当前方案配额物化毕业装备（40词条承音值+方案定音最大值）→ panel → DPS；build 包 Excel I16 降级为对照',
+    口径: '毕业基准=当前方案配额物化毕业装备（40词条取承音值=重掷收敛后的实际可达上限+方案定音最大值）→ panel → DPS；build 包 Excel I16 降级为对照',
   };
 }

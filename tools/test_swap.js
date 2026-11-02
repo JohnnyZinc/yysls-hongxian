@@ -8,7 +8,7 @@
  *   1. 更差（换掉双刀增+会心）→ 保留旧件、新件候补（地）
  *   2. 更好（反向替换）→ 建议替换、旧件留作候补
  *   3. 等价-同档-数值微差（单条大外 roll −1.2）→ 死区内，按当前 DPS 排序
- *   4. 等价-跨档（死区放大）→ 档位优先于当前 DPS（新件天 > 旧件地 → 建议替换（长期价值））
+ *   4. 等价-跨档（死区放大）→ 档位优先于当前 DPS（新件天 > 旧件玄 → 建议替换（长期价值））
  *   5. 空位替换 → 从无到有
  *   6. 面板差异解释、结果自描述、确定性
  */
@@ -48,8 +48,8 @@ const mk = (slot, initial, tunings) => ({
 
 // —— 满配 8 件（大外流，与 test_monitor 同结构但带真实数值） ——
 const fullGear = [
-  mk('左武器', '最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']),
-  mk('右武器', '最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']),
+  mk('武器1', '最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']),
+  mk('武器2', '最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']),
   mk('环', '最大外功攻击', ['最大外功攻击', '全武学增伤', '劲', '会心率']),
   mk('佩', '最大外功攻击', ['最大外功攻击', '全武学增伤', '劲', '精准率']),
   mk('冠胄', '精准率', ['最大外功攻击', '劲', '会心率', '势']),
@@ -57,8 +57,8 @@ const fullGear = [
   mk('胫甲', '劲', ['最大外功攻击', '劲', '对首领单位增伤', '会心率']),
   mk('腕甲', '劲', ['最大外功攻击', '劲', '对首领单位增伤', '会心率']),
 ];
-// 地件左武器：缺双刀增（神力不可转得）、带气血（无效可转）
-const diLeft = mk('左武器', '最大外功攻击', ['最大外功攻击', '劲', '势', '气血最大值']);
+// 玄件武器1：带气血（无效词条，可转律救回）；等阶按当前词条评定 → 玄
+const diLeft = mk('武器1', '最大外功攻击', ['最大外功攻击', '劲', '势', '气血最大值']);
 const tianLeft = fullGear[0];
 
 // —— 1. 更差：天 → 地件 ——
@@ -67,9 +67,9 @@ const rA = evaluateSwap({
   currentGear: fullGear, newItem: diLeft, prescription,
 });
 check('更差：DPS 下降且超死区', rA.ok === true && rA.before.dps > 0 && rA.deltaPct < -rA.deadZone && rA.verdict === '更差');
-check('更差：推荐保留旧件；新件为地档候补',
+check('更差：推荐保留旧件；新件当前玄档（可转律救回）不作候补',
   rA.recommendation === '保留旧件' && rA.swapRecommended === false
-  && rA.gradeOld.tier === '天' && rA.gradeNew.tier === '地' && rA.候补 === true);
+  && rA.gradeOld.tier === '天' && rA.gradeNew.tier === '玄' && rA.候补 === false);
 check('更差：旧件去向=传家宝继续使用', rA.旧件去向.includes('传家宝'));
 check('更差：面板差异含 会心率↓ 与 势↑（新件带的势、丢掉的会心）',
   rA.panelDiff.some(r => r.属性 === '会心率' && r.方向 === '↓')
@@ -78,13 +78,13 @@ check('更差：面板差异含 会心率↓ 与 势↑（新件带的势、丢�
 // —— 2. 更好：地件 → 天件（反向替换） ——
 const rB = evaluateSwap({
   buildCtx, version, affixes, selections,
-  currentGear: fullGear.map(g => (g.slot === '左武器' ? diLeft : g)),
+  currentGear: fullGear.map(g => (g.slot === '武器1' ? diLeft : g)),
   newItem: tianLeft, prescription,
 });
 check('更好：DPS 上升且超死区', rB.verdict === '更好' && rB.deltaPct > rB.deadZone && rB.swapRecommended === true);
-check('更好：推荐替换；旧件（地）留作候补',
-  rB.recommendation === '建议替换' && rB.gradeNew.tier === '天' && rB.gradeOld.tier === '地' && rB.候补 === false);
-check('更好：旧件去向=过渡主力留作候补', rB.旧件去向.includes('过渡主力'));
+check('更好：推荐替换；旧件（玄）被换下',
+  rB.recommendation === '建议替换' && rB.gradeNew.tier === '天' && rB.gradeOld.tier === '玄' && rB.候补 === false);
+check('更好：旧件（玄档）去向=无长期价值可淘汰', rB.旧件去向.includes('可淘汰'));
 
 // —— 3. 等价-同档-数值微差：单条大外 roll −1.2 ——
 const nearLeft = clonePiece(tianLeft);
@@ -104,18 +104,18 @@ check('等价-同档：新件也是天 → 按传家宝必留规则判候补',
 // —— 4. 等价-跨档：死区放大，档位优先于当前 DPS ——
 const rD = evaluateSwap({
   buildCtx, version, affixes, selections,
-  currentGear: fullGear.map(g => (g.slot === '左武器' ? diLeft : g)),
+  currentGear: fullGear.map(g => (g.slot === '武器1' ? diLeft : g)),
   newItem: tianLeft, prescription, deadZone: 0.5,
 });
 check('等价-跨档：死区内判定为等价', rD.verdict === '等价');
-check('等价-跨档：档位优先（新件天>旧件地→建议替换（长期价值））',
+check('等价-跨档：档位优先（新件天>旧件玄→建议替换（长期价值））',
   rD.tieBreak === '新件档位更高' && rD.recommendation.includes('建议替换') && rD.swapRecommended === true);
-check('等价-跨档：被替换的旧件（地）留作候补', rD.旧件去向.includes('候补'));
+check('相同-跨档：被替换的旧件（玄档）可淘汰', rD.旧件去向.includes('可淘汰'));
 
 // —— 5. 空位替换 ——
 const rE = evaluateSwap({
   buildCtx, version, affixes, selections,
-  currentGear: fullGear.filter(g => g.slot !== '左武器'),
+  currentGear: fullGear.filter(g => g.slot !== '武器1'),
   newItem: tianLeft, prescription,
 });
 check('空位：replacedOld=false，从无到有 DPS 上升',
@@ -143,7 +143,7 @@ const wRope = { ...fullGear[1], slot: '武器', weaponType: '绳镖' };
 const weaponGear = [wDual, wRope, ...fullGear.slice(2)];
 {
   const r = evaluateSwap({ buildCtx, version, affixes, selections, currentGear: weaponGear, newItem: { ...wDual }, prescription });
-  check('武器对比：同类型（双刀↔双刀，词条相同）→ 等价替换，另一把绳镖保留',
+  check('武器对比：同类型（双刀↔双刀，词条相同）→ 判定等价，另一把绳镖保留',
     r.ok === true && r.replacedOld === true && r.verdict === '等价' && r.gradeOld.tier === '天');
 }
 {

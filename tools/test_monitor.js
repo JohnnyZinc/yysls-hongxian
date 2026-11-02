@@ -7,16 +7,19 @@
  *   1. 全局配额统计：满配 8 件（大外流 40 词条恰好配齐）→ 全部 缺口0/溢出0；
  *      别名计数；缺一条（未配额词条识别）；溢出（会心9→溢1、精准缺1）
  *   2. 达标线评估：黄字精准率 98% 线（达标/未达标/差距）、未知指标警示、缺失面板按 0
- *   3. 小外流启用度：未反转（距反转差值+承音折算词条数）、已反转、大外流不适用
+ *   3. 小外流启用度（用户定稿简化版）：小外流方案才适用；已达成（最小>最大）不提示；
+ *      未达成只返回两个数值、不下结论（无折算词条数）；大外流方案恒不适用
  *   4. 集成：computePanel(破竹风, 空装备) → analyzeFlow 真实面板值贯通 + 结果自描述
  */
 
 import fs from 'node:fs';
 import { computePanel } from '../engine/panel.js';
-import { analyzeFlow, evaluateThresholds, quotaCensus, enablement } from '../engine/monitor.js';
+import { analyzeFlow, evaluateThresholds, quotaCensus, enablement, evaluateRateCaps, RATE_CAPS } from '../engine/monitor.js';
+import { aliasMapOf } from '../engine/quota.js';
 import { loadVersionData } from './load-version.js';
 
 const { version, affixes } = loadVersionData();
+const ALIAS = aliasMapOf(affixes); // 别名表单一来源 = affixes JSON
 const flowsDoc = JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.dawai.json', 'utf-8'));
 const daWai = { ...flowsDoc, flowId: 'dawai' };
 const xiaoWai = { ...JSON.parse(fs.readFileSync('data/template/pozhufeng/pozhufeng.xiaowai.json', 'utf-8')), flowId: 'xiaowai' };
@@ -38,8 +41,8 @@ const rowOf = (census, affix) => census.rows.find(r => r.词条.includes(affix))
 // ———— 1. 配额统计：大外流满配 8 件（40 词条恰好配齐） ————
 
 const fullGear = [
-  piece('左武器', '最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']),
-  piece('右武器', '最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']),
+  piece('武器1', '最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']),
+  piece('武器2', '最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']),
   piece('环', '最大外功攻击', ['最大外功攻击', '全武学增伤', '劲', '会心率']),
   piece('佩', '最大外功攻击', ['最大外功攻击', '全武学增伤', '劲', '精准率']),
   piece('冠胄', '精准率', ['最大外功攻击', '劲', '会心率', '势']),
@@ -48,24 +51,24 @@ const fullGear = [
   piece('腕甲', '劲', ['最大外功攻击', '劲', '对首领单位增伤', '会心率']),
 ];
 
-const fullCensus = quotaCensus(fullGear, daWai);
+const fullCensus = quotaCensus(fullGear, daWai, ALIAS);
 check('满配统计：总实装 40', fullCensus.total实装 === 40);
 check('满配统计：所有配额行 缺口0 溢出0',
   fullCensus.rows.every(r => r.缺口 === 0 && r.溢出 === 0 && r.实装 === r.需要));
 check('满配统计：无未配额词条', Object.keys(fullCensus.未配额词条).length === 0);
 check('满配统计：定音词条不计入（gear 未填定音即不计）', fullCensus.total实装 === 40);
 
-// 别名计数：把左武器初始改写为社区叫法"大外"，结果不变
+// 别名计数：把武器1初始改写为社区叫法"大外"，结果不变
 const aliasGear = clone(fullGear);
 aliasGear[0].初始.属性 = '大外';
-const aliasCensus = quotaCensus(aliasGear, daWai);
+const aliasCensus = quotaCensus(aliasGear, daWai, ALIAS);
 check('别名计数：「大外」归一到最大外功攻击（仍 12/12）',
   rowOf(aliasCensus, '最大外功攻击').实装 === 12 && Object.keys(aliasCensus.未配额词条).length === 0);
 
 // 缺口 + 未配额词条：冠胄调律 势→气血
 const gapGear = clone(fullGear);
 gapGear[4].调律[3].属性 = '气血最大值';
-const gapCensus = quotaCensus(gapGear, daWai);
+const gapCensus = quotaCensus(gapGear, daWai, ALIAS);
 check('缺口统计：势 缺1', rowOf(gapCensus, '势').缺口 === 1 && rowOf(gapCensus, '势').实装 === 1);
 check('未配额词条：气血最大值 ×1 被识别为无配额占用',
   gapCensus.未配额词条['气血最大值'] === 1);
@@ -73,7 +76,7 @@ check('未配额词条：气血最大值 ×1 被识别为无配额占用',
 // 溢出：冠胄初始 精准率→会心率 → 会心9溢1、精准缺1
 const overGear = clone(fullGear);
 overGear[4].初始.属性 = '会心率';
-const overCensus = quotaCensus(overGear, daWai);
+const overCensus = quotaCensus(overGear, daWai, ALIAS);
 check('溢出统计：会心 溢出1', rowOf(overCensus, '会心率').溢出 === 1);
 check('溢出统计：精准率 缺口1', rowOf(overCensus, '精准率').缺口 === 1);
 
@@ -89,6 +92,8 @@ check('达标线：黄字精准率 97.2% < 98% → 未达标，差距 0.008',
 check('达标线：黄字会心率 66% ≥ 65% → 达标', crRow.达标 === true && crRow.差距 === 0);
 check('达标线：每行带口径字段（来自 monitor.js 指标登记表，非文件注记）',
   th.rows.every(r => typeof r.口径 === 'string' && r.口径.length > 0));
+check('达标线：thresholdNotes 已彻底移除（口径归引擎登记表）',
+  th.notes === undefined && !('notes' in th));
 
 const unknownFlow = clone(daWai);
 unknownFlow.thresholds = { 最终生效会心概率: 0.75 };
@@ -100,18 +105,34 @@ const thEmpty = evaluateThresholds({}, daWai);
 check('达标线：面板缺失按 0 处理（未达标）',
   thEmpty.rows.every(r => r.当前值 === 0 && r.达标 === false));
 
-// ———— 3. 小外流启用度 ————
+// ———— 3. 小外流启用度（用户定稿：仅小外流方案、已达成不提示、不下结论） ————
 
-const en1 = enablement({ 最小外功攻击: 4000, 最大外功攻击: 4200 }, xiaoWai, affixes);
-check('启用度：小外流适用，未反转，差值 200',
-  en1.适用 === true && en1.已反转 === false && en1.距反转差值 === 200);
-check('启用度：承音折算 ≈2 条小外', en1.折算词条数 === 2);
+check('启用度：小外流由 方案 字段 + version.方案类型 枚举共同判定（不再手写 小外流:true）',
+  xiaoWai.方案 === 'xiaowai' && version.方案类型?.xiaowai?.小外反超 === true && xiaoWai.小外流 === undefined);
+const en1 = enablement({ 最小外功攻击: 4000, 最大外功攻击: 4200 }, xiaoWai, version.方案类型);
+check('启用度：小外流适用且未达成（最小<最大）',
+  en1.适用 === true && en1.已达反转 === false && en1.最小外功攻击 === 4000 && en1.最大外功攻击 === 4200);
+check('启用度：不再输出折算词条数（成因多，不下结论）',
+  en1.距反转差值 === undefined && en1.折算词条数 === undefined && en1.折算口径 === undefined);
 
-const en2 = enablement({ 最小外功攻击: 4300, 最大外功攻击: 4200 }, xiaoWai, affixes);
-check('启用度：已反转（最小>最大，固定取小外）', en2.已反转 === true && en2.距反转差值 === 0 && en2.折算词条数 === undefined);
+const en2 = enablement({ 最小外功攻击: 4300, 最大外功攻击: 4200 }, xiaoWai, version.版本 || version.方案类型);
+check('启用度：已达成（最小>最大）仍返回数据，由 UI 决定不提示', en2.已达反转 === true);
 
-const en3 = enablement({ 最小外功攻击: 4000, 最大外功攻击: 4200 }, daWai, affixes);
-check('启用度：大外流标记不适用（配额无最小外功行）', en3.适用 === false && en3.已反转 === false);
+const en3 = enablement({ 最小外功攻击: 4000, 最大外功攻击: 4200 }, daWai, version.方案类型);
+check('启用度：大外流方案恒不适用（返回 null）', en3 === null);
+// 曾按"配额含最小外功行"误判的两个大外流：双切轴大外（1 条）、纯奶大外（4 条）
+const shuangqieDaWai = JSON.parse(fs.readFileSync('data/template/lieshijun/lieshijun.shuangqie.dawai.json', 'utf-8'));
+const chunnaiDaWai = JSON.parse(fs.readFileSync('data/template/qiansilin/qiansilin.chunnai.dawai.json', 'utf-8'));
+check('启用度：双切轴大外流（配额含 1 条小外）不再误报',
+  shuangqieDaWai.quota.lines.some((l) => l.any_of.includes('最小外功攻击'))
+  && enablement({ 最小外功攻击: 1, 最大外功攻击: 2 }, shuangqieDaWai, version.方案类型) === null);
+check('启用度：纯奶大外流（配额含 4 条小外）不再误报',
+  chunnaiDaWai.quota.lines.some((l) => l.any_of.includes('最小外功攻击'))
+  && enablement({ 最小外功攻击: 1, 最大外功攻击: 2 }, chunnaiDaWai, version.方案类型) === null);
+check('启用度：面板无外功数值 → null',
+  enablement({}, xiaoWai, version.方案类型) === null
+  && enablement({ 最小外功攻击: 0, 最大外功攻击: 0 }, xiaoWai, version.方案类型) === null);
+check('启用度：未传方案类型枚举 → 不适用（拒绝靠猜）', enablement({ 最小外功攻击: 1, 最大外功攻击: 2 }, xiaoWai) === null);
 
 // ———— 4. 集成：computePanel 真实面板贯通 ————
 
@@ -122,9 +143,9 @@ const pr = computePanel({
   gear: [],
   selections: {},
 });
-const report = analyzeFlow({ panelStats: pr.stats, gear: fullGear, flow: daWai, affixes });
-check('集成：报告 ok 且自描述（buildId/flowId/口径）',
-  report.ok === true && report.buildId === 'pozhufeng' && report.flowId === 'dawai'
+const report = analyzeFlow({ panelStats: pr.stats, gear: fullGear, flow: daWai, affixes, 方案类型: version.方案类型 });
+check('集成：报告 ok 且自描述（流派/分支/方案 + 口径）',
+  report.ok === true && report.流派 === 'pozhufeng' && report.分支 === null && report.方案 === 'dawai'
   && typeof report.口径.说明 === 'string');
 check('集成：达标线当前值来自真实面板（精准率一致）',
   report.达标线.rows.find(r => r.指标 === '精准率').当前值 === pr.stats['精准率']);
@@ -137,12 +158,35 @@ check('集成：新指标「最终生效会心率」已登记且达标线取自�
     return r.rows.length === 1 && r.rows[0].当前值 === pr.stats['最终生效会心率'] && r.warnings.length === 0;
   })());
 
-const reportX = analyzeFlow({ panelStats: pr.stats, gear: fullGear, flow: xiaoWai, affixes });
+const reportX = analyzeFlow({ panelStats: pr.stats, gear: fullGear, flow: xiaoWai, affixes, 方案类型: version.方案类型 });
 check('集成：小外流报告含启用度且适用',
   reportX.ok === true && reportX.启用度?.适用 === true && reportX.启用度.最小外功攻击 > 0);
+check('集成：报告口径不再有 达标线 注记字段（thresholdNotes 已删）',
+  !('达标线' in reportX.口径) && typeof reportX.口径.说明 === 'string');
+const reportD = analyzeFlow({ panelStats: pr.stats, gear: fullGear, flow: daWai, affixes, 方案类型: version.方案类型 });
+check('集成：大外流报告无启用度（null）', reportD.启用度 === null);
 
 const badReport = analyzeFlow({ panelStats: null, gear: [], flow: daWai });
 check('集成：缺 panelStats → 拒绝并报错', badReport.ok === false && badReport.errors.length > 0);
+
+// ———— 三率上限溢出（游戏机制截断，与方案达标线两回事）————
+const C = version.constants;
+const capRows = evaluateRateCaps({ 精准率: 1.06, 会心率: 0.92, 会意率: 0.47 }, C).rows;
+check('三率上限：登记表覆盖精准/会心/会意三项', Object.keys(RATE_CAPS).join(',') === '精准率,会心率,会意率');
+check('三率上限：全量返回（含未溢出项，UI 自行过滤）', capRows.length === 3);
+check('三率上限：溢出量 = 面板值 − 上限',
+  Math.abs(capRows[0].溢出 - 0.06) < 1e-9 && Math.abs(capRows[1].溢出 - 0.12) < 1e-9 && Math.abs(capRows[2].溢出 - 0.07) < 1e-9);
+check('三率上限：未溢出 → 溢出 0（不是负数）',
+  evaluateRateCaps({ 精准率: 0.98, 会心率: 0.65, 会意率: 0.3 }, C).rows.every((r) => r.溢出 === 0));
+check('三率上限：数值取自 version.constants（换季改数据即生效）',
+  capRows[0].上限 === C['精准率上限'] && capRows[1].上限 === C['黄字会心率上限'] && capRows[2].上限 === C['黄字会意率上限']);
+check('三率上限：缺 constants → 按登记表缺省兜底（1 / 0.8 / 0.4）',
+  evaluateRateCaps({ 会心率: 0.9 }, undefined).rows[1].上限 === 0.8);
+const capReport = analyzeFlow({ panelStats: { 会心率: 0.92 }, gear: [], flow: daWai, affixes, constants: C });
+check('三率上限：analyzeFlow 贯通且只挑出溢出项',
+  capReport.三率上限.rows.length === 3 && capReport.三率上限.rows.filter((r) => r.溢出 > 0).length === 1);
+check('三率上限：与达标线是两份独立切片（互不干扰）',
+  capReport.达标线 !== capReport.三率上限 && capReport.达标线.rows.every((r) => r.阈值 != null));
 
 // ———— 汇总 ————
 

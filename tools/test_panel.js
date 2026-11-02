@@ -15,12 +15,12 @@ import fs from 'node:fs';
 import { computePanel } from '../engine/panel.js';
 import { loadVersionData } from './load-version.js';
 
-const { version } = loadVersionData();
+const { version, affixes } = loadVersionData();
 const expected = JSON.parse(fs.readFileSync('data/debug/panel-v01-expected.json', 'utf-8'));
 
 const result = computePanel({
   version,
-  affixes: { 词条区间: {} },
+  affixes,
   build: { 流派: '鸣金虹' },
   gear: [],
   selections: {

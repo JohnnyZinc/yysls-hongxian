@@ -19,10 +19,13 @@ const BUILDS = [
   ['pozhuchen.115.3.3', '破竹尘'],
   ['pozhuzun.115.3.7', '破竹樽'],
   ['lieshiwei.115.3.3', '裂石威'],
-  ['lieshijun.115.3.0', '裂石钧（双切）'],
+  ['lieshijun.shuangqie.115.3.0', '裂石钧（双切）'],
   ['qiansiyi.115.3.1', '牵丝翊'],
   ['pozhuyuan.115.3.0', '破竹鸢'],
   ['qiansilin.115.3.1', '牵丝霖'],
+  // 鸣金虹/影只有 110 阶竞速轴表（当前赛季 115 无对应表），build 包按源表阶数命名
+  ['mingjinhong.110.1.3', '鸣金虹（110阶轴）'],
+  ['mingjinying.110.1.5', '鸣金影（110阶轴）'],
 ];
 
 const main = () => {

@@ -21,7 +21,8 @@
  * 已知取舍（原型阶段）：
  *   - 只使用作者默认配置（心法选择、团队增益勾选），效果数值取 Excel 缓存值；
  *     面板输入（含全武增/首领增/类别增伤）已全部面板驱动，换装备即改 panel
- *   - 套装攻击乘数为提取时解析的生效值（如 倾觞×1.05），存于 build.set_attack_multiplier
+ *   - 套装攻击乘数为提取时解析的生效值（如 倾觞×1.05），存于 build.set_attack_multiplier；
+ *     作用域由 build.set_attack_scope 决定（"外功" = 只乘外功；缺省/"全部" = 外功与四属性都乘）
  */
 
 const num = (v) => (typeof v === 'number' ? v : 0);
@@ -41,6 +42,10 @@ const EFFECT_FIELDS = [
 const ATTRS = [['mingjin', '鸣金'], ['lieshi', '裂石'], ['qiansi', '牵丝'], ['pozhu', '破竹']];
 
 const ZERO_SKILL = Object.freeze({ type: null });
+
+// 三率上限/会意转化上限的兼容缺省（权威值在 version.json constants，经 options.constants 传入；
+// 生产链路（swap/graduate/UI）一律传 version.constants；仅独立调用 calcDPS 未传时兜底，盘点 §2.2 #1）
+const DEFAULT_CAPS = { 精准率上限: 1, 黄字会心率上限: 0.8, 黄字会意率上限: 0.4, 会意转化上限: 0.12 };
 
 /** 汇总一个事件生效列表中所有增益的各乘区数值 */
 function aggregateEffects(names, effectsById) {
@@ -114,16 +119,21 @@ function deepMerge(base, override) {
 /**
  * 计算 DPS。
  * @param ctx     loadBuild 的返回
- * @param options { panel: 面板覆盖对象, debug: 是否返回逐事件明细 }
+ * @param options { panel: 面板覆盖对象, debug: 是否返回逐事件明细,
+ *                  graduateDps: 毕业基准覆盖（方案配额物化生成值）,
+ *                  constants: version.constants（三率上限等；缺省用 DEFAULT_CAPS 兜底） }
  */
 function calcDPS(ctx, options = {}) {
   const { build, skills, effects } = ctx;
   const panel = deepMerge(makePanel(build), options.panel);
   const debug = !!options.debug;
+  const CAPS = { ...DEFAULT_CAPS, ...(options.constants || {}) };
 
   const mainLabel = build.selectors.weapon_attribute;
   // 套装攻击乘数（从 Excel D10 公式解析的生效值，如 倾觞×1.05 / 撼天×1.06）
   const setMult = num(build.set_attack_multiplier) || 1;
+  // 作用域：115 阶表 外功与四属性各乘一次（缺省"全部"）；110 阶表只乘外功（鸣金影·飞隼×1.1）
+  const setMultAttr = build.set_attack_scope === '外功' ? 1 : setMult;
 
   // —— 静态预计算 ——
   const S = panel.stats || {};
@@ -153,8 +163,8 @@ function calcDPS(ctx, options = {}) {
     return {
       key,
       label,
-      min: (aMin + (isMain ? num(S['最小无相攻击']) : 0)) * setMult,
-      max: (Math.max(aMin, aMax) + (isMain ? num(S['最大无相攻击']) : 0)) * setMult,
+      min: (aMin + (isMain ? num(S['最小无相攻击']) : 0)) * setMultAttr,
+      max: (Math.max(aMin, aMax) + (isMain ? num(S['最大无相攻击']) : 0)) * setMultAttr,
     };
   });
 
@@ -261,23 +271,23 @@ function calcDPS(ctx, options = {}) {
     const forcePrecise = num(skill.force_precision) === 1;
     const insightConvert = num(skill.insight_convert) === 1;
 
-    const BO = Math.min(forceCrit ? 1 : num(S['精准率']), 1);
+    const BO = Math.min(forceCrit ? 1 : num(S['精准率']), CAPS['精准率上限']);
     const brNormal =
       forceInsight
         ? 1
-        : Math.min(0.4, num(S['会意率']) + num(skill.insight_rate) + agg.insight_rate) +
+        : Math.min(CAPS['黄字会意率上限'], num(S['会意率']) + num(skill.insight_rate) + agg.insight_rate) +
           num(S['直接会意率']) +
           agg.direct_insight_rate;
     const BP =
       (forceCrit
         ? 1
-        : Math.min(0.8, num(S['会心率']) + num(skill.crit_rate) + agg.crit_rate) +
+        : Math.min(CAPS['黄字会心率上限'], num(S['会心率']) + num(skill.crit_rate) + agg.crit_rate) +
           num(S['直接会心率']) +
           agg.direct_crit_rate) *
         (forceInsight ? 0 : 1) +
-      (insightConvert ? Math.min(brNormal, 0.12) : 0); // 会意转化：会意生效值并入会心，至多 12%
+      (insightConvert ? Math.min(brNormal, CAPS['会意转化上限']) : 0); // 会意转化：会意生效值并入会心，上限取常量
     const BR = Math.max(
-      brNormal * (forceCrit ? 0 : 1) - (insightConvert ? 0.12 : 0),
+      brNormal * (forceCrit ? 0 : 1) - (insightConvert ? CAPS['会意转化上限'] : 0),
       0
     );
     const BT = Math.min((1 - BR) * BO, BO * BP); // 会心占比

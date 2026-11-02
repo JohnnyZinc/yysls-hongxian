@@ -41,8 +41,8 @@ const mk = (slot, initial, tunings) => ({
   调律: tunings.map(a => ({ 属性: a, 数值: V(a) })),
 });
 const fullGear = [
-  mk('左武器', '最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']),
-  mk('右武器', '最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']),
+  mk('武器1', '最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']),
+  mk('武器2', '最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']),
   mk('环', '最大外功攻击', ['最大外功攻击', '全武学增伤', '劲', '会心率']),
   mk('佩', '最大外功攻击', ['最大外功攻击', '全武学增伤', '劲', '精准率']),
   mk('冠胄', '精准率', ['最大外功攻击', '劲', '会心率', '势']),
@@ -50,7 +50,7 @@ const fullGear = [
   mk('胫甲', '劲', ['最大外功攻击', '劲', '对首领单位增伤', '会心率']),
   mk('腕甲', '劲', ['最大外功攻击', '劲', '对首领单位增伤', '会心率']),
 ];
-const diLeft = mk('左武器', '最大外功攻击', ['最大外功攻击', '劲', '势', '气血最大值']);
+const diLeft = mk('武器1', '最大外功攻击', ['最大外功攻击', '劲', '势', '气血最大值']);
 const tianLeft = fullGear[0];
 
 // ———— 1. 已穿戴装备视图 ————
@@ -70,7 +70,7 @@ check('已穿戴：监测达标行来自真实面板（当前值>0）',
 
 const rEqBad = inspectEquipped({
   buildCtx, version, affixes, selections,
-  gear: fullGear.filter(g => g.slot !== '左武器'), piece: tianLeft, prescription, flow: daWai,
+  gear: fullGear.filter(g => g.slot !== '武器1'), piece: tianLeft, prescription, flow: daWai,
 });
 check('已穿戴：装备不在实装列表 → 拒绝', rEqBad.ok === false && rEqBad.errors.length > 0);
 
@@ -81,14 +81,14 @@ const rCand = inspectCandidate({
   gear: fullGear, newItem: diLeft, prescription, flow: daWai,
 });
 check('背包：ΔDPS 存在且为更差', rCand.ok === true && rCand.ΔDPS.verdict === '更差' && rCand.ΔDPS.deltaPct < -rCand.ΔDPS.deadZone);
-check('背包：匹配度为地', rCand.匹配度.tier === '地');
+check('背包：匹配度为玄（带 1 条无效词条；等阶按当前词条评定）', rCand.匹配度.tier === '玄');
 check('背包：穿上后监测（前瞻）——双刀增缺1、会心缺1',
   rCand.监测.配额缺口.some(r => r.词条.includes('双刀武学增伤') && r.缺口 === 1)
   && rCand.监测.配额缺口.some(r => r.词条.includes('会心率') && r.缺口 === 1));
 check('背包：穿上后监测——势溢出1', rCand.监测.配额溢出.some(r => r.词条.includes('势') && r.溢出 === 1));
 check('背包：穿上后监测——气血最大值未配额占用', rCand.监测.未配额词条['气血最大值'] === 1);
-check('背包：ΔDPS 去向建议齐全（旧件继续使用/新件候补）',
-  typeof rCand.ΔDPS.去向.旧件 === 'string' && rCand.ΔDPS.去向.候补 === true);
+check('背包：ΔDPS 去向建议齐全（旧件继续使用/新件玄档不留）',
+  typeof rCand.ΔDPS.去向.旧件 === 'string' && rCand.ΔDPS.去向.候补 === false);
 
 const rCandNoRx = inspectCandidate({
   buildCtx, version, affixes, selections,

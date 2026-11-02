@@ -28,9 +28,9 @@ const it = (initial, tunings) => ({ initial, tunings });
 
 // ———— 基准一：鸣金虹剑十例（单排列合成模板） ————
 
-const weapon = loadSlotModel(affixes, ['剑']).slots['左武器'];
+const weapon = loadSlotModel(affixes, ['剑']).slots['武器1'];
 const mkSwordSlots = () => ({
-  左武器: {
+  武器1: {
     initialForced: '最大外功攻击',
     required: [
       { affix: '最大外功攻击', count: 2, source: 'derived' },
@@ -54,9 +54,9 @@ const swordRx = {
   buildId: '鸣金虹-示例',
   flowId: 'sword-test',
   flowName: '剑模板测试',
-  arrangements: [{ arrangement: { 左武器: '剑', 右武器: '枪' }, slots: mkSwordSlots() }],
+  arrangements: [{ arrangement: { 武器1: '剑', 武器2: '枪' }, slots: mkSwordSlots() }],
 };
-const g = item => gradeItem(swordRx, '左武器', item);
+const g = item => gradeItem(swordRx, '武器1', item);
 
 // 用例1：[初始=大外；调律=大外,剑增,势,劲] → 天
 {
@@ -68,12 +68,12 @@ const g = item => gradeItem(swordRx, '左武器', item);
   const r = g(it('最大外功攻击', ['最大外功攻击', '剑武学增伤', '势', '会意率']));
   check('剑例2：全对齐（自由项换会意）→ 天', r.tier === '天' && r.needsConversion === false);
 }
-// 用例3a：[初始=大外；调律=剑增,势,劲,会意] → 天·需转律（自由项转成缺失的大外）
+// 用例3a：[初始=大外；调律=剑增,势,劲,会意] → 当前缺 1 条大外 = 地；转律补齐后 = 天
 {
   const r = g(it('最大外功攻击', ['剑武学增伤', '势', '劲', '会意率']));
-  check('剑例3a：缺1大外但可转律补齐 → 天·需1次转律',
-    r.tier === '天' && r.substate === '天·需1次转律'
-    && r.conversion?.to === '最大外功攻击' && r.globalFitVerified === null);
+  check('剑例3a：缺1大外 → 地，转律补齐后 → 天',
+    r.tier === '地' && r.k === 0 && r.m === 1
+    && r.conversion?.to === '最大外功攻击' && r.tierAfter === '天' && r.globalFitVerified === null);
 }
 // 用例3b：[初始=势；调律=大外,剑增,劲,会意] → 地（初始≠大外，2大外永久凑不齐）
 {
@@ -87,34 +87,36 @@ const g = item => gradeItem(swordRx, '左武器', item);
   check('剑例4：缺剑增（组需求，神力不可转得）→ 地',
     r.tier === '地' && r.missing.some(x => Array.isArray(x.affix) && x.affix.includes('剑武学增伤')));
 }
-// 用例5：[初始=大外；调律=大外,剑增,势,敏] → 天·需转律（敏→自由项）
+// 用例5：[初始=大外；调律=大外,剑增,势,敏] → 当前 1 条无效（敏）= 玄；转律换成自由项后 = 天
 {
   const r = g(it('最大外功攻击', ['最大外功攻击', '剑武学增伤', '势', '敏']));
-  check('剑例5：敏(调律)可转 → 天·需1次转律',
-    r.tier === '天' && r.needsConversion === true && r.conversion?.from === '敏'
-    && swordRx.arrangements[0].slots['左武器'].freeSet.includes(r.conversion.to));
+  check('剑例5：敏(调律)可转 → 玄，转后 天',
+    r.tier === '玄' && r.k === 1 && r.needsConversion === true && r.conversion?.from === '敏'
+    && r.tierAfter === '天'
+    && swordRx.arrangements[0].slots['武器1'].freeSet.includes(r.conversion.to));
 }
 // 用例6：[初始=敏；调律=大外,剑增,势,劲] → 玄（初始无效救不回）
 {
   const r = g(it('敏', ['最大外功攻击', '剑武学增伤', '势', '劲']));
-  check('剑例6：初始位无效 → 玄', r.tier === '玄' && r.k === 1
-    && r.notes.some(n => n.includes('初始')));
+  check('剑例6：宫位（初始位）无效 → 玄', r.tier === '玄' && r.k === 1
+    && r.notes.some(n => n.includes('宫位')));
 }
 // 用例7a：[初始=最小外功；调律=大外,剑增,势,劲] → 玄
 {
   const r = g(it('最小外功攻击', ['最大外功攻击', '剑武学增伤', '势', '劲']));
   check('剑例7a：初始=最小外功（无效且不可转）→ 玄', r.tier === '玄' && r.k === 1);
 }
-// 用例7b：[初始=大外；调律=大外,剑增,势,最小外功] → 天·需转律（小外→劲）
+// 用例7b：[初始=大外；调律=大外,剑增,势,最小外功] → 当前 1 条无效 = 玄；转律后 = 天
 {
   const r = g(it('最大外功攻击', ['最大外功攻击', '剑武学增伤', '势', '最小外功攻击']));
-  check('剑例7b：调律位小外可转 → 天·需1次转律',
-    r.tier === '天' && r.needsConversion === true && r.conversion?.from === '最小外功攻击');
+  check('剑例7b：调律位小外可转 → 玄，转后 天',
+    r.tier === '玄' && r.needsConversion === true
+    && r.conversion?.from === '最小外功攻击' && r.tierAfter === '天');
 }
-// 用例8：[初始=敏；调律=小外,气血,势,劲] → 黄（转律后仍剩2条无效）
+// 用例8：[初始=敏；调律=小外,气血,势,劲] → 当前 3 条无效 = 黄（转律救 1 条仍是黄）
 {
   const r = g(it('敏', ['最小外功攻击', '气血最大值', '势', '劲']));
-  check('剑例8：三条无效转剩两条 → 黄', r.tier === '黄' && r.k === 2);
+  check('剑例8：三条无效 → 黄，转律救1条仍 黄', r.tier === '黄' && r.k === 3 && r.tierAfter === '黄');
 }
 // 补充：调律重复 / 不足4条 → 拒绝
 {
@@ -136,29 +138,34 @@ const daWaiRx = derivePrescription(affixes, daWai, ['双刀', '绳镖']);
 const gp = (slot, item) => gradeItem(daWaiRx, slot, item);
 
 {
-  const r = gp('左武器', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']));
+  const r = gp('武器1', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']));
   check('破竹风·毕业剑（双刀增）→ 天，全局复核通过',
     r.tier === '天' && r.needsConversion === false && r.globalFitVerified === true);
 }
 {
-  const r = gp('左武器', it('最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']));
-  check('破竹风·绳镖增放左武器（左武器是绳镖）→ 天',
+  // 武器1 绑定双刀 ⇒ 绳镖增是错型指定增，物理不可能（旧模型靠"排列互换"放行，属漏判）
+  const r = gp('武器1', it('最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']));
+  check('破竹风·绳镖增放武器1（武器1=双刀）→ 错型拒绝', r.ok === false);
+}
+{
+  const r = gp('武器2', it('最大外功攻击', ['最大外功攻击', '劲', '绳镖武学增伤', '会心率']));
+  check('破竹风·绳镖增放武器2（武器2=绳镖）→ 天',
     r.tier === '天' && r.k === 0 && r.m === 0 && r.globalFitVerified === true);
 }
 {
-  const r = gp('左武器', it('最大外功攻击', ['最大外功攻击', '劲', '势', '精准率']));
-  check('破竹风·缺指定增的剑 → 地（组需求，神力转不进来）',
+  const r = gp('武器1', it('最大外功攻击', ['最大外功攻击', '劲', '势', '精准率']));
+  check('破竹风·缺双刀增的双刀 → 地（本槽必备，神力转不进来）',
     r.tier === '地' && r.k === 0 && r.m === 1
-    && r.missing.some(x => Array.isArray(x.affix) && x.affix.includes('双刀武学增伤')));
+    && r.missing.some(x => x.affix === '双刀武学增伤'));
 }
 {
-  const r = gp('左武器', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '敏']));
-  check('破竹风·调律敏可转 → 天·需1次转律，转后全局复核通过',
-    r.tier === '天' && r.substate === '天·需1次转律'
+  const r = gp('武器1', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '敏']));
+  check('破竹风·调律敏可转 → 玄，转后 天 且全局复核通过',
+    r.tier === '玄' && r.k === 1 && r.tierAfter === '天'
     && r.conversion?.from === '敏' && r.globalFitVerified === true);
 }
 {
-  const r = gp('左武器', it('敏', ['最大外功攻击', '劲', '双刀武学增伤', '势']));
+  const r = gp('武器1', it('敏', ['最大外功攻击', '劲', '双刀武学增伤', '势']));
   check('破竹风·初始敏 → 玄', r.tier === '玄' && r.k === 1);
 }
 {
@@ -180,30 +187,31 @@ const gp = (slot, item) => gradeItem(daWaiRx, slot, item);
 }
 {
   const r = gp('冠胄', it('精准率', ['最大外功攻击', '劲', '会心率', '气血最大值']));
-  check('破竹风·冠胄带气血 → 天·需转律（气血→势，势是该部位唯一可达自由项）',
-    r.tier === '天' && r.substate === '天·需1次转律'
+  check('破竹风·冠胄带气血 → 玄，转律（气血→势）后 天（势是该部位唯一可达自由项）',
+    r.tier === '玄' && r.k === 1 && r.tierAfter === '天'
     && r.conversion?.from === '气血最大值' && r.conversion?.to === '势'
     && r.globalFitVerified === true);
 }
 {
   const r = gp('冠胄', it('精准率', ['最大外功攻击', '劲', '会心率', '全奇术增伤']));
-  check('破竹风·冠胄带全奇术（零需求神力）→ 天·需转律且触发永久损失警示',
-    r.tier === '天' && r.conversion?.from === '全奇术增伤' && r.warnings.some(w => w.includes('神力')));
+  check('破竹风·冠胄带全奇术（零需求神力）→ 玄，转律后 天 且触发永久损失警示',
+    r.tier === '玄' && r.tierAfter === '天'
+    && r.conversion?.from === '全奇术增伤' && r.warnings.some(w => w.includes('神力')));
 }
 {
   const r = gp('冠胄', it('精准率', ['最大外功攻击', '劲', '气血最大值', '外功防御']));
-  check('破竹风·冠胄两条无需求词条 → 玄（转律救1条仍剩1条，且会心率已被占用）',
-    r.tier === '玄' && r.k === 1);
+  check('破竹风·冠胄两条无需求词条 → 黄（转律救1条仍剩1条，且会心率已被占用）',
+    r.tier === '黄' && r.k === 2 && r.tierAfter === '玄');
 }
 {
-  const r = gp('左武器', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']));
+  const r = gp('武器1', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']));
   check('结果自描述：含 buildId/flowId/口径',
     r.buildId === 'pozhufeng' && r.flowId === 'dawai' && typeof r.口径 === 'string');
 }
 
 // ———— 潜力评分（gradeItemPotential：录入中的不完整装备） ————
 
-const swordPot = (item) => gradeItemPotential(swordRx, '左武器', item);
+const swordPot = (item) => gradeItemPotential(swordRx, '武器1', item);
 const pot = (slot, item) => gradeItemPotential(daWaiRx, slot, item);
 
 {
@@ -221,26 +229,26 @@ const pot = (slot, item) => gradeItemPotential(daWaiRx, slot, item);
 }
 {
   const r = swordPot(it('敏', ['最大外功攻击', '剑武学增伤', '势', '']));
-  check('潜力：初始位无效词条 → 玄（永久压低上限）', r.ok && r.tier === '玄' && r.k === 1
-    && r.notes.some((n) => n.includes('初始位')));
+  check('潜力：宫位（初始位）无效词条 → 玄（永久压低上限）', r.ok && r.tier === '玄' && r.k === 1
+    && r.notes.some((n) => n.includes('宫位')));
 }
 {
   const r = swordPot(it('最大外功攻击', ['剑武学增伤', '势', '劲', '会意率']));
-  check('潜力：完整装备与 gradeItem 同口径 → 天·需1次转律',
-    r.ok && r.tier === '天' && r.substate === '天·需1次转律' && r.conversions.length === 1);
+  check('潜力：完整装备与 gradeItem 同口径 → 地，转律补齐后 天',
+    r.ok && r.tier === '地' && r.tierAfter === '天' && r.conversions.length === 1);
 }
 {
   const r = swordPot(it('最大外功攻击', ['最大外功攻击', '剑武学增伤', '势', '气血最大值']));
-  check('潜力：无效调律转律救回 → 天·需1次转律',
-    r.ok && r.tier === '天' && r.substate === '天·需1次转律'
+  check('潜力：无效调律（气血）当前 玄，转律救回 天',
+    r.ok && r.tier === '玄' && r.tierAfter === '天'
     && r.conversions.some((c) => c.from === '气血最大值'));
 }
 
 // 真实 dawai：完整装备的潜力档必须等于 gradeItem 档（同口径一致性）
 for (const [slot, item] of [
-  ['左武器', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率'])],
-  ['左武器', it('最大外功攻击', ['最大外功攻击', '劲', '势', '精准率'])],
-  ['左武器', it('敏', ['最大外功攻击', '劲', '双刀武学增伤', '势'])],
+  ['武器1', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率'])],
+  ['武器1', it('最大外功攻击', ['最大外功攻击', '劲', '势', '精准率'])],
+  ['武器1', it('敏', ['最大外功攻击', '劲', '双刀武学增伤', '势'])],
   ['环', it('最大外功攻击', ['最大外功攻击', '劲', '精准率', '会心率'])],
   ['冠胄', it('精准率', ['最大外功攻击', '劲', '气血最大值', '外功防御'])],
   ['胫甲', it('劲', ['最大外功攻击', '劲', '对首领单位增伤', '精准率'])],
@@ -254,7 +262,7 @@ for (const [slot, item] of [
 // —— 武器不分左右：部位=武器 → 在 左/右 两个武器槽位间取最优（用户定稿） ——
 {
   const r = gradeItem(daWaiRx, '武器', it('最大外功攻击', ['最大外功攻击', '劲', '双刀武学增伤', '会心率']));
-  check('武器部位：双刀增件按 武器 评价 → 天（与 左武器 评价一致）',
+  check('武器部位：双刀增件按 武器 评价 → 天（与 武器1 评价一致）',
     r.ok && r.tier === '天' && r.k === 0 && r.m === 0);
 }
 {
@@ -265,35 +273,37 @@ for (const [slot, item] of [
 // —— 转律标记：已转律的装备只能继续转那一条（用户定稿） ——
 const swordItem = it('最大外功攻击', ['剑武学增伤', '势', '劲', '会意率']);
 {
-  const r = gradeItem(swordRx, '左武器', swordItem);
-  check('转律标记：未标记 → 任意一条可转（回归不变）', r.tier === '天' && r.substate === '天·需1次转律');
+  const r = gradeItem(swordRx, '武器1', swordItem);
+  check('转律标记：未标记 → 任意一条可转（回归不变）', r.tier === '地' && r.tierAfter === '天');
 }
 {
-  const r = gradeItem(swordRx, '左武器', { ...swordItem, converted: [false, true, false, false] });
-  check('转律标记：标在势(调律2) → 转势补大外 → 天·需1次转律',
-    r.tier === '天' && r.substate === '天·需1次转律' && r.conversion?.index === 1);
+  const r = gradeItem(swordRx, '武器1', { ...swordItem, converted: [false, true, false, false] });
+  check('转律标记：标在势(调律2) → 转势补大外 → 地，转后 天',
+    r.tier === '地' && r.tierAfter === '天' && r.conversion?.index === 1);
 }
 {
-  const r = gradeItem(swordRx, '左武器', { ...swordItem, converted: [true, false, false, false] });
+  const r = gradeItem(swordRx, '武器1', { ...swordItem, converted: [true, false, false, false] });
   check('转律标记：标在剑增(调律1) → 只能转剑增，补不回大外 → 地',
     r.tier === '地' && r.k === 0 && r.m === 1);
 }
 {
-  const a = gradeItem(swordRx, '左武器', { ...swordItem, converted: [false, true, false, false] });
-  const b = gradeItemPotential(swordRx, '左武器', { ...swordItem, converted: [false, true, false, false] });
+  const a = gradeItem(swordRx, '武器1', { ...swordItem, converted: [false, true, false, false] });
+  const b = gradeItemPotential(swordRx, '武器1', { ...swordItem, converted: [false, true, false, false] });
   check('潜力一致性：标记转律的完整装备 潜力 = 匹配度',
     a.ok && b.ok && a.tier === b.tier && a.k === b.k && a.m === b.m);
 }
 {
-  const b = gradeItemPotential(swordRx, '左武器',
+  const b = gradeItemPotential(swordRx, '武器1',
     { initial: '最大外功攻击', tunings: ['剑武学增伤', '', '', ''], converted: [true, false, false, false] });
   check('潜力：标在剑增的半录装备 → 空位填充不受限，仍可天', b.ok && b.tier === '天');
 }
 {
-  const b = gradeItemPotential(swordRx, '左武器',
+  const b = gradeItemPotential(swordRx, '武器1',
     { initial: '最大外功攻击', tunings: ['剑武学增伤', '势', '劲', '会意率'], converted: [false, true, false, false] });
-  check('潜力：标在势 → 只能转势补大外，潜力仍为天',
-    b.ok && b.tier === '天' && b.notes.some((n) => n.includes('仅调律2')));
+  // 转律标记不再在文案里重复（词条处已有「转」徽章），改以 conversions 验证约束：只能转被标记的那条
+  check('潜力：标在势 → 当前 地，只能转势补大外 → 天',
+    b.ok && b.tier === '地' && b.tierAfter === '天' && b.conversions.length === 1
+    && b.conversions[0].from === '势');
 }
 
 // ———— 汇总 ————

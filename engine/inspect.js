@@ -15,12 +15,13 @@
  */
 
 import { gradeItem } from './advisor.js';
-import { evalGearDps, evaluateSwap, sameEquipKey } from './swap.js';
+import { evalGearDps, evaluateSwap } from './swap.js';
 import { analyzeFlow } from './monitor.js';
 
 /** 装备件 → 匹配度输入形状（与 swap.js 同规则） */
 function toGradeItem(piece) {
   return {
+    weaponType: piece?.weaponType || '', // 剑只匹配剑槽，缺此字段会漏判本槽必备
     initial: piece?.初始?.属性,
     tunings: (piece?.调律 || []).map((t) => t?.属性),
     converted: (piece?.调律 || []).map((t) => !!t?.转律),
@@ -28,10 +29,17 @@ function toGradeItem(piece) {
   };
 }
 
-/** 从监测报告提炼"发现"：只留未达标/缺口/溢出/未配额词条/启用度 */
+/**
+ * 从监测报告提炼"发现"。
+ * 配额：UI 走 配额行（全量，含达标行——统一「实装/需要 + 配色」展示，用户定稿）；
+ * 缺口/溢出两份切片保留给程序化消费（如 test_inspect 的前瞻断言）。
+ */
 function monitoringDigest(analysis) {
   return {
+    达标行: analysis.达标线.rows, // 全量（含达标行——统一「当前/阈值 + 配色」展示，用户定稿）
     达标未达: analysis.达标线.rows.filter((r) => !r.达标),
+    三率溢出: (analysis.三率上限?.rows || []).filter((r) => r.溢出 > 0), // 游戏机制上限（与方案达标线两回事）
+    配额行: analysis.配额统计.rows,
     配额缺口: analysis.配额统计.rows.filter((r) => r.缺口 > 0),
     配额溢出: analysis.配额统计.rows.filter((r) => r.溢出 > 0),
     未配额词条: analysis.配额统计.未配额词条,
@@ -53,7 +61,7 @@ export function inspectEquipped({ buildCtx, version, affixes, selections, gear, 
 
   const 匹配度 = gradeItem(prescription, piece.slot, toGradeItem(piece));
   const { panel: pr } = evalGearDps({ buildCtx, version, affixes, gear, selections, graduateDps });
-  const analysis = analyzeFlow({ panelStats: pr.stats, gear, flow, affixes });
+  const analysis = analyzeFlow({ panelStats: pr.stats, gear, flow, affixes, 方案类型: version?.方案类型, constants: version?.constants });
 
   return {
     ok: true,
@@ -82,15 +90,18 @@ export function inspectCandidate({
   if (!flow) errors.push('缺少 flow（达标线/配额来源）');
   if (errors.length) return { ok: false, view: '背包装备', errors };
 
+  // 等价死区：方案文件可配（flow.死区，如 0.003 = 0.3%）；未配置走 evaluateSwap 默认 0.005
   const swap = evaluateSwap({
     buildCtx, version, affixes, selections,
-    currentGear: gear, newItem, prescription, deadZone, graduateDps,
+    currentGear: gear, newItem, prescription,
+    deadZone: deadZone ?? flow?.死区, graduateDps,
   });
   if (!swap.ok) return { ok: false, view: '背包装备', errors: swap.errors }; // 如：武器无同类型已穿戴
   const 匹配度 = gradeItem(prescription, newItem.slot, toGradeItem(newItem));
-  // 假设穿上后的实装（与 ΔDPS 的替换后面板同口径；武器按类型顶替，另一把保留）
-  const gearAfter = [...(gear || []).filter((g) => !sameEquipKey(g, newItem)), newItem];
-  const analysis = analyzeFlow({ panelStats: swap.afterPanelStats, gear: gearAfter, flow, affixes });
+  // 假设穿上后的实装：**直接复用 evaluateSwap 的 gearAfter**，保证与 ΔDPS 同一口径。
+  // 不能自行 filter(sameEquipKey)——同类型多件（双枪）时会把两件一起删掉（评价系统设计.md §12.2）。
+  const gearAfter = swap.gearAfter;
+  const analysis = analyzeFlow({ panelStats: swap.afterPanelStats, gear: gearAfter, flow, affixes, 方案类型: version?.方案类型, constants: version?.constants });
 
   return {
     ok: true,
@@ -127,7 +138,7 @@ export function inspectOverall({ buildCtx, version, affixes, selections, gear, p
   if (errors.length) return { ok: false, view: '整体', errors };
 
   const { panel: pr, dps, graduationRate } = evalGearDps({ buildCtx, version, affixes, gear, selections, graduateDps });
-  const analysis = analyzeFlow({ panelStats: pr.stats, gear, flow, affixes });
+  const analysis = analyzeFlow({ panelStats: pr.stats, gear, flow, affixes, 方案类型: version?.方案类型, constants: version?.constants });
 
   return {
     ok: true,
