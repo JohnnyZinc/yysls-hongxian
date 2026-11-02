@@ -1,61 +1,271 @@
+/* ============================================================================
+   style.css — 《燕云十六声》视觉基调
+   水墨灰打底 · 书法笔触塑形 · 鎏金做唯一强调
+
+   色板取自官方调性：墨 #22252D / 鎏金 #C79A63 / 古铜 #7D6246。
+   黑必须带蓝灰（#14161A 而非纯黑），否则像黑屏不像水墨；
+   金色面积压在 10% 以内，多一分即俗。
+
+   旧变量名（--bg/--panel/--line/--text/--muted/--accent/--good/--warn）全部保留，
+   只换值 —— 下游 studio.css / components.css 无需改名即自动切到新色板。
+   ============================================================================ */
+
 :root {
-  --bg: #12141a;
-  --panel: #1b1f2a;
-  --line: #2c3242;
-  --text: #dfe3ec;
-  --muted: #8b93a7;
-  --accent: #4f8cff;
-  --good: #3ecf8e;
-  --warn: #ffb454;
+  /* —— 墨阶：页面底 → 卡片 → 面板 → 描边 → 分割线 —— */
+  --ink-900: #14161a;
+  --ink-850: #181b21;
+  --ink-800: #1b1e24;
+  --ink-700: #22252d;
+  --ink-600: #2a2e38;
+  --ink-500: #383e4a;
+
+  /* —— 鎏金：唯一的强调色（提亮 / 主强调 / 压深 / 古铜）—— */
+  --gold-300: #f0ddb4;
+  --gold-400: #e6c894;
+  --gold-500: #c79a63;
+  --gold-600: #a87f4c;
+  --bronze:   #7d6246;
+
+  /* —— 宣纸：文字体系 —— */
+  --paper:     #e8e2d6;
+  --paper-hi:  #f4efe5;
+
+  /* —— 功能色（在暗底上调过明度，保证可读）—— */
+  --jade:          #6bae99;  /* 达标 / 保留 */
+  --jade-deep:     #4e8c7c;
+  --cinnabar:      #d1685a;  /* 废词条 / 超配额 */
+  --cinnabar-deep: #b4443a;
+  --amber:         #d9a55a;  /* 未达 / 提示 */
+
+  /* —— 稀有度 —— */
+  --rarity-gold:   #c79a63;
+  --rarity-purple: #9a7bb8;
+  --rarity-blue:   #4a72a8;
+  --rarity-green:  #6e8b5a;
+
+  /* —— 语义映射（旧名 → 新值）—— */
+  --bg: var(--ink-900);
+  --panel: var(--ink-800);
+  --panel-2: var(--ink-700);
+  --line: var(--ink-600);
+  --line-soft: #23262e;
+  --text: var(--paper);
+  --muted: #a9a396;   /* 楷体笔画细，比黑体更吃对比，次级文字整体提一档 */
+  --faint: #948e82;
+  --accent: var(--gold-500);
+  --accent-hi: var(--gold-400);
+  --good: var(--jade);
+  --warn: var(--amber);
+  --bad: var(--cinnabar);
+
+  /* —— 字体：楷体立骨 ——
+     gkai00mp = 文鼎PL简中楷（AR PL KaitiM GB），ZeoSeven FontsAPI 在线分片加载。
+     楷体取代原宋/黑两套：笔锋带书写感，与《燕云》水墨调性比宋体更贴，
+     又比黑体少一层工业味。回落链保留系统楷体（STKaiti/KaiTi），断网也不会掉回宋体。
+     ⚠ 该字体只有 400 一个字重，600/700 都是浏览器合成粗体 ——
+       大字（≥18px）用它当毛笔重按；小字必须降权，否则笔锋糊死。 */
+  --font-kai: "gkai00mp", "AR PL KaitiM GB", "STKaiti", "KaiTi", "Kaiti SC", "BiauKai", serif;
+  --font-serif: var(--font-kai);
+  --font-sans: var(--font-kai);
+  /* 隶书（临海体）只用于分支/方案横幅：与正文楷体拉开一层「题额」的层次。
+     ⚠ 本地只落了需要的字符分片（web/assets/fonts/li/），出现新分支名且未收录时会回落到楷体，
+       所以回落链必须带 --font-kai（不是裸 serif）。 */
+  --font-li: "临海体", "LinHaiTi", "STLiti", "LiSu", var(--font-kai);
+
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, .34);
+  --shadow-pop: 0 18px 52px rgba(0, 0, 0, .58);
+  --gold-hair: rgba(199, 154, 99, .28);
 }
+
 * { box-sizing: border-box; }
+
+::selection { background: rgba(199, 154, 99, .32); color: var(--paper-hi); }
+
+/* 暗金滚动条：列表、弹窗、选择面板都会用到 */
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, .26); }
+::-webkit-scrollbar-thumb {
+  background: #34383f; border-radius: 5px;
+  border: 2px solid transparent; background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--bronze); background-clip: padding-box; }
+
 body {
   margin: 0; padding: 16px 20px 60px;
-  background: var(--bg); color: var(--text);
-  font: 14px/1.5 "Microsoft YaHei", "PingFang SC", sans-serif;
+  color: var(--text);
+  /* 楷体笔锋细、字面比黑体松，行高放到 1.62 才不显得挤；
+     字距 +0.02em 让笔锋之间有呼吸（数值极小，不撑破密排表格） */
+  font: 14px/1.62 var(--font-sans);
+  letter-spacing: .02em;
+  /* 水墨晕染：两团极淡的鎏金/青碧晕开当作宣纸底，不用贴图，纯 0 依赖 */
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(1100px 560px at 78% -14%, rgba(199, 154, 99, .075), transparent 62%),
+    radial-gradient(900px 500px at 4% 2%, rgba(78, 140, 124, .05), transparent 60%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
 }
-h1 { font-size: 18px; margin: 0 0 10px; }
-h2 { font-size: 14px; margin: 18px 0 8px; color: var(--accent); }
-header { margin-bottom: 12px; }
-.build-row { display: flex; gap: 10px; align-items: center; }
-.muted { color: var(--muted); font-size: 12px; }
+
+/* ---------------- 标题：楷体立骨 ----------------
+   小字一律 ≤500：楷体无 600/700 字形，合成粗体会把笔锋涂死。 */
+h1 {
+  font-family: var(--font-serif);
+  font-size: 20px; font-weight: 600;
+  letter-spacing: .16em;
+  color: var(--gold-400);
+  margin: 0;
+}
+h2 {
+  font-family: var(--font-serif);
+  font-size: 14px; font-weight: 500; margin: 18px 0 8px;
+  letter-spacing: .1em; color: var(--accent);
+}
+h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 500; letter-spacing: .06em;
+}
+
+/* ---------------- 顶栏：宣纸底 + 鎏金发丝线 ---------------- */
+.app-bar {
+  position: relative;
+  margin: -16px -20px 16px;
+  padding: 14px 20px 13px;
+  background:
+    linear-gradient(180deg, rgba(27, 30, 36, .96), rgba(20, 22, 26, .66)),
+    radial-gradient(620px 130px at 18% 0%, rgba(199, 154, 99, .11), transparent 72%);
+  border-bottom: 1px solid var(--line);
+}
+.app-bar::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(199, 154, 99, .6) 20%, rgba(199, 154, 99, .16) 64%, transparent);
+}
+.app-bar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+/* 品牌印：鎏金细框方印，楷体「律」（21px，合成粗体在此尺寸下是「重按」，保留） */
+.brand-mark {
+  flex: none; width: 38px; height: 38px;
+  display: grid; place-items: center;
+  font-family: var(--font-serif); font-size: 21px; font-weight: 700;
+  color: var(--gold-400);
+  border: 1px solid var(--gold-600); border-radius: 2px;
+  background: linear-gradient(180deg, rgba(199, 154, 99, .16), rgba(199, 154, 99, .04));
+  box-shadow: inset 0 1px 0 rgba(240, 221, 180, .18);
+}
+.app-bar h1 { line-height: 1.25; }
+.brand-sub {
+  margin: 2px 0 0; font-size: 11px; letter-spacing: .22em;
+  color: var(--faint); text-transform: none;
+}
+.app-nav {
+  display: flex; align-items: center; gap: 18px;
+  font-size: 12px; letter-spacing: .1em; color: var(--faint);
+}
+.app-nav .dot { color: var(--gold-600); }
+/* 顶栏角色按钮（多角色入口，用户定稿 2026-10-30）：描金小按钮，当前角色名在按钮内 */
+.app-char-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 12px; font-size: 12px; letter-spacing: .08em;
+  background: transparent; color: var(--gold-400);
+  border: 1px solid var(--gold-hair); box-shadow: none;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.app-char-btn::before { content: '◈'; font-size: 11px; color: var(--gold-600); }
+.app-char-btn:hover {
+  border-color: var(--gold-500); color: var(--gold-300);
+  background: rgba(199, 154, 99, .08); filter: none;
+}
+
+/* ---------------- 表单：暗墨底 + 鎏金细边 ---------------- */
 select, input[type="number"], input[type="text"] {
-  background: var(--panel); color: var(--text);
-  border: 1px solid var(--line); border-radius: 4px;
+  background: var(--ink-900); color: var(--text);
+  border: 1px solid var(--gold-hair); border-radius: var(--radius-sm);
   padding: 4px 6px; font: inherit;
+  transition: border-color .15s, box-shadow .15s;
+}
+select:hover, input[type="number"]:hover, input[type="text"]:hover { border-color: rgba(199, 154, 99, .5); }
+select:focus, input[type="number"]:focus, input[type="text"]:focus {
+  outline: none; border-color: var(--gold-500);
+  box-shadow: 0 0 0 2px rgba(199, 154, 99, .18);
 }
 select { min-width: 110px; }
-input[type="number"] { width: 90px; }
+input[type="number"] { width: 90px; font-variant-numeric: tabular-nums; }
+/* 下拉展开面板（Chromium 走系统色，此处统一到墨底） */
+select option { background: #1b1e24; color: var(--text); }
+
+/* ---------------- 按钮：鎏金实心 + 墨字（反过来用才不俗） ---------------- */
 button {
-  background: var(--accent); color: #fff; border: 0; border-radius: 4px;
-  padding: 7px 22px; font: inherit; cursor: pointer;
+  background: linear-gradient(180deg, var(--gold-400), var(--gold-500));
+  color: #14161a;
+  border: 1px solid var(--gold-600); border-radius: var(--radius-sm);
+  padding: 7px 22px;
+  font: inherit; font-weight: 500; letter-spacing: .08em;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .32), 0 1px 3px rgba(0, 0, 0, .4);
+  transition: filter .15s ease, transform .08s ease, color .15s ease;
 }
-button:hover { filter: brightness(1.1); }
+button:hover { filter: brightness(1.08); }
+button:active { transform: translateY(1px); filter: brightness(.96); }
+button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.5); }
+/* 次级按钮：描金，不上金漆 */
+button.ghost, button.secondary {
+  background: transparent; color: var(--gold-400);
+  border-color: var(--gold-hair); box-shadow: none; font-weight: 500;
+  transition: border-color .15s, color .15s, background .15s;
+}
+button.ghost:hover, button.secondary:hover {
+  border-color: var(--gold-500); color: var(--gold-300);
+  background: rgba(199, 154, 99, .08); filter: none;
+}
+
+.build-row { display: flex; gap: 10px; align-items: center; }
+.muted { color: var(--muted); font-size: 12px; }
+.faint { color: var(--faint); }
 .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 8px 0; }
 .row label { color: var(--muted); }
 
-.gear-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-@media (max-width: 1100px) { .gear-grid { grid-template-columns: repeat(2, 1fr); } }
+/* ---------------- 卡片 ---------------- */
 .card {
-  background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+  background: linear-gradient(180deg, var(--ink-800), var(--ink-850));
+  border: 1px solid var(--line); border-radius: var(--radius-md);
   padding: 8px 10px;
+  box-shadow: var(--shadow-card);
 }
 .card h3 { font-size: 13px; margin: 0 0 6px; display: flex; justify-content: space-between; align-items: center; }
+.card .hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
 .affix-row { display: flex; gap: 6px; align-items: center; margin: 4px 0; }
 .affix-row .tag { width: 38px; color: var(--muted); font-size: 12px; flex: none; }
 .affix-row select { flex: 1; min-width: 0; }
 .affix-row .unit { width: 16px; color: var(--muted); font-size: 11px; flex: none; }
-.card .hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
 .results {
-  background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+  background: linear-gradient(180deg, var(--ink-800), var(--ink-850));
+  border: 1px solid var(--line); border-radius: var(--radius-md);
   padding: 12px 14px; margin-top: 12px;
+  box-shadow: var(--shadow-card);
 }
-.dps-big { font-size: 30px; font-weight: 700; color: var(--good); }
+.dps-big {
+  font-family: var(--font-serif); font-size: 30px; font-weight: 700;
+  color: var(--good); letter-spacing: .02em; font-variant-numeric: tabular-nums;
+}
 .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px 18px; }
 @media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
-.stat-grid div { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--line); }
+.stat-grid div {
+  display: flex; justify-content: space-between; gap: 8px;
+  border-bottom: 1px dashed var(--line); font-variant-numeric: tabular-nums;
+}
 .stat-grid span:first-child { color: var(--muted); }
+.stat-grid span:last-child { flex: none; }
+
 ul.warnings { margin: 6px 0; padding-left: 18px; color: var(--warn); }
 details { margin-top: 8px; }
-details summary { cursor: pointer; color: var(--muted); }
+details summary { cursor: pointer; color: var(--muted); letter-spacing: .04em; }
+
+/* 数值/比率统一表格数字，避免跳字 */
+.num, [class*="-num"] { font-variant-numeric: tabular-nums; }

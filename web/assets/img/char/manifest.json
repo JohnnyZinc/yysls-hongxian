@@ -1,0 +1,8 @@
+{
+ "moods": [
+  "idle",
+  "talk",
+  "think",
+  "unsure"
+ ]
+}

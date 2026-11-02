@@ -1,0 +1,542 @@
+{
+ "易水歌": {
+  "official_id": "81",
+  "official_name": "易水歌",
+  "type_name": "通用",
+  "icon": "mind-official/81.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623bd0736c6e9cf48bc1vCH6zJrC05",
+  "bg_url": "https://h72.fp.ps.netease.com/file/6733623cd6633eadacf704b9SzGt9NYp05",
+  "lib_bg": "official/xinfa/bg_icon_url/6733623cd6633eadacf704b9SzGt9NYp05"
+ },
+ "四时无常": {
+  "official_id": "82",
+  "official_name": "四时无常",
+  "type_name": "通用",
+  "icon": "mind-official/82.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623bce50988c12774025dmgMtrlX05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "征人归": {
+  "official_id": "41",
+  "official_name": "征人归",
+  "type_name": "通用",
+  "icon": "mind-official/41.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623984227bfab4059697dD0bYktd05",
+  "bg_url": "https://h72.fp.ps.netease.com/file/6733623c6faf31b88f5cb354x7wR0PcK05",
+  "lib_bg": "official/xinfa/bg_icon_url/6733623c6faf31b88f5cb354x7wR0PcK05"
+ },
+ "极乐泣血": {
+  "official_id": "5",
+  "official_name": "极乐泣血",
+  "type_name": "通用",
+  "icon": "mind-official/5.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623cce50988c127740274Gixfv2605",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "怒斩马": {
+  "official_id": "44",
+  "official_name": "怒斩马",
+  "type_name": "通用",
+  "icon": "mind-official/44.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623906d7ecb577743937u9tlb5QX05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "明晦同尘": {
+  "official_id": "47",
+  "official_name": "明晦同尘",
+  "type_name": "通用",
+  "icon": "mind-official/47.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6842973463e2dc663d1a59ffsGjDpyWa06",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "所恨年年": {
+  "official_id": "42",
+  "official_name": "所恨年年",
+  "type_name": "通用",
+  "icon": "mind-official/42.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336239e29076979cd0dedd1BVEMDIP05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "丹心篆": {
+  "official_id": "48",
+  "official_name": "丹心篆",
+  "type_name": "通用",
+  "icon": "mind-official/48.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/68429735334f9e1dd6a265f2EXkEm5Sg06",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "归雁经": {
+  "official_id": "43",
+  "official_name": "归燕经",
+  "type_name": "通用",
+  "icon": "mind-official/43.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336239a415902e17396ee1j49aWXGL05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "长生无相": {
+  "official_id": "45",
+  "official_name": "长生无相",
+  "type_name": "通用",
+  "icon": "mind-official/45.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623a50f43898b2b237c9IRwSDlgo05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "婆娑影": {
+  "official_id": "46",
+  "official_name": "婆娑影",
+  "type_name": "通用",
+  "icon": "mind-official/46.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623b6d3f23b2273749b9F48vJ4R605",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "无名心法": {
+  "official_id": "104",
+  "official_name": "无名心法",
+  "type_name": "鸣金虹",
+  "icon": "mind-official/104.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623718ecd43d445f7e985R0g7y1N05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "千山法": {
+  "official_id": "101",
+  "official_name": "千山法",
+  "type_name": "鸣金虹",
+  "icon": "mind-official/101.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336236045985a8447c7a4cSsDvRRkT05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "威猛歌": {
+  "official_id": "103",
+  "official_name": "威猛歌",
+  "type_name": "鸣金虹",
+  "icon": "mind-official/103.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362366bd39c5112ef0ad1ac6MISp505",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "星火燎原": {
+  "official_id": "102",
+  "official_name": "燎原星火",
+  "type_name": "鸣金虹",
+  "icon": "mind-official/102.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362365e3cfed97860217eo4USRVUL05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "君臣药": {
+  "official_id": "351",
+  "official_name": "君臣药",
+  "type_name": "牵丝霖",
+  "icon": "mind-official/351.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362383370b99a1453958esi5xWdjl05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "千丝蛊": {
+  "official_id": "354",
+  "official_name": "千丝蛊",
+  "type_name": "牵丝霖",
+  "icon": "mind-official/354.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362383373bf861b06b4a1U1sUJpOi05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "杏花不见": {
+  "official_id": "352",
+  "official_name": "杏花不见",
+  "type_name": "牵丝霖",
+  "icon": "mind-official/352.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362387bf68b490e8bb65ewVe0j9JP05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "指玄篇注": {
+  "official_id": "353",
+  "official_name": "指玄篇注",
+  "type_name": "牵丝霖",
+  "icon": "mind-official/353.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362387552a395ce42950dtdRXlKYr05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "剑气纵横": {
+  "official_id": "154",
+  "official_name": "剑气纵横",
+  "type_name": "鸣金影",
+  "icon": "mind-official/154.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336237276b672de212a571lTEauoUI05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "逐狼心经": {
+  "official_id": "151",
+  "official_name": "逐狼心经",
+  "type_name": "鸣金影",
+  "icon": "mind-official/151.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623750f413ccc07fab19OSO1MCiA05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "移经易武": {
+  "official_id": "152",
+  "official_name": "移经易武",
+  "type_name": "鸣金影",
+  "icon": "mind-official/152.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336237b9dffb0fa08810257DsAF0U205",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "凝神章": {
+  "official_id": "153",
+  "official_name": "凝神章",
+  "type_name": "鸣金影",
+  "icon": "mind-official/153.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336237fa1c1734705756edfoY4MuDW05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "花上月令": {
+  "official_id": "304",
+  "official_name": "花上月令",
+  "type_name": "牵丝玉",
+  "icon": "mind-official/304.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362387e174f015d55d7f3m0CNN6Gv05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "纵地摘星": {
+  "official_id": "303",
+  "official_name": "纵地摘星",
+  "type_name": "牵丝玉",
+  "icon": "mind-official/303.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362383370b99a14539588aUvjwaWf05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "葫芦飞飞": {
+  "official_id": "301",
+  "official_name": "葫芦飞飞",
+  "type_name": "牵丝玉",
+  "icon": "mind-official/301.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336237e0f31d543d67493e91IscdSc05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "春雷篇": {
+  "official_id": "302",
+  "official_name": "春雷篇",
+  "type_name": "牵丝玉",
+  "icon": "mind-official/302.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362373060136ccecab60fQiOsU8yc05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "山河绝韵": {
+  "official_id": "401",
+  "official_name": "山河绝韵",
+  "type_name": "裂石威",
+  "icon": "mind-official/401.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336238fb3140b124b3687cRFVwOiIz05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "困兽心经": {
+  "official_id": "402",
+  "official_name": "困兽心经",
+  "type_name": "裂石威",
+  "icon": "mind-official/402.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336238fc057a61e3bf68d2kzIlxPwg05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "抗造大法": {
+  "official_id": "403",
+  "official_name": "抗造大法",
+  "type_name": "裂石威",
+  "icon": "mind-official/403.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67336239b87e22b2f8fff09a2ie70jM005",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "磐石诀": {
+  "official_id": "404",
+  "official_name": "磐石诀",
+  "type_name": "裂石威",
+  "icon": "mind-official/404.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/673362393ed7225686fec37fkuu6zMxX05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "忘川绝响": {
+  "official_id": "451",
+  "official_name": "忘川绝响",
+  "type_name": "破竹风",
+  "icon": "mind-official/451.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623a3c4a28cdf52717b9yQwDaOVC05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "断石之构": {
+  "official_id": "453",
+  "official_name": "断石之构",
+  "type_name": "破竹风",
+  "icon": "mind-official/453.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623a3ed7225686fec3850GWzZGUW05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "心弥泥鱼": {
+  "official_id": "452",
+  "official_name": "心弥泥鱼",
+  "type_name": "破竹风",
+  "icon": "mind-official/452.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623a8a746c10ca84a56dARuDqEY105",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "沧浪剑诀": {
+  "official_id": "454",
+  "official_name": "沧浪剑诀",
+  "type_name": "破竹风",
+  "icon": "mind-official/454.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623a1a8b8ce0ff3fe3b9PV250c5G05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "千营一呼": {
+  "official_id": "501",
+  "official_name": "千营一呼",
+  "type_name": "破竹尘",
+  "icon": "mind-official/501.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67eb623186b689796ac98fb5rAYtkG9706",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "绳舟行木": {
+  "official_id": "502",
+  "official_name": "绳舟行木",
+  "type_name": "破竹尘",
+  "icon": "mind-official/502.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67eb62324368228b4324e9eeRDaTub5006",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "灯儿亮": {
+  "official_id": "503",
+  "official_name": "灯儿亮",
+  "type_name": "破竹尘",
+  "icon": "mind-official/503.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67eb62334368228b4324e9f2D7GrihSd06",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "大唐歌": {
+  "official_id": "504",
+  "official_name": "大唐歌",
+  "type_name": "破竹尘",
+  "icon": "mind-official/504.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/67eb6234e4d95b3428e1e889RXastNai06",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "霜天白夜": {
+  "official_id": "551",
+  "official_name": "霜天白夜",
+  "type_name": "裂石钧",
+  "icon": "mind-official/551.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6889e1756f435e2894c182655VEp07Bp06",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "穿喉诀": {
+  "official_id": "553",
+  "official_name": "穿喉诀",
+  "type_name": "裂石钧",
+  "icon": "mind-official/553.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6889e175b82a77c540b10804ya3Ro9tU06",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "孤忠不辞": {
+  "official_id": "552",
+  "official_name": "孤忠不辞",
+  "type_name": "裂石钧",
+  "icon": "mind-official/552.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6889e17548e668b9f8cf1617wuTRpcXd06",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "燎原踏": {
+  "official_id": "554",
+  "official_name": "燎原踏",
+  "type_name": "裂石钧",
+  "icon": "mind-official/554.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6889e175ab42837ab07d1ec74RgJl0iN06",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "扶摇直上": {
+  "official_id": "601",
+  "official_name": "扶摇直上",
+  "type_name": "破竹鸢",
+  "icon": "mind-official/601.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/691764caefd7ac69ae5514b1FyjJSk8h07",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "擒天势": {
+  "official_id": "602",
+  "official_name": "擒天势",
+  "type_name": "破竹鸢",
+  "icon": "mind-official/602.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/691764cbcc9cd4fc2bdbd84aMKvRI6EI07",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "三穷致知": {
+  "official_id": "603",
+  "official_name": "三穷致知",
+  "type_name": "破竹鸢",
+  "icon": "mind-official/603.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/691764cb190571221d08e0d9TSCY77B307",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "天行健": {
+  "official_id": "604",
+  "official_name": "天行健",
+  "type_name": "破竹鸢",
+  "icon": "mind-official/604.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/691764cca9d94c52fb80c81cCauyfB6U07",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "相和歌": {
+  "official_id": "651",
+  "official_name": "相和歌",
+  "type_name": "牵丝翊",
+  "icon": "mind-official/651.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/69d661039ee0ff216e6d5c77zsAJcgJP07",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "风知意": {
+  "official_id": "652",
+  "official_name": "风知意",
+  "type_name": "牵丝翊",
+  "icon": "mind-official/652.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/69df3c7e87e5dd8056b14ea85hhb8aPH07",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "弦墨篇": {
+  "official_id": "653",
+  "official_name": "弦墨篇",
+  "type_name": "牵丝翊",
+  "icon": "mind-official/653.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/69ddf01c47f1427f326a89b7kbpvq5Q107",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "寸草心": {
+  "official_id": "654",
+  "official_name": "寸草心",
+  "type_name": "牵丝翊",
+  "icon": "mind-official/654.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/69ddf01c3dc3688b73f0b5d63DCEPLLw07",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "一醉千秋": {
+  "official_id": "701",
+  "official_name": "一醉千秋",
+  "type_name": "破竹樽",
+  "icon": "mind-official/701.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6a5e068b8e9d8d7bf7554dd24vQGL4u507",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "飞仙醉言": {
+  "official_id": "702",
+  "official_name": "飞仙醉言",
+  "type_name": "破竹樽",
+  "icon": "mind-official/702.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6a69d4f281d3b060b617bcc2oyxa2wfy07",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "燕别云岫": {
+  "official_id": "703",
+  "official_name": "燕别云岫",
+  "type_name": "破竹樽",
+  "icon": "mind-official/703.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6a69d4f22432176bfe1dad93UOFol4Ki07",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "大卷微身": {
+  "official_id": "704",
+  "official_name": "大卷微身",
+  "type_name": "破竹樽",
+  "icon": "mind-official/704.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6a69d4f2fc9422d5c05b98b8WXiAK35G07",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "生龙活虎": {
+  "official_id": "1",
+  "official_name": "生龙活虎",
+  "type_name": "通用",
+  "icon": "mind-official/1.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623b5337b5a3926c8372mP6YrHJ805",
+  "bg_url": "https://h72.fp.ps.netease.com/file/6733623c9ef32828f2e2e586omDirtLo05",
+  "lib_bg": "official/xinfa/bg_icon_url/6733623c9ef32828f2e2e586omDirtLo05"
+ },
+ "晚雪间": {
+  "official_id": "2",
+  "official_name": "晚雪间",
+  "type_name": "通用",
+  "icon": "mind-official/2.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623b018e50861fdb6e9azimzddfM05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "铁身诀": {
+  "official_id": "3",
+  "official_name": "铁身诀",
+  "type_name": "通用",
+  "icon": "mind-official/3.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623c3c9c2a5ae7962539uG8vo4A905",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "山月无影": {
+  "official_id": "4",
+  "official_name": "山月无影",
+  "type_name": "通用",
+  "icon": "mind-official/4.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/6733623c39114391bd96afceoRxVWUUG05",
+  "bg_url": null,
+  "lib_bg": null
+ },
+ "沙摆尾": {
+  "official_id": "6",
+  "official_name": "沙摆尾",
+  "type_name": "通用",
+  "icon": "mind-official/6.png",
+  "icon_url": "https://h72.fp.ps.netease.com/file/681b3780caea6df6344d1647xM3hrvsv06",
+  "bg_url": null,
+  "lib_bg": null
+ }
+}

@@ -1,107 +1,789 @@
-/* studio.css — 三栏工作台专属样式（变量与基调沿用 style.css；徽章类沿用 evaluator.css） */
+/* studio.css — 四栏工作台专属样式
+   视觉基调：《燕云十六声》水墨灰打底 + 鎏金唯一强调（变量见 style.css）
 
-/* ---------- 三栏骨架 ---------- */
+   布局（用户定稿 2026-10-30，勿回退三栏）：
+     栏1 口径（横排）+ 已穿戴 8 槽位          栏2 背包
+     栏3 助手对话框（先只有 UI，业务稍后接）   栏4 毕业率 → 词条配额 → 属性面板（三者合成一张面板）
+   录入装备与装备详情都走弹窗。
+   本协议只换皮肤不动骨架，所有栅格/宽高参数与注释保留原样。 */
+
+/* ---------- 骨架（2026-11-02 第三版：整页固定视口，内容在卡片内滚）----------
+   页面本身永远不出滚动条：body 高度锁 100vh + overflow hidden，
+   三栏各自把「内容最多的那一块」做成内部滚动区（背包卡 / 属性面板）。
+   桌面两栏 1.45fr | max(31vw,380px)；开助手后三栏均分 1/3。 */
+html { height: 100%; }
+body {
+  display: flex; flex-direction: column;
+  height: 100vh; min-height: 0; overflow: hidden;
+  padding: 0 12px; /* 左右 12 = 卡片间距；上下不留白（原来是 16/60，页面短一点就出滚动条） */
+}
+.app-bar { flex: 0 0 auto; margin: 0 -12px 12px; }
 .studio {
   display: grid;
-  grid-template-columns: minmax(300px, 370px) minmax(420px, 1fr) minmax(300px, 385px);
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, max(31vw, 380px));
+  grid-template-areas: "leftcol right";
   gap: 12px;
-  align-items: start;
+  align-items: stretch;  /* 原来是 start：拉伸后各栏才有确定高度可供内部滚动 */
+  flex: 1 1 auto; min-height: 0;
 }
-.st-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+/* studio 页两侧留白 = 卡片间距（覆盖 style.css 的 20px；只影响本页） */
+#st-leftcol { grid-area: leftcol; }
+/* ⚠ 背包卡必须和 gear/bag 同住一个真实列容器：若用 grid 跨行拼接（"gear chat panel" / "bag chat panel"），
+   右侧跨两行的高卡会把第一行撑高，背包上方出现 ~180px 空隙。 */
+.st-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; min-height: 0; }
+
+/* ---- 左栏：装备槽按内容，背包卡吃掉剩余高度并内部滚 ---- */
+#st-leftcol { overflow: hidden; }
+#st-left { flex: 0 0 auto; overflow-y: auto; } /* 极矮视口（笔记本横屏）兜底 */
+#st-center { flex: 1 1 auto; min-height: 0; }
+#st-center > .st-panel { height: 100%; min-height: 0; display: flex; flex-direction: column; }
+#st-center > .st-panel > .st-sec-title { flex: 0 0 auto; }
+#st-center .st-bp-groups { flex: 1 1 auto; min-height: 0; max-height: none; overflow-y: auto; }
+#st-center .st-bp-hidden { flex: 0 0 auto; }
+
+/* ---- 右栏：口径 + 心法按内容，最后一张面板吃掉剩余高度，配额与属性面板各自滚 ----
+   ⚠ 右栏三个子元素**都是 .st-panel**（口径 / 心法 / 主面板），所以不能用
+     `#st-right > .st-panel` 一概而论 —— 那样会把口径和心法也拉伸。主面板认 id。 */
+#st-right { overflow: hidden; }
+#st-right > .st-panel { flex: 0 0 auto; }
+#st-right > #st-main-panel {
+  flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+  /* 词条配额与属性面板是**一体**的，由主面板整体滚（2026-11-02 玩家定稿）：
+     原来两块各自 overflow-y:auto，滚配额时面板不动、要滚两次才看得完一屏之外的内容 */
+  overflow-y: auto;
+}
+#st-main-panel > #st-quota-box { flex: 0 0 auto; min-height: 0; overflow: visible; }
+#st-main-panel > #st-stats-box { flex: 0 0 auto; min-height: 0; overflow: visible; }
+/* 弹窗宿主不参与高度分配（内容全是 fixed 遮罩） */
+#st-modal { flex: 0 0 auto; }
+
+/* 面板：暗墨卡 + 顶部一道鎏金渐隐发丝线（替代俗气的大金边） */
 .st-panel {
-  background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
-  padding: 10px 12px;
+  position: relative;
+  background: linear-gradient(180deg, var(--ink-800) 0%, var(--ink-850) 100%);
+  border: 1px solid var(--line); border-radius: var(--radius-md);
+  padding: 11px 13px;
+  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(240, 221, 180, .045);
 }
+.st-panel::before {
+  content: ''; position: absolute; top: 0; left: 14px; right: 14px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(199, 154, 99, .42), transparent);
+  pointer-events: none;
+}
+/* 章节标题：楷体鎏金 + 左侧刻本竖标（13px 降到 500，靠鎏金色承重） */
 .st-sec-title {
-  font-size: 13px; color: var(--accent); margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-size: 13px; font-weight: 500; letter-spacing: .1em;
+  color: var(--accent); margin: 0 0 8px;
   display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  flex-wrap: wrap;
 }
-.st-sec-title .muted { font-weight: 400; }
+.st-sec-title > span:first-child {
+  border-left: 2px solid rgba(199, 154, 99, .55);
+  padding-left: 7px; line-height: 1.3;
+}
+.st-sec-title .muted { font-weight: 400; letter-spacing: .04em; }
 
-@media (max-width: 1250px) {
-  .studio { grid-template-columns: minmax(280px, 330px) minmax(380px, 1fr) minmax(280px, 340px); }
+/* ---------- 栏4 第 1 行：口径卡（流派/分支/方案 + 毕业率，用户定稿 2026-10-30 第二十版）----------
+   一行两区，**恒不换行**：
+     左 = 流派印章 ＋ 右侧竖排：流派名 / 分支·方案水墨横幅；
+     右 = 毕业率大字读数（从原「合成面板」顶段上移，#st-grad-box 跟着搬过来）。
+   四本心法已拆到独立的第 2 行卡（.st-minds-panel），不再与口径同卡 ⇒
+   旧「印章 = 心法卡高一半」的 --mind-w 派生公式作废，印章改固定 64px，
+   行高由左栈（流派名 + 横幅）自然撑出。 */
+.st-kj-panel { container-type: inline-size; }
+.st-kj-row {
+  display: flex; align-items: center; gap: 14px; flex-wrap: nowrap;
+  width: 100%;
+  /* 第二十四版：三区各自自适应，余量 space-between 均分到两个缝——
+     避免中段（流派武学）与毕业率之间独吃一大块空白 */
+  justify-content: space-between;
 }
-@media (max-width: 1050px) {
-  .studio { grid-template-columns: 1fr; }
+/* 右半：毕业率（第二十一版：标题与数字都**右对齐**，标题前的竖标去掉——
+   这是行内右缘的读数，不再是章节标题，不套 .st-sec-title 的刻线装饰） */
+.st-kj-grad { flex: 0 0 auto; min-width: 0; }
+.st-kj-grad .st-sec-title { margin: 0 0 3px; justify-content: flex-end; }
+.st-kj-grad .st-sec-title > span:first-child { border-left: 0; padding-left: 0; }
+.st-kj-grad .st-grad-row { justify-content: flex-end; }
+
+/* 中段：流派武学（第二十三版）：当前流派两门武学，两行「图标在前、名称在后」，
+   卡在流派/分支/方案（左）与毕业率（右）之间。
+   第二十四版：图标 36px / 名称 16px（流派名 30px 的一半以上），列不再 flex:1 撑满——
+   行改 space-between，余量均分给两个缝，武学与毕业率之间不再一大片空白。 */
+.st-kj-kongfu {
+  flex: 0 1 auto; min-width: 0;
+  display: flex; flex-direction: column; justify-content: center; gap: 8px;
+}
+.st-kf-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.st-kf-icon {
+  flex: none; width: 36px; height: 36px; object-fit: contain;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .5));
+}
+.st-kf-name {
+  font-size: 16px; line-height: 1.3; color: var(--paper); letter-spacing: .03em;
+  min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-/* ---------- 左栏：装备槽位（2 行 × 4） ---------- */
-.st-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+/* ---------- 流派标志 + 右侧两行（用户定稿 2026-10-30 第三版）----------
+   新结构（.st-kj-left = flex row）：
+     [印章按钮]（高度 = 心法卡整体高度）  [ .st-kj-flows 竖排 ]
+                                            ├ 流派名（第 1 行）
+                                            └ 分支·方案 题额（第 2 行）
+   三个按钮全部**去背景**（透明的），只留图与字 —— 旧版那块深色托底会跟印章
+   叠成「一个方块里塞一张小图」，放大后尤其难看。 */
+.st-kj-left {
+  /* 第二十三版：不再吃剩余宽度（中段让给流派武学两行），只按内容自适应 */
+  flex: 0 0 auto; min-width: 0;
+  display: flex; align-items: center; gap: 8px;
+}
+/* 印章按钮（第二十版）：心法已拆到独立行，不再与心法卡对齐 ⇒ 尺寸固定 64px，
+   在 .st-kj-left 内垂直居中（行高由流派名 + 横幅撑出，印章跟随居中即可）。
+   负 margin 吃掉印章左右剩余的透明边距（裁留白后墨迹宽约占容器 70~82%） */
+.st-school-btn {
+  flex: 0 0 auto; align-self: center;
+  width: 64px; height: 64px;
+  margin: 0 -4px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0; cursor: pointer; text-align: left;
+  background: none; border: 0; box-shadow: none;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, .55));
+  transition: filter .15s;
+}
+.st-school-btn:hover { filter: drop-shadow(0 0 11px rgba(199, 154, 99, .48)) brightness(1.12); }
+.st-school-btn:focus-visible { outline: 1px solid var(--gold-500); outline-offset: 3px; }
+/* 图标：印章（官方 liupai_pic_url，2026-10-30 已裁掉四周透明留白 → 65~72 × 88~99）。
+   contain —— 裁留白后任意流派等比铺满容器高，视觉高度对所有流派一致
+   （原图墨迹只占画布 78%~88%，不裁就只能靠统一 scale 猜，各流派会高矮不一）。
+   不加描边：图本身透明底，再套方框会变成「框中框」 */
+.st-school-art {
+  width: 100%; height: 100%; display: block;
+  object-fit: contain; object-position: center;
+}
+/* 右侧竖排：流派名在上、分支·方案在下，整组在印章高度内垂直居中 */
+.st-kj-flows {
+  /* 第二十一版：不再撑满行宽——宽度 = 流派名的自然宽度（max-content），
+     下方横幅 width:100% 跟着收到与名称文字等长（横幅文字更长时以横幅为准，多出的 ≤10px 可忽略）；
+     剩余空间留在横幅与右侧毕业率之间，视觉上把两区分开 */
+  flex: 0 0 auto; min-width: 0; width: max-content; max-width: 100%;
+  display: flex; flex-direction: column; justify-content: center; gap: 3px;
+}
+.st-school-name {
+  /* 从 span 改成 button（点名称同样切流派）→ 必须把全局按钮规则的金漆底、
+     描边、内阴影一并清掉，否则名称背后会浮一个「凸起的小方块」。
+     ⚠ 全局 button 有 box-shadow（inset 白色高光 + 外投影），光写 background:none
+     清不掉，这就是之前名称后面那块深浅不一的原因。 */
+  font-family: var(--font-serif);
+  font-size: 30px; font-weight: 500; line-height: 1.22; letter-spacing: .06em;
+  color: var(--paper-hi); text-align: left;
+  appearance: none; background: none; border: 0; padding: 0; border-radius: 0; box-shadow: none;
+  cursor: pointer;
+  min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .65);
+  transition: color .15s;
+}
+.st-school-name:hover { color: #f6e7c6; }
+.st-school-name:focus-visible { outline: 1px solid var(--gold-500); outline-offset: 3px; }
+
+/* 配置题额（分支 · 方案）：一条水墨条幅，点击开弹窗逐层选（用户定稿 2026-10-30 方案 B）。
+   为什么不再用下拉：分支最多 2 个、方案最多 2 个，下拉的成本全在「看不到有哪些选项」上；
+   而切换频率低于切流派，不值得常驻两个控件占版面 —— 收成一条横幅，点开再选。
+   底图 = 当前流派的无字横幅底（`界面图片.流派横幅底`），跟随流派配色；
+   文字走正文楷体（用户 2026-10-30：隶书不好看，改回楷体）。 */
+.st-config-band {
+  /* 高度不写死：条幅比例 5:1（比官方墨块 254:68 更瘦一点，用户定稿「太大太胖」），
+     只靠比例约束；min-height 兜住最窄一档，免得字顶到墨块上下边 */
+  flex: 0 0 auto; aspect-ratio: 5 / 1; height: auto; min-height: 24px; width: 100%; min-width: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 8px; cursor: pointer;
+  /* 全局 `button` 有金漆底 + 内阴影，必须连 box-shadow / appearance 一起清掉 */
+  appearance: none; border: 0; border-radius: 0; box-shadow: none; background-color: transparent;
+  background-image: var(--tag-bg);
+  background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .55));
+  transition: filter .15s;
+}
+.st-config-band:hover { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .55)) brightness(1.14); }
+.st-config-band:focus-visible { outline: 1px solid var(--gold-500); outline-offset: 3px; }
+.st-config-band-t {
+  /* 字号只比心法名（.st-mind-cap ≈ 11.8px）大一点点，用户定稿 2026-10-30。
+     楷体：不再有隶书那个「墨迹低于行盒中线」的问题，translateY 修正已去掉 */
+  font-family: var(--font-serif); font-size: 13px; font-weight: 400; line-height: 1.16; letter-spacing: .03em;
+  color: var(--paper-hi); text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+  /* 7 个字（双切轴·大外流）在楷体 13px 下正好一行；真放不下也不许折成两行
+     （条幅只有 5:1，两行会顶出墨块），交给省略号 */
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+}
+
+/* ---------- 配置菜单（2026-10-30 第七版：同大对齐的水墨条叠、无背景框）----------
+   点横幅 → 在它正下方展开一列**与横幅同大、左对齐**的水墨条，一条 = 一个（分支·方案）组合，
+   点选即切、自动收起。
+   为什么不用模态框：整页盖掉再选 1~2 个选项是「大动作」，而换分支/方案只是换口径。
+   为什么用 absolute 浮层而不是把行撑高：撑高后右上的四本心法卡会悬在上方、
+   下方「已穿戴」整块被推下去，展开一下页面就跳两跳。 */
+.st-config-wrap { position: relative; }
+/* 展开中：横幅提亮一点，表示「这一条正开着」（不描边，用户定稿这批按钮一律无边框） */
+.st-config-band.on { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .55)) brightness(1.18); }
+
+/* 容器只负责定位和间距：**没有任何背景框**（不要底色、内边距、圆角、描边与外投影）——
+   条目自己就是水墨条，外面再套一层卡片会变成「框中框」（用户定稿第七版） */
+.st-config-menu {
+  position: absolute; left: 0; top: calc(100% + 6px); z-index: 40;
+  width: 100%; /* 与横幅同宽 → 左边缘天然对齐 */
+  display: flex; flex-direction: column; gap: 3px; /* 缝隙只留 3px：墨条本身的飞溅边已经算空隙，再大开就能透出底下「已穿戴」的字，显乱 */
+  background: none; padding: 0; margin: 0;
+  border: 0; border-radius: 0; box-shadow: none;
+  animation: stCfgMenuIn .13s ease-out;
+}
+@keyframes stCfgMenuIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+
+/* 条目直接复用 `.st-config-band` 的尺寸与字号（宽 100% + 同一个 5:1 比例 + 13px 楷体），
+   所以「展开的墨条」与页面上的横幅**同宽同高同字**，这里只覆盖明暗差：
+   未选压到 .66、选中拉到 1.24 —— 差值不够时一眼看不出「当前」 */
+.st-cfg-item { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .5)) brightness(.7) saturate(.82); }
+.st-cfg-item:hover { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .5)) brightness(.98) saturate(1); }
+.st-cfg-item.on {
+  filter: drop-shadow(0 0 9px rgba(199, 154, 99, .5)) brightness(1.24) saturate(1.08);
+}
+.st-cfg-item.on .st-config-band-t {
+  color: #f8ecd2; text-shadow: 0 1px 2px rgba(0, 0, 0, .8), 0 0 9px rgba(199, 154, 99, .5);
+}
+.st-cfg-item:focus-visible { outline: 1px solid var(--gold-500); outline-offset: 3px; }
+
+/* 窄栏（栏1 被压窄时）：印章跟着 --mind-w 自动缩（硬绑定，不用管），
+   名称与题额只调字号。⚠ 容器是 `.st-kj-panel` 的**宽度**：1500 视口下栏1 ≈ 483、
+   1400 下 ≈ 447 —— 阈值定 470 会把 1400 桌面态也吃掉，名称掉到 19px 明显偏小。
+   只在手机单列（< 380）才降字号。 */
+@container (max-width: 380px) {
+  /* <20px 不合成粗体，楷体在这个尺寸粗体会糊 */
+  .st-school-name { font-size: 20px; font-weight: 400; }
+  .st-kj-left { gap: 7px; }
+  .st-config-band { padding: 0 5px; }
+  .st-config-band-t { font-size: 11px; letter-spacing: 0; }
+}
+
+/* 流派选择模态框：印章图标卡片网格（只留图标 + 流派名）。
+   无边框（用户定稿 2026-10-30）：卡片靠深浅底 + 外发光区分，选中用暖底色而非描金边。 */
+.st-school-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+.st-school-card {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 8px 6px; cursor: pointer; text-align: center;
+  background: linear-gradient(180deg, rgba(34, 31, 26, .55), rgba(16, 16, 18, .45));
+  border: 0; border-radius: var(--radius-md);
+  transition: background .15s, box-shadow .15s, transform .1s;
+}
+.st-school-card:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, rgba(52, 46, 32, .62), rgba(20, 20, 22, .5));
+  box-shadow: 0 0 16px rgba(199, 154, 99, .14);
+}
+.st-school-card.on {
+  background: linear-gradient(180deg, rgba(64, 55, 34, .72) 0%, rgba(24, 22, 18, .55) 100%);
+  /* 只发光、不描边（`0 0 0 1px` 那种环等同边框，用户定稿不要） */
+  box-shadow: 0 0 20px rgba(199, 154, 99, .24);
+}
+.st-school-card.on .st-school-card-name { color: var(--gold-300); }
+.st-school-card-art {
+  /* contain —— 源图是 108 正方形印章，cover 会把墨迹边缘裁掉；
+     width 用 min() + aspect-ratio 保「永远是正方形」，否则 max-height 会把框压成矩形。
+     不描边：印章自己有墨迹外形，再套方框就成「框中框」 */
+  width: min(108px, 100%); aspect-ratio: 1 / 1; height: auto; margin: 0 auto;
+  object-fit: contain; object-position: center;
+  border: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(240, 221, 180, .05), transparent 70%);
+}
+.st-school-card-name {
+  font-family: var(--font-serif);
+  font-size: 13px; font-weight: 500; letter-spacing: .06em; color: var(--paper);
+}
+
+/* 流派格子：多配置的印章点开时，**只有这一格动** —— 印章左滑淡出、原位滑入该流派的分支·方案水墨条；
+   其余印章不重排、不换页（玩家定稿 2026-11-02）。单配置的流派点了直接切，不展开。 */
+.st-school-cell { position: relative; cursor: pointer; }
+.st-school-cell .st-school-card {
+  height: 100%;
+  transition: transform .24s ease, opacity .18s ease;
+}
+.st-flow-list {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; justify-content: center; gap: 3px;
+  transform: translateX(112%); opacity: 0; pointer-events: none;
+  transition: transform .26s cubic-bezier(.3, .8, .4, 1), opacity .16s ease;
+}
+.st-school-cell.open .st-school-card { transform: translateX(-112%); opacity: 0; pointer-events: none; }
+.st-school-cell.open .st-flow-list { transform: translateX(0); opacity: 1; pointer-events: auto; }
+/* 格子只有一百来像素宽：横幅字号降到 11px，7 个字（双切轴·大外流）才放得下 */
+.st-flow-list .st-config-band { padding: 0 4px; }
+.st-flow-list .st-config-band-t { font-size: 11px; letter-spacing: 0; }
+
+/* ---------- 弹窗：角色管理（多角色，用户定稿 2026-10-30）----------
+   卡片网格（点卡切换）+ 卡内改/删 + 底部新建；重命名/删除是同一弹窗的两个子视图 */
+.st-char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.st-char-card {
+  position: relative; display: grid; gap: 3px; padding: 10px 12px 30px;
+  cursor: pointer; text-align: left; min-width: 0;
+  background: linear-gradient(180deg, var(--ink-700), var(--ink-850));
+  border: 1px solid var(--line); border-radius: var(--radius-md);
+  transition: border-color .15s, box-shadow .15s, transform .1s;
+}
+.st-char-card:hover { border-color: var(--gold-500); transform: translateY(-2px); }
+.st-char-card.on {
+  border-color: var(--gold-500);
+  box-shadow: 0 0 0 2px rgba(199, 154, 99, .35), 0 0 16px rgba(199, 154, 99, .14);
+  background: linear-gradient(180deg, #262219 0%, var(--ink-850) 100%);
+}
+.st-char-name {
+  font-family: var(--font-serif);
+  font-size: 18px; font-weight: 600; letter-spacing: .04em; color: var(--paper-hi);
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+.st-char-meta { font-size: 11px; letter-spacing: .04em; color: var(--muted); }
+/* 操作按钮压在卡底（不挤占名字行；点它们不会触发切卡，靠 stopPropagation） */
+.st-char-ops { position: absolute; right: 8px; bottom: 6px; display: flex; gap: 6px; }
+.st-char-op { padding: 1px 8px; font-size: 11px; letter-spacing: .04em; }
+.st-char-op.danger { color: var(--bad); border-color: rgba(180, 74, 58, .5); }
+.st-char-op.danger:hover { border-color: var(--bad); color: var(--bad); background: rgba(180, 74, 58, .1); }
+.st-char-new { display: flex; gap: 8px; align-items: center; margin-top: 14px; }
+.st-char-new input { flex: 1; min-width: 0; }
+.st-char-form { display: grid; gap: 6px; margin-bottom: 14px; }
+.st-char-form label { font-size: 12px; letter-spacing: .08em; color: var(--muted); }
+
+@media (max-width: 1150px) {
+  .studio {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "leftcol" "right";
+  }
+}
+
+/* ---------- 弹窗（录入装备 / 装备详情） ---------- */
+.st-modal-backdrop {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(8, 9, 11, .72);
+  backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 48px 16px; overflow: auto;
+}
+.st-modal {
+  position: relative;
+  background: linear-gradient(180deg, var(--ink-800) 0%, var(--ink-850) 100%);
+  border: 1px solid rgba(199, 154, 99, .3); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-pop);
+  width: min(720px, 100%); display: flex; flex-direction: column;
+}
+.st-modal::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: linear-gradient(90deg, transparent, rgba(199, 154, 99, .75) 26%, rgba(199, 154, 99, .2) 70%, transparent);
+}
+.st-modal-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  flex-wrap: wrap; padding: 12px 15px 10px; border-bottom: 1px solid var(--line);
+}
+.st-modal-head h3 {
+  margin: 0; font-size: 15px; letter-spacing: .08em; color: var(--gold-400);
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.st-modal-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.st-modal-actions button { padding: 4px 14px; font-size: 12px; letter-spacing: .06em; }
+.st-modal-actions button.primary {
+  background: linear-gradient(180deg, var(--gold-400), var(--gold-500));
+  color: #14161a; border-color: var(--gold-600);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 1px 3px rgba(0, 0, 0, .4);
+}
+/* 次级/关闭按钮：描金不上金漆 */
+.st-modal-actions button.ghost,
+.st-modal-close {
+  background: transparent; color: var(--gold-400);
+  border: 1px solid var(--gold-hair); box-shadow: none; font-weight: 500;
+}
+.st-modal-actions button.ghost:hover,
+.st-modal-close:hover {
+  border-color: var(--gold-500); color: var(--gold-300);
+  background: rgba(199, 154, 99, .08); filter: none;
+}
+.st-modal-body { padding: 12px 15px; max-height: calc(100vh - 190px); overflow: auto; }
+.st-modal-body > .st-sec-title:first-child { margin-top: 0; }
+
+/* ---------- 卡片标题内的动作（背包卡里的「＋录入装备」） ---------- */
+.st-title-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.st-title-actions .st-add-btn { padding: 3px 12px; font-size: 12px; }
+/* 背包标题里的次要按钮（组合）：无实底，只一圈淡金边；有更优组合时右上角挂一粒朱点 */
+.st-mini {
+  position: relative; appearance: none; background: none;
+  border: 1px solid var(--gold-hair); border-radius: 11px;
+  color: var(--accent); font: inherit; font-size: 12px; padding: 2px 11px; cursor: pointer;
+}
+.st-mini:hover { border-color: var(--gold-500); color: var(--gold-300); }
+.st-mini.has-dot::after {
+  content: ''; position: absolute; top: -1px; right: -1px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--cinnabar);
+}
+/* 组合总览模态框里的换装清单 */
+.st-comp-list { margin: 8px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.9; color: var(--paper); }
+.st-comp-list b { font-weight: 500; color: var(--accent); }
+
+/* ---------- 中栏：已穿戴纸娃娃槽位（对齐燕小叽站点 HomeEquipmentLoadoutPanel）----------
+   五列×两槽：第 5 列弓玦/武库特殊槽。
+   尺寸与间距（用户定稿 2026-10-26，比例单位 u，间距统一 100u）：
+     环/佩/武库 400×400、武器与弓玦 400×700、冠胄/胸甲/胫甲/腕甲 400×550（宽×长，竖版）；
+   五列同为 400 宽 ⇒ 列等分；列高 700+400 与 550+550 同为 1100u ⇒ 五列自然等高；
+   行高由槽位自身 aspect-ratio 决定（不再写死 fr，也不再固定总高）；
+   背景 = bg/golden.png（全站统一；卡面不挂文字说明）；
+   等阶徽章（天地玄黄）右上角，承音徽章右下角 */
+.st-slots {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 28px; /* 100u ≈ 28px（5×400 + 4×100 = 2400u 铺满 660px，与背包同尺） */
+  /* 宽度跟随容器，不再写死 660 —— 写死后会 margin:0 auto 居中，
+     左栏越宽两侧空白越大（三栏 853 → 两侧各 96px，比自己 28px 的槽间距还大）。
+     上限 900 只是防止超宽屏把纸娃娃拉糊。 */
+  width: 100%; max-width: 780px; margin: 0 auto;
+}
+/* min-height:0 关键：grid 项默认 min-height:auto 会按内容（装备图 intrinsic 高度）撑破网格，
+   导致第二行槽位溢出面板压到背包卡（2026-10-23 实测修复） */
+.st-slot-col {
+  display: grid; gap: 28px; min-width: 0; min-height: 0; align-content: center;
+}
+/* 槽位长宽比（用户定稿比例，aspect-ratio = 宽 / 长） */
+.st-slot--w { aspect-ratio: 400 / 700; }  /* 武器、弓玦 */
+.st-slot--s { aspect-ratio: 400 / 400; }  /* 环、佩、武库 */
+.st-slot--a { aspect-ratio: 400 / 550; }  /* 冠胄、胸甲、胫甲、腕甲 */
 .st-slot {
-  border: 1px solid var(--line); border-radius: 6px; background: var(--panel);
-  padding: 6px 6px 5px; min-height: 96px; cursor: pointer; min-width: 0;
+  position: relative; display: grid; place-items: center;
+  min-width: 0; min-height: 0; overflow: hidden; padding: 6px;
+  border: 1px solid rgba(199, 154, 99, .28); border-radius: var(--radius-sm);
+  background-color: var(--ink-850);
+  background-image: url('/web/assets/img/bg/golden.png');
+  /* 100% 100% = 拉伸铺满（用户定稿 2026-10-30：不要裁切）。
+     底图是 1088×1911 竖版渐变卡（上墨、下鎏金），槽位长宽比有 400/700、400/550、400/400 三种，
+     cover 会按宽度铺开后把顶部或底部鎏金带裁掉；拉伸后渐变两端必定完整可见。
+     纯渐变 + 底部碎金，纵向压缩在视觉上几乎无破绽 */
+  background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
+  cursor: pointer; text-align: center;
+  transition: border-color .15s, box-shadow .15s;
 }
-.st-slot:hover { border-color: var(--accent); }
-.st-slot.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-.st-slot.empty { border-style: dashed; color: var(--muted); background: transparent; }
-.st-slot .name {
-  font-size: 12px; font-weight: 700; margin-bottom: 4px;
-  display: flex; justify-content: space-between; align-items: center; gap: 4px;
+.st-slot:hover {
+  border-color: var(--gold-400);
+  box-shadow: 0 0 10px rgba(199, 154, 99, .18);
 }
-.st-slot .name .tier-badge { padding: 0 6px; font-size: 11px; }
-.st-slot .affixes { font-size: 10px; line-height: 1.5; color: var(--muted); }
-.st-slot .affixes div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.st-slot .affixes .k { color: #7d8698; }
-.st-slot .empty-hint { font-size: 10px; margin-top: 14px; text-align: center; }
+.st-slot.selected {
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 1px var(--gold-400), 0 0 16px rgba(199, 154, 99, .26);
+}
+/* 筛选中（两段式第一次点击后：背包已筛到该部位但还没开弹窗）——比 selected 弱一档，只描边不发光 */
+.st-slot.filtering {
+  border-color: var(--gold-500);
+  box-shadow: 0 0 0 1px rgba(199, 154, 99, .55);
+}
+.st-slot--special { cursor: pointer; } /* 底图与装备槽一致（同一 golden 规则），无需再声明背景 */
+.st-slot-plus {
+  font-family: var(--font-serif);
+  font-size: 51px; line-height: 1.1; color: var(--gold-400);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .56);
+}
+.st-slot-empty-name { font-size: 16px; color: var(--muted); }
+.st-slot-glyph {
+  font-family: var(--font-serif); font-size: 36px; font-weight: 700; line-height: 1.2;
+  color: rgba(232, 226, 214, .22);
+}
+/* 装备图：整槽居中，尽量大（卡面已无文字带，可占满） */
+.st-slot-img { display: block; max-width: 86%; max-height: 86%; object-fit: contain; }
+/* 特殊槽（弓玦/武库）：卡面同样无底部文字，图与装备槽同规格居中 */
+.st-slot--special .st-slot-img { max-height: 86%; max-width: 86%; }
+.st-slot-set {
+  position: absolute; top: 6px; left: 9px;
+  font-family: var(--font-serif);
+  font-size: 18px; font-weight: 700; letter-spacing: .04em; color: var(--gold-500);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .62);
+}
+/* 等阶徽章（天地玄黄）→ 右上角（用户定稿：全部槽位） */
+.st-slot-tier { position: absolute; top: 6px; right: 9px; display: flex; align-items: center; gap: 4px; }
+/* 品阶徽标字号 = 承音徽标（11px，用户定稿第二十五版：右上角那颗原来 15px 太大） */
+.st-slot-tier .tier-badge { padding: 0 5px; font-size: 11px; background: rgba(8, 9, 11, .5); }
+/* 承音徽章 → 右下角（用户定稿 2026-10-26），与右上角等阶分开 */
+.st-slot-cy { position: absolute; right: 9px; bottom: 6px; background: rgba(8, 9, 11, .5); }
 
-/* ---------- 左栏：背包 ---------- */
-.st-backpack { display: flex; flex-direction: column; gap: 8px; max-height: 56vh; overflow: auto; }
+/* ---------- 栏4 第 2 行：心法条（用户定稿 2026-10-30 第二十版：独立成卡）----------
+   四张官方卡面（300×476 比例）横排铺满整行，空位占位图，点击弹选择模态框。
+   尺寸走 --mind-w，由本卡宽度反解：
+     100cqw = 卡内容宽，四张卡 + 3 个 8px 缝隙 → 4m + 24 = 100cqw（留 3px 余量防取整溢出）
+     →  m = (100cqw - 27px) / 4，上限 112px（更宽的视口不再继续放大） */
+.st-minds-panel { container-type: inline-size; }
+.st-minds {
+  --mind-w: clamp(56px, calc((100cqw - 36px) / 4), 112px);
+  /* 居中而不是 space-between：三栏均分后右栏变宽，space-between 会把四张卡拉到相隔一百多像素 */
+  display: flex; justify-content: center; gap: 12px; width: 100%; align-items: flex-start;
+}
+.st-mind { display: grid; justify-items: center; gap: 5px; cursor: pointer; min-width: 0; flex: 0 1 auto; }
+.st-mind-img {
+  width: var(--mind-w, 92px); height: auto; max-width: 100%;
+  border-radius: var(--radius-sm); object-fit: contain;
+  border: 1px solid transparent; transition: border-color .15s, box-shadow .15s;
+}
+.st-mind:hover .st-mind-img {
+  outline: none; border-color: var(--gold-500);
+  box-shadow: 0 0 10px rgba(199, 154, 99, .2);
+}
+/* 心法卡（2026-10-30 换官方素材）：卡底 + 白描图标 + 心法名，三层由 DOM 组合而成。
+   卡底是 300×476 的竖版卡面（顶部尖角），故 aspect-ratio 照抄 300:476；
+   尺寸全部跟着 --mind-w 走，窄栏等比缩 —— 名字也是文字（不是烧进图里的），缩了仍清晰。
+   内边距用百分比：避开顶部尖角与底部压边，图标区在中间偏上，名字压在下方留白处 */
+.st-mind-card {
+  position: relative; box-sizing: border-box;
+  width: var(--mind-w, 92px); max-width: 100%; aspect-ratio: 300 / 476;
+  /* 三行照官方卡构图：图标（顶部尖角内）→ 流派横幅 → 心法名（压底） */
+  display: grid; grid-template-rows: 1fr auto auto;
+  /* minmax(0,1fr)：图片的自动最小尺寸是「原生像素宽」（横幅 254px），不夹住会把网格列顶宽、
+     条幅左右戳出卡外（实测踩过） */
+  grid-template-columns: minmax(0, 1fr);
+  /* 上内边距 30%（= 卡高的 ~19%）：卡底顶部是斜切尖角，alpha 边界到 ~24% 高才回到满宽，
+     图标贴着上边会被斜边切掉两侧 */
+  padding: 30% 11% 8%; gap: 4%;
+  /* 卡底 png 自带 alpha 渐变（顶部尖角透明、主体 30%~100% 半透明）→ 直接铺在深色面板上会发闷。
+     提亮只能作用在图本身（不能给元素加 background-color：实色会把尖角两侧的透明角填掉，
+     卡就变成方角）。所以走 ::before 铺图 + filter 提亮，内容层再压上来 */
+  background: none;
+  border-radius: var(--radius-sm);
+  transition: box-shadow .15s, filter .15s;
+}
+.st-mind-card::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background-image: var(--mind-bg); background-size: 100% 100%; background-repeat: no-repeat;
+  background-position: center; border-radius: inherit;
+  filter: brightness(1.45) saturate(1.18);
+  pointer-events: none;
+}
+.st-mind-card > * { position: relative; z-index: 1; }
+/* 流派横幅（254×68「流派·名」条幅，官方素材）：等比铺卡宽，压一点点投影免得和卡底糊在一起 */
+.st-mind-tag {
+  display: block; width: 100%; height: auto; object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .6));
+}
+/* 破竹·樽 官方配置表漏填（liupai_pic_big_url 为空串），横幅由游戏内截图合成
+   （tools/make_mind_tag.mjs）。blank 分支保留为容错：万一以后某流派再次缺图 */
+.st-mind-tag--blank { aspect-ratio: 254 / 68; }
+.st-mind:hover .st-mind-card {
+  box-shadow: 0 0 0 1px var(--gold-500), 0 0 12px rgba(199, 154, 99, .22);
+}
+.st-mind-icon { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+.st-mind-cap {
+  font-family: var(--font-serif);
+  /* 字号跟卡宽等比（92px 卡 ≈ 11.8px，4 个字也放得下）；<18px 不合成粗体，靠鎏金色承重 */
+  font-size: calc(var(--mind-w, 92px) * .128); line-height: 1.2; font-weight: 400;
+  letter-spacing: .04em; text-align: center; white-space: nowrap;
+  color: var(--paper-hi); text-shadow: 0 1px 3px rgba(0, 0, 0, .75);
+}
+.st-mind-card--empty { grid-template-rows: 1fr; padding: 17% 11% 8%; }
+.st-mind-plus {
+  display: grid; place-items: center; height: 100%;
+  font-size: calc(var(--mind-w, 92px) * .42); line-height: 1;
+  color: rgba(199, 154, 99, .5);
+}
+.st-mind-tile {
+  width: var(--mind-w, 92px); aspect-ratio: 80 / 130; max-width: 100%;
+  box-sizing: border-box;
+  display: grid; place-items: center; padding: 8px; text-align: center;
+  border: 1px solid var(--gold-hair); border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, var(--ink-700), var(--ink-850));
+  font-family: var(--font-serif);
+  font-size: 15px; font-weight: 600; letter-spacing: .06em;
+  color: var(--paper); line-height: 1.3;
+}
+.st-mind:hover .st-mind-tile { border-color: var(--gold-500); }
+.st-mind-name {
+  font-size: 13px; color: var(--muted); letter-spacing: .04em; max-width: 116px;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+
+/* ---------- 弹窗：装备套装/弓玦套装/武库选择（站点 EquipmentSetSelectorModal 同款） ---------- */
+.st-picker-sec { margin: 0 0 16px; }
+.st-picker-sec h4 { margin: 0 0 8px; font-size: 13px; color: var(--accent); letter-spacing: .08em; }
+.st-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.st-picker-opt {
+  display: grid; justify-items: center; gap: 4px; padding: 8px 6px;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, var(--ink-800), var(--ink-850));
+  cursor: pointer; text-align: center; min-width: 0;
+  transition: border-color .15s, box-shadow .15s;
+}
+/* 心法品质（金/蓝/紫）→ 弹窗格子描边。弹窗格子小到放不下流派横幅，只留稀有度这一条信息；
+   放在 :hover / .active 之前，选中态仍盖过品质色 */
+.st-picker-opt[data-q="金"] { background: linear-gradient(180deg, rgba(122, 98, 45, .52), var(--ink-850)); }
+.st-picker-opt[data-q="蓝"] { background: linear-gradient(180deg, rgba(44, 72, 104, .48), var(--ink-850)); }
+.st-picker-opt[data-q="紫"] { background: linear-gradient(180deg, rgba(76, 63, 106, .46), var(--ink-850)); }
+.st-picker-opt:hover { border-color: var(--gold-500); }
+.st-picker-opt.active {
+  border-color: var(--gold-500);
+  box-shadow: 0 0 0 1px var(--gold-500), 0 0 12px rgba(199, 154, 99, .16);
+  background: linear-gradient(180deg, #262219, var(--ink-850));
+}
+.st-picker-opt img { width: 44px; height: 44px; object-fit: contain; }
+.st-picker-opt .n { font-size: 12px; font-weight: 500; color: var(--paper-hi); letter-spacing: .04em; }
+.st-picker-opt .m { font-size: 10px; color: var(--muted); }
+.st-picker-hint { font-size: 11px; color: var(--muted); margin: 0 0 12px; line-height: 1.5; }
+.st-picker-scroll { max-height: 52vh; overflow-y: auto; padding-right: 4px; }
+.st-picker-foot { display: flex; justify-content: flex-end; gap: 10px; }
+/* 心法选择模态框（站点 TimelineMindPickerModal 同款）：槽位行 + 可滚动选项区 */
+.st-mind-slots { display: flex; gap: 10px; flex-wrap: wrap; }
+.st-mind-slot { position: relative; }
+.st-mind-clear {
+  position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; padding: 0;
+  border: 0; border-radius: 50%; background: rgba(0, 0, 0, .55); color: var(--paper);
+  font-size: 13px; line-height: 20px; cursor: pointer; box-shadow: none;
+}
+.st-mind-clear:hover { background: var(--cinnabar-deep); color: var(--paper-hi); filter: none; }
+
+/* ---------- 栏2：背包 ----------
+   卡片化（用户定稿 2026-10-25）：与已穿戴槽同一套视觉——金色背景图 + 装备图 + 等阶徽章。
+   2026-10-30 定稿：背包与装备槽**同住栏1**后改用与 .st-slots 完全同款的网格
+   （5 列 + 28px gap）⇒ 背包卡与环/佩槽严格同大（用户：图标至少差不多大）。
+   2026-11-02：宽度与 .st-slots 同一套规则（撑满容器、900 封顶），否则两边会差出几十像素对不齐。 */
+.st-backpack {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 28px; width: 100%; max-width: 780px; margin: 0 auto;
+}
+/* 滚动区上提到分组容器：武器按类型分成多行后仍只有一条滚动条 */
+.st-bp-groups { max-height: 56vh; overflow: auto; padding-right: 2px; }
+.st-bp-empty { grid-column: 1 / -1; }
+/* 本方案未配过装备的提示（配置级已穿戴，2026-10-30）：槽位全空是预期行为，明说免得以为装备丢了 */
+.st-config-note {
+  width: 100%; max-width: 780px; margin: 0 auto 10px;
+  padding: 6px 10px; font-size: 12px; line-height: 1.6;
+  border-left: 2px solid var(--gold-hair); background: rgba(199, 154, 99, .05);
+}
+/* 背包部位筛选条（`.st-bp-filter` / 「显示全部」按钮）已删除（用户定稿 2026-10-31 第二十七版）：
+   筛选态改由卡片标题表达（背包 → 背包·环），取消靠「点别处」（见 studio.js 文档级监听） */
+/* 分组容器：分组标题仅在需要区分时出现（当前武器类型单一分组，一般无标题） */
+.st-bp-group + .st-bp-group { margin-top: 12px; }
+.st-bp-group-title {
+  width: 100%; margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-size: 13px; font-weight: 600; letter-spacing: .08em; color: var(--accent);
+}
 .st-bp-card {
-  border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px;
-  cursor: pointer; background: var(--panel); min-width: 0;
+  position: relative; display: grid; place-items: center; overflow: hidden;
+  aspect-ratio: 1 / 1; min-width: 0; padding: 6px;
+  /* 供徽标做容器查询：卡宽决定左下角最多排几枚印章（见 .st-bp-used 段） */
+  container-type: inline-size;
+  border: 1px solid rgba(199, 154, 99, .28); border-radius: var(--radius-sm);
+  background-color: var(--ink-850);
+  background-image: url('/web/assets/img/bg/golden.png');
+  /* 同 .st-slot：拉伸铺满不裁切（背包卡是正方形，cover 会只剩中间一段渐变） */
+  background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
+  cursor: pointer; transition: border-color .15s, box-shadow .15s;
 }
-.st-bp-card:hover { border-color: var(--accent); }
-.st-bp-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-.st-bp-head {
-  display: flex; justify-content: space-between; align-items: center; gap: 6px;
-  font-size: 12px; font-weight: 700;
+.st-bp-card:hover {
+  border-color: var(--gold-400);
+  box-shadow: 0 0 10px rgba(199, 154, 99, .18);
 }
-.st-bp-affixes {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px;
-  margin-top: 4px; font-size: 11px; font-weight: 400;
+.st-bp-card.selected {
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 1px var(--gold-400), 0 0 16px rgba(199, 154, 99, .26);
 }
-.st-bp-affixes div {
-  display: flex; justify-content: space-between; gap: 6px;
-  border-bottom: 1px dashed var(--line); padding: 1px 0; min-width: 0;
+.st-bp-glyph {
+  font-family: var(--font-serif); font-size: 30px; font-weight: 700; line-height: 1.2;
+  color: rgba(232, 226, 214, .22);
 }
-.st-bp-affixes .k { color: #7d8698; flex: none; }
-.st-bp-affixes .n { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.st-bp-affixes .v { flex: none; color: var(--text); }
+/* 等阶徽章（天地玄黄）→ 右上角，与已穿戴槽同位置同规格（字号=承音徽标，第二十五版） */
+.st-bp-tier { position: absolute; top: 6px; right: 9px; display: flex; align-items: center; gap: 4px; }
+.st-bp-tier .tier-badge { padding: 0 5px; font-size: 11px; background: rgba(8, 9, 11, .5); }
+.st-bp-cy { position: absolute; right: 9px; bottom: 6px; background: rgba(8, 9, 11, .5); }
+/* 「非本方案武器已隐藏」计数（第二十六版）：一行灰字，不占卡位 */
+.st-bp-hidden { margin: 9px 0 0; font-size: 11.5px; line-height: 1.5; letter-spacing: .02em; }
+/* 「他方案在用」标识（第二十九版：单字「用」→ **对应流派的印章**）：该件被**其他**配置
+   穿在身上 → 背包卡左下角显示一座（或多座）流派印章，多配置时按流派去重；
+   高度钉死 17px = 右上角等阶/承音徽标的实际高度（11px 字 + 上下 1px padding + 1px 边框），
+   宽度按印章原比例走，所以「大小与徽标一致」而不变形。具体配置名在悬停 title。
+   流派图缺失时回落 `.is-text` 单字「用」（原样式原样保留，标识不丢）。 */
+.st-bp-used {
+  position: absolute; left: 9px; bottom: 6px;
+  display: flex; align-items: flex-end; gap: 3px;
+  height: 17px;
+  /* 右侧给「承」徽标（right:9 + 宽 ~23）让位：宁可少排一枚也不叠字 */
+  max-width: calc(100% - 42px);
+}
+/* 按卡片宽度决定最多排几枚（2026-10-31）：背包 5 列，卡宽随栏宽变化
+   （实测 1920 视口 110px / 1366 视口 ~74px；查询的是**内容框**宽，比外框少 padding 12px）。
+   不裁图、不变形，只减枚数；完整清单始终在悬停 title 里，所以隐藏几枚不丢信息。 */
+@container (max-width: 80px) {
+  .st-bp-used-seal:nth-of-type(n + 2) { display: none; }
+  /* 极窄卡（1366 下卡宽 ~74）连「+N」也放不下，会和「承」贴死 → 只留一枚印章。
+     特异性必须压过后面 .st-bp-used-more 的 display:flex，故带上父类 */
+  .st-bp-used .st-bp-used-more { display: none; }
+}
+@container (max-width: 120px) {
+  .st-bp-used-seal:nth-of-type(n + 3) { display: none; }
+}
+.st-bp-used-seal {
+  flex: none; display: block; height: 100%; width: auto;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .55));
+}
+.st-bp-used.is-text {
+  height: auto; align-items: center;
+  padding: 0 5px; border-radius: 2px;
+  font-family: var(--font-serif); font-size: 11px; font-weight: 500; letter-spacing: 0;
+  color: var(--paper); border: 1px solid var(--line);
+  background: rgba(8, 9, 11, .55); white-space: nowrap;
+}
+/* 印章超过 3 枚时的「+N」（超出部分不排图，避免顶到右侧承音徽标） */
+.st-bp-used-more {
+  display: flex; align-items: center; align-self: flex-end;
+  height: 15px; padding: 0 3px; border-radius: 2px;
+  font-family: var(--font-serif); font-size: 10px; letter-spacing: 0;
+  color: var(--muted); background: rgba(8, 9, 11, .55);
+}
+/* 背包图：卡面无文字，图尽量大 */
+.st-bp-img { display: block; max-width: 86%; max-height: 86%; object-fit: contain; }
 
-/* ---------- 中栏 ---------- */
-.st-idle {
-  min-height: 340px; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 14px; text-align: center;
-}
-.st-idle button.big { font-size: 16px; padding: 12px 40px; }
-.st-detail-head {
-  display: flex; justify-content: space-between; align-items: center;
-  gap: 10px; flex-wrap: wrap; margin-bottom: 4px;
-}
-.st-detail-head h3 { margin: 0; font-size: 15px; display: flex; align-items: center; gap: 8px; }
-.st-detail-actions { display: flex; gap: 6px; }
-.st-detail-actions button { padding: 3px 14px; font-size: 12px; }
-.st-detail-actions button.primary { background: var(--accent); }
-.st-detail-actions button.ghost { background: var(--line); }
-
+/* ---------- 弹窗内容（原中栏内容） ---------- */
 .st-affix-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0 2px; }
 .st-affix-table th {
-  text-align: left; font-weight: 400; color: var(--muted); font-size: 12px;
-  border-bottom: 1px solid var(--line); padding: 3px 8px;
+  text-align: left; font-family: var(--font-serif); font-weight: 400; letter-spacing: .08em;
+  color: var(--muted); font-size: 12px;
+  border-bottom: 1px solid rgba(199, 154, 99, .28); padding: 3px 8px;
 }
-.st-affix-table td { border-bottom: 1px solid var(--line); padding: 4px 8px; }
-.st-affix-table td.num { text-align: right; }
+.st-affix-table td { border-bottom: 1px dashed var(--line); padding: 4px 8px; }
+.st-affix-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .st-affix-table td.pos { color: var(--muted); width: 64px; font-size: 12px; }
 
-.st-eval { border-left: 3px solid var(--line); padding: 2px 0 2px 12px; margin: 12px 0; }
-.st-eval h4 { margin: 2px 0 8px; font-size: 13px; color: var(--accent); }
+/* ---------- 背包件 vs 同部位已穿戴（2026-11-02 玩家定稿） ----------
+   两张词条表并排 + 一句差异评论。只在看背包件、且同部位有穿戴件时出现。
+   并排后每列约 430px，字号降半档、位置列收窄，免得词条名被挤断。 */
+.st-modal--wide { width: min(940px, 100%); }
+.st-cmp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.st-cmp-col { min-width: 0; }
+.st-cmp-hd {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: .06em; color: var(--muted);
+  padding-bottom: 3px; border-bottom: 1px solid rgba(199, 154, 99, .2);
+}
+.st-cmp-hd b { color: var(--paper); font-weight: 500; }
+.st-cmp .st-affix-table {
+  margin-top: 2px; font-size: 12.5px;
+  table-layout: fixed; /* 并排后列宽必须定死，auto 会把「位置」压到字宽以下、压到词条名上 */
+}
+.st-cmp .st-affix-table th:nth-child(1), .st-cmp .st-affix-table td:nth-child(1) { width: 46px; }
+.st-cmp .st-affix-table th:nth-child(3), .st-cmp .st-affix-table td:nth-child(3) { width: 84px; }
+.st-cmp .st-affix-table td.pos { width: 46px; white-space: nowrap; overflow: hidden; }
+.st-cmp .st-affix-table td, .st-cmp .st-affix-table th { padding: 3px 6px; }
+
+/* 窄屏（含移动端）两张表并排会挤成一团，改上下叠 */
+@media (max-width: 860px) {
+  .st-cmp { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
+
+/* 详细评价区块：古铜竖标引领 */
+.st-eval {
+  border-left: 2px solid var(--bronze); padding: 2px 0 2px 12px; margin: 12px 0;
+}
+.st-eval h4 { margin: 2px 0 8px; font-size: 13px; color: var(--accent); letter-spacing: .08em; }
 .st-eval .dim-note { color: var(--muted); font-size: 13px; }
 
 /* 录入表单 */
 .st-editor-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
-.st-editor-head label { color: var(--muted); font-size: 12px; }
+.st-editor-head label { color: var(--muted); font-size: 12px; letter-spacing: .06em; }
 .st-editor-btns { display: flex; gap: 8px; margin-top: 10px; }
-.st-editor-btns button.ghost { background: var(--line); }
+.st-editor-btns button.ghost { background: transparent; color: var(--gold-400); border: 1px solid var(--gold-hair); box-shadow: none; }
+.st-editor-btns button.ghost:hover { border-color: var(--gold-500); color: var(--gold-300); background: rgba(199, 154, 99, .08); }
 .st-editor .affix-row select { min-width: 0; }
 .st-editor .affix-row input[type="number"] { flex: 1; width: auto; min-width: 0; }
 .affix-row .conv {
@@ -111,31 +793,396 @@
 .affix-row .conv input { margin: 0; cursor: pointer; }
 .affix-row .conv.none { width: 46px; }
 .conv-tag {
-  display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 8px;
-  font-size: 10px; border: 1px solid var(--warn); color: var(--warn); vertical-align: 1px;
+  display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 2px;
+  font-size: 10px; border: 1px solid var(--bronze); color: var(--warn); vertical-align: 1px;
+  letter-spacing: .04em;
 }
+/* 实时评价：鎏金虚线围出的「未落定」区域 */
 .st-live-eval {
   margin-top: 4px; padding: 10px 12px;
-  border: 1px dashed var(--line); border-radius: 6px;
-  background: rgba(79, 140, 255, .05);
+  border: 1px dashed rgba(199, 154, 99, .4); border-radius: var(--radius-sm);
+  background: rgba(199, 154, 99, .045);
 }
 
 /* ---------- 右栏 ---------- */
 .st-field { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
-.st-field label { flex: none; width: 70px; color: var(--muted); font-size: 12px; }
+.st-field label { flex: none; width: 70px; color: var(--muted); font-size: 12px; letter-spacing: .06em; }
 .st-field select { flex: 1; min-width: 0; }
-.st-plan-reset {
-  background: var(--line); font-size: 11px; padding: 2px 10px; margin-top: 6px;
+/* ---------- 栏4 第 3/4 行：词条配额 / 属性面板（合成一张面板，用户定稿 2026-10-30） ----------
+   毕业率已上移到口径卡（第 1 行右半）；剩下两段之间只用一道发丝线分隔，
+   不再各自套卡片——它们读的是同一件事：这套装备现在什么样。 */
+.st-block + .st-block {
+  margin-top: 11px; padding-top: 11px;
+  border-top: 1px solid var(--line);
 }
-.st-grad-num { font-size: 34px; font-weight: 700; color: var(--good); line-height: 1.2; }
-.st-grad-note { font-size: 11px; }
-.st-stat-group h5 {
-  margin: 10px 0 3px; font-size: 12px; color: var(--muted); font-weight: 400;
+.st-grad-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+/* 毕业率：楷体鎏金大字（34px，合成粗体在此尺寸是「重按」，保留）——这块是整个版的「音准」读数 */
+.st-grad-num {
+  font-family: var(--font-serif); font-size: 34px; font-weight: 700;
+  color: var(--good); line-height: 1.2; letter-spacing: .02em;
+  font-variant-numeric: tabular-nums;
+}
+.st-grad-num.tone-ok { color: var(--good); }
+.st-grad-num.tone-low { color: var(--warn); }
+.st-grad-num.tone-bad { color: var(--bad); }
+.st-grad-num.tone-none { color: var(--faint); font-size: 20px; }
+.st-grad-note { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
+/* 毕业率只留数字（用户定稿 2026-10-30）：解释文案已删，失败态才有一行小字说明原因 */
+#st-grad-box .st-grad-row { min-height: 34px; align-items: center; }
+/* 词条配额两栏（用户定稿 2026-10-30）：配额行 / 未配额行左右各一列铺排 */
+#st-quota-box .digest { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
+#st-quota-box .digest .st-xw-alert { grid-column: 1 / -1; }
+/* 属性面板两栏（用户定稿 2026-10-30）：行内仍是 名称+数值 两端对齐 */
+.st-stats {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px;
 }
 .st-stats div {
   display: flex; justify-content: space-between; gap: 8px;
   border-bottom: 1px dashed var(--line); font-size: 12px; padding: 1px 0; min-width: 0;
+  font-variant-numeric: tabular-nums;
 }
 .st-stats span:first-child { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .st-stats span:last-child { flex: none; }
-.st-foot-meta { font-size: 11px; line-height: 1.6; }
+/* 属性面板里的三率配色（用户定稿 2026-10-30）：不再单列「三率达标/三率溢出」两张表，
+   直接在数值上上色——达标=绿、不足方案阈值=黄、超游戏机制上限=红（按上限值显示，真实值在 hover）。 */
+.st-stat-v.st-v-ok { color: var(--good); }
+.st-stat-v.st-v-low { color: var(--warn); }
+.st-stat-v.st-v-over { color: var(--bad); }
+/* 攻击区间反转（最小≥最大）：括号外取最小攻击并标 ↑ */
+.st-atk-rev { color: var(--warn); }
+/* 技能轴提示（`.st-build-notice`）已删除：用户 2026-10-30 「去掉牵丝玉和牵丝霖有关技能轴没提供的文案提示」。
+   引擎侧 `buildStatus`/`borrowedBranch` 与 `resolveBuild()` 的借用回退**照旧保留**（面板仍能算），
+   只是不再在口径卡下方渲染那句技术说明。整派完全没轴时，属性面板自身会给降级视图。 */
+.st-foot-meta { font-size: 11px; line-height: 1.6; color: var(--faint); letter-spacing: .03em; }
+
+/* ---------- 监测：配额统一行（实装/需要）+ 配色 ---------- */
+.st-qrow {
+  display: flex; justify-content: space-between; gap: 8px;
+  font-size: 12px; padding: 1px 0; min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+.st-qrow > span:first-child { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-qrow > span:last-child { flex: none; font-variant-numeric: tabular-nums; }
+/* 相等=绿 / 少于配额=黄 / 多于配额=红；未配额（需要 0）整行红 */
+.st-q-ok { color: var(--good); }
+.st-q-low { color: var(--warn); }
+.st-q-over { color: var(--bad); }
+.st-qrow.st-q-over > span:first-child { color: var(--bad); }
+/* 小外流未达成（最小外功 < 最大外功）：陈述事实，着重突出但不下结论 */
+.st-xw-alert {
+  color: var(--warn); font-weight: 500; font-size: 13px;
+  padding: 3px 0 3px 8px; border-left: 2px solid var(--warn);
+}
+
+/* ============================================================================
+   助手（周红线）—— 三栏第三列 / 移动端全屏
+   开关只在 .studio 上加一个 .assist-on 类：默认仍是两栏（旧断言与窄屏都走这条），
+   加类后变三栏。宽度由 --assist-w 一个变量管，不写死列宽。
+   ============================================================================ */
+/* 助手栏：三栏均分后不再需要独立宽度变量，列宽由 grid 的 1fr 决定 */
+#st-assist { grid-area: assist; display: none; }
+/* 三栏列宽（2026-11-02 第三版，玩家定稿）：左 = 1/3、右 = 1/4、中间吃掉剩下的 5/12。
+   用 4:5:3 的 fr 实现 —— 1872 可用宽下正好是 624 / 780 / 468，
+   左栏与原来均分时一模一样（装备槽不用重算），多出来的全给了对话框。 */
+.studio.assist-on {
+  grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr);
+  grid-template-areas: "leftcol assist right";
+}
+.studio.assist-on #st-assist { display: flex; }
+
+.st-assist-panel {
+  display: flex; flex-direction: column; min-height: 0;
+  /* 让内部能用 cqh 取到面板高度：立绘按**高度**定尺寸后，文字要避让多宽
+     也得以高度为基准，否则窄高 / 宽矮的窗口上会避让错位。 */
+  container-type: size;
+  --pt-h: 66%;        /* 立绘高度 = 对话框高度的 2/3（改这里同时改 --pt-hc） */
+  --pt-hc: 66cqh;
+  /* 页面不再滚动，助手面板就是「栏高的 100%」，不需要 sticky / 视口算式 */
+  position: relative; flex: 1 1 auto;
+  background: linear-gradient(180deg, var(--ink-800) 0%, var(--ink-850) 100%);
+  border: 1px solid var(--line); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(240, 221, 180, .045);
+  overflow: hidden;
+}
+/* ---------- 立绘：垫在最下面的背景层（2026-11-03 玩家定稿） ----------
+   桌面 = 站在栏内右下角；移动端 = 铺满屏幕、上方让位给消息（见媒体查询）。
+   五种情绪叠在同一位置，只切 opacity —— 换 src 会闪白，交叉淡入才稳。 */
+.st-assist-face {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  /* 桌面端**不叠任何遮罩/渐变**（2026-11-03 玩家定稿）：图是抠好的透明底，
+     文字也已经让开了右侧，再压一层就是白糊一层。移动端要用（见媒体查询）。 */
+}
+.st-assist-face[data-empty] { display: none; }
+/* 内容都压在立绘上面（否则消息被人物盖住） */
+.st-assist-panel > *:not(.st-assist-face) { position: relative; z-index: 1; }
+
+.st-assist-portrait {
+  position: absolute; right: 2%; bottom: 0;
+  /* 按**对话框高度**定尺寸（2026-11-03 玩家定稿）：之前按栏宽 38% 定，
+     窗口越宽立绘越高，宽屏上头顶直接顶到「设置/收起」那一行。
+     现在高度恒为面板的 2/3，宽度由图片比例（410:1300）自然推出。 */
+  height: var(--pt-h); width: auto;
+  opacity: 0; transition: opacity .5s ease;
+  /* 桌面端不加 mask：头顶本来就在 1/3 处，脚下也站得到底，边缘不需要化开 */
+}
+/* 墨纱层：桌面为空，移动端才给它上竖向渐变（见媒体查询） */
+.st-assist-face::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+}
+
+.st-assist-face[data-mood="idle"] .st-assist-portrait[data-m="idle"],
+.st-assist-face[data-mood="talk"] .st-assist-portrait[data-m="talk"],
+.st-assist-face[data-mood="think"] .st-assist-portrait[data-m="think"],
+.st-assist-face[data-mood="unsure"] .st-assist-portrait[data-m="unsure"],
+.st-assist-face[data-mood="angry"] .st-assist-portrait[data-m="angry"] { opacity: 1; }
+
+.st-assist-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 8px 12px 6px; flex: none;
+}
+.st-assist-name { font-size: 13px; letter-spacing: .18em; color: var(--accent); font-weight: 500; }
+.st-assist-tools { display: flex; gap: 2px; }
+.st-assist-tools button {
+  appearance: none; background: none; border: 0; border-radius: var(--radius-sm);
+  color: var(--faint); font: inherit; font-size: 11px; padding: 2px 6px; cursor: pointer;
+}
+.st-assist-tools button:hover { color: var(--gold-400); background: rgba(199, 154, 99, .08); }
+
+/* 消息流：她的消息不带气泡（走 Galgame 的"念白"感），玩家的话右对齐带金边 */
+.st-assist-flow {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  /* 右侧让给立绘：宽度 = 立绘高 × 图片宽高比（410/1300）+ 一点余量。
+     用 cqh 而不是 %，因为 % 是相对**宽度**算的，宽屏上会避让过头。 */
+  padding: 4px calc(var(--pt-hc) * 0.315 + 22px) 10px 12px;
+  display: flex; flex-direction: column; gap: 10px;
+  scrollbar-width: thin;
+}
+.st-msg { font-size: 13px; line-height: 1.72; color: var(--paper); }
+.st-msg--her .st-txt { white-space: pre-wrap; }
+/* 「过程」块（思考链 + 查了哪几块）：默认折起，只留一行小字。
+   玩家不需要看推理，但"她确实查过"这件事得能自证。 */
+.st-think { margin: 0 0 5px; }
+.st-think summary {
+  list-style: none; cursor: pointer; user-select: none;
+  font-size: 11px; letter-spacing: .08em; color: var(--faint);
+}
+.st-think summary::-webkit-details-marker { display: none; }
+.st-think summary::before { content: '▸ '; }
+.st-think[open] summary::before { content: '▾ '; }
+.st-think summary:hover { color: var(--muted); }
+.st-think-body {
+  margin-top: 4px; padding: 2px 0 2px 9px; max-height: 38vh; overflow-y: auto;
+  border-left: 1px solid var(--line-soft);
+  font-size: 11.5px; line-height: 1.72; color: var(--faint); white-space: pre-wrap;
+}
+.st-msg--you {
+  align-self: flex-end; max-width: 88%;
+  background: rgba(199, 154, 99, .07); border: 1px solid var(--gold-hair);
+  border-radius: var(--radius-md) var(--radius-sm) var(--radius-sm) var(--radius-md);
+  padding: 5px 9px; font-size: 12.5px; color: var(--paper);
+}
+.st-msg--note { font-size: 11.5px; color: var(--faint); letter-spacing: .06em; }
+.st-msg .hl, .st-msg .tier { font-weight: 500; }
+.st-msg .tier[data-tier="天"] { color: var(--gold-500); }
+.st-msg .tier[data-tier="地"] { color: #b196d4; }
+.st-msg .tier[data-tier="玄"] { color: #7d9fd0; }
+.st-msg .tier[data-tier="黄"] { color: #96bd85; }
+.st-msg a.lk { color: var(--gold-400); cursor: pointer; text-decoration: none; border-bottom: 1px dotted var(--gold-600); }
+
+/* 卡片消息：与流同宽，窄到 300 也不塌（容器查询而非视口查询 —— 同一张卡要同时活在
+   三栏中列、抽屉、移动端全屏三种宽度里） */
+.st-assist-flow { container-type: inline-size; }
+.st-card {
+  border: 1px solid var(--line); border-radius: var(--radius-md);
+  background: var(--ink-800); padding: 9px 10px;
+}
+.st-card-hd { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.st-card-hd b { font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: .08em; }
+.st-card-hd span { font-size: 11px; color: var(--faint); }
+.st-card-ft { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.st-card-btn {
+  appearance: none; background: none; border: 1px solid var(--gold-hair);
+  border-radius: 11px; color: var(--accent); font: inherit; font-size: 11.5px;
+  padding: 3px 10px; cursor: pointer;
+}
+.st-card-btn:hover { border-color: var(--gold-500); color: var(--gold-300); }
+.st-card-btn[data-primary="1"] { background: rgba(199, 154, 99, .13); border-color: var(--bronze); }
+.st-card-list { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); }
+.st-card-list .row { display: flex; justify-content: space-between; gap: 8px; }
+.st-card-list .row > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* 组合卡里的换装行：部位做短标签，词条名允许折行（截断会把"换的是哪件"藏掉） */
+.st-card-list .comp-row { display: flex; gap: 6px; font-size: 12px; line-height: 1.6; }
+.st-card-list .comp-row b { flex: none; width: 3.2em; font-weight: 500; color: var(--accent); }
+.st-card-list .comp-row span { color: var(--muted); word-break: break-word; }
+.st-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); gap: 4px; }
+.st-card-grid .cell {
+  aspect-ratio: 1; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--ink-700); display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--muted); overflow: hidden;
+}
+.st-card-grid .cell img { width: 100%; height: 100%; object-fit: contain; }
+@container (max-width: 300px) { .st-card-grid { grid-template-columns: repeat(auto-fill, minmax(30px, 1fr)); } }
+
+/* 底部输入区：短句**默认没有**（2026-11-02 玩家定稿：导航类按钮不该塞进对话），
+   只在她必须问你一句时才出现（例：「哪个部位」）。空的时候整条收起，不留空档。 */
+.st-assist-chips { display: flex; gap: 5px; flex-wrap: wrap; padding: 0 12px 6px; flex: none; }
+.st-assist-chips:empty { display: none; }
+.st-assist-chips button {
+  appearance: none; background: none; border: 1px solid var(--gold-hair); border-radius: 11px;
+  color: var(--accent); font: inherit; font-size: 11.5px; padding: 3px 9px; cursor: pointer;
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.st-assist-chips button:hover { border-color: var(--gold-500); color: var(--gold-300); }
+.st-assist-input {
+  display: flex; gap: 6px; padding: 8px 12px 12px; flex: none;
+  /* 底部收边：输入栏本身不透明，压在裙摆上也清楚，但要有条过渡带 */
+  background: linear-gradient(180deg, transparent 0%, rgba(12, 12, 14, .86) 38%, var(--ink-850) 100%);
+}
+.st-assist-input input {
+  flex: 1; min-width: 0; font: inherit; font-size: 12.5px;
+  background: var(--ink-900); border: 1px solid var(--line); border-radius: 14px;
+  color: var(--text); padding: 6px 12px;
+}
+.st-assist-input input:focus { outline: none; border-color: var(--bronze); }
+.st-assist-input input::placeholder { color: var(--faint); }
+.st-assist-input button {
+  flex: none; appearance: none; font: inherit; font-size: 12px;
+  background: none; border: 1px solid var(--gold-hair); border-radius: 14px;
+  color: var(--accent); padding: 0 12px; cursor: pointer;
+}
+.st-assist-input button:hover { border-color: var(--gold-500); color: var(--gold-300); }
+.st-assist-input button:disabled { opacity: .4; cursor: default; }
+
+/* 设置面板（收起态 overlay，不占消息流） */
+.st-assist-set { padding: 0 12px 10px; flex: none; border-bottom: 1px solid var(--line-soft); }
+.st-assist-set[hidden] { display: none; }
+.st-assist-set label { display: block; font-size: 11px; color: var(--faint); letter-spacing: .1em; margin: 6px 0 3px; }
+.st-assist-set input[type="text"], .st-assist-set input[type="password"] {
+  width: 100%; box-sizing: border-box; font: inherit; font-size: 12px;
+  background: var(--ink-900); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  color: var(--text); padding: 5px 8px;
+}
+.st-assist-set .row { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
+.st-assist-set .st-card-btn { flex: none; }
+.st-assist-set .tip { font-size: 11px; color: var(--faint); flex: 1; min-width: 0; }
+
+/* 收起后的圆形入口：只在桌面端出现（移动端底部已有图标栏），开了三栏就自动让位 */
+#st-assist-toggle {
+  display: none;
+  position: fixed; right: 18px; bottom: 18px; z-index: 30;
+  width: 44px; height: 44px; border-radius: 50%;
+  appearance: none; font: inherit; font-size: 15px; cursor: pointer;
+  color: var(--accent); background: var(--ink-800);
+  border: 1px solid var(--bronze);
+  box-shadow: var(--shadow-card);
+}
+#st-assist-toggle:hover { color: var(--gold-300); border-color: var(--gold-500); }
+#st-assist-toggle[data-dot="1"]::after {
+  content: ''; position: absolute; top: 2px; right: 2px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--cinnabar);
+}
+@media (min-width: 1200px) { #st-assist-toggle { display: block; } }
+.studio.assist-on #st-assist-toggle { display: none; }
+@media (max-width: 1199px) { #st-assist-toggle { display: none !important; } }
+
+/* ---------- 移动端：她占全屏，左右两栏退成底部图标 ---------- */
+#st-dock { display: none; }
+@media (max-width: 1199px) {
+  /* 视口锁死 + 底栏固定，内容在 .studio 里滚（玩家定稿 2026-11-02）：
+     原来 .studio 高度随内容长，整个页面能滚 —— 底栏虽然 fixed 贴底，
+     但一滚到底栏就"掉"到可视区外，得再滑回去才看得见标签。
+     这里把页面锁成一屏，滚动收进 .studio，底栏永远贴在最下面。
+     用 dvh 不是 vh：移动浏览器的 vh 含地址栏高度，实际可视区更矮，底栏会被压到屏幕外。 */
+  /* 顶栏：删掉两段副标题后只剩一行（品牌 + 角色 + 赛季），
+     并要求它随内容滚动收起 —— 一滚就把位置让给卡片，回到顶部再展开。 */
+  .app-bar {
+    height: 46px; margin: 0 0 10px; overflow: hidden;
+    padding: 0 12px; display: flex; align-items: center;
+    transition: height .2s ease, padding .2s ease, opacity .2s ease, margin-bottom .2s ease;
+  }
+  .app-bar-inner { height: 100%; width: 100%; flex-wrap: nowrap; gap: 10px; }
+  .app-nav { gap: 10px; white-space: nowrap; }
+  /* 收起：高度和上下内边距一起归零（只压 height 的话，27px 的 padding 还在，会留一条空带） */
+  body[data-bar="mini"] .app-bar {
+    height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; margin-bottom: 0; border-bottom-width: 0;
+  }
+  /* 流派两门武学（口径卡里的图标 + 名字）在手机上一行放不下，会被截成半截字，干脆不显示 */
+  .st-kj-kongfu { display: none; }
+  /* 五列网格在 400 宽里用 28px 间距，光间距就吃掉 112px（28%），槽只剩 58px 宽、
+     高度按 aspect-ratio 算下来 103px，连「+」加部位名都装不下（文字被裁半截）。收到 10px。 */
+  .st-slots, .st-backpack { gap: 10px; }
+
+  html { height: 100%; overflow: hidden; }
+  body { height: 100vh; height: 100dvh; padding: 0 0 52px; }
+  .studio {
+    display: block; flex: 1 1 auto; min-height: 0;
+    overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+  }
+  /* 单列：栏高随内容（由 .studio 统一滚），桌面那套「栏内卡片自己滚」在这里会让高度塌成 0 */
+  .studio > .st-col { height: auto; min-height: 100%; overflow: visible; }
+  #st-leftcol, #st-right { overflow: visible; }
+  /* 移动端三个视图**一律由 data-mview 决定**，不看 .assist-on。
+     桌面那条 `.studio.assist-on #st-assist { display:flex }`（特异性 1,2,0）会压过
+     `body[data-mview="gear"] #st-leftcol`（1,1,1）—— 于是「开关开着」的时候点装备/面板都没反应，
+     全屏助手一直盖在上面（玩家报的"选项卡点不动"就是这个）。三条都 !important 压住它。 */
+  #st-leftcol, #st-right, #st-assist { display: none !important; }
+  body[data-mview="gear"] #st-leftcol { display: flex !important; }
+  body[data-mview="read"] #st-right { display: flex !important; }
+  body[data-mview="assist"] #st-assist { display: flex !important; }
+  /* 全屏态：铺满可用区，**底部让出 52px 给切换栏** —— 不让的话输入框正好被它盖住（"没有输入框"） */
+  #st-assist .st-assist-panel {
+    position: fixed; inset: 0 0 52px 0; z-index: 40; max-height: none; border-radius: 0; border: 0;
+  }
+  /* 移动端没有"收起"这个概念（三个视图靠底栏切），按钮留着只会点了没反应 */
+  #st-assist .st-assist-collapse { display: none; }
+  /* 移动端：立绘铺满整屏当背景。
+     上半段（脖子以上）全透 —— 消息要从这里读，人物只在下半场当"在场感"；
+     靠近输入区再渐隐，免得人像被输入框硬切一刀。 */
+  /* ---------- 移动端取景（2026-11-03 玩家定稿） ----------
+     立绘 = 整屏高，头顶到脚都在；
+     胸/腰以下逐渐压深，**对话从腰线往下堆**（不是从顶上往下堆）；
+     腰线以上一个字都不放 —— 所以底部那条「名字 + 设置」也要挪下来，
+     否则它会压在她头顶上。 */
+  #st-assist .st-assist-face { position: absolute; inset: 0; }
+  #st-assist .st-assist-portrait {
+    right: 50%; left: auto; transform: translateX(50%);
+    height: 100%; max-width: none; width: auto;
+    object-fit: contain; object-position: center bottom;
+    /* 顶上留一点点淡出，免得头发直接顶着边框；脚下就不淡了，让她站到底 */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 4%, #000 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 4%, #000 100%);
+  }
+  #st-assist .st-assist-face::after {
+    /* 胸线（约 1/3 处）开始压深，到底部完全压黑：文字只落在这一段上 */
+    background: linear-gradient(180deg,
+      transparent 0%, transparent 28%, rgba(12, 12, 14, .42) 38%,
+      rgba(12, 12, 14, .82) 48%, rgba(12, 12, 14, .96) 62%, var(--ink-850) 100%);
+  }
+  /* 消息贴底堆：内容少时自然落在下半场；多了在 46% 封顶往上滚 ——
+     46% 是她的腰线，再高就压到胸口和脸了。 */
+  #st-assist .st-assist-flow {
+    padding: 0 12px 8px; flex: 0 1 auto; margin-top: auto; max-height: 46%;
+    justify-content: flex-end;
+  }
+  /* 标题行（名字 + 设置/收起）从顶部移到底部：顶部要留给立绘 */
+  #st-assist .st-assist-flow { order: 1; }
+  #st-assist .st-assist-head { order: 2; padding: 2px 12px 4px; }
+  #st-assist .st-assist-set { order: 3; }
+  #st-assist .st-assist-chips { order: 4; }
+  #st-assist .st-assist-input { order: 5; }
+  #st-dock {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+    height: 52px; background: var(--ink-850); border-top: 1px solid var(--line);
+  }
+  #st-dock button {
+    flex: 1; appearance: none; background: none; border: 0; font: inherit; font-size: 12px;
+    color: var(--faint); letter-spacing: .12em; cursor: pointer; padding: 0;
+  }
+  #st-dock button[aria-selected="true"] { color: var(--accent); }
+  #st-dock button + button { border-left: 1px solid var(--line-soft); }
+  #st-dock button[data-dot="1"]::after {
+    content: ''; display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--cinnabar); margin-left: 4px; vertical-align: middle;
+  }
+}
+

@@ -3,28 +3,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>燕云装备工作台（三栏）</title>
-  <link rel="stylesheet" href="/web/style.css">
-  <link rel="stylesheet" href="/web/evaluator.css">
-  <link rel="stylesheet" href="/web/studio.css">
+  <title>调律台 · 燕云十六声装备评价工作台</title>
+  <!-- 字体全部本地化（2026-10-30）：ZeoSeven 的 FontsAPI 有防盗链，浏览器带 Referer
+       请求会返回 204 空响应 → 之前全站的楷体其实一直没加载，走的是系统楷体回退。
+       现在把 woff2 分片落到 web/assets/fonts/，离线可用、字形才是设计时选的那一套。
+       楷体（文鼎PL简中楷 AR PL KaitiM GB · ARPHIC PUBLIC LICENSE）仅 400 一个字重：
+       >18px 的大字可放心用合成粗体当「重按」，<18px 的小字一律降到 400/500，
+       靠鎏金色与字距承重，否则笔锋会糊成一团。
+       隶书（临海体）只取分支/方案横幅要用的字符分片，见 --font-li。 -->
+  <link rel="stylesheet" href="/web/assets/fonts/kai/kai.css">
+  <link rel="stylesheet" href="/web/assets/fonts/li/li.css">
+  <link rel="stylesheet" href="/web/style.css?v=52">
+  <link rel="stylesheet" href="/web/components.css?v=63">
+  <link rel="stylesheet" href="/web/studio.css?v=149">
 </head>
-<body>
-  <header>
-    <h1>装备工作台（三栏）
-      <a class="nav" href="/web/evaluator.html">→ 装备评价器</a>
-      <a class="nav" href="/web/index.html">→ 面板/DPS 验证台</a>
-    </h1>
+<body data-mview="assist">
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <div class="brand">
+        <span class="brand-mark">律</span>
+        <div><h1>调律台</h1></div>
+      </div>
+      <nav class="app-nav">
+        <!-- 多角色入口（用户定稿 2026-10-30）：一个玩家可能有多个账号/角色，装备不互通 -->
+        <button id="app-char-btn" class="app-char-btn" title="切换/新建角色（各角色装备互不互通）">角色</button>
+        <span class="muted" id="app-bar-note">载入中…</span>
+      </nav>
+    </div>
   </header>
+  <!-- 布局（2026-11-02）：桌面宽屏三栏 = 装备 | 助手 / 右读数；窄屏两栏（助手收起）；移动端她全屏 + 底部图标栏 -->
   <main class="studio" id="app">
-    <div class="st-col" id="st-left"><p class="muted">加载中…</p></div>
-    <div class="st-col" id="st-center"></div>
+    <div class="st-col" id="st-leftcol">
+      <div class="st-col" id="st-left"></div>
+      <div class="st-col" id="st-center"><p class="muted">加载中…</p></div>
+    </div>
     <div class="st-col" id="st-right"></div>
+    <aside class="st-col" id="st-assist"></aside>
+    <!-- 收起时的圆形入口（桌面端；移动端走底部图标栏） -->
+    <button id="st-assist-toggle" title="叫她出来">线</button>
   </main>
-  <div id="boot-status" class="muted" style="margin-top:10px">① 页面已加载；② 脚本加载中…</div>
+  <!-- 移动端三视图切换（红线 / 装备 / 面板）；桌面端恒隐藏。键名仍是 assist/gear/read -->
+  <nav id="st-dock" aria-label="视图切换"></nav>
+  <!-- 弹窗宿主：录入装备 / 装备详情都在这里渲染（常驻详情区已取消，用户定稿） -->
+  <div id="st-modal"></div>
+  <!-- 启动状态条（用户定稿 2026-10-30：平时不显示——「✓ 就绪」这类加载进度是调试期产物；
+       只在资源 404 / 脚本报错时自动浮出，保住排错通道） -->
+  <div id="boot-status" class="muted" style="display:none; margin-top:10px"></div>
   <script>
     window.__bootStatus = function (text, cls) {
       var el = document.getElementById('boot-status');
-      if (el) { el.textContent = text; el.style.color = cls === 'err' ? '#ff7676' : ''; }
+      if (!el) return;
+      if (cls !== 'err') { el.style.display = 'none'; return; }
+      el.style.display = ''; el.textContent = text; el.style.color = 'var(--bad)';
     };
     window.addEventListener('error', function (e) {
       if (e.target && e.target !== window && (e.target.src || e.target.href)) {
@@ -37,6 +67,6 @@
       __bootStatus('异步错误: ' + String(e.reason), 'err');
     });
   </script>
-  <script type="module" src="/web/studio.js?v=1"></script>
+  <script type="module" src="/web/studio.js?v=145"></script>
 </body>
 </html>
