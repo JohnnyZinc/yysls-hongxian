@@ -664,13 +664,13 @@
     }
   },
   "界面图片": {
-    "弓玦图标": "equip/弓.png",
+    "弓玦图标": "equip/弓.webp",
     "武库": {
       "通用": "arsenal/COMMON.png",
       "鸣金": "arsenal/MINGJIN.png",
       "裂石": "arsenal/LIESHI.png",
       "牵丝": "arsenal/QIANSI.png",
-      "破竹": "arsenal/POZHU.png"
+      "破竹": "arsenal/POZHU.webp"
     },
     "槽位图": {
       "武器": {
@@ -693,7 +693,7 @@
       "腕甲": "equip/腕甲.png"
     },
     "心法图": {
-      "易水歌": "mind-official/81.png",
+      "易水歌": "mind-official/81.webp",
       "四时无常": "mind-official/82.png",
       "征人归": "mind-official/41.png",
       "极乐泣血": "mind-official/5.png",
@@ -724,9 +724,9 @@
       "困兽心经": "mind-official/402.png",
       "抗造大法": "mind-official/403.png",
       "磐石诀": "mind-official/404.png",
-      "忘川绝响": "mind-official/451.png",
-      "断石之构": "mind-official/453.png",
-      "心弥泥鱼": "mind-official/452.png",
+      "忘川绝响": "mind-official/451.webp",
+      "断石之构": "mind-official/453.webp",
+      "心弥泥鱼": "mind-official/452.webp",
       "沧浪剑诀": "mind-official/454.png",
       "千营一呼": "mind-official/501.png",
       "绳舟行木": "mind-official/502.png",
@@ -755,9 +755,9 @@
       "沙摆尾": "mind-official/6.png"
     },
     "心法卡底": {
-      "金": "mind-card/card-gold.png",
-      "蓝": "mind-card/card-blue.png",
-      "紫": "mind-card/card-purple.png"
+      "金": "mind-card/card-gold.webp",
+      "蓝": "mind-card/card-blue.webp",
+      "紫": "mind-card/card-purple.webp"
     },
     "心法品质": {
       "金": [
@@ -914,14 +914,14 @@
       ]
     },
     "流派横幅": {
-      "pozhufeng": "mind-tag/POZHU_FENG.png",
+      "pozhufeng": "mind-tag/POZHU_FENG.webp",
       "pozhuchen": "mind-tag/POZHU_CHEN.png",
       "lieshiwei": "mind-tag/LIESHI_WEI.png",
       "qiansilin": "mind-tag/QIANSI_LIN.png",
       "mingjinying": "mind-tag/MINGJIN_YING.png",
       "mingjinhong": "mind-tag/MINGJIN_HONG.png",
       "qiansiyu": "mind-tag/QIANSI_YU.png",
-      "tongyong": "mind-tag/TONGYONG.png",
+      "tongyong": "mind-tag/TONGYONG.webp",
       "lieshijun": "mind-tag/LIESHI_JUN.png",
       "pozhuyuan": "mind-tag/POZHU_YUAN.png",
       "qiansiyi": "mind-tag/QIANSI_YI.png",
@@ -935,10 +935,10 @@
       "qiansiyu": "tag-bg/QIANSI.png",
       "qiansilin": "tag-bg/QIANSI.png",
       "qiansiyi": "tag-bg/QIANSI.png",
-      "pozhufeng": "tag-bg/POZHU.png",
-      "pozhuchen": "tag-bg/POZHU.png",
-      "pozhuyuan": "tag-bg/POZHU.png",
-      "pozhuzun": "tag-bg/POZHU.png"
+      "pozhufeng": "tag-bg/POZHU.webp",
+      "pozhuchen": "tag-bg/POZHU.webp",
+      "pozhuyuan": "tag-bg/POZHU.webp",
+      "pozhuzun": "tag-bg/POZHU.webp"
     },
     "流派横幅底通用": "tag-bg/TONGYONG.png",
     "心法占位图": "mind/XF_FYZS.png",
@@ -950,7 +950,7 @@
       "qiansiyu": "martial/QIANSI_YU.png",
       "qiansilin": "martial/QIANSI_LIN.png",
       "qiansiyi": "martial/QIANSI_YI.png",
-      "pozhufeng": "martial/POZHU_FENG.png",
+      "pozhufeng": "martial/POZHU_FENG.webp",
       "pozhuchen": "martial/POZHU_CHEN.png",
       "pozhuyuan": "martial/POZHU_YUAN.png",
       "pozhuzun": "martial/POZHU_ZUN.png"
@@ -963,10 +963,10 @@
       "qiansiyu": "arsenal/QIANSI.png",
       "qiansilin": "arsenal/QIANSI.png",
       "qiansiyi": "arsenal/QIANSI.png",
-      "pozhufeng": "arsenal/POZHU.png",
-      "pozhuchen": "arsenal/POZHU.png",
-      "pozhuyuan": "arsenal/POZHU.png",
-      "pozhuzun": "arsenal/POZHU.png"
+      "pozhufeng": "arsenal/POZHU.webp",
+      "pozhuchen": "arsenal/POZHU.webp",
+      "pozhuyuan": "arsenal/POZHU.webp",
+      "pozhuzun": "arsenal/POZHU.webp"
     },
     "流派顺序": [
       "mingjinhong",
@@ -1011,8 +1011,8 @@
         { "名": "文动霓裳", "图": "kongfu/qiansiyi-wulinggu.png" }
       ],
       "pozhufeng": [
-        { "名": "泥犁三垢", "图": "kongfu/pozhufeng-shuangdao.png" },
-        { "名": "粟子游尘", "图": "kongfu/pozhufeng-lianren.png" }
+        { "名": "泥犁三垢", "图": "kongfu/pozhufeng-shuangdao.webp" },
+        { "名": "粟子游尘", "图": "kongfu/pozhufeng-lianren.webp" }
       ],
       "pozhuchen": [
         { "名": "醉梦游春", "图": "kongfu/pozhuchen-san.png" },

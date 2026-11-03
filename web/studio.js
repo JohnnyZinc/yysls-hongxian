@@ -2105,10 +2105,9 @@ function configBandText() {
     .filter(Boolean).join('·');
 }
 
-/** 当前流派的水墨无字底（分支/方案横幅共用一张，跟随流派变色；缺图时回落到纯深底） */
-/** 配置横幅的墨底。
+/** 配置横幅的墨底（分支/方案横幅共用一张，跟随流派变色；缺图时回落到纯深底）。
  *  横幅底按**大流派**归并（鸣金/裂石/牵丝/破竹 各一张，同一大流派下仅外围飞溅像素有差异，
- *  肉眼同款），具体流派缺条目时回落到通用底 `TONGYONG.png` 兜底。 */
+ *  肉眼同款），具体流派缺条目时回落到通用底 `TONGYONG.webp` 兜底。 */
 function tagBgOf(schoolId) {
   if (!schoolId) return '';
   const ip = state.version.界面图片 || {};

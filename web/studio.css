@@ -427,7 +427,7 @@ body {
      环/佩/武库 400×400、武器与弓玦 400×700、冠胄/胸甲/胫甲/腕甲 400×550（宽×长，竖版）；
    五列同为 400 宽 ⇒ 列等分；列高 700+400 与 550+550 同为 1100u ⇒ 五列自然等高；
    行高由槽位自身 aspect-ratio 决定（不再写死 fr，也不再固定总高）；
-   背景 = bg/golden.png（全站统一；卡面不挂文字说明）；
+   背景 = bg/golden.webp（全站统一；卡面不挂文字说明）；
    等阶徽章（天地玄黄）右上角，承音徽章右下角 */
 .st-slots {
   display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -451,7 +451,7 @@ body {
   min-width: 0; min-height: 0; overflow: hidden; padding: 6px;
   border: 1px solid rgba(199, 154, 99, .28); border-radius: var(--radius-sm);
   background-color: var(--ink-850);
-  background-image: url('../assets/img/bg/golden.png');
+  background-image: url('../assets/img/bg/golden.webp');
   /* 100% 100% = 拉伸铺满（用户定稿 2026-10-30：不要裁切）。
      底图是 1088×1911 竖版渐变卡（上墨、下鎏金），槽位长宽比有 400/700、400/550、400/400 三种，
      cover 会按宽度铺开后把顶部或底部鎏金带裁掉；拉伸后渐变两端必定完整可见。
@@ -666,7 +666,7 @@ body {
   container-type: inline-size;
   border: 1px solid rgba(199, 154, 99, .28); border-radius: var(--radius-sm);
   background-color: var(--ink-850);
-  background-image: url('../assets/img/bg/golden.png');
+  background-image: url('../assets/img/bg/golden.webp');
   /* 同 .st-slot：拉伸铺满不裁切（背包卡是正方形，cover 会只剩中间一段渐变） */
   background-size: 100% 100%; background-position: center; background-repeat: no-repeat;
   cursor: pointer; transition: border-color .15s, box-shadow .15s;
