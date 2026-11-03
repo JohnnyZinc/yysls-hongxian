@@ -153,11 +153,11 @@ run('5. 运行时数据', () => {
   }
 
   // 5c 知识库
-  if (!isFile('data/kb/index.json')) bad('缺 data/kb/index.json（助手知识库）');
+  if (!isFile('知识库/index.json')) bad('缺 data/kb/index.json（助手知识库）');
   else {
-    const kb = readJson('data/kb/index.json');
+    const kb = readJson('知识库/index.json');
     for (const f of kb.files || []) {
-      if (isFile(`data/kb/${f}`)) ok(f);
+      if (isFile(`知识库/${f}`)) ok(f);
       else bad(`知识库文件不存在：data/kb/${f}`);
     }
     console.log(`✓ 知识库 ${(kb.files || []).length} 篇`);

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-通用提取器（现行形状同步版，自 archive/legacy-tools/extract_calculator.py 复活）：流派Excel计算器 → 三个JSON
+通用提取器（现行形状同步版，原 archive/legacy-tools/ 版本已删，此处为复活版）：流派Excel计算器 → 三个JSON
   {prefix}.skills.json   <- 武学奇术表
   {prefix}.effects.json  <- 增益表
   {prefix}.json          <- 期望表（面板输入 + 怪物参数 + build配置 + 时间轴）

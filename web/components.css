@@ -4,36 +4,23 @@
 .nav { color: var(--accent); font-size: 13px; margin-left: 10px; text-decoration: none; letter-spacing: .06em; }
 .nav:hover { color: var(--accent-hi); text-decoration: underline; }
 
-/* 装备卡片网格 */
-.ev-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-@media (max-width: 1100px) { .ev-grid { grid-template-columns: repeat(2, 1fr); } }
-.ev-card {
-  background: linear-gradient(180deg, var(--ink-800), var(--ink-850));
-  border: 1px solid var(--line); border-radius: var(--radius-md);
-  padding: 8px 10px; cursor: pointer;
-  box-shadow: var(--shadow-card);
-  transition: border-color .15s, box-shadow .15s;
-}
-.ev-card:hover { border-color: var(--gold-500); }
+
+
+
+
 .ev-card.selected {
   border-color: var(--gold-500);
   box-shadow: 0 0 0 1px rgba(199, 154, 99, .5), 0 0 14px rgba(199, 154, 99, .14);
 }
-.ev-card h4 {
-  margin: 0 0 6px; font-size: 13px;
-  display: flex; justify-content: space-between; align-items: center; gap: 6px;
-}
-.ev-card .btns { display: flex; gap: 6px; }
-.ev-card .btns button { padding: 2px 10px; font-size: 12px; }
+
+
+
 .ev-card .aff {
   font-size: 12px; display: flex; justify-content: space-between; gap: 6px;
   margin: 2px 0; font-variant-numeric: tabular-nums;
 }
 .ev-card .aff .k { color: var(--muted); flex: none; width: 34px; }
-.ev-empty {
-  border: 1px dashed var(--line); border-radius: var(--radius-md);
-  padding: 16px 10px; text-align: center; color: var(--muted); font-size: 12px; cursor: default;
-}
+
 
 /* 档位徽章：天/地/玄/黄 —— 保留四色可辨，但全部收进墨金体系的明度区间 */
 .tier-badge {
@@ -57,39 +44,19 @@
   background: rgba(199, 154, 99, .18); white-space: nowrap;
 }
 
-/* ΔDPS 三档徽章 */
-.verdict-badge {
-  display: inline-block; padding: 2px 10px; border-radius: 2px;
-  font-family: var(--font-serif); font-size: 14px; font-weight: 500; letter-spacing: .1em;
-}
-.verdict-badge.big { font-size: 18px; padding: 4px 16px; }
-.verdict-badge.better {
-  background: rgba(78, 140, 124, .16); color: var(--jade);
-  border: 1px solid var(--jade-deep);
-}
-.verdict-badge.worse {
-  background: rgba(180, 68, 58, .16); color: var(--cinnabar);
-  border: 1px solid var(--cinnabar-deep);
-}
-.verdict-badge.equal {
-  background: rgba(162, 156, 142, .1); color: var(--muted);
-  border: 1px solid var(--line);
-}
-.delta-big {
-  font-family: var(--font-serif); font-size: 24px; font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-.verdict-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
 
-/* 换装对比：判定词本身即展开手柄（点更好/更差/等价 → 展开面板差异），无独立按钮 */
-.st-swap-diff > summary {
-  cursor: pointer; display: inline-block; list-style: none;
-  transition: opacity .15s ease;
-}
-.st-swap-diff > summary::-webkit-details-marker { display: none; }
-.st-swap-diff > summary:hover { opacity: .78; }
-.st-swap-diff > summary:focus-visible { outline: 1px solid var(--gold-500); outline-offset: 2px; }
-.st-swap-diff-body { margin-top: 8px; }
+.verdict-badge.big { font-size: 18px; padding: 4px 16px; }
+
+
+
+
+
+
+
+
+
+
+
 
 /* 句中的强调：品相与处置建议加粗提亮（只有 400/500 两个可用字重，不能用 600） */
 .st-say .hl { font-weight: 500; color: var(--gold-500); }
@@ -111,18 +78,11 @@
 }
 .st-link:hover { opacity: .78; }
 .st-link.open { border-bottom-style: solid; }
-.st-say-detail {
-  margin-top: 8px; padding-left: 10px; line-height: 1.8;
-  border-left: 1px solid rgba(199, 154, 99, .35); color: var(--muted);
-}
 
-/* 建议里的括注（"转律会改到另一套"这种提醒）：跟随正文、不强调 */
-.st-say-note-inline { color: var(--muted); font-size: 13px; }
 
-/* 句子下面的补充说明（可选转律等） */
-.st-say-note {
-  margin-top: 6px; line-height: 1.8; color: var(--muted); font-size: 13px;
-}
+
+
+
 
 /* 「它还适合哪些配法」——做成按钮外观的折叠手柄（无边框，靠明暗差） */
 .st-xflow > summary.st-btn-link {
@@ -136,18 +96,12 @@
 .st-xflow > summary.st-btn-link:hover { opacity: .78; }
 .st-xflow > summary.st-btn-link:focus-visible { outline: 1px solid var(--gold-500); outline-offset: 2px; }
 
-/* 依据折叠（2026-11-01）：匹配度明细 + 面板差异，默认收起。summary 上只留一行汇总。 */
-.st-basis-head,
-.st-basis > summary {
-  list-style: none; font-size: 12px; letter-spacing: .04em; color: var(--muted);
-}
-.st-basis > summary {
-  cursor: pointer; transition: opacity .15s ease;
-}
-.st-basis > summary::-webkit-details-marker { display: none; }
-.st-basis > summary:hover { opacity: .78; }
-.st-basis > summary:focus-visible { outline: 1px solid var(--gold-500); outline-offset: 2px; }
-.st-basis-body { margin-top: 10px; }
+
+
+
+
+
+
 
 /* 监测摘要 */
 h3.sec {
@@ -158,10 +112,9 @@ h3.sec {
 .digest .digest-title { color: var(--warn); font-size: 12px; margin-bottom: 2px; letter-spacing: .06em; }
 .digest .digest-title.ok { color: var(--good); }
 
-/* 面板差异表 */
-.diff-table { width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 4px; }
-.diff-table td { border-bottom: 1px dashed var(--line); padding: 2px 6px; }
+
+
 .diff-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
 
-.up { color: var(--good); }
-.down { color: var(--cinnabar); }
+
+

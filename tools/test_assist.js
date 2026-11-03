@@ -66,7 +66,7 @@ check('没有 front-matter 时用 # 标题兜底',
 
 // ============ A5. 知识库检索（用真实语料）============
 console.log('\n— A5. 知识库检索 —');
-const KB_DIR = 'data/kb';
+const KB_DIR = '知识库';
 const kbFiles = JSON.parse(fs.readFileSync(`${KB_DIR}/index.json`, 'utf-8')).files;
 const docs = kbFiles.map((f) => parseKb(fs.readFileSync(`${KB_DIR}/${f}`, 'utf-8'), f));
 check(`索引里的 ${kbFiles.length} 篇都能解析出段落`, docs.every((d) => d.sections.length > 0));

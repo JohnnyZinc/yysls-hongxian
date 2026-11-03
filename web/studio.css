@@ -804,10 +804,9 @@ body {
   background: rgba(199, 154, 99, .045);
 }
 
-/* ---------- 右栏 ---------- */
-.st-field { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
-.st-field label { flex: none; width: 70px; color: var(--muted); font-size: 12px; letter-spacing: .06em; }
-.st-field select { flex: 1; min-width: 0; }
+
+
+
 /* ---------- 栏4 第 3/4 行：词条配额 / 属性面板（合成一张面板，用户定稿 2026-10-30） ----------
    毕业率已上移到口径卡（第 1 行右半）；剩下两段之间只用一道发丝线分隔，
    不再各自套卡片——它们读的是同一件事：这套装备现在什么样。 */
@@ -850,10 +849,7 @@ body {
 .st-stat-v.st-v-over { color: var(--bad); }
 /* 攻击区间反转（最小≥最大）：括号外取最小攻击并标 ↑ */
 .st-atk-rev { color: var(--warn); }
-/* 技能轴提示（`.st-build-notice`）已删除：用户 2026-10-30 「去掉牵丝玉和牵丝霖有关技能轴没提供的文案提示」。
-   引擎侧 `buildStatus`/`borrowedBranch` 与 `resolveBuild()` 的借用回退**照旧保留**（面板仍能算），
-   只是不再在口径卡下方渲染那句技术说明。整派完全没轴时，属性面板自身会给降级视图。 */
-.st-foot-meta { font-size: 11px; line-height: 1.6; color: var(--faint); letter-spacing: .03em; }
+
 
 /* ---------- 监测：配额统一行（实装/需要）+ 配色 ---------- */
 .st-qrow {
