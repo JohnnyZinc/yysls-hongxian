@@ -5,7 +5,7 @@ __pycache__/
 # Excel / WPS 打开文件时产生的临时锁文件
 ~$*
 
-# 官方游戏素材原件库（343MB，不入库；要用哪张再拷进 web/assets/img/）
+# 官方游戏素材原件库（343MB，不入库；要用哪张再拷进 assets/img/）
 素材库/
 
 # 临时研究产物（小程序解包、官方配置表解密、外部数据样本）
@@ -16,3 +16,10 @@ __pycache__/
 
 # Playwright MCP 产物（页面快照 / 控制台日志）
 .playwright-mcp/
+
+# WorkBuddy / 智能体工作区：按日记忆与踩坑记录，只在本机，不入库
+.workbuddy/
+
+# 操作系统 / 编辑器噪音
+.DS_Store
+Thumbs.db
