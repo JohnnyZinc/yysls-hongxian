@@ -141,6 +141,7 @@ export function mountAssist(host) {
     S.mood = m;
     const el = root?.querySelector('.st-assist-face');
     if (!el) return;
+    if (S.moods.includes(m)) ensureMoodImg(m); // 图还没补上就先补（已存在则直接返回）
     el.dataset.mood = S.moods.includes(m) ? m : 'idle';
   }
 
@@ -656,13 +657,38 @@ export function mountAssist(host) {
   /**
    * 立绘层：**绝对定位的背景层**，垫在所有内容下面（2026-11-03）。
    * 桌面站在栏内右侧、移动端铺满屏幕 —— 两种取景只靠 CSS 区分，DOM 一样。
-   * 五种情绪叠在同一位置，靠 `[data-mood]` 切 opacity 做交叉淡入，不换 src（换 src 会闪白）。
+   * 情绪叠在同一位置，靠 `[data-mood]` 切 opacity 做交叉淡入，不换 src（换 src 会闪白）。
+   *
+   * 性能（2026-11-03）：四张立绘各 ~90KB，首屏只渲染 idle；其余情绪等页面空闲
+   * 或真正切换表情时再补，避免首次打开多拉 ~280KB 的图。
    */
+  function ensureMoodImg(m) {
+    const el = root?.querySelector('.st-assist-face');
+    if (!el || !S.moods.includes(m)) return;
+    if (el.querySelector(`img[data-m="${m}"]`)) return;
+    const img = document.createElement('img');
+    img.className = 'st-assist-portrait';
+    img.dataset.m = m;
+    img.alt = '';
+    img.draggable = false;
+    img.src = MOOD_FILE(m);
+    el.appendChild(img);
+  }
+
+  /** 空闲时补齐其余情绪（切换时才加载会有一瞬间空白，空闲补最稳） */
+  function warmMoods() {
+    const rest = S.moods.filter((m) => m !== 'idle');
+    if (!rest.length) return;
+    const run = () => rest.forEach(ensureMoodImg);
+    if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 4000 });
+    else setTimeout(run, 2500);
+  }
+
   function faceHtml() {
     if (!S.moods.length) return '<div class="st-assist-face" data-empty="1"></div>';
-    const imgs = S.moods.map((m) => `<img class="st-assist-portrait" data-m="${m}" `
-      + `src="${MOOD_FILE(m)}" alt="" draggable="false">`).join('');
-    return `<div class="st-assist-face" data-mood="${S.moods.includes(S.mood) ? S.mood : 'idle'}">${imgs}</div>`;
+    const first = S.moods.includes(S.mood) ? S.mood : 'idle';
+    const img = `<img class="st-assist-portrait" data-m="${first}" src="${MOOD_FILE(first)}" alt="" draggable="false">`;
+    return `<div class="st-assist-face" data-mood="${first}">${img}</div>`;
   }
 
   function setHtml() {
@@ -705,6 +731,7 @@ export function mountAssist(host) {
     </section>`;
     paintFlow();
     paintDot();
+    warmMoods();
   }
 
   /** 只换立绘层（清单到了之后补渲染其余情绪），不动消息流与输入框 */
@@ -714,6 +741,7 @@ export function mountAssist(host) {
     if (!old) return;
     old.outerHTML = faceHtml();
     setMood(S.mood);
+    warmMoods();
   }
 
   function paintChips(list) {
@@ -861,7 +889,10 @@ export function mountAssist(host) {
     bind();
     bindDock();
     bindToggle();
-    loadKb();
+    // 知识库：7 篇 md 共 8 个请求，首屏用不到 → 空闲时再拉（对话里真正检索时才需要）
+    const startKb = () => loadKb();
+    if ('requestIdleCallback' in window) requestIdleCallback(startKb, { timeout: 5000 });
+    else setTimeout(startKb, 3000);
     // 清单异步：读到之后只重画立绘层，整页不等它（先出 idle 一张，其余到了再补）
     loadPortraits().then(() => { if (S.moods.length > 1) paintFace(); }).catch(() => {});
     if (!S.msgs.length) {
