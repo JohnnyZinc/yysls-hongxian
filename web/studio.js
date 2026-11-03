@@ -53,9 +53,19 @@ const SLOT_COLUMNS = [
 ];
 const EQUIP_KEYS = SLOT_COLUMNS.flatMap((c) => c.slots); // equipped 存储键（8 个物理位）
 const WEAPON_KEYS = ['武器1', '武器2'];             // 两个武器物理位（无左右含义）
-// 槽位/模态框图片素材（燕小叽站点同款，已本地化到 web/assets/img/；路径映射在 version.json「界面图片」）
-const IMG_BASE = '/web/assets/img/';
+// 槽位/模态框图片素材（燕小叽站点同款，已本地化到 assets/img/；路径映射在 version.json「界面图片」）
+const IMG_BASE = 'assets/img/';
 const slotImg = (rel) => (rel ? IMG_BASE + rel : '');
+/**
+ * 写进 CSS `url('…')` 的资源要走绝对地址 —— 这是纯静态托管（尤其 /<repo>/ 子路径）的唯一坑。
+ * 原因：<img src="assets/…"> 按**文档**解析，但内联 style 里声明的 url() 会被浏览器
+ * 按「消费它的那条规则」所在样式表（web/studio.css）重新解析，相对路径会变成 web/assets/… → 404。
+ * 合并成一次计算，避免每个调用点各自 new URL。测试桩没有 document.baseURI 时退化为相对路径。
+ */
+const CSS_DIR = (() => {
+  try { return new URL('.', document.baseURI).href; } catch { return ''; }
+})();
+const cssUrl = (rel) => (rel ? `url('${CSS_DIR}${rel}')` : '');
 /**
  * 装备图：武器按类型、防具/饰品按部位；无映射（新类型未补图）时返回空，由调用方回退 glyph。
  * 两套素材（用户定稿 2026-10-26）：装备槽用「装备槽武器图标素材」（竖版 360×770 立绘），
@@ -116,7 +126,7 @@ function mindTileHtml(key, size, opts = {}) {
   if (card) {
     const meta = key ? mindMeta().get(key) : null;
     const bg = slotImg(ip['心法卡底']?.[meta?.quality] || ip['心法卡底']?.['紫']);
-    const bgVar = bg ? `--mind-bg:url('${bg}')` : '';
+    const bgVar = bg ? `--mind-bg:${cssUrl(bg)}` : '';
     const styleAttr = [style, bgVar].filter(Boolean).join(';');
     const banner = schoolBannerOf(meta?.school);
     // 官方没有横幅的流派（破竹·樽：原始数据里 liupai_pic_big_url 就是空串，游戏里也不显示）→ 留空。
@@ -165,7 +175,7 @@ const 攻具 = [WEAPON_SLOT, '环', '佩'];
 const isWeaponKey = (key) => WEAPON_KEYS.includes(key);
 // 武器类型清单改为派生（单一来源 = affixes 的"指定武学增伤包括"，盘点 §2.2 #3）
 const WEAPON_TYPES = () => weaponTypesOf(state.affixes);
-const FLOWS_API = (prefix) => `/api/template/${encodeURIComponent(prefix)}`;
+const FLOWS_API = (prefix) => `api/template/${encodeURIComponent(prefix)}`;
 const STORAGE_KEY = 'yysls-evaluator-v1'; // 键名沿用历史值（改名=清空玩家装备库）
 const TIER_CLASS = { 天: 'tian', 地: 'di', 玄: 'xuan', 黄: 'huang' };
 // 品阶排序权重（用户定稿 2026-10-30：背包恒按当前方案的品阶排序，天→地→玄→黄）
@@ -307,7 +317,7 @@ async function fetchJson(url) {
 async function loadBuildData(buildId) {
   // 目录取 manifest 声明的流派，而非从文件名猜（分支归属是数据的事）
   const pack = BUILD_PACKS.find((p) => p.id === buildId);
-  const dir = `/data/schools/${pack?.流派 || buildId.split('.')[0]}`;
+  const dir = `data/schools/${pack?.流派 || buildId.split('.')[0]}`;
   const [build, skillsJson, effectsJson] = await Promise.all([
     fetchJson(`${dir}/${buildId}.json`),
     fetchJson(`${dir}/${buildId}.skills.json`),
@@ -332,12 +342,14 @@ function resolveBuild(school, branch) {
 
 /**
  * 分支模板发现：文件名主干即 flowId。
- * 清单来源两级：① 静态索引 data/template/index.json（GitHub Pages 等纯静态托管唯一可行路径，
- * 由 tools/build_static_index.js 生成）；② 回退本地 serve.js 的 /api/template/ 端点。
+ * 清单来源两级：① 静态索引 data/template/index.json（纯静态托管唯一可行路径，
+ * 由 tools/build_static_index.js 生成，新增方案后跑 npm run build:index）；
+ * ② 回退本地 serve.js 的 api/template/ 端点（静态托管下 404，被 catch 掉）。
+ * 注意：所有取数路径都是相对文档根（index.html 所在目录）的，勿写成 /data/… 绝对路径。
  */
 async function flowListing(prefix) {
   try {
-    const idx = await fetchJson('/data/template/index.json');
+    const idx = await fetchJson('data/template/index.json');
     if (idx?.prefix?.[prefix]) return { files: idx.prefix[prefix] };
   } catch { /* 未生成索引 → 走服务端回退 */ }
   return fetchJson(FLOWS_API(prefix));
@@ -347,7 +359,7 @@ async function loadFlows(school) {
   const listing = await flowListing(school);
   const flows = [];
   for (const f of (listing.files || []).filter((x) => !x.startsWith('_'))) {
-    const doc = await fetchJson(`/data/template/${school}/${f}`);
+    const doc = await fetchJson(`data/template/${school}/${f}`);
     // 分支/方案为方案文件自带字段；flowId 仍拼成「分支.方案」（存档键沿用，勿改格式）
     const branch = doc.分支 ?? null;
     const plan = doc.方案 ?? null;
@@ -363,7 +375,7 @@ const META_BY_SCHOOL = {};
 /** 流派元数据（分支中文名等）；缺文件时降级为仅 id */
 async function loadSchoolMeta(school) {
   let m;
-  try { m = await fetchJson(`/data/template/${school}/_meta.json`); } catch { m = { name: school }; }
+  try { m = await fetchJson(`data/template/${school}/_meta.json`); } catch { m = { name: school }; }
   META_BY_SCHOOL[school] = m;
   return m;
 }
@@ -2140,7 +2152,7 @@ function koujingHtml() {
                     title="点击切换流派（装备库全局保留）">${escapeHtml(schoolName || state.school || '未选择')}</button>
             <div class="st-config-wrap">
               <button class="st-config-band ${state.configPicker ? 'on' : ''}" data-act="toggleConfigPicker"
-                      style="--tag-bg:url('${bandBg}')"
+                      style="--tag-bg:${cssUrl(bandBg)}"
                       aria-haspopup="true" aria-expanded="${state.configPicker ? 'true' : 'false'}"
                       title="点击选择分支 / 方案（每个配置各存一套已穿戴，装备库全局保留）">
                 <span class="st-config-band-t">${escapeHtml(bandText || '未选择配置')}</span>
@@ -2200,7 +2212,7 @@ function configMenuHtml() {
     return `
     <button class="st-config-band st-cfg-item ${on ? 'on' : ''}" role="menuitem"
             data-act="pickConfig" data-branch="${escapeHtml(branch ?? '')}" data-plan="${escapeHtml(plan ?? '')}"
-            style="--tag-bg:url('${bandBg}')" aria-current="${on ? 'true' : 'false'}"
+            style="--tag-bg:${cssUrl(bandBg)}" aria-current="${on ? 'true' : 'false'}"
             title="${escapeHtml(label)}">
       <span class="st-config-band-t">${escapeHtml(label)}</span>
     </button>`;
@@ -2242,7 +2254,7 @@ function schoolPickerHtml() {
     const multi = flows.length > 1;
     const isOpen = multi && openId === id;
     const bg = tagBgOf(id); // 水墨条底：用该流派自己的横幅底，跟主页面的配置横幅同款
-    const list = multi ? `<div class="st-flow-list"${bg ? ` style="--tag-bg:url('${bg}')"` : ''}>${flows.map((f) => {
+    const list = multi ? `<div class="st-flow-list"${bg ? ` style="--tag-bg:${cssUrl(bg)}"` : ''}>${flows.map((f) => {
       const cur = id === state.school
         && (f.branch ?? null) === (state.branch ?? null)
         && (f.plan ?? null) === (state.plan ?? null);
@@ -3628,7 +3640,7 @@ window.addEventListener('keydown', (e) => {
 
 if (location.protocol === 'file:') {
   document.addEventListener('DOMContentLoaded', () => {
-    showError('打开方式错误', '本页面需要通过本地服务器打开：请访问 http://127.0.0.1:4173/web/studio.html （在工作区根目录运行 node tools/serve.js 启动）');
+    showError('打开方式错误', '本页面需要通过本地服务器打开：请访问 http://127.0.0.1:4173/ （在工作区根目录运行 node tools/serve.js 启动）');
   });
 }
 
@@ -3869,14 +3881,14 @@ function bindBarCollapse() {
 
 async function init() {
   // manifest 单点声明当前赛季与流派清单；旧赛季目录原地保留但不加载
-  const manifest = await fetchJson('/data/version/manifest.json');
+  const manifest = await fetchJson('data/version/manifest.json');
   const season = manifest['当前赛季'];
   SCHOOLS = (manifest['流派'] || []).map((b) => [b.id, b.name]);
   if (!SCHOOLS.length) throw new Error('manifest.json 缺少流派清单（"流派"字段）');
   BUILD_PACKS = manifest['build包'] || [];
   if (!BUILD_PACKS.length) throw new Error('manifest.json 缺少 build 包清单（"build包"字段）');
-  state.version = await fetchJson(`/data/version/${season}/version.json`);
-  state.affixes = await fetchJson(`/data/version/${season}/affixes.json`);
+  state.version = await fetchJson(`data/version/${season}/version.json`);
+  state.affixes = await fetchJson(`data/version/${season}/affixes.json`);
   renderAppBarNote();
   boot('③ 数据已加载，恢复存档…');
   // 多角色：读名册 → 载入上次使用的角色（旧档 v1 就地升级为单角色「默认角色」，装备不丢）

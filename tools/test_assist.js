@@ -107,7 +107,7 @@ check('缺字段不输出空行', !compactFacts({ 方案: 'A' }).includes('：\n
 // ============ B. 接入纪律 ============
 console.log('\n— B. 接入纪律 —');
 const cssText = fs.readFileSync('web/studio.css', 'utf-8');
-const htmlText = fs.readFileSync('web/studio.html', 'utf-8');
+const htmlText = fs.readFileSync('index.html', 'utf-8');
 const assistSrc = fs.readFileSync('web/assist.js', 'utf-8');
 const studioSrc = fs.readFileSync('web/studio.js', 'utf-8');
 
@@ -192,11 +192,11 @@ check('印章展开只动自己那一格：印章左滑、原位滑入分支·�
 // ============ C. 立绘 ============
 console.log('\n— C. 立绘 —');
 {
-  const manifest = JSON.parse(fs.readFileSync('web/assets/img/char/manifest.json', 'utf-8'));
+  const manifest = JSON.parse(fs.readFileSync('assets/img/char/manifest.json', 'utf-8'));
   check('立绘清单在，且四张齐（idle/talk/think/unsure）',
     ['idle', 'talk', 'think', 'unsure'].every((m) => manifest.moods.includes(m)));
   check('清单里的每张图都真的存在（网页只用 webp，母本 png 在素材库）',
-    manifest.moods.every((m) => fs.existsSync(`web/assets/img/char/hongxian-${m}.webp`))
+    manifest.moods.every((m) => fs.existsSync(`assets/img/char/hongxian-${m}.webp`))
     && manifest.moods.every((m) => fs.existsSync(`素材库/周红线/_抠图/hongxian-${m}.png`)));
   check('不再有「立绘 · 占位」占位文案', !assistSrc.includes('立绘 · 占位'));
   check('立绘按清单渲染，且是背景层（绝对定位、不吃点击）',

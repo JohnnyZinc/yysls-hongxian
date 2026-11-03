@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-立绘抠图 + 对齐归一化（一次性工具，产物进 web/assets/img/char/）。
+立绘抠图 + 对齐归一化（一次性工具，产物进 assets/img/char/）。
 
 做法：
   1. 从边框取背景色（四张都是浅灰白渐变，取边框环中位数）
@@ -20,7 +20,7 @@ from PIL import Image
 from scipy import ndimage as ndi
 
 SRC = '素材库/周红线'
-OUT = 'web/assets/img/char'      # 网页只用 webp（90KB/张）
+OUT = 'assets/img/char'      # 网页只用 webp（90KB/张）
 KEEP = '素材库/周红线/_抠图'      # 无损 png 母本留在素材库，不进 web 目录
 
 # 源文件 → 情绪名（生气那张还没出，代码里会回退到 idle）

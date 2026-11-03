@@ -13,7 +13,7 @@
 
 用法：python tools/normalize_portraits.py
 输入：素材库/周红线/抠图/*.png（RGBA）
-输出：web/assets/img/char/hongxian-<情绪>.webp + manifest.json
+输出：assets/img/char/hongxian-<情绪>.webp + manifest.json
       母本 png 存 素材库/周红线/_抠图/
 """
 import glob
@@ -24,7 +24,7 @@ import numpy as np
 from PIL import Image
 
 SRC = '素材库/周红线/抠图'
-OUT = 'web/assets/img/char'      # 网页只用 webp（~90KB/张）
+OUT = 'assets/img/char'      # 网页只用 webp（~90KB/张）
 KEEP = '素材库/周红线/_抠图'      # 无损 png 母本，不进 web 目录
 
 # 源文件名 → 情绪名

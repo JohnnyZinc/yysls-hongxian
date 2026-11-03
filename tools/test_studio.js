@@ -105,7 +105,7 @@ const C = () => document.querySelector('#st-modal').innerHTML;     // 弹窗
 const TXT = (h) => h.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
 const { state, actions } = mod.__test;
 const cssText = fs.readFileSync('web/studio.css', 'utf-8');
-const htmlText = fs.readFileSync('web/studio.html', 'utf-8');
+const htmlText = fs.readFileSync('index.html', 'utf-8');
 
 /** 读 C() 里某个调律位的下拉选项（去重断言用） */
 function tuningOptions(i) {

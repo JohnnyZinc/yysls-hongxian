@@ -4,18 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>调律台 · 燕云十六声装备评价工作台</title>
+  <meta name="description" content="燕云十六声装备调律评价工作台：配额诊断、档位处置、转律建议、组合搜索与毕业率。">
+  <!-- 部署形态（2026-11-03 重构）：纯静态站点，入口就是仓库根目录的 index.html。
+       所有资源**一律用相对路径**，因此三种部署都成立：
+         ① GitHub Pages 项目级站点  https://<user>.github.io/<repo>/
+         ② 自定义二级域名（CNAME）  https://gear.example.com/
+         ③ 本地 node tools/serve.js  http://127.0.0.1:4173/
+       ⚠ 不要写 /web/... 、/data/... 这类以斜杠开头的路径——项目级 Pages 会把它解析到域名根，
+         页面就白屏。改完跑 npm run check:site 自检。
+       静态站没有服务端：分支模板列表走离线索引 data/template/index.json
+       （新增方案后跑 npm run build:index）。 -->
   <!-- 字体全部本地化（2026-10-30）：ZeoSeven 的 FontsAPI 有防盗链，浏览器带 Referer
        请求会返回 204 空响应 → 之前全站的楷体其实一直没加载，走的是系统楷体回退。
-       现在把 woff2 分片落到 web/assets/fonts/，离线可用、字形才是设计时选的那一套。
+       现在把 woff2 分片落到 assets/fonts/，离线可用、字形才是设计时选的那一套。
        楷体（文鼎PL简中楷 AR PL KaitiM GB · ARPHIC PUBLIC LICENSE）仅 400 一个字重：
        >18px 的大字可放心用合成粗体当「重按」，<18px 的小字一律降到 400/500，
        靠鎏金色与字距承重，否则笔锋会糊成一团。
        隶书（临海体）只取分支/方案横幅要用的字符分片，见 --font-li。 -->
-  <link rel="stylesheet" href="/web/assets/fonts/kai/kai.css">
-  <link rel="stylesheet" href="/web/assets/fonts/li/li.css">
-  <link rel="stylesheet" href="/web/style.css?v=52">
-  <link rel="stylesheet" href="/web/components.css?v=63">
-  <link rel="stylesheet" href="/web/studio.css?v=149">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23151210'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23c9a227' font-family='serif'%3E%E5%BE%8B%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/fonts/kai/kai.css">
+  <link rel="stylesheet" href="assets/fonts/li/li.css">
+  <link rel="stylesheet" href="web/style.css?v=52">
+  <link rel="stylesheet" href="web/components.css?v=63">
+  <link rel="stylesheet" href="web/studio.css?v=149">
 </head>
 <body data-mview="assist">
   <header class="app-bar">
@@ -67,6 +78,6 @@
       __bootStatus('异步错误: ' + String(e.reason), 'err');
     });
   </script>
-  <script type="module" src="/web/studio.js?v=145"></script>
+  <script type="module" src="web/studio.js?v=145"></script>
 </body>
 </html>

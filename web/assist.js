@@ -754,10 +754,10 @@ export function mountAssist(host) {
     if (S.kbTried) return;
     S.kbTried = true;
     try {
-      const idx = await (await fetch('/data/kb/index.json')).json();
+      const idx = await (await fetch('data/kb/index.json')).json();
       const files = Array.isArray(idx) ? idx : idx.files || [];
       const docs = await Promise.all(files.map(async (f) => {
-        const res = await fetch(`/data/kb/${f}`);
+        const res = await fetch(`data/kb/${f}`);
         if (!res.ok) return null;
         return parseKb(await res.text(), f);
       }));

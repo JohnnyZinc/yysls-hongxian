@@ -11,7 +11,7 @@ if (!src || !out) {
 const SHARP = sharpArg === undefined ? 0.6 : Number(sharpArg);
 
 const TW = 254, TH = 68;
-// 参照标语（web/assets/img/mind-tag/POZHU_CHEN.png）的实测值：墨块 252x68 出血满高
+// 参照标语（assets/img/mind-tag/POZHU_CHEN.png）的实测值：墨块 252x68 出血满高
 const TARGET_INK_W = 252, TARGET_INK_H = 68;
 
 const im = decodePng(src);

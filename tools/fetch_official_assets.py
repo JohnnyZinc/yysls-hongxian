@@ -10,7 +10,8 @@
     python tools/fetch_official_assets.py --only head  # 只抓某一类
     python tools/fetch_official_assets.py --dry-run    # 只统计不下载
 
-输出到 web/assets/img/official/<类别>/<字段>/<id>.png，并生成 index.json。
+输出到 素材库/official/<类别>/<字段>/<id>.png（原始素材库，已被 .gitignore 忽略），并生成 index.json；
+挑中要用的再拷进 assets/img/ 里入库。
 """
 import argparse
 import json
