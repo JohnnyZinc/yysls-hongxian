@@ -4,6 +4,8 @@
 
 纯静态站点：没有后端、没有构建、没有 `npm install`，`npm run serve` 就能跑，也可以直接挂在 GitHub Pages 上（项目级站点 + 自定义二级域名）。
 
+**在线**：<https://johnnyzinc.github.io/yysls-hongxian/> · **源码**：<https://github.com/JohnnyZinc/yysls-hongxian>（main 分支推送后 Pages 自动重建）
+
 ---
 
 ## 目录结构
