@@ -1,12 +1,14 @@
 {
-  "name": "yysls-gear-tool",
+  "name": "yysls-hongxian",
   "version": "0.1.0",
+  "description": "调律台 · 燕云十六声装备调律评价工作台（纯静态站点，GitHub Pages 项目级托管）",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node tools/check_templates.js && node tools/test_golden.js && node tools/test_dps.js && node tools/test_panel.js && node tools/test_quota.js && node tools/test_advisor.js && node tools/test_conversion.js && node tools/test_monitor.js && node tools/test_swap.js && node tools/test_bucket.js && node tools/test_dispose.js && node tools/test_search.js && node tools/test_inspect.js && node tools/test_graduate.js",
-    "test:all": "npm test && node tools/test_studio.js && node tools/test_assist.js",
+    "test:all": "npm test && node tools/check_site.js && node tools/test_studio.js && node tools/test_assist.js",
     "check:data": "node tools/check_templates.js",
+    "check:site": "node tools/check_site.js",
     "test:studio": "node tools/test_studio.js",
     "build:index": "node tools/build_static_index.js",
     "serve": "node tools/serve.js"
