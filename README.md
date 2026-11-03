@@ -11,12 +11,11 @@
 ```
 index.html          站点入口（唯一页面）
 web/                前端：studio.js（页面与交互）/ assist.js（助手）/ studio.css 等
-assets/             静态素材：字体（文鼎楷·临海隶）、装备图标、心法卡、立绘、背景
+assets/             静态素材：字体（文鼎楷）、装备图标、心法卡、立绘、背景
 data/               游戏数据（站点运行时读的就是这里）
   schools/            各流派 DPS 三件套：<buildId>.json / .skills.json / .effects.json
   template/           方案文件（流派/分支/方案 + 套装/武库/心法/配额），index.json 为离线索引
   version/            赛季 manifest、属性与词条区间
-  kb/                 助手知识库（机制 / 经验 md）
   golden/ debug/      测试基准与采集样本（仅测试用）
 engine/             纯 JS 引擎（无 DOM 依赖，可单测）
   dps 逐事件模拟 · panel 面板 · quota 配额 · advisor 档位与转律 · dispose 四分类处置
@@ -25,8 +24,8 @@ tools/              开发脚本（站点不依赖）
   test_*.js 测试 · build_static_index.js 生成方案索引 · serve.js 本地服务 · check_site.js 站点体检
   check_templates.js 数据校验 · cutout.py / normalize_portraits.py 立绘处理 · fetch_*/extract_* 素材与数据采集
 notes/              设计与交接文档（见下方「文档索引」）
-参考/               外部参考：面板计算器 Excel、机制说明
-archive/            旧实现归档
+知识库/             助手知识库：机制 md + index.json，页面按需检索（也可直接当人读的资料）
+EXCEL计算器/        社区 DPS / 面板计算器 Excel（数据来源，站点不读）
 素材库/ .tmp/ .cache/ .workbuddy/    本机产物，已被 .gitignore，不入库
 ```
 
@@ -72,7 +71,7 @@ npm run build:index    # 新增/改名/删除方案文件后，重建 data/templ
 4. `.nojekyll`：根目录那个空文件别删。`data/template/*/_meta.json` 这种下划线开头的文件，
    没有它会被 GitHub 的 Jekyll 流程吞掉，结果就是「分支下拉框空掉」。
 
-> 站点是公开的：仓库里的一切（`tools/`、`notes/`、`参考/` 等）都能被按 URL 直接访问。
+> 站点是公开的：仓库里的一切（`tools/`、`notes/`、`知识库/`、`EXCEL计算器/` 等）都能被按 URL 直接访问。
 > 这些是游戏数据与个人笔记，不含任何密钥；如果以后不想公开，改成发布 `docs/` 目录即可（需要加一步构建）。
 
 ## 路径纪律（唯一的坑）
@@ -116,6 +115,21 @@ npm run build:index    # 新增/改名/删除方案文件后，重建 data/templ
 | 根目录 `交接文档.md` / `PRD.md` / … | `notes/…` |
 | `/data/…`、`/web/…`、`/api/template/…` 绝对路径 | `data/…`、`web/…`、`api/template/…` 相对路径 |
 | `.workbuddy/memory/*`（曾在库里） | 不再入库，只留在本机 |
+| `data/kb/`（助手知识库） | `知识库/`（上移到根目录，md 与数据分离） |
+| `参考/*.xlsx` | `EXCEL计算器/*.xlsx` |
+| `参考/*.md` | `知识库/*.md` |
+| `archive/`（旧 Python 实现 / 旧 Excel） | 已删除，需要时查 git 历史 |
+
+---
+
+## 知识库（`知识库/`）
+
+助手「周红线」回答游戏机制时，不靠模型记忆，而是按需检索这里的 md：
+
+- `index.json` 是清单（只列 md）；每篇 md 顶部 front-matter 写 `title` / `tags` / `summary` / `type`（`rule`=机制，只许照原文说；`guide`=经验，可自由组织）
+- 正文按 `##` 切段，检索用中文 bigram + 术语直配打分，取前 3 段作为对话的事实依据
+- 加资料：把 md 放进 `知识库/`、补 front-matter、在 `index.json` 里登记一行，跑 `npm run test:all`（会验证每篇都能解析）
+- `官方心法图标样例.png` 只是图标参考图，不参与检索
 
 ---
 
