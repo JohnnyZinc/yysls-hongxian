@@ -21,6 +21,8 @@
        >18px 的大字可放心用合成粗体当「重按」，<18px 的小字一律降到 400/500，
        靠鎏金色与字距承重，否则笔锋会糊成一团。 -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23151210'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23c9a227' font-family='serif'%3E%E5%BE%8B%3C/text%3E%3C/svg%3E">
+  <!-- 字体子集提前下载：CSS 里才声明 @font-face，preload 能让它与样式表并行，省一个 RTT -->
+  <link rel="preload" href="assets/fonts/kai/gkai00mp.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/fonts/kai/kai.css">
   <link rel="stylesheet" href="web/style.css?v=52">
   <link rel="stylesheet" href="web/components.css?v=63">
@@ -77,5 +79,15 @@
     });
   </script>
   <script type="module" src="web/studio.js?v=145"></script>
+  <!-- Service Worker：首次访问照旧联网，之后静态资源走本地缓存（GitHub Pages 只给
+       max-age=600 且不能改，靠 SW 才能做到「隔几天再打开也秒开」）。
+       本地 http://127.0.0.1 也注册，方便验证；file:// 下自动跳过。 -->
+  <script>
+    if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+      addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () { /* 注册失败不影响页面 */ });
+      });
+    }
+  </script>
 </body>
 </html>

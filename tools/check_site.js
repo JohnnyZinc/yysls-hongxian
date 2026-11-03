@@ -15,6 +15,9 @@
  *   4. 所有 CSS 的 url() 目标存在（含 assets/fonts 里的字体分片）
  *   5. 运行时数据齐备：模板静态索引 / 版本 manifest / 流派 build 包 / 知识库 / 立绘清单
  *   6. Pages 需要的 .nojekyll 在（CNAME 只在自定义域名时才有，仅提示）
+ *   7. Service Worker：sw.js 在、index.html 注册了它、CACHE_VERSION 与预缓存清单目标存在
+ *   8. 字体子集：kai.css 只有一条 @font-face 且目标存在，index.html 有 preload（分片回潮会拖慢首屏）
+ *   9. version.json「界面图片」里点名的图都存在（换格式/瘦身时最容易漏的一处）
  *
  * 用法: node tools/check_site.js        （npm run check:site）
  */
@@ -153,12 +156,12 @@ run('5. 运行时数据', () => {
   }
 
   // 5c 知识库
-  if (!isFile('知识库/index.json')) bad('缺 data/kb/index.json（助手知识库）');
+  if (!isFile('知识库/index.json')) bad('缺 知识库/index.json（助手知识库）');
   else {
     const kb = readJson('知识库/index.json');
     for (const f of kb.files || []) {
       if (isFile(`知识库/${f}`)) ok(f);
-      else bad(`知识库文件不存在：data/kb/${f}`);
+      else bad(`知识库文件不存在：知识库/${f}`);
     }
     console.log(`✓ 知识库 ${(kb.files || []).length} 篇`);
   }
@@ -185,6 +188,69 @@ run('6. Pages 部署文件', () => {
   } else {
     notes.push('没有 CNAME：现在只能走 https://<user>.github.io/<repo>/ 项目级地址；绑二级域名时在仓库根加 CNAME 文件（只写域名一行，不带协议、不带路径）');
   }
+});
+
+// ============ 7. Service Worker ============
+run('7. Service Worker', () => {
+  if (!isFile('sw.js')) { bad('缺 sw.js（GitHub Pages 只给 max-age=600，没有 SW 就做不到隔天秒开）'); return; }
+  const sw = readFileSync(abs('sw.js'), 'utf-8');
+  const html = readFileSync(abs('index.html'), 'utf-8');
+  if (/serviceWorker\.register\(\s*['"]sw\.js['"]/.test(html)) { ok('register'); console.log('✓ index.html 会注册 sw.js'); }
+  else bad('index.html 没有 navigator.serviceWorker.register(\'sw.js\')，SW 永远不会生效');
+  const ver = sw.match(/CACHE_VERSION\s*=\s*['"]([^'"]+)['"]/);
+  if (ver) { ok(`CACHE_VERSION=${ver[1]}`); console.log(`✓ CACHE_VERSION = ${ver[1]}（改了缓存策略要手动 +1，否则老用户还是旧策略）`); }
+  else bad('sw.js 里找不到 CACHE_VERSION（改策略时就没法让旧缓存失效）');
+  const shell = sw.match(/SHELL\s*=\s*\[([\s\S]*?)\]/);
+  if (!shell) { bad('sw.js 里找不到 SHELL 预缓存清单'); return; }
+  const entries = [...shell[1].matchAll(/['"]([^'"]+)['"]/g)].map((m) => m[1]);
+  for (const f of entries) {
+    if (isFile(f)) ok(f);
+    else bad(`SW 预缓存清单里的文件不存在：${f}`);
+  }
+  // 缓存命中前提：SW 作用域 = 站点根，且能把 BASE 前缀剥掉（项目级 Pages 下必须）
+  if (/registration\.scope/.test(sw)) { ok('scope'); console.log('✓ 用 registration.scope 推导 BASE（/<repo>/ 子路径也成立）'); }
+  else bad('sw.js 没有用 registration.scope 推导 BASE，挂在 /<repo>/ 下会缓存不到');
+  console.log(`ⓘ SW 预缓存 ${entries.length} 个文件`);
+});
+
+// ============ 8. 字体子集 ============
+run('8. 字体子集', () => {
+  const css = readFileSync(abs('assets/fonts/kai/kai.css'), 'utf-8');
+  const faces = [...css.matchAll(/@font-face\s*\{[\s\S]*?\}/g)].map((m) => m[0]);
+  const targets = faces.flatMap((f) => [...f.matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g)].map((m) => m[1]));
+  if (targets.length !== 1) {
+    bad(`kai.css 里有 ${targets.length} 条字体文件引用（应为 1 条子集；分片回潮会把首屏拖回 90 个请求）`);
+  } else { ok('single-face'); console.log('✓ 楷体是单个子集文件'); }
+  for (const u of targets) {
+    const target = resolve(dirname(abs('assets/fonts/kai/kai.css')), u.split('?')[0]);
+    if (existsSync(target)) ok(u); else bad(`kai.css 的字体文件不存在：${u}`);
+  }
+  if (!/rel="preload"[\s\S]*?as="font"/.test(readFileSync(abs('index.html'), 'utf-8'))) {
+    bad('index.html 没有字体 preload（字体要等 CSS 解析完才开始下载，白屏会更久）');
+  } else { ok('preload'); }
+  const shards = readdirSync(abs('assets/fonts/kai')).filter((f) => f.endsWith('.woff2')).length;
+  if (shards > 1) bad(`assets/fonts/kai 下还有 ${shards} 个 woff2（子集应该只剩 1 个）`);
+});
+
+// ============ 9. version.json 界面图片 ============
+run('9. 界面图片引用', () => {
+  const mf = readJson('data/version/manifest.json');
+  const ver = readJson(`data/version/${mf.当前赛季}/version.json`);
+  const seen = new Set();
+  const walkVals = (v) => {
+    if (typeof v === 'string') {
+      if (/\.(png|webp|jpe?g|svg)$/i.test(v)) seen.add(v);
+    } else if (Array.isArray(v)) v.forEach(walkVals);
+    else if (v && typeof v === 'object') Object.values(v).forEach(walkVals);
+  };
+  walkVals(ver.界面图片 || {});
+  let n = 0;
+  for (const u of seen) {
+    n += 1;
+    if (isFile(`assets/img/${u.split('?')[0]}`)) ok(u);
+    else bad(`version.json 界面图片指向的文件不存在：assets/img/${u}`);
+  }
+  console.log(`共 ${n} 张界面图片`);
 });
 
 // ============ 汇总 ============
