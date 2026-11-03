@@ -4,7 +4,7 @@
 
 纯静态站点：没有后端、没有构建、没有 `npm install`，`npm run serve` 就能跑，也可以直接挂在 GitHub Pages 上（项目级站点 + 自定义二级域名）。
 
-**在线**：<https://johnnyzinc.github.io/yysls-hongxian/> · **源码**：<https://github.com/JohnnyZinc/yysls-hongxian>（main 分支推送后 Pages 自动重建）
+**在线**：<https://hongxian.xianshan.link/>（GitHub Pages 项目级站点 + 自定义二级域名；`https://johnnyzinc.github.io/yysls-hongxian/` 会 301 过来）· **源码**：<https://github.com/JohnnyZinc/yysls-hongxian>（main 分支推送后 Pages 自动重建）
 
 ---
 
@@ -12,8 +12,9 @@
 
 ```
 index.html          站点入口（唯一页面）
+sw.js               Service Worker：本地缓存静态资源，二次打开基本 0 网络（改资源后把 CACHE_VERSION 加一）
 web/                前端：studio.js（页面与交互）/ assist.js（助手）/ studio.css 等
-assets/             静态素材：字体（文鼎楷）、装备图标、心法卡、立绘、背景
+assets/             静态素材：字体（文鼎楷，单文件子集）、装备图标、心法卡（webp）、立绘、背景
 data/               游戏数据（站点运行时读的就是这里）
   schools/            各流派 DPS 三件套：<buildId>.json / .skills.json / .effects.json
   template/           方案文件（流派/分支/方案 + 套装/武库/心法/配额），index.json 为离线索引
@@ -53,7 +54,8 @@ npm run check:data     # 方案文件结构校验（配额总数、字段齐备�
 npm run build:index    # 新增/改名/删除方案文件后，重建 data/template/index.json
 ```
 
-目前：**580 项断言全绿**（引擎 14 套 + 工作台 83 + 助手 81），另有站点体检 140 项。
+目前：**580 项断言全绿**（引擎 14 套 + 工作台 83 + 助手 81），另有站点体检 225 项
+（含绝对路径、SW 预缓存清单、字体子集、界面图片引用等）。
 
 ---
 
@@ -71,11 +73,41 @@ npm run build:index    # 新增/改名/删除方案文件后，重建 data/templ
    - **Settings → Pages → Custom domain** 填同一个域名，等证书签发后勾上 `Enforce HTTPS`
    - 注意：一个域名只能对应一个站点，所以「多个仓库」= 多个子域名，各配各的 CNAME 文件
    - 每个仓库还可以在 Pages 设置里同时保留 `*.github.io/<repo>/` 与自定义域名两种访问方式
+   - **本仓库已经配好**：`CNAME` = `hongxian.xianshan.link`，DNS 指向 `johnnyzinc.github.io`，
+     HTTPS 已强制；换域名时改这三处（CNAME 文件 / DNS / Pages 设置）。
 4. `.nojekyll`：根目录那个空文件别删。`data/template/*/_meta.json` 这种下划线开头的文件，
    没有它会被 GitHub 的 Jekyll 流程吞掉，结果就是「分支下拉框空掉」。
 
 > 站点是公开的：仓库里的一切（`tools/`、`notes/`、`知识库/`、`EXCEL计算器/` 等）都能被按 URL 直接访问。
 > 这些是游戏数据与个人笔记，不含任何密钥；如果以后不想公开，改成发布 `docs/` 目录即可（需要加一步构建）。
+
+## 性能与缓存（2026-11-03 优化，已上线）
+
+GitHub Pages 对静态文件的响应头是固定的 **`Cache-Control: max-age=600`**，不支持自定义头。
+也就是说：**隔十几分钟再打开，浏览器仍要为几十个资源逐个发条件请求**，跨境链路下这就很慢。
+所以站点自己做了三件事：
+
+1. **Service Worker（根目录 `sw.js`）**
+   - 首次访问照常联网；之后导航 network-first（4s 超时回落缓存），`assets/`、`web/`、`engine/`
+     走 stale-while-revalidate（先用缓存秒开、后台更新），`data/` 与 `知识库/` network-first
+     （1.5s 超时回落缓存，保证数据新鲜）。
+   - **改了任何静态资源想立刻生效**：把 `sw.js` 里的 `CACHE_VERSION` 加一（`v1` → `v2`）。
+     不加也能生效，只是老用户的旧缓存要等下一次后台更新。
+   - 本地 `npm run serve` 也会注册（方便验证）；`file://` 打开不会。
+2. **字体单文件子集**：原先把楷体切成 71 个 woff2（2.76MB、90+ 个请求），现在合并裁剪成
+   一个 `assets/fonts/kai/gkai00mp.woff2`（**357KB**，覆盖站点全部 1463 个用字），并在
+   `index.html` 里 preload。新文案出现生僻字时该字会走系统楷体回退，视觉几乎无差；
+   要补字用 `tools/one-off/font_subset.py`（脚本头写了怎么从 git 历史取回分片）。
+3. **首屏图片 WebP**：背景、心法卡底、流派横幅、武库/武学图标等 16 张 PNG 转 WebP（q86），
+   体积 **991KB → 328KB**。图片引用集中在 `data/version/<赛季>/version.json` 的「界面图片」，
+   换图/换格式改那里一处即可，`npm run check:site` 第 9 项会逐个验证文件存在。
+
+效果：本地二次打开 111 个请求里 110 个由 SW 直接命中（transfer ≈ 0）；线上首次打开仍受
+跨境 RTT 影响（字体 357KB + 首屏图 328KB + JS/CSS ≈ 300KB）。
+
+> 还想更快的话：在 Cloudflare 给 `xianshan.link` 开橙云代理（边缘缓存 + Brotli），
+> 或把站点迁到 Cloudflare Pages / Vercel（可以自定义 `immutable` 缓存头并做资源指纹）。
+> 当前 GitHub Pages 方案零成本、零构建，代价就是首屏冷启动的一次跨境往返。
 
 ## 路径纪律（唯一的坑）
 

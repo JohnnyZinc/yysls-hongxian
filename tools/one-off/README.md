@@ -16,6 +16,8 @@
 | `fetch_site_assets.py` | 抓 yysls.destiny.cool 站点自身的 UI 素材（不是游戏解包素材） | `python tools/one-off/fetch_site_assets.py` |
 | `xinfa-bg/make_bg.py` | 批量擦除流派横版标签上的白色书法字，输出纯笔触底图 | `python tools/one-off/xinfa-bg/make_bg.py`（需 numpy/opencv/Pillow） |
 | `xinfa-bg/verify_final.py` | 核验上面那批底图：尺寸/alpha 一致、中部无残留亮字 | `python tools/one-off/xinfa-bg/verify_final.py` |
+| `font_subset.py` | 71 个楷体分片 → 按站点用字裁剪成单个 woff2（性能优化，357KB / 1 请求） | `python tools/one-off/font_subset.py`（需 fontTools + brotli，且分片要先从 git 历史取回；详见脚本头） |
+| `img_to_webp.py` | 首屏 PNG 大图批量转 WebP（q86），可 `--dir` 整目录、`--delete` 删原图 | `python tools/one-off/img_to_webp.py --dir assets/img/mind-card`（需 Pillow） |
 
 ## 注意
 
