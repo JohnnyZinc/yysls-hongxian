@@ -23,6 +23,7 @@ engine/             纯 JS 引擎（无 DOM 依赖，可单测）
 tools/              开发脚本（站点不依赖）
   test_*.js 测试 · build_static_index.js 生成方案索引 · serve.js 本地服务 · check_site.js 站点体检
   check_templates.js 数据校验 · cutout.py / normalize_portraits.py 立绘处理 · fetch_*/extract_* 素材与数据采集
+  one-off/            一次性脚本（历史任务用，不参与测试链，见 tools/one-off/README.md）
 notes/              设计与交接文档（见下方「文档索引」）
 知识库/             助手知识库：机制 md + index.json，页面按需检索（也可直接当人读的资料）
 EXCEL计算器/        社区 DPS / 面板计算器 Excel（数据来源，站点不读）

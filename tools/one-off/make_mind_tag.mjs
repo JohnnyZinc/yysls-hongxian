@@ -1,11 +1,11 @@
 // 把游戏内截图裁出的流派横幅，归一化成与官方 mind-tag 一致的 254x68。
-// 用法: node tools/make_mind_tag.mjs <源图> <输出png> [锐化系数, 默认 0.6]
+// 用法: node tools/one-off/make_mind_tag.mjs <源图> <输出png> [锐化系数, 默认 0.6]
 import { decodePng, encodePng, bbox, resizeLanczos } from './pnglite.mjs';
 import fs from 'node:fs';
 
 const [src, out, sharpArg] = process.argv.slice(2);
 if (!src || !out) {
-  console.error('用法: node tools/make_mind_tag.mjs <源图> <输出png> [锐化]');
+  console.error('用法: node tools/one-off/make_mind_tag.mjs <源图> <输出png> [锐化]');
   process.exit(1);
 }
 const SHARP = sharpArg === undefined ? 0.6 : Number(sharpArg);

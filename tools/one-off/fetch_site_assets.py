@@ -12,7 +12,7 @@
   - open(path,'wb') 之后再 fetch，请求失败会留下 0 字节空文件。必须先下到内存、成功才写盘。
 
 用法：
-    python tools/fetch_site_assets.py
+    python tools/one-off/fetch_site_assets.py
 """
 import os
 import re
